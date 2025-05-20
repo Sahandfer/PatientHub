@@ -1,20 +1,15 @@
 import os
 import json
-
+import argparse
 import streamlit as st
-from agents import Patient, Therapist
+from agents import get_patient, get_therapist
 
-# st.html("<style>" + open("./assets/styles.css").read() + "</style>")
-st.html(
-    """<style>
-        .st-key-chat_box  {
-            border: False;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
 
-        </style>"""
-)
+PATIENTS = json.load(open("src/config/patients.json"))
+THERAPISTS = json.load(open("src/config/therapists.json"))
+
+
+st.html("<style>" + open("./assets/styles.css").read() + "</style>")
 
 state = {"messages": []}
 
@@ -49,44 +44,37 @@ def start_simulation(patient, therapist, chat_container):
 
 
 if __name__ == "__main__":
-    patients = json.load(open("src/config/patients.json"))
-    therapists = json.load(open("src/config/therapists.json"))
+    # Parse command line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model_type", type=str, default="openai")
+    parser.add_argument("--model_path", type=str, default="gpt-4o")
+    parser.add_argument("--lang", type=str, default="all", choices=["en", "zh"])
+    parser.add_argument("--device", type=int, default=-1)
+    args = parser.parse_args()
 
-    patient = Patient()
-    patient.fill_prompt(patients[0])
+    patient = get_patient("basic")
 
-    therapist = Therapist()
-    therapist.fill_prompt(therapists[0])
+    # patient.fill_prompt(patients[0])
+
+    therapist = get_therapist("basic")
+    # therapist.fill_prompt(therapists[0])
 
     # st.write(patient.sys_prompt)
 
-    st.markdown("# Therapy Simulation")
+    # st.markdown("# Therapy Simulation")
 
-    chatbox_container = st.container(height=500, border=True, key="chatbox")
-    chat_container = chatbox_container.container(
-        height=500, border=False, key="chat_box"
-    )
+    # chatbox_container = st.container(height=500, border=True, key="chatbox")
+    # chat_container = chatbox_container.container(
+    #     height=500, border=False, key="chat_box"
+    # )
 
-    st.button(
-        "Start Simulation",
-        on_click=start_simulation,
-        args=(patient, therapist, chat_container),
-    )
+    # st.button(
+    #     "Start Simulation",
+    #     on_click=start_simulation,
+    #     args=(patient, therapist, chat_container),
+    # )
 
-    with chatbox_container:
-        with chat_container:
-            for msg in st.session_state.messages:
-                st.chat_message(msg["role"]).markdown(msg["content"])
-
-        # user_msg = chatbox_container.chat_input("Type your message here")
-
-        # with chat_container:
-        #     if user_msg:
-        #         st.chat_message("patient").markdown(user_msg)
-        #         res = send_msg(user_msg)
-        #         # res = "Hi"
-        #         st.chat_message("assistant").markdown(res)
-
-    #     # memory = patient.memory
-    #     # context, token_count = memory.get_context()
-    #     # print("memory", context, token_count)
+    # with chatbox_container:
+    #     with chat_container:
+    #         for msg in st.session_state.messages:
+    #             st.chat_message(msg["role"]).markdown(msg["content"])
