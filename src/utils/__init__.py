@@ -1,4 +1,19 @@
+import os
 import json
+from dotenv import load_dotenv
+from camel.models import ModelFactory
+from camel.types import ModelPlatformType
+
+load_dotenv(".env")
+
+
+def get_model_client(model_name):
+    return ModelFactory.create(
+        model_platform=ModelPlatformType.OPENAI,
+        model_type=model_name,
+        url=os.environ.get("BASE_URL"),
+        api_key=os.environ.get("API_KEY"),
+    )
 
 
 def parse_json_response(res):
@@ -8,19 +23,3 @@ def parse_json_response(res):
         return res
     except json.JSONDecodeError:
         return res
-
-
-def to_bullet_list(data):
-    res = ""
-
-    # If it's a list
-    if isinstance(data, list):
-        res += "\n".join([f"- {item}" for item in data])
-    # If it's a dict
-    elif isinstance(data, dict):
-        for k, v in data.items():
-            res += f"- {k.capitalize()}: {v}\n"
-    else:
-        print("Invalid data type for to_bullet_list")
-
-    return res
