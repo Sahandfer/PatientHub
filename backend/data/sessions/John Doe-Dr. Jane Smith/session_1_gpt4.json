@@ -1,0 +1,69 @@
+{
+    "messages": [
+        {
+            "role": "Therapist",
+            "content": "Hello, it's nice to meet you. How are you feeling today, and what brings you to therapy?"
+        },
+        {
+            "role": "Client",
+            "content": "Hi, it's nice to meet you too. Honestly, I'm feeling a bit nervous about being here, but I decided to come because I've been struggling with feeling overwhelmed and stressed, especially with work and deadlines. I thought maybe talking to someone might help me figure out how to handle things better."
+        },
+        {
+            "role": "Therapist",
+            "content": "Thank you for sharing that, and I appreciate your honesty. Feeling nervous is completely normal, especially when starting something new like therapy. Could you tell me a bit more about what's been overwhelming you at work and how it's been affecting you?"
+        },
+        {
+            "role": "Client",
+            "content": "Sure, it's mostly the deadlines and the pressure to meet high expectations. I often feel like there's so much to do and not enough time, and I get stuck overthinking everything, which just makes it worse. It's been affecting my sleep and my ability to focus, and I sometimes feel like I'm not doing enough, even when I am."
+        },
+        {
+            "role": "Therapist",
+            "content": "It sounds like you're dealing with a significant amount of pressure and self-doubt, which can indeed feel overwhelming. I’d like to explore this further—could you share more about the expectations you feel are placed on you and how you usually approach your tasks and deadlines?"
+        },
+        {
+            "role": "Client",
+            "content": "I feel like there's this unspoken expectation that I have to excel at everything, to not make mistakes. When I approach tasks, I usually try to plan everything out in detail, but sometimes I get so caught up in trying to make things perfect that I end up procrastinating. Then, I feel even more stressed because I've lost time."
+        },
+        {
+            "role": "Therapist",
+            "content": "It sounds like you're really striving to meet high standards, which can be both motivating and quite challenging. Perfectionism can sometimes lead to procrastination, as you mentioned; would you like to explore how these patterns have developed and how they impact your daily life?"
+        },
+        {
+            "role": "Client",
+            "content": "Yeah, I think that would be helpful. I've always felt like I need to do things perfectly, or else it's not good enough, and that feeling has been with me for as long as I can remember. It affects my daily life because I end up spending so much time on little details that I barely have energy for anything else."
+        },
+        {
+            "role": "Therapist",
+            "content": "Thank you for sharing that insight. It sounds like this perfectionism has been a long-standing pattern for you, and it’s taking a toll on your energy and focus. As we wrap up today, I’d like to suggest that we explore strategies in future sessions to help manage these tendencies and find a balance that works for you."
+        },
+        {
+            "role": "Client",
+            "content": "Thank you, that sounds like a good idea. I think learning to manage this better would really help. I appreciate you taking the time to listen today."
+        },
+        {
+            "role": "Therapist",
+            "content": "You're very welcome, and I'm glad you're here taking this step for yourself. I look forward to working with you on this in our upcoming sessions. Take care, and I'll see you next time."
+        },
+        {
+            "role": "Client",
+            "content": "Thank you. I'll see you next time. Take care."
+        }
+    ],
+    "summary": {
+        "summary": "In today's session, we discussed the client's feelings of overwhelm and stress, particularly related to work deadlines and high expectations. The client shared insights about their perfectionist tendencies and how these contribute to procrastination and energy depletion. We agreed to explore strategies to manage these tendencies in future sessions.",
+        "homework": "Reflect on how perfectionism has influenced your daily life and consider one area where you might experiment with setting more realistic expectations for yourself."
+    },
+    "num_turns": 6,
+    "agenda": {
+        "topics": [],
+        "goals": []
+    },
+    "feedback": {
+        "identification": 4,
+        "coherence": 4,
+        "empathy": 5,
+        "comforting": 5,
+        "suggestions": 4,
+        "overall": 4
+    }
+}

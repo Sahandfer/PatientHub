@@ -1,0 +1,26 @@
+{
+    "session_id": 0,
+    "messages": [
+        {
+            "role": "Therapist",
+            "content": "Hello John, I'm Dr. Jane Smith, and I'm glad you're here today. My goal is to create a safe and supportive environment where we can explore your thoughts and feelings. To start, could you share a bit about what's been on your mind lately?"
+        },
+        {
+            "role": "Client",
+            "content": "I've been feeling really overwhelmed lately, especially with work. It's been six months since I started this research project, and I feel like I'm constantly under pressure to perform. I'm not sure if I'm meeting expectations or if I'm just... failing silently."
+        },
+        {
+            "role": "Therapist",
+            "content": "John, thank you for sharing that with me. It sounds like you're carrying a lot of pressure, and it's understandable to feel uncertain about your performance. Let's continue this conversation next time—please know that you're not alone in this, and we can work through these feelings together."
+        },
+        {
+            "role": "Client",
+            "content": "Okay, I appreciate that. I guess I just... I don't know how to talk about it without feeling like I'm making things worse. Maybe next time?"
+        }
+    ],
+    "summary": {
+        "summary": "In today's session, John expressed feeling overwhelmed and under pressure due to his research project, with concerns about meeting expectations and potentially failing silently. He mentioned the six-month mark of the project as a significant point in his stress. The session concluded with an acknowledgment of his feelings and an invitation to continue the conversation in future sessions.",
+        "next_steps": "In the next session, we will explore John's specific stressors related to the research project, delve into his self-perception and expectations, and begin to identify potential coping strategies. We will also work on building a more comprehensive understanding of his current emotional state and any underlying factors contributing to his feelings of overwhelm."
+    },
+    "feedback": ""
+}

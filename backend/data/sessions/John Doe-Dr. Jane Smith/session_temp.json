@@ -1,0 +1,37 @@
+{
+    "messages": [
+        {
+            "role": "Therapist",
+            "content": "Good morning, John. I'm Dr. Jane Smith, and I'm glad you're here today. To start, could you tell me a bit about yourself? What brings you to therapy right now?"
+        },
+        {
+            "role": "Client",
+            "content": "I'm... I'm John. I work in research, and I've been feeling really overwhelmed lately. I guess I'm here because I'm struggling with managing my stress and deadlines. It's been getting harder to keep up with everything, and I'm not sure how to handle it anymore."
+        },
+        {
+            "role": "Therapist",
+            "content": "Thank you for sharing that, John. It sounds like work has been quite demanding lately. I can imagine how overwhelming that must feel. Could you tell me more about what specifically has been challenging for you?"
+        },
+        {
+            "role": "Client",
+            "content": "I mean, I've always been the type to take things seriously. But lately, it's like... everything feels like it's piling up. Deadlines, expectations from my peers, and I just... I don't know. I'm trying to do my best, but I feel like I'm failing. It's hard to explain, but it's like I'm constantly falling behind."
+        }
+    ],
+    "summary": {
+        "summary": "In our initial session, John shared that he works in research and has been feeling overwhelmed by the demands of his job, particularly with managing stress and meeting deadlines. He mentioned that it has become increasingly difficult to keep up with everything and that he is unsure how to manage the situation. John's primary concern seems to be related to work-related stress and the challenges of maintaining productivity under pressure.",
+        "homework": "For the next session, I would like John to reflect on specific instances where he felt particularly overwhelmed at work and consider how he typically responds to those situations. This exercise will help us identify patterns and potential strategies for coping with stress in future sessions."
+    },
+    "num_turns": 2,
+    "agenda": {
+        "topics": [],
+        "goals": []
+    },
+    "feedback": {
+        "identification": 1,
+        "coherence": 1,
+        "empathy": 1,
+        "comforting": 1,
+        "suggestions": 1,
+        "overall": 1
+    }
+}

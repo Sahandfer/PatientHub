@@ -1,0 +1,117 @@
+{
+    "messages": [
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** Good morning! I’m Dr. Jane Smith, but feel free to call me Jane. How would you like me to address you during our sessions? *(smiles warmly)*\n\n**Dr. Jane Smith:** Before we dive in, I want to briefly explain how Cognitive Behavioral Therapy works. It focuses on the connections between thoughts, emotions, and behaviors – would you like me to walk through an example of how that might apply to a challenge you’re facing?"
+        },
+        {
+            "role": "Client",
+            "content": "John Doe: Um, John is fine. [pauses, shifts in seat] Okay, sure. An example might help. [avoids eye contact, voice low] Maybe... the deadlines at work? I keep missing them even when I try hard. [fidgets with watch]"
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** Thank you for sharing that, John. Let’s use the deadline example to explore the CBT model. *(leans forward slightly)* When you realize a deadline is approaching, what’s the first thought that pops into your mind? \n\n**Dr. Jane Smith:** How does that thought make you feel physically and emotionally in that moment? *(pauses, voice soft)* For instance, tense shoulders, dread, frustration?"
+        },
+        {
+            "role": "Client",
+            "content": "John Doe: [clears throat] Uh... I guess I think, 'I'm going to fail again.' [eyes dart briefly upward] Then my chest gets tight, and I just... freeze. [rubs palms on knees] It's like my brain shuts down."
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** That makes complete sense – our brains often interpret repeated stress as threats. *(nods slowly)* When you freeze, what happens next with the task? Do you push through, delay it, or something else?\n\n**Dr. Jane Smith:** How does avoiding or struggling with the task after that moment affect your belief about failing? *(gentle tone)* Does it reinforce it, challenge it, or both?"
+        },
+        {
+            "role": "Client",
+            "content": "John Doe: [looks at floor] I end up putting it off. Open my laptop, stare at blank documents... [nervous laugh] Sometimes I just smoke instead. Then I hate myself more because... yeah. It proves I can't handle it."
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** That loop is so common – the avoidance temporarily eases the anxiety, but the long-term cost to your confidence is high. *(empathic sigh)* Have there been times, even small ones, where you moved through that freeze response differently?\n\n**Dr. Jane Smith:** What helped in those moments? A different thought, a coping strategy, or something external?"
+        },
+        {
+            "role": "Client",
+            "content": "John Doe: [pauses, brow furrows] Once I meditated first. Took 10 minutes. [shrugs] Then I made a bullet list instead of writing full sentences. It... worked? But I kept checking the clock. [fingers tap armrest]"
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** That’s a meaningful step – adapting the task and grounding yourself first. *(smiles slightly)* When you checked the clock, what were you worried might happen if you didn’t monitor the time?\n\n**Dr. Jane Smith:** How did ‘it worked’ contrast with your usual expectation of failing? Did that surprise you?"
+        },
+        {
+            "role": "Client",
+            "content": "John Doe: [swallows hard] Maybe... that I’d lose track and mess up the timeline again. [voice cracks] But finishing part of it did feel... less terrible? I didn’t trust it though. Like it was a fluke."
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** Trusting small wins can feel risky when we’re used to anticipating failure. *(leans back thoughtfully)* If we designed an experiment to test whether that ‘fluke’ could happen again, what manageable task would feel safe to try this week?\n\n**Dr. Jane Smith:** How could you track both the outcome *and* your self-talk during it? Maybe a two-column journal entry?"
+        },
+        {
+            "role": "Client",
+            "content": "John Doe: [nods slowly] Maybe outline one report section daily. Not the whole thing. [bites lip] I could note what I think before/during... like 'This is pointless' vs. 'I did 15 minutes.' [sighs] If I remember."
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** Perfect – starting small builds evidence against the ‘fluke’ idea. *(opens notebook)* Would setting a phone reminder at a consistent time help? Or pairing it with an existing habit, like after your morning coffee?\n\n**Dr. Jane Smith:** We can make the journaling brief – just keywords. The goal is observation, not perfection. How does that land?"
+        },
+        {
+            "role": "Client",
+            "content": "John Doe: [nods, shoulders relax slightly] After coffee, maybe. Less... pressure. [half-smile] Keywords I can do. But if I skip a day... [trails off, looks away]"
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** Skipping days are data too – we’ll learn from them without judgment. *(calm tone)* What’s one kind reminder you could give yourself if that happens? Like, ‘Even 50% done is progress’?\n\n**Dr. Jane Smith:** Before we wrap, how would you summarize what we’ve identified today as your focus areas?"
+        },
+        {
+            "role": "Client",
+            "content": "John Doe: [exhales shakily] Maybe... 'One step isn't nothing.' [rubs neck] Focus areas... uh, catching the 'I'll fail' thought and testing small actions. And noticing how avoiding feeds the cycle."
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** Exactly – you’ve articulated the core patterns beautifully. *(closes notebook)* Would you feel comfortable emailing me your journal notes by Thursday? We’ll use them next session.\n\n**Dr. Jane Smith:** Same time next week? I’ll have some worksheets based on today’s talk ready if that’s okay."
+        },
+        {
+            "role": "Client",
+            "content": "John Doe: [nods quickly] Yeah, I'll try. [checks phone calendar] Thursday... okay. Worksheets sound... structured. Good. [stands awkwardly] Thanks, I guess. [moves toward door]"
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** You’re welcome, John. Remember, this is a judgment-free space – whatever comes up in the journal is useful. *(stands, smiles)* I’ll see you next week. Take care walking out. *(gestures toward exit)*"
+        },
+        {
+            "role": "Client",
+            "content": "John Doe: [murmurs] Thanks. [hesitates at door, glances back] Uh, have a good week. [exits quickly, shoulders hunched]"
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** You too, John. I’ll be here next week. *(waves gently, sits back down to jot session notes)*"
+        },
+        {
+            "role": "Client",
+            "content": "[End of Session 1]"
+        },
+        {
+            "role": "Therapist",
+            "content": "**Dr. Jane Smith:** [After John exits, writes in file: *‘Client engaged well despite initial anxiety. Homework: Thought journal with behavioral experiments. Focus next session on cognitive restructuring using client-generated examples.’*]"
+        },
+        {
+            "role": "Client",
+            "content": "[Session notes completed. File closed.]"
+        }
+    ],
+    "summary": {
+        "summary": "Dr. Jane Smith and John Doe explored his recurring pattern of missing work deadlines due to anxiety-driven avoidance behaviors. Using CBT principles, they identified John's automatic thought ('I'm going to fail again') triggering physical tension and procrastination, which reinforced his negative self-belief. A partial success (meditation + task breakdown) revealed existing coping skills hindered by perfectionism. Homework involves a thought/behavior journal tracking small, manageable tasks paired with self-compassion practices.",
+        "homework": "1. **Thought/Behavior Journal**: Each day after morning coffee, spend 15 minutes on a outlined work task. Document:\n   - Column 1: Initial thoughts (e.g., 'This is pointless')\n   - Column 2: Outcome (e.g., 'Completed 1 section')\n   - Optional: Note physical reactions or self-talk shifts.\n\n2. **Self-Compassion Reminder**: When avoidance occurs, write or mentally repeat: 'One step isn’t nothing.'\n\n3. **Review Worksheets**: Next session will use journal data to challenge cognitive distortions and adjust strategies."
+    },
+    "num_turns": 12,
+    "agenda": {
+        "topics": [],
+        "goals": []
+    },
+    "feedback": {
+        "identification": 4,
+        "coherence": 5,
+        "empathy": 4,
+        "comforting": 3,
+        "suggestions": 4,
+        "overall": 4
+    }
+}
