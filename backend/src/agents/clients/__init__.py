@@ -1,5 +1,6 @@
 from .basic import BasicClient
 from .patientPsi import PatientPsiClient
+from .roleplaydoh import RoleplayDohClient
 from langchain_core.language_models import BaseChatModel
 
 # from .patientPsi import PatientPsiClient
@@ -11,6 +12,8 @@ def get_client(agent_type: str, model_client: BaseChatModel = None, data: dict =
         return BasicClient(model_client=model_client, data=data)
     elif agent_type == "patientPsi":
         return PatientPsiClient(model_client=model_client, data=data)
+    elif agent_type == "roleplaydoh":
+        return RoleplayDohClient(model_client=model_client, data=data)
     else:
         raise ValueError(f"Unknown client agent type: {agent_type}")
 
@@ -18,4 +21,5 @@ def get_client(agent_type: str, model_client: BaseChatModel = None, data: dict =
 __all__ = [
     "BasicClient",
     "PatientPsiClient",
+    "RoleplayDohClient",
 ]

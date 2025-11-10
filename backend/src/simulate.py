@@ -1,3 +1,4 @@
+import os
 from argparse import ArgumentParser
 from agents.clients import get_client
 from agents.therapists import get_therapist
@@ -20,12 +21,32 @@ if __name__ == "__main__":
     args.add_argument("--reminder_turn_num", type=int, default=5)
     args.add_argument("--api_type", type=str, default="LAB")
     args.add_argument("--model_name", type=str, default="gpt-4o")
+    args.add_argument(
+        "--roleplaydoh_verbose",
+        action="store_true",
+        help="Print Roleplay-doh pipeline steps when using roleplaydoh client.",
+    )
+    args.add_argument(
+        "--roleplaydoh_log_file",
+        type=str,
+        default=None,
+        help="Optional path to store Roleplay-doh pipeline logs (JSON lines).",
+    )
     args = args.parse_args()
     # model_name = "deepseek/deepseek-r1"
     # api_type = "OR"
     # model_name = "qwen/qwen3-235b-a22b:free"
     # api_type = "OLLAMA"
     # model_name = "qwen3:14b"
+
+    if args.roleplaydoh_verbose:
+        os.environ["ROLEPLAYDOH_VERBOSE"] = "1"
+    else:
+        os.environ.pop("ROLEPLAYDOH_VERBOSE", None)
+    if args.roleplaydoh_log_file:
+        os.environ["ROLEPLAYDOH_LOG"] = args.roleplaydoh_log_file
+    else:
+        os.environ.pop("ROLEPLAYDOH_LOG", None)
 
     model_client = get_model_client(args.model_name, args.api_type)
     # session_handler = CallbackHandler()
