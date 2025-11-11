@@ -69,20 +69,6 @@ class RoleplayDohClient(BaseAgent):
                 )
             )
         ]
-        print(
-            f"[RoleplayDoh][Init] name={self.name}, agent_type={self.agent_type}, lang={self.lang}"
-        )
-
-    # logging helpers -----------------------------------------------------
-    def _shorten(self, text: Optional[str], max_len: int = 600) -> str:
-        if not text:
-            return ""
-        if len(text) > max_len:
-            return text[:max_len] + f"... [len={len(text)}]"
-        return text
-
-    def _log(self, tag: str, payload: str):
-        print(f"[RoleplayDoh][{tag}] {payload}")
 
     def _load_principles(self) -> List[str]:
         principles_map = load_json("data/characters/roleplayDohPrinciple.json")
@@ -99,7 +85,6 @@ class RoleplayDohClient(BaseAgent):
         self, therapist: Dict[str, Any], prev_sessions: List[Dict[str, str]] | None = None
     ):
         self.therapist_name = therapist.get("name", "Therapist")
-        self._log("Therapist", f"set therapist_name={self.therapist_name}")
 
     def generate(
         self, messages: List[Any], response_format: Optional[type[BaseModel]] = None
@@ -131,12 +116,9 @@ class RoleplayDohClient(BaseAgent):
         return msg
 
     def _select_principle(self) -> str:
-        principle = random.choice(self.principles)
-        self._log("Principle", self._shorten(principle))
-        return principle
+        return random.choice(self.principles)
 
     def _generate_initial_response(self, therapist_message: str) -> str:
-        self._log("Initial-In", f"therapist={self._shorten(therapist_message)}")
         prompt = self.prompts["Initial_Response_Prompt"].render(
             client_profile=self.client_profile,
             conversation_history=self._format_history(
@@ -144,16 +126,11 @@ class RoleplayDohClient(BaseAgent):
             ),
         )
         response = self.generate([HumanMessage(content=prompt)])
-        self._log("Initial-Out", self._shorten(response.content))
         return response.content.strip()
 
     def _generate_questions(
         self, principle: str, therapist_message: str, client_response: str
     ) -> List[str]:
-        self._log(
-            "QGen-In",
-            f"therapist={self._shorten(therapist_message)}, client={self._shorten(client_response)}",
-        )
         prompt = self.prompts["Question_Rewrite_Prompt"].render(
             criteria_payload=principle,
             therapist_message=therapist_message,
@@ -164,10 +141,6 @@ class RoleplayDohClient(BaseAgent):
         )
         questions = (result.result.questions or []) + (
             result.result.extra_questions or []
-        )
-        self._log(
-            "QGen-Out",
-            f"count={len(questions)} | {self._shorten(str(questions))}",
         )
         if not questions:
             questions = [
@@ -181,10 +154,6 @@ class RoleplayDohClient(BaseAgent):
         therapist_message: str,
         initial_response: str,
     ) -> AssessmentResult:
-        self._log(
-            "Assess-In",
-            f"criteria={len(questions)}, therapist={self._shorten(therapist_message)}, initial={self._shorten(initial_response)}",
-        )
         criteria_lines = "\n".join(f"- {q}" for q in questions)
         prompt = self.prompts["Assess_Revise_Prompt"].render(
             criteria_lines=criteria_lines,
@@ -196,12 +165,6 @@ class RoleplayDohClient(BaseAgent):
         result: AssessmentOutput = self.generate(
             [HumanMessage(content=prompt)], response_format=AssessmentOutput
         )
-        self._log("Assess-Out", f"answers={result.result.answers}")
-        if result.result.response:
-            self._log(
-                "Assess-Out",
-                f"revised={self._shorten(result.result.response)}",
-            )
         return result.result
 
     def _finalize_response(
@@ -212,14 +175,11 @@ class RoleplayDohClient(BaseAgent):
         )
         revised = assessment.response.strip()
         if has_violation and revised:
-            self._log("Finalize", "violation detected -> use revised response")
             return revised
-        self._log("Finalize", "no violation -> keep initial response")
         return initial_response
 
     def generate_response(self, msg: str):
         therapist_message = self._strip_therapist_prefix(msg)
-        self._log("Turn-In", self._shorten(therapist_message))
         self.messages.append(HumanMessage(content=msg))
 
         initial_response = self._generate_initial_response(therapist_message)
@@ -233,7 +193,6 @@ class RoleplayDohClient(BaseAgent):
         self.history.append({"role": "therapist", "content": therapist_message})
         self.history.append({"role": "client", "content": final_response})
         self.messages.append(AIMessage(content=final_response))
-        self._log("Turn-Out", self._shorten(final_response))
 
         return RoleplayDohResponse(content=final_response)
 
