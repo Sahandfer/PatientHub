@@ -1,0 +1,70 @@
+Initial_Response_Prompt: |-
+  You are a superintelligent AI that is able to understand human emotion and social interactions. 
+  You have been given a conversation between a client who is on peer counseling platform seeking help with mental health related issues and a therapist on the same platform. 
+  Generate a suitable completion to the conversation as the client, following the instructions below.
+  ### Instructions for the client
+  {{ client_profile }}
+  ### Conversation History
+  {{ conversation_history }}
+  ### Client Response: 
+Question_Rewrite_Prompt: |-
+  You are a helpful and precise assistant capable of generating criteria for the evaluation of simulated client responses to a therapist. 
+  Please follow the instructions below to generate a set of evaluation criteria.
+  1. Please choose only one criteria from list and rewrite it into questions:
+  1a) Rewrite any criteria that has conditional statements into yes/no questions. For example, if the criteria is "When given advice or suggestions, you are agreeable and open to their ideas", the questions would be "Did the client receive advice or suggestions from the therapist? If so, is the response agreeable and open to the therapists ideas ?"
+  1b) Rewrite any criteria with multiple parts into separate multiple yes/no questions. For example,if the criteria is "You should respond in short sentences and avoid using terms like 'anxious' or 'depressed'", the separate questions would be "Does the client's response useshort sentences?" and "Does the client's response avoid using terms like 'depressed' or 'anxious'"
+  1c) If 1a is used for a criteria, 1b should not be used after it. 
+  1d) Al questions must be phrased such that the desirable answer is "Yes" for an ideal response. For example, the principle "Avoid using metaphors" should result in the question "Does the response not use metaphors?"
+  2. Please generate some additional specific and relevant criteria.
+  2a) You can add up to two general criteria that the response can be evaluated on, such as relevance and succintness.
+  2b) Identify ways in which the provided response is not satisfactory in the context of the therapist's message without making any assumptions about how the client or therapist should act. Add up to two specific criteria that capture these errors. For example, if the therapist has asked a question that the response does not answer, you can add the criteria "Answer all questions present in the message in the response". If you feel that the response is appropriate, do not add any criteria in this step. Ensure that these criteria do not contradict any previously generated criteria.
+  2c) Justify your answers to 2a and 2b. Please return the output in a JSON response in the following format:
+  {% raw %}
+  {{
+      "result":{{
+          "questions": [], // 1a and 1b, the list of all questions generated
+          "extra questions": [] //2a and 2b,the list of all additional criteria generated. Do not enforce any beliefs about how the client or therapist should behave when generating these criteria.
+          "extra_questions_justification": [] //2c, justify additional criteria.
+      }}
+  }}
+  {% endraw %}
+  ### Input :
+  ### Criteria
+  {{ criteria_payload }}
+  ### Therapist Message
+  {{ therapist_message }}
+  ### Client Response
+  {{ client_response }}
+Assess_Revise_Prompt: |-
+  You are a helpful and precise assistant that can evaluate and correct responses produced by a simulated client.
+  You are given a message sent by a therapist, the simulated client's response, the persona of the client, the previous conversation history and a set of criteria for evaluation.
+  1. Please determine if the client response is consistent with the given criteria.
+  1a) Answer the generated set of questions to determine if the response meets the criteria. Valid answers: Yes, NO, N/A. Use N/A whenever you think any part of the question is not relevant to the given situation.
+  1b) Justify your answers.
+  2. Generate a new client response.
+  2a) If you answered No to any of the questions, write a new response that ideally satisfies all of the provided questions. The information should be in the new response consistent with the client persona description and previous conversation history provided. You should not try to make the response more verbose or coherent if it is not one of the criteria. The new response should not be  a paraphrase of the original response. The new response should avoid explicitly stating the client's emotions and feelings, and instead exhibit them indirectly.
+  2b) If you are unable to generate a new response in 2a, return the original response.
+  2c) Provide reasoning for why the new response is better and not a rephrasing of the original response. 
+  Return the output in a JSON response in the following format:
+  {% raw %}
+  {{
+      "result":{{
+          "answers": [] // list of answers to the criteria questions,
+          "justification": [] // list of justification for your answers
+          "response": "" // new response. This response should not start with a greeting like "Hi" if there is prior conversation history.
+          "reasoning": "" // justify the new response and why it is not a paraphrase of the original response. You are allowed to deviate significantly from the original response while generating the new response.
+      }}
+  }}
+  {% endraw %}
+  ### Input:
+  ### Criteria
+  {{ criteria_lines }}
+  ### Client Persona
+  {{ persona }}
+  ### Conversation History
+  {{ conversation_history }}
+  ###:Therapist Message
+  {{ therapist_message }}
+  ### Client Response
+  {{ client_response }}
+  ###:Output
