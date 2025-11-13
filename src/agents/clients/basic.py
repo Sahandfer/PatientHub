@@ -1,4 +1,4 @@
-from ..base import BaseAgent
+from agents import BaseAgent
 from pydantic import BaseModel, Field
 from utils import load_prompts
 from typing import Dict, List, Any

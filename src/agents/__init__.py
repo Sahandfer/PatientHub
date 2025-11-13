@@ -1,6 +1,7 @@
 from .base import BaseAgent
 from .clients import get_client
-from .evaluators import get_evaluator
+
+# from .evaluators import get_evaluator
 from .therapists import get_therapist
 
 
@@ -12,8 +13,8 @@ def get_agent(
 ):
     if agent_category == "client":
         return get_client(agent_type, model_client=model_client, data=data)
-    elif agent_category == "evaluator":
-        return get_evaluator(agent_type, model_client=model_client)
+    # elif agent_category == "evaluator":
+    #     return get_evaluator(agent_type, model_client=model_client)
     elif agent_category == "therapist":
         return get_therapist(agent_type, model_client=model_client, data=data)
     else:

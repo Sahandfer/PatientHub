@@ -1,27 +1,28 @@
-# Patient Simulation Project
+# Backend
 
-> A framework for simulating patients
+> The Backend of the patient simulation project (using LangChain + FastAPI)
 
-## Directory
+# Supported Agents
 
-- `frontend/` includes the code for the user interface (using Streamlit)
-- `backend/` includes the code for agents (using LangChain) + API server (FastAPI)
+## Clients
 
-## Requirements
+- [x] Custom agent (`basic`) -> for testing purposes
+- [x] PatientPsi (`patientPsi`) -> from https://arxiv.org/abs/2405.19660
+- [x] RoleplayDoh -> from https://aclanthology.org/2024.emnlp-main.591/
+- [ ] Eeyore -> from https://aclanthology.org/2025.findings-acl.707.pdf
+- [ ] EvoPatient -> from https://github.com/ZJUMAI/EvoPatient
 
-- Install `uv` -> `pip install uv`
-- Create virtual environment -> `uv venv patient-simulation --python 3.13`
-- Install dependencies -> `uv sync`
-- Load virtual environment -> `source .venv/bin/activate`
+# Guide
 
-## Usage
-
-> For now, we're mainly working on the simulation part on the backend (backend/src)
+- Create a file named `.env` and fill it with the following values
 
 ```bash
-cd backend
-uv run src/simulate.py
+LAB_API_KEY=<your API key>
+LAB_BASE_URL=http://115.182.62.174:18888/v1
 ```
 
+- Run the following script for simulation
 
-
+```bash
+uv run src/simulate.py
+```

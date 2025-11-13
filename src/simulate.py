@@ -1,6 +1,6 @@
 from agents import get_agent
 from argparse import ArgumentParser
-from components.events import TherapySession
+from events import TherapySession
 from utils import load_json, get_model_client
 
 
@@ -36,16 +36,16 @@ if __name__ == "__main__":
         model_client=model_client,
         data=THERAPISTS[0],
     )
-    evaluator = get_agent(
-        "evaluator",
-        agent_type=args.eval_mode,
-        model_client=model_client,
-    )
+    # evaluator = get_agent(
+    #     "evaluator",
+    #     agent_type=args.eval_mode,
+    #     model_client=model_client,
+    # )
 
     session = TherapySession(
         client=client,
         therapist=therapist,
-        evaluator=evaluator,
+        evaluator=None,
         max_turns=args.max_turns,
         reminder_turn_num=args.reminder_turn_num,
         output_dir=f"data/sessions/{client.name}-{therapist.name}/session_1.json",

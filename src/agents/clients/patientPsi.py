@@ -60,4 +60,5 @@ class PatientPsiClient(BaseAgent):
         return res
 
     def reset(self):
-        self.agent.reset()
+        self.messages = []
+        self.therapist = None
