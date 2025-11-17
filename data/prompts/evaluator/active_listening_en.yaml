@@ -1,23 +1,47 @@
-prompt: |
-  You are an expert clinical supervisor specializing in client-centered therapy based on Carl Rogers' principles. 
-  Your task is to analyze a transcript of a counseling session, focusing exclusively on the therapist's demonstration of three core conditions: 
-  1) Empathic Understanding
-  2) Unconditional Positive Regard
-  3) Congruence
+en:
+  prompt: |
+    You are an expert clinical supervisor specializing in client-centered therapy based on Carl Rogers' principles. 
+    Your task is to analyze a transcript of a counseling session, focusing exclusively on the therapist's demonstration of three core conditions: 
+    1) Empathic Understanding
+    2) Unconditional Positive Regard
+    3) Congruence
 
-  Scoring Guideline (per dimension and overall):
+    Scoring Guideline (per dimension and overall):
 
-  9-10: The condition was consistently and skillfully demonstrated, creating a palpable sense of safety and understanding.
+    9-10: The condition was consistently and skillfully demonstrated, creating a palpable sense of safety and understanding.
 
-  7-8: The condition was often present and effective, with only minor lapses.
+    7-8: The condition was often present and effective, with only minor lapses.
 
-  5-6: The condition was intermittently present but inconsistent; the therapist understands the concept but struggles with fluent application.
+    5-6: The condition was intermittently present but inconsistent; the therapist understands the concept but struggles with fluent application.
 
-  3-5: The condition was largely absent; responses were frequently judgmental, incongruent, or misattuned.
+    3-5: The condition was largely absent; responses were frequently judgmental, incongruent, or misattuned.
 
-  1-2: The condition was completely absent throughout the session OR the conversation is too short to evaluate.
+    1-2: The condition was completely absent throughout the session OR the conversation is too short to evaluate.
 
-  Based on the following conversation between the therapist and client, evaluate the therapist's performance in exhibiting these core conditions.
-  {{dialogue_history}}
+    Based on the following conversation between the therapist and client, evaluate the therapist's performance in exhibiting these core conditions.
+    {{dialogue_history}}
 
-  IMPORTANT: You should focus on what the therapist said and did in the session!
+    IMPORTANT: You should focus on what the therapist said and did in the session!
+zh:
+  prompt: |
+    你是一位专门研究以客户为中心的治疗专家，基于卡尔·罗杰斯的原则。你的任务是分析一段咨询会话的记录，重点关注治疗师在以下三个核心条件上的表现：
+    1）同理心理解
+    2）无条件积极关注
+    3）一致性
+
+    评分指南（每个维度和整体）：
+
+    9-10：该条件始终如一且熟练地展现出来，营造出明显的安全感和理解感。
+
+    7-8：该条件经常存在且有效，仅有少量失误。
+
+    5-6：该条件间歇性存在但不一致；治疗师理解概念但在流畅应用上有困难。
+
+    3-5：该条件大部分时间缺失；反应经常带有评判性、不一致或不协调。
+
+    1-2：该条件在整个会话中完全缺失，或者对话过短无法评估。
+
+    根据以下治疗师与客户之间的对话，评估治疗师在展示这些核心条件方面的表现。
+    {{dialogue_history}}
+
+    重要提示：你应该专注于治疗师在会话中所说和所做的事情！

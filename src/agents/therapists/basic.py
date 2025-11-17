@@ -47,6 +47,7 @@ class BasicTherapist(BaseAgent):
         self.model_client = model_client
         self.name = data["demographics"]["name"]
         self.data = data
+        self.lang = lang
         self.prompts = load_prompts(
             role=self.role, agent_type=self.agent_type, lang=self.lang
         )
@@ -62,7 +63,7 @@ class BasicTherapist(BaseAgent):
         return res
 
     def set_client(self, client, prev_sessions: List[Dict[str, str] | None] = []):
-        self.client = client.data["demographics"]
+        self.client = client["name"]
         self.messages[0].content += "\n" + self.prompts["client"].render(
             client=self.client, previous_sessions=prev_sessions
         )

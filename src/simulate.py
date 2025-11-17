@@ -6,16 +6,17 @@ from utils import load_json, get_model_client
 
 CLIENTS = load_json("data/characters/clients.json")
 CLIENTS = load_json("data/characters/Patient Psi CM Dataset.json")
+CLIENTS = load_json("data/characters/temp.json")
 THERAPISTS = load_json("data/characters/therapists.json")
 
 
 if __name__ == "__main__":
     args = ArgumentParser()
     args.add_argument("--lang", type=str, default="en")
-    args.add_argument("--client", type=str, default="patientPsi")
+    args.add_argument("--client", type=str, default="thu")
     args.add_argument("--therapist", type=str, default="user")
     args.add_argument("--eval_mode", type=str, default="cbt")
-    args.add_argument("--max_turns", type=int, default=60)
+    args.add_argument("--max_turns", type=int, default=10)
     args.add_argument("--reminder_turn_num", type=int, default=5)
     args.add_argument("--api_type", type=str, default="LAB")
     args.add_argument("--model_name", type=str, default="gpt-4o")
@@ -28,16 +29,21 @@ if __name__ == "__main__":
     model_client = get_model_client(args.model_name, args.api_type)
 
     client = get_agent(
-        "client", agent_type=args.client, model_client=model_client, data=CLIENTS[0]
+        agent_category="client",
+        agent_type=args.client,
+        model_client=model_client,
+        data=CLIENTS[0],
+        lang=args.lang,
     )
     therapist = get_agent(
-        "therapist",
+        agent_category="therapist",
         agent_type=args.therapist,
         model_client=model_client,
         data=THERAPISTS[0],
+        lang=args.lang,
     )
     # evaluator = get_agent(
-    #     "evaluator",
+    #     agent_category="evaluator",
     #     agent_type=args.eval_mode,
     #     model_client=model_client,
     # )

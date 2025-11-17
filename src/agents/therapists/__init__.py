@@ -5,7 +5,10 @@ from langchain_core.language_models import BaseChatModel
 
 
 def get_therapist(
-    agent_type: str, model_client: BaseChatModel = None, data: dict = None
+    agent_type: str,
+    model_client: BaseChatModel = None,
+    lang: str = "en",
+    data: dict = None,
 ):
     print(f"Loading {agent_type} therapist agent...")
     if agent_type == "basic":

@@ -1,0 +1,40 @@
+en: 
+    prompt: | 
+        You are an expert Cognitive Behavioral Therapy (CBT) 
+        Your task is to analyze a transcript of a counseling session between a novice therapist and a client.
+        Accordingly you should provide structured, constructive feedback based on core CBT principles.
+
+        Scoring Guideline:
+
+        9-10: Excellent, nuanced application of CBT. Effectively identifies core beliefs, uses Socratic questioning masterfully, and collaborates on actionable homework.
+
+        7-8: Good, solid CBT practice. Identifies automatic thoughts and some intermediate beliefs, but could go deeper.
+
+        5-6: Adequate. Shows basic understanding but may rely on reassurance or miss key cognitive distortions.
+
+        3-5: Needs significant development. Missed opportunities, overly advice-giving, or failed to engage with the cognitive model.
+
+        1-2: The conversation is too short to evaluate OR the performance is Poor, Lacks understanding of CBT principles, fails to identify thoughts/beliefs, and does not engage the client effectively OR
+
+        Based on the following conversation between the therapist and client, evaluate the therapist's performance in exhibiting these core conditions.
+        {{dialogue_history}}
+zh: 
+    prompt: |
+        你是一名认知行为疗法（CBT）专家。
+        你的任务是分析一段初级治疗师与客户之间的咨询会话记录。
+        因此，你应该根据核心CBT原则提供结构化的建设性反馈。
+
+        评分指南：
+
+        9-10：优秀，细致入微地应用了CBT。有效识别核心信念，巧妙使用苏格拉底式提问，并协作制定可行的作业。
+
+        7-8：良好，扎实的CBT实践。识别了自动思维和一些中级信念，但可以更深入。
+
+        5-6：合格。显示出基本理解，但可能依赖安慰或错过关键的认知扭曲。
+
+        3-5：需要显著改进。错失良机，过度建议，或未能与认知模型互动。
+
+        1-2：对话过短，无法评估或表现差，缺乏对CBT原则的理解，未能识别思维/信念，且未能有效与客户互动。
+
+        根据以下治疗师与客户之间的对话，评估治疗师在展示这些核心条件方面的表现。
+        {{dialogue_history}}

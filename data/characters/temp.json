@@ -1,0 +1,154 @@
+[
+    {
+        "demographics": {
+            "name": "小B",
+            "age": 20,
+            "gender": "male",
+            "major": "计算机科学与技术，大二",
+            "marital_status": "single"
+        },
+        "personality": {
+            "extraversion": 3,
+            "agreeableness": 6,
+            "conscientiousness": 5,
+            "neuroticism": 8,
+            "openness": 5,
+            "summary": "小B性格内向，情绪波动较大，容易感到焦虑和压力，对新事物有一定的开放性，但较少主动社交。"
+        },
+        "mental_state": {
+            "behavior": "常逃避社交活动，不参加曾经期待的班级篮球赛。",
+            "affect": "情绪低落，常感到挫败和无助，对未来感到迷茫。",
+            "sensation": "经常感到身体疲惫，注意力难以集中。",
+            "imagery": "他常常想象自己在学业上失败，被同学和老师忽视。",
+            "cognition": {
+                "negative_automatic_thoughts": [
+                    "我会失败",
+                    "我无法融入集体",
+                    "我不够好"
+                ],
+                "core_beliefs": [
+                    "我一无是处",
+                    "别人都比我聪明"
+                ],
+                "rules_and_assumptions": [
+                    "我必须像其他人一样优秀",
+                    "如果我表现不好，别人就会不喜欢我"
+                ]
+            },
+            "interpersonal": "与室友关系冷淡，感到被忽视，缺乏支持性的人际关系。",
+            "biology": "睡眠质量差，经常失眠，白天感到极度疲惫，缺乏锻炼。"
+        },
+        "current_issue": {
+            "description": "小B感到学业压力和人际关系的复杂让他力不从心，成绩下滑，失去学习兴趣，宿舍生活不顺利，感到被忽视，睡眠质量差，经常失眠，白天疲惫，甚至无法集中精力完成作业。",
+            "symptoms": "失眠，疲惫，注意力不集中，情绪低落，自我否定",
+            "duration": "几个月",
+            "severity": "severe",
+            "impact": "严重影响了学习成绩和社交生活，导致情绪低落和自我否定。",
+            "coping_strategies": [
+                "写日记",
+                "逃避社交活动"
+            ]
+        }
+    },
+    {
+        "demographics": {
+            "name": "小李",
+            "age": 20,
+            "gender": "male",
+            "major": "物理学三年级",
+            "marital_status": "single"
+        },
+        "personality": {
+            "extraversion": 5,
+            "agreeableness": 7,
+            "conscientiousness": 6,
+            "neuroticism": 8,
+            "openness": 6,
+            "summary": "小李是一个内向但友善的人，通常乐于助人。他对新事物持开放态度，但在面对压力时容易感到焦虑。"
+        },
+        "mental_state": {
+            "behavior": "小李有时会拖延学习任务，尽管他知道这样做不好。他尝试通过与同学讨论和参加辅导班来改善学习状态。",
+            "affect": "小李常常感到焦虑和沮丧，尤其是在考试前夕。他对自己未来的学业表现感到担忧。",
+            "sensation": "小李有时会感到头痛和胃部不适，特别是在考试压力大的时候。",
+            "imagery": "小李常常想象自己在考试中失利的情景，这让他更加紧张。",
+            "cognition": {
+                "negative_automatic_thoughts": [
+                    "我肯定又考不好",
+                    "别人都比我强"
+                ],
+                "core_beliefs": [
+                    "我不够聪明",
+                    "我总是会失败"
+                ],
+                "rules_and_assumptions": [
+                    "我必须考到好成绩才能成功",
+                    "如果我不努力，就会被别人超越"
+                ]
+            },
+            "interpersonal": "小李有几个要好的朋友，但他不愿意向他们倾诉自己的学业问题。他的家人很关心他的学业，但他不想让他们失望。",
+            "biology": "小李的睡眠质量不佳，经常熬夜复习，导致白天精神不振。他的饮食不规律，常常因为忙于学习而忽略正餐。"
+        },
+        "current_issue": {
+            "description": "小李最近感到学业压力很大，特别是在数学和物理课程上。他发现自己很难集中注意力，考试成绩也不理想，这让他感到非常沮丧和焦虑。",
+            "symptoms": "注意力不集中，考试焦虑，情绪低落",
+            "duration": "三个月",
+            "severity": "moderate",
+            "impact": "小李的学业问题导致他情绪低落，缺乏自信，甚至影响了他的社交生活。",
+            "coping_strategies": [
+                "尝试制定学习计划",
+                "与同学讨论问题",
+                "参加课外辅导班"
+            ]
+        }
+    },
+    {
+        "demographics": {
+            "name": "李明",
+            "age": 20,
+            "gender": "male",
+            "major": "计算机科学，大三",
+            "marital_status": "single"
+        },
+        "personality": {
+            "extraversion": 4,
+            "agreeableness": 6,
+            "conscientiousness": 7,
+            "neuroticism": 8,
+            "openness": 5,
+            "summary": "李明是一个内向且谨慎的人，容易感到焦虑。他对新事物持开放态度，但在社交场合中较为拘谨。他对自己的要求很高，常常感到不安。"
+        },
+        "mental_state": {
+            "behavior": "他倾向于逃避任务，常常拖延，并且在压力大时会选择熬夜学习。",
+            "affect": "李明经常感到焦虑和沮丧，尤其是在面对考试和学业任务时。",
+            "sensation": "经常感到胃部不适和头痛，尤其是在紧张时。",
+            "imagery": "他常常想象自己在考试中失败，或者在课堂上无法回答问题。",
+            "cognition": {
+                "negative_automatic_thoughts": [
+                    "我肯定会失败",
+                    "没有人能理解我"
+                ],
+                "core_beliefs": [
+                    "我不够好",
+                    "我无法应对压力"
+                ],
+                "rules_and_assumptions": [
+                    "我必须取得好成绩才能被认可",
+                    "如果我表现不好，我就是失败者"
+                ]
+            },
+            "interpersonal": "李明与家人的关系较为疏远，朋友不多，但有一两个可以倾诉的朋友。",
+            "biology": "李明的睡眠质量很差，经常熬夜，饮食不规律，缺乏锻炼。"
+        },
+        "current_issue": {
+            "description": "李明最近感到压力很大，尤其是在考试期间。他常常觉得自己无法应对学业压力，并且对未来感到迷茫。",
+            "symptoms": "失眠、焦虑、注意力不集中",
+            "duration": "6个月",
+            "severity": "moderate",
+            "impact": "影响了他的学习效率和社交活动，他变得更加孤立。",
+            "coping_strategies": [
+                "与朋友倾诉",
+                "写日记"
+            ]
+        }
+    }
+]

@@ -17,14 +17,14 @@ def load_yaml(path: str):
         with open(path, "r") as file:
             return yaml.safe_load(file)
     except Exception as e:
-        print(f"Prompt loading error: {e}")
+        print("Error loading YAML file:", e)
         return {}
 
 
 def load_prompts(role: str, agent_type: str, lang: str):
+    path = f"data/prompts/{role}/{agent_type}.yaml"
     prompts = {}
-    path = f"data/prompts/{role}/{agent_type}_{lang}.yaml"
-    data = load_yaml(path)
+    data = load_yaml(path)[lang]
     for k, v in data.items():
         if isinstance(v, str):
             prompts[k] = Template(v)

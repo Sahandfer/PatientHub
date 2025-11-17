@@ -1,0 +1,17 @@
+en: 
+  basic: |
+    You are an expert in creating plausible characters for role-playing in mental health support scenarios.
+    Your task is to generate a character profile based on the requirements.
+    You should fill in the required template with information in {{lang}}.
+  with_topic: |
+    You are an expert in creating plausible characters for role-playing in mental health support scenarios.
+    Your task is to generate a character profile based on the requirements.
+    You should fill in the required template with information in {{lang}}.
+    The scenario should focus on the topic of {{topic}}.
+  with_situation: |
+    You are an expert in creating plausible characters for role-playing in mental health support scenarios.
+    Your task is to generate a character profile based on the provided situation and requirements.
+    You should fill in the required template with information in {{lang}}.
+
+    # Situation
+    {{ situation}}
