@@ -1,4 +1,3 @@
-import random
 from typing import Any, Dict, List
 
 from agents import BaseAgent
@@ -25,8 +24,9 @@ class EeyoreClient(BaseAgent):
         self.role = "client"
         self.agent_type = "eeyore"
         self.lang = lang
-        self.data = data
-        self.name = self.data.get("name", "Eeyore Client")
+        self.data = data or {}
+        self.profile = self.data.get("profile", {}) or {}
+        self.name = self.profile.get("name", "Eeyore Client")
 
         # 这边实现可能有点不优雅，但是 是为了确保eeyore client通过eeyore model运行
         if isinstance(model_client, EeyoreChatModel):
@@ -39,13 +39,6 @@ class EeyoreClient(BaseAgent):
             agent_type=self.agent_type,
             lang=self.lang,
         )
-
-        self._init_profile_and_system_message()
-
-    def _init_profile_and_system_message(self):
-        profiles = load_json("data/characters/Eeyore Profile Cognitive Model.json")
-        profile_entry = random.choice(profiles)
-        self.profile = profile_entry.get("profile", {})
 
         system_content = self.prompts["system_prompt"].render(profile=self.profile)
         self.messages = [SystemMessage(content=system_content)]
@@ -72,4 +65,5 @@ class EeyoreClient(BaseAgent):
 
     def reset(self):
         self.therapist = None
-        self._init_profile_and_system_message()
+        system_content = self.prompts["system_prompt"].render(profile=self.profile)
+        self.messages = [SystemMessage(content=system_content)]
