@@ -112,7 +112,7 @@ class RoleplayDohClient(InferenceAgent):
         criteria_lines = "\n".join(f"- {q}" for q in questions)
         prompt = self.prompts["assessment"].render(
             criteria=criteria_lines,
-            client_profile=self.client_profile,
+            profile=self.profile,
             conv_history=[],
             therapist_message=therapist_message,
             client_response=response,
@@ -128,7 +128,7 @@ class RoleplayDohClient(InferenceAgent):
 
         # 1) Generate initial response
         response_pt = self.prompts["response"].render(
-            client_profile=self.client_profile,
+            profile=self.profile,
             conv_history="\n".join(messages),
         )
         initial_response = self.generate(
@@ -139,10 +139,10 @@ class RoleplayDohClient(InferenceAgent):
 
         # TODO: Find a better way to select principle
         principle = random.choice(self.principles)
-        questions = self.generate_questions(principle, msg, initial_response)
+        questions = self.generate_questions(principle, msg, initial_response.content)
 
         # 3) Generate assessment
-        assessment = self.generate_assessment(questions, msg, initial_response)
+        assessment = self.generate_assessment(questions, msg, initial_response.content)
 
         # 4) Revise and finalize the response
         has_violation = any(
