@@ -5,10 +5,15 @@
 # Supported Clients
 
 - [x] Custom basic for testing purposes
-- [x] PatientPsi from https://arxiv.org/abs/2405.19660
-- [x] RoleplayDoh from https://aclanthology.org/2024.emnlp-main.591/
-- [x] Eeyore from https://aclanthology.org/2025.findings-acl.707.pdf
-- [ ] EvoPatient from https://github.com/ZJUMAI/EvoPatient
+- [x] [PatientPsi](https://arxiv.org/abs/2405.19660)
+- [x] [RoleplayDoh](https://aclanthology.org/2024.emnlp-main.591/)
+- [x] [Eeyore](https://aclanthology.org/2025.findings-acl.707.pdf)
+- [ ] [ClientCast](https://github.com/wangjs9/ClientCAST)
+- [ ] [ConsistentMI](https://github.com/IzzetYoung/ConsistentMIClientSimulator)
+- [ ] [AnnaAgent](https://github.com/sci-m-wang/AnnaAgent)
+- [ ] [PatientSim](https://github.com/dek924/PatientSim)
+- [ ] [PSYCHE](https://arxiv.org/pdf/2501.01594)
+- [ ] [EvoPatient](https://github.com/ZJUMAI/EvoPatient)
 
 # Guide
 
