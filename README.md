@@ -12,7 +12,7 @@
 - [ ] [ConsistentMI](https://github.com/IzzetYoung/ConsistentMIClientSimulator)
 - [ ] [AnnaAgent](https://github.com/sci-m-wang/AnnaAgent)
 - [ ] [PatientSim](https://github.com/dek924/PatientSim)
-- [ ] [PSYCHE](https://arxiv.org/pdf/2501.01594)
+- [x] [PSYCHE](https://arxiv.org/pdf/2501.01594)
 - [ ] [EvoPatient](https://github.com/ZJUMAI/EvoPatient)
 
 # Guide
@@ -38,7 +38,7 @@ LAB_BASE_URL=http://115.182.62.174:18888/v1
 Run the following script for simulation (with default configs)
 
 ```bash
-uv run python -m src.scripts.simulate 
+uv run python -m src.scripts.simulate
 ```
 
 In addition, you can run the following script for customized simulations
@@ -52,6 +52,7 @@ uv run python -m src.scripts.simulate client=[client] therapist=[therapist] eval
   - `patientPsi`
   - `roleplayDoh`
   - `eeyore`
+  - `psyche`
 - `therapist` can be one of the following
   - `basic` → custom therapist for testing purposes
   - `eliza` → simple implementation of the eliza chatbot
@@ -59,8 +60,8 @@ uv run python -m src.scripts.simulate client=[client] therapist=[therapist] eval
 - `evaluator` can be one of the following
   - `basic` → custom evaluator for testing purposes
 - `eval_type` can be one of the following
-  - `cbt` 
-  - `active_listening` 
+  - `cbt`
+  - `active_listening`
 
 ## 3. Creating new agents
 
@@ -75,4 +76,3 @@ For example
 ```bash
 uv run python -m src.scripts.create --agent_type client --agent_name test
 ```
-
