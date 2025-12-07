@@ -4,6 +4,7 @@ from .roleplayDoh import RoleplayDohClient
 from .THU import THUClient
 from .eeyore import EeyoreClient
 from .psyche import psycheClient
+from .SimPatient import SimPatientClient
 
 from omegaconf import DictConfig
 from langchain_core.language_models import BaseChatModel
@@ -24,6 +25,8 @@ def get_client(configs: DictConfig):
         return EeyoreClient(configs=configs)
     elif agent_type == 'psyche':
         return psycheClient(configs=configs)
+    elif agent_type == 'SimPatient':
+        return SimPatientClient(configs=configs)
     else:
         raise ValueError(f"Unknown client agent type: {agent_type}")
 

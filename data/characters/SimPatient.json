@@ -1,0 +1,16 @@
+{
+    "persona": {
+        "age": 34,
+        "gender": "male",
+        "ethnicity": "Asian",
+        "occupation": "software engineer",
+        "mbti": "INTJ-A"
+    },
+    "cognitive_model_values": {
+        "patient_control": 3,
+        "patient_efficacy": 4,
+        "patient_awareness": 7,
+        "patient_reward": 8
+    },
+    "between_session_event": "After a stressful day at work, the patient received a call from a college friend inviting him to a small get-together. He hesitated but decided to go, thinking he could handle it. However, once there, the sight and smell of alcohol triggered his cravings. Despite his initial resolve, he ended up drinking several beers, feeling momentarily relaxed but later regretting his lack of control. The event left him questioning his ability to maintain sobriety in social settings and motivated him to discuss strategies for handling similar situations in his next therapy session."
+}

@@ -14,6 +14,7 @@
 - [ ] [PatientSim](https://github.com/dek924/PatientSim)
 - [x] [PSYCHE](https://arxiv.org/pdf/2501.01594)
 - [ ] [EvoPatient](https://github.com/ZJUMAI/EvoPatient)
+- [x] [SimPatient](https://github.com/IanSteenstra/SimPatient)
 
 # Guide
 
@@ -53,6 +54,7 @@ uv run python -m src.scripts.simulate client=[client] therapist=[therapist] eval
   - `roleplayDoh`
   - `eeyore`
   - `psyche`
+  - `SimPatient`
 - `therapist` can be one of the following
   - `basic` → custom therapist for testing purposes
   - `eliza` → simple implementation of the eliza chatbot
