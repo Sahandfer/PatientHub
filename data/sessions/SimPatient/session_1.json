@@ -1,0 +1,29 @@
+{
+    "messages": [
+        {
+            "role": "Therapist",
+            "content": "hello, how is going after the last session?"
+        },
+        {
+            "role": "Client",
+            "content": "It's been a bit challenging, truth be told. I went to a get-together and ended up drinking, which was frustrating. I want to figure out how to handle these situations better."
+        },
+        {
+            "role": "Therapist",
+            "content": "oh, that sounds bad, but dont worry I am always be with you. Should we start another try?"
+        },
+        {
+            "role": "Client",
+            "content": "I appreciate that. Yes, let's work on finding some strategies for these situations. I know I need them."
+        },
+        {
+            "role": "Therapist",
+            "content": "what about start from building some other habits?"
+        },
+        {
+            "role": "Client",
+            "content": "That sounds like a good idea. Maybe I can replace the urge to drink with something more productive. I enjoy reading or even coding side projects. Those might help shift my focus."
+        }
+    ],
+    "num_turns": 3
+}

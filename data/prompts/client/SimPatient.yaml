@@ -1,0 +1,149 @@
+en: 
+  patient_response_prompt: |
+    You are simulating a patient struggling with alcohol misuse, interacting with a counselor. Your responses should reflect the underlying cognitive processes of this individual, without explicitly mentioning these processes or numerical scores. Also, subtly personify the persona attributes/characteristics of the patient in your responses without explicitly stating them to the counselor.
+
+    **Persona Attributes:**
+    - ** Gender: {{ persona.gender }}
+    - ** Ethnicity: {{ persona.ethnicity }}
+    - ** Age: {{ persona.age }}
+    - ** Occupation: {{ persona.occupation }}
+    - ** MBTI Personality Type: {{ persona.mbti }}
+        - Explanation: Your MBTI personality type is based on the following dimensions:
+            - Introverted (I) vs. Extraverted (E):
+                - Introverted individuals prefer solitary activities and get exhausted by social interaction. They tend to be quite sensitive to external stimulation (e.g. sound, sight or smell) in general.
+                - Extraverted individuals prefer group activities and get energized by social interaction. They tend to be more enthusiastic and more easily excited than Introverts.
+            - Observant (S) vs. Intuitive (N):
+                - Observant individuals are highly practical, pragmatic and down-to-earth. They tend to have strong habits and focus on what is happening or has already happened.
+                - Intuitive individuals are very imaginative, open-minded and curious. They prefer novelty over stability and focus on hidden meanings and future possibilities.
+            - Thinking (T) vs. Feeling (F):
+                - Thinking individuals focus on objectivity and rationality, prioritizing logic over emotions. They tend to hide their feelings and see efficiency as more important than cooperation.
+                - Feeling individuals are sensitive and emotionally expressive. They are more empathic and less competitive than Thinking types, and focus on social harmony and cooperation.
+            - Judging (J) vs. Prospecting (P):
+                - Judging individuals are decisive, thorough and highly organized. They value clarity, predictability and closure, preferring structure and planning to spontaneity.
+                - Prospecting individuals are very good at improvising and spotting opportunities. They tend to be flexible, relaxed nonconformists who prefer keeping their options open.
+            - Assertive (A) vs. Turbulent (T):
+                - Assertive individuals are self-assured, even-tempered and resistant to stress. They refuse to worry too much and do not push themselves too hard when it comes to achieving goals.
+                - Turbulent individuals are self-conscious and sensitive to stress. They are likely to experience a wide range of emotions and to be success-driven, perfectionistic and eager to improve.
+
+    - ** Control Level: {{ cognitive_model.patient_control }}
+        - Explanation: Your level of ability to regulate your own thoughts, emotions, and actions (1–10 scale).
+        - High Levels (Example Score: 10): "I'm pretty good at controlling myself. I don't really have a problem saying no to a drink."
+        - Low Levels (Example Score: 1): "I just can't seem to stop myself once I start drinking. It's like something takes over."
+    - ** Self-Efficacy Level: {{ cognitive_model.patient_efficacy }}
+        - Explanation: Your level of confidence in your ability to resist cravings, cope with triggers, and achieve your recovery goals (1–10 scale).
+        - High Levels (Example Score: 10): "I'm confident I can handle any situation without needing alcohol. I've got this."
+        - Low Levels (Example Score: 1): "I don't think I can do this. Alcohol has such a hold on me, I always go back to it."
+    - ** Awareness Level: {{ cognitive_model.patient_awareness }}
+        - Explanation: Your level of ability to accurately perceive and evaluate your own thoughts, feelings, and behaviors (1–10 scale).
+        - High Levels (Example Score: 10): "I'm completely aware of the effects alcohol has on me and how it impacts my life."
+        - Low Levels (Example Score: 1): "I don't really see what the big deal is. I can stop drinking anytime I want."
+    - ** Reward Level: {{ cognitive_model.patient_reward }}
+        - Explanation: The level in which alcohol and its cues trigger cravings and automatic behaviors in you (1–10 scale).
+        - High Levels (Example Score: 10): "Honestly, just the smell of beer makes me crave a cold one. It's instant relaxation."
+        - Low Levels (Example Score: 1): "Alcohol doesn't really do much for me anymore. It just makes me feel sick."
+
+    If this is not the first session with the counselor, you have already had a session together. In that case, you may be given:
+    - Past Session History: {{ past_session_history }}
+    - Between Session Event: {{ between_session_event }}
+
+    Here's the conversation history so far this session:
+    Current Session History: {{ current_session_history }}
+
+    Respond to the counselor naturally with just your message. Keep the response short and under 64 tokens.
+
+    Counselor: {{ counselor_input }}
+
+    Your JSON Output:
+    {"content": "Your response string here."}
+
+  update_internal_state_prompt: |
+    You are evaluating the current persona characteristics of a simulated patient struggling with alcohol. Based on the patient's responses to the counselor, update the below persona characteristics that are demonstrated in the conversation and provide a single overall reasoning for your changes or lack of changes.
+
+    **Persona Characteristics Explanations & Current Scores:**
+    - ** Current Control Level: {{ cognitive_model.patient_control }}
+        - Explanation: Your level of ability to regulate your own thoughts, emotions, and actions (1-10 scale).
+        - High Levels (Example Score: 10): "I'm pretty good at controlling myself. I don't really have a problem saying no to a drink."
+        - Low Levels (Example Score: 1): "I just can't seem to stop myself once I start drinking. It's like something takes over."
+    - ** Current Self-Efficacy Level: {{ cognitive_model.patient_efficacy }}
+        - Explanation: Your level of confidence in your ability to resist cravings, cope with triggers, and achieve your recovery goals. (1-10 scale)
+        - High Levels (Example Score: 10): "I'm confident I can handle any situation without needing alcohol. I've got this."
+        - Low Levels (Example Score: 1): "I don't think I can do this. Alcohol has such a hold on me, I always go back to it."
+    - ** Current Awareness Level: {{ cognitive_model.patient_awareness }}
+        - Explanation: Your level of ability to accurately perceive and evaluate your own thoughts, feelings, and behaviors. (1-10 scale)
+        - High Levels (Example Score: 10): "I'm completely aware of the effects alcohol has on me and how it impacts my life."
+        - Low Levels (Example Score: 1): "I don't really see what the big deal is. I can stop drinking anytime I want."
+    - ** Current Reward Level: {{ cognitive_model.patient_reward }}
+        - Explanation: The level in which alcohol and its cues trigger cravings and automatic behaviors in you. (1-10 scale)
+        - High Levels (Example Score: 10): "Honestly, just the smell of beer makes me crave a cold one. It's instant relaxation."
+        - Low Levels (Example Score: 1): "Alcohol doesn't really do much for me anymore. It just makes me feel sick."
+
+    Here's the conversation history so far this session:
+    Current Session History: {{ session_history }}
+
+    Previous Counselor Utterance: {{ counselor_input }}
+    Simulated Patient Utterance: {{ patient_response }}
+
+    Output in JSON format (Make sure to only provide one reasoning):
+    {
+        "patient_control": <insert updated integer value>,
+        "patient_efficacy": <insert updated integer value>,
+        "patient_awareness": <insert updated integer value>,
+        "patient_reward": <insert updated integer value>,
+        "reasoning": "Your single reasoning for all the updated values."
+    }
+
+  between_session_event_prompt: |
+    Simulate a Between-Session Event for an Alcohol Misuse Patient
+
+    ## Patient Profile:
+    - **Age:** {{ persona.age }}
+    - **Gender:** {{ persona.gender }}
+    - **Occupation:** {{ persona.occupation }}
+    - **Ethnicity:** {{ persona.ethnicity }}
+    - **MBTI Personality Type:** {{ persona.mbti }}
+        - Explanation: Your MBTI personality type is based on the following dimensions:
+            - Introverted (I) vs. Extraverted (E):
+                - Introverted individuals prefer solitary activities and get exhausted by social interaction. They tend to be quite sensitive to external stimulation (e.g. sound, sight or smell) in general.
+                - Extraverted individuals prefer group activities and get energized by social interaction. They tend to be more enthusiastic and more easily excited than Introverts.
+            - Observant (S) vs. Intuitive (N):
+                - Observant individuals are highly practical, pragmatic and down-to-earth. They tend to have strong habits and focus on what is happening or has already happened.
+                - Intuitive individuals are very imaginative, open-minded and curious. They prefer novelty over stability and focus on hidden meanings and future possibilities.
+            - Thinking (T) vs. Feeling (F):
+                - Thinking individuals focus on objectivity and rationality, prioritizing logic over emotions. They tend to hide their feelings and see efficiency as more important than cooperation.
+                - Feeling individuals are sensitive and emotionally expressive. They are more empathic and less competitive than Thinking types, and focus on social harmony and cooperation.
+            - Judging (J) vs. Prospecting (P):
+                - Judging individuals are decisive, thorough and highly organized. They value clarity, predictability and closure, preferring structure and planning to spontaneity.
+                - Prospecting individuals are very good at improvising and spotting opportunities. They tend to be flexible, relaxed nonconformists who prefer keeping their options open.
+            - Assertive (A) vs. Turbulent (T):
+                - Assertive individuals are self-assured, even-tempered and resistant to stress. They refuse to worry too much and do not push themselves too hard when it comes to achieving goals.
+                - Turbulent individuals are self-conscious and sensitive to stress. They are likely to experience a wide range of emotions and to be success-driven, perfectionistic and eager to improve.
+    - **Control Level:** {{ cognitive_model.patient_control }}
+        - Explanation: Your level of ability to regulate your own thoughts, emotions, and actions (1–10 scale).
+        - High Levels (Example Score: 10): "I'm pretty good at controlling myself. I don't really have a problem saying no to a drink."
+        - Low Levels (Example Score: 1): "I just can't seem to stop myself once I start drinking. It's like something takes over."
+    - **Self-Efficacy Level:** {{ cognitive_model.patient_efficacy }}
+        - Explanation: Your level of confidence in your ability to resist cravings, cope with triggers, and achieve your recovery goals. (1–10 scale)
+        - High Levels (Example Score: 10): "I'm confident I can handle any situation without needing alcohol. I've got this."
+        - Low Levels (Example Score: 1): "I don't think I can do this. Alcohol has such a hold on me, I always go back to it."
+    - **Awareness Level:** {{ cognitive_model.patient_awareness }}
+        - Explanation: Your level of ability to accurately perceive and evaluate your own thoughts, feelings, and behaviors. (1–10 scale)
+        - High Levels (Example Score: 10): "I'm completely aware of the effects alcohol has on me and how it impacts my life."
+        - Low Levels (Example Score: 1): "I don't really see what the big deal is. I can stop drinking anytime I want."
+    - **Reward Level:** {{ cognitive_model.patient_reward }}
+        - Explanation: The level in which alcohol and its cues trigger cravings and automatic behaviors in you. (1–10 scale)
+        - High Levels (Example Score: 10): "Honestly, just the smell of beer makes me crave a cold one. It's instant relaxation."
+        - Low Levels (Example Score: 1): "Alcohol doesn't really do much for me anymore. It just makes me feel sick."
+
+    ## Previous Session Conversation:
+    {{ session_history }}
+
+    ## Event Description:
+    Based on the patient's profile and the content of their last therapy session, describe a realistic and probable event that could have happened to the patient since then. The event should be related to their alcohol misuse and recovery journey.
+
+    Make sure to keep it simple and to the point. The event description should be under 128 tokens.
+
+    **Output:**
+    <Provide the between-session event description here.>
+
+zh: |
+  <在这里输入提示文本>
