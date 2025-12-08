@@ -1,7 +1,7 @@
 [project]
-name = "patient-simulation"
+name = "PatientHub"
 version = "0.1.0"
-description = "Add your description here"
+description = "A unified hub to create, simulate, and evaluate methods for patient/client simulation."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
