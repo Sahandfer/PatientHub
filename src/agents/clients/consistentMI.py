@@ -5,7 +5,13 @@ from omegaconf import DictConfig
 from pydantic import BaseModel, Field
 
 from src.agents import InferenceAgent
-from src.utils import get_model_client, get_reranker, load_json, load_prompts
+from src.utils import (
+    get_model_client,
+    get_reranker_model,
+    load_json,
+    load_prompts,
+    rerank_query_passages,
+)
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
@@ -48,7 +54,11 @@ class consistentMIClient(InferenceAgent):
         self.configs = configs
         self.prompts = load_prompts(role="client", agent_type="consistentMI", lang=configs.lang)
         self.model_client = get_model_client(configs.model_client)
-        self.reranker = get_reranker(configs.model_retriever)
+        (
+            self.retriever_tokenizer,
+            self.retriever_model,
+            self.retriever_device,
+        ) = get_reranker_model(configs.model_retriever)
 
         self.data = {}
         self.name = "ConsistentMI"
@@ -450,20 +460,20 @@ class consistentMIClient(InferenceAgent):
         if not last_therapist:
             return []
 
-        # Use LangChain reranker when available
-        if getattr(self, "reranker", None) is not None:
-            from langchain_core.documents import Document
-
-            documents = [
-                Document(page_content=passage, metadata={"topic": topic})
-                for topic, passage in zip(self.all_topics, self.topic_passages)
-            ]
-            try:
-                ranked_docs = self.reranker.rerank(query=last_therapist, documents=documents)
-                top_docs = ranked_docs[: min(5, len(ranked_docs))]
-                return [doc.metadata.get("topic", "") for doc in top_docs if doc.metadata.get("topic")]
-            except Exception:
-                pass
+        # Use cross-encoder reranker when available
+        if self.retriever_model is not None and self.retriever_tokenizer is not None:
+            scores = rerank_query_passages(
+                self.retriever_tokenizer,
+                self.retriever_model,
+                self.retriever_device,
+                last_therapist,
+                self.topic_passages,
+            )
+            if scores is not None:
+                indices = sorted(
+                    range(len(scores)), key=lambda i: scores[i], reverse=True
+                )[: min(5, len(scores))]
+                return [self.all_topics[i] for i in indices]
 
         # Lightweight lexical fallback
         lower_query = last_therapist.lower()
@@ -742,6 +752,7 @@ class consistentMIClient(InferenceAgent):
         engagement_analysis = self.update_state()
         engage_instruction = self.get_engage_instruction()
         information = None
+        state_for_action = self.state
 
         if self.state == "Motivation":
             action = "Acknowledge"
@@ -808,6 +819,8 @@ class consistentMIClient(InferenceAgent):
                 information=information or "",
                 motivation=self.motivation_text,
             )
+
+        print(f"[consistentMIClient.reply] state={state_for_action}, action={action}")
 
         # Build model call with conversation history and inline instruction
         last_therapist = self._get_last_therapist_utterance() or ""
