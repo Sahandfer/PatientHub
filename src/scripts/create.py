@@ -66,7 +66,9 @@ class FileCreator:
                         )
                         is_imported = True
                 elif line.strip() == "}":
-                    f.write(f"    '{self.agent_name}': {self.agent_class_name},\n")
+                    f.write(f'    "{self.agent_name}": {self.agent_class_name},\n')
+                elif line.strip() == "]":
+                    f.write(f'    "{self.agent_class_name}",\n')
                 f.write(line)
                 prev_line = line
         print(f"> Updated {self.paths['_init_']} to include {self.agent_class_name}.")
