@@ -1,4 +1,9 @@
-lang: en
 api_type: LAB
 model_name: gpt-4o
-output_dir: "data/character_gen.json"
+temperature: 0.7
+max_tokens: 8192
+max_retries: 3
+lang: zh
+mode: topic
+input_dir: "data/situations/thu_topics.json"
+output_dir: "data/characters/thu/thu_testing.json"

@@ -1,23 +1,21 @@
 import json
-from typing import Dict, List, Any
+from typing import Dict, List
 from pydantic import BaseModel, Field
 
 from src.agents import InferenceAgent
 from src.utils import load_prompts, load_json, get_model_client
 
 from omegaconf import DictConfig
-from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 
-# TODO: Define the response format
 class Response(BaseModel):
     content: str = Field(
         description="The content of your generated response in this turn",
     )
 
 
-class psycheClient(InferenceAgent):
+class PsycheClient(InferenceAgent):
     def __init__(self, configs: DictConfig):
         self.configs = configs
 
@@ -31,9 +29,7 @@ class psycheClient(InferenceAgent):
         )
 
         mfc_json = json.dumps(self.data, ensure_ascii=False, indent=2)
-        system_content = self.prompts["PSYCHE_SP_prompt"].render(
-            data={"mfc": mfc_json}
-        )
+        system_content = self.prompts["PSYCHE_SP_prompt"].render(data={"mfc": mfc_json})
         self.messages = [SystemMessage(content=system_content)]
 
     def generate(self, messages: List[str], response_format: BaseModel):
@@ -54,7 +50,5 @@ class psycheClient(InferenceAgent):
     def reset(self):
         self.therapist = None
         mfc_json = json.dumps(self.data, ensure_ascii=False, indent=2)
-        system_content = self.prompts["PSYCHE_SP_prompt"].render(
-            data={"mfc": mfc_json}
-        )
+        system_content = self.prompts["PSYCHE_SP_prompt"].render(data={"mfc": mfc_json})
         self.messages = [SystemMessage(content=system_content)]

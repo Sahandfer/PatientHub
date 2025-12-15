@@ -180,3 +180,6 @@ docs
 crawler
 temp.*
 outputs
+test_dify/*
+data/characters/thu/
+data/situations/thu_*

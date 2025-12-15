@@ -14,7 +14,9 @@ class FileCreator:
     def __init__(self, args):
         self.agent_type = args.agent_type
         self.agent_name = args.agent_name
-        self.agent_class_name = f"{args.agent_name}{args.agent_type.capitalize()}"
+        self.agent_class_name = (
+            f"{args.agent_name.capitalize()}{args.agent_type.capitalize()}"
+        )
         # Load boilderplate for files
         self.prompts = load_prompts(role="generator", agent_type="files")
         # Define paths
@@ -49,26 +51,19 @@ class FileCreator:
 
     # Add implementation to __init__.py:
     def add_to_init(self):
-        with open(self.paths["_init_"], "r", encoding="utf-8") as f:
-            lines = f.readlines()
+        prev_line = ""
+        is_imported = False
+        lines = open(self.paths["_init_"], "r", encoding="utf-8").readlines()
         with open(self.paths["_init_"], "w", encoding="utf-8") as f:
-            is_imported = False
-            is_added = False
-            prev_line = ""
             for line in lines:
-                if (
-                    prev_line.startswith("from .")
-                    and line.strip() == ""
-                    and not is_imported
-                ):
-                    f.write(f"from .{self.agent_name} import {self.agent_class_name}\n")
-                    is_imported = True
-                elif line.strip() == "else:" and is_imported and not is_added:
-                    f.write(f"    elif agent_type == '{self.agent_name}':\n")
-                    f.write(
-                        f"        return {self.agent_class_name}(configs=configs)\n"
-                    )
-                    is_added = True
+                if not is_imported:
+                    if prev_line.startswith("from .") and line.strip() == "":
+                        f.write(
+                            f"from .{self.agent_name} import {self.agent_class_name}\n"
+                        )
+                        is_imported = True
+                elif line.strip() == "}":
+                    f.write(f"    '{self.agent_name}': {self.agent_class_name},\n")
                 f.write(line)
                 prev_line = line
         print(f"> Updated {self.paths['_init_']} to include {self.agent_class_name}.")

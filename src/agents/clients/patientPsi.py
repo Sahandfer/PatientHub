@@ -1,11 +1,10 @@
-from typing import Dict, List, Any
+from typing import Dict, List
 from pydantic import BaseModel, Field
 
 from src.agents import InferenceAgent
 from src.utils import load_prompts, load_json, get_model_client
 
 from omegaconf import DictConfig
-from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 

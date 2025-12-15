@@ -17,7 +17,9 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 
 class Response(BaseModel):
-    content: str = Field(description="The content of your generated response in this turn")
+    content: str = Field(
+        description="The content of your generated response in this turn"
+    )
 
 
 class ActionDistribution(BaseModel):
@@ -46,13 +48,17 @@ class PreparationActionDistribution(BaseModel):
 
 class BinaryAnswer(BaseModel):
     answer: bool = Field(description="True if the answer is yes, false otherwise")
-    rationale: Optional[str] = Field(default=None, description="Short explanation for the decision")
+    rationale: Optional[str] = Field(
+        default=None, description="Short explanation for the decision"
+    )
 
 
-class consistentMIClient(InferenceAgent):
+class ConsistentMIClient(InferenceAgent):
     def __init__(self, configs: DictConfig):
         self.configs = configs
-        self.prompts = load_prompts(role="client", agent_type="consistentMI", lang=configs.lang)
+        self.prompts = load_prompts(
+            role="client", agent_type="consistentMI", lang=configs.lang
+        )
         self.model_client = get_model_client(configs.model_client)
         (
             self.retriever_tokenizer,
@@ -80,7 +86,9 @@ class consistentMIClient(InferenceAgent):
         res = model_client.invoke(messages)
         return res
 
-    def set_therapist(self, therapist, prev_sessions: Optional[List[Dict[str, str]]] = None):
+    def set_therapist(
+        self, therapist, prev_sessions: Optional[List[Dict[str, str]]] = None
+    ):
         self.therapist = therapist.get("name", "Therapist")
 
     def generate_response(self, msg: str):
@@ -92,7 +100,11 @@ class consistentMIClient(InferenceAgent):
         # Persist clean conversation history for subsequent turns
         self.messages.append(AIMessage(content=client_text))
 
-        content = client_text[len("Client: ") :].strip() if client_text.startswith("Client: ") else client_text
+        content = (
+            client_text[len("Client: ") :].strip()
+            if client_text.startswith("Client: ")
+            else client_text
+        )
         return Response(content=content)
 
     def reset(self):
@@ -115,7 +127,9 @@ class consistentMIClient(InferenceAgent):
         self.acceptable_plans: List[str] = self.data.get("Acceptable Plans", []).copy()
         motivation_list = self.data.get("Motivation", [])
         self.motivation_text = motivation_list[-1] if motivation_list else ""
-        self.engagemented_topics = motivation_list[:-1] if len(motivation_list) > 1 else []
+        self.engagemented_topics = (
+            motivation_list[:-1] if len(motivation_list) > 1 else []
+        )
         self.initial_stage = self.data.get("initial_stage", "Precontemplation")
         suggestibilities = self.data.get("suggestibilities", [])
         self.receptivity = (
@@ -415,7 +429,9 @@ class consistentMIClient(InferenceAgent):
         topics_path = getattr(self.configs, "topics_path", None)
         topics_data = load_json(topics_path) if topics_path else []
         topic_to_content = {
-            item.get("topic"): item.get("content", "") for item in topics_data if "topic" in item
+            item.get("topic"): item.get("content", "")
+            for item in topics_data
+            if "topic" in item
         }
 
         self.topic_passages = []
@@ -450,7 +466,9 @@ class consistentMIClient(InferenceAgent):
             context_block=context_block,
             motivation=self.motivation_text,
         )
-        res = self.generate([SystemMessage(content=prompt)], response_format=BinaryAnswer)
+        res = self.generate(
+            [SystemMessage(content=prompt)], response_format=BinaryAnswer
+        )
         if res.answer:
             self.state = "Motivation"
         return res.rationale or ""
@@ -487,7 +505,9 @@ class consistentMIClient(InferenceAgent):
         ]
         return [self.all_topics[index] for index in top_indices]
 
-    def dijkstra(self, graph: Dict[str, Dict[str, int]], start_node: str, target_node: str):
+    def dijkstra(
+        self, graph: Dict[str, Dict[str, int]], start_node: str, target_node: str
+    ):
         distances = {node: float("inf") for node in graph}
         distances[start_node] = 0
         pq = [(0, start_node)]
@@ -532,7 +552,9 @@ class consistentMIClient(InferenceAgent):
             self.error_topic_count = 0
             return self.verify_motivation()
 
-        distance = self.dijkstra(self.topic_graph, self.engagemented_topics[0], predicted_topic)
+        distance = self.dijkstra(
+            self.topic_graph, self.engagemented_topics[0], predicted_topic
+        )
         if distance <= 3:
             self.engagement = 3
             self.error_topic_count = 0
@@ -549,9 +571,11 @@ class consistentMIClient(InferenceAgent):
 
     def select_action(self, stage: str) -> str:
         # Shared recent context rendering
-        recent_context = "\n".join(self._get_recent_context(3)).replace(
-            "Client:", "**Client**:"
-        ).replace("Counselor:", "**Counselor**:")
+        recent_context = (
+            "\n".join(self._get_recent_context(3))
+            .replace("Client:", "**Client**:")
+            .replace("Counselor:", "**Counselor**:")
+        )
 
         # Contemplation: LLM-only distribution over allowed actions
         if stage == "Contemplation":
@@ -633,15 +657,45 @@ class consistentMIClient(InferenceAgent):
                 }
 
             if self.receptivity < 2:
-                receptivity_dist = {"Deny": 23, "Downplay": 28, "Blame": 15, "Engage": 11, "Inform": 22}
+                receptivity_dist = {
+                    "Deny": 23,
+                    "Downplay": 28,
+                    "Blame": 15,
+                    "Engage": 11,
+                    "Inform": 22,
+                }
             elif self.receptivity < 3:
-                receptivity_dist = {"Deny": 20, "Downplay": 25, "Blame": 10, "Engage": 15, "Inform": 30}
+                receptivity_dist = {
+                    "Deny": 20,
+                    "Downplay": 25,
+                    "Blame": 10,
+                    "Engage": 15,
+                    "Inform": 30,
+                }
             elif self.receptivity < 4:
-                receptivity_dist = {"Deny": 19, "Downplay": 21, "Blame": 11, "Engage": 13, "Inform": 36}
+                receptivity_dist = {
+                    "Deny": 19,
+                    "Downplay": 21,
+                    "Blame": 11,
+                    "Engage": 13,
+                    "Inform": 36,
+                }
             elif self.receptivity < 5:
-                receptivity_dist = {"Deny": 9, "Downplay": 20, "Blame": 13, "Engage": 14, "Inform": 44}
+                receptivity_dist = {
+                    "Deny": 9,
+                    "Downplay": 20,
+                    "Blame": 13,
+                    "Engage": 14,
+                    "Inform": 44,
+                }
             else:
-                receptivity_dist = {"Deny": 7, "Downplay": 13, "Blame": 4, "Engage": 16, "Inform": 60}
+                receptivity_dist = {
+                    "Deny": 7,
+                    "Downplay": 13,
+                    "Blame": 4,
+                    "Engage": 16,
+                    "Inform": 60,
+                }
 
             action_distribution = {
                 action: context_dist.get(action, 0) + receptivity_dist[action]
@@ -653,9 +707,17 @@ class consistentMIClient(InferenceAgent):
             action_distribution["Inform"] = 0
         if not self.beliefs and "Blame" in action_distribution:
             action_distribution["Blame"] = 0
-        if stage == "Contemplation" and not self.beliefs and "Hesitate" in action_distribution:
+        if (
+            stage == "Contemplation"
+            and not self.beliefs
+            and "Hesitate" in action_distribution
+        ):
             action_distribution["Hesitate"] = 0
-        if stage == "Preparation" and not self.acceptable_plans and "Plan" in action_distribution:
+        if (
+            stage == "Preparation"
+            and not self.acceptable_plans
+            and "Plan" in action_distribution
+        ):
             action_distribution["Plan"] = 0
 
         total = sum(action_distribution.values())
@@ -687,7 +749,9 @@ class consistentMIClient(InferenceAgent):
 
         for persona in personas:
             prompt = prompt_template.render(persona=persona)
-            res = self.generate([SystemMessage(content=prompt)], response_format=BinaryAnswer)
+            res = self.generate(
+                [SystemMessage(content=prompt)], response_format=BinaryAnswer
+            )
             if res.answer:
                 # For Hesitate, consume this belief so it won't be reused,
                 # mirroring the original ConsistentMI simulator behavior.
@@ -713,16 +777,22 @@ class consistentMIClient(InferenceAgent):
     def get_engage_instruction(self):
         if not self.engagemented_topics or len(self.engagemented_topics) < 3:
             return ""
-        return self.prompts["engage_instruction_prompt"].render(
-            engagement_level=int(self.engagement),
-            engagemented_topics=self.engagemented_topics,
-            motivation=self.motivation_text,
-        ).strip()
+        return (
+            self.prompts["engage_instruction_prompt"]
+            .render(
+                engagement_level=int(self.engagement),
+                engagemented_topics=self.engagemented_topics,
+                motivation=self.motivation_text,
+            )
+            .strip()
+        )
 
     def _render_state_instruction(self):
-        return self.prompts["state_instruction_prompt"].render(
-            stage=self.state, behavior=self.behavior, goal=self.goal
-        ).strip()
+        return (
+            self.prompts["state_instruction_prompt"]
+            .render(stage=self.state, behavior=self.behavior, goal=self.goal)
+            .strip()
+        )
 
     def _render_action_instruction(self, action: str):
         return self.prompts["action_instruction_prompt"].render(action=action).strip()
@@ -820,7 +890,7 @@ class consistentMIClient(InferenceAgent):
                 motivation=self.motivation_text,
             )
 
-        print(f"[consistentMIClient.reply] state={state_for_action}, action={action}")
+        print(f"[ConsistentMIClient.reply] state={state_for_action}, action={action}")
 
         # Build model call with conversation history and inline instruction
         last_therapist = self._get_last_therapist_utterance() or ""

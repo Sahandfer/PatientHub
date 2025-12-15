@@ -4,17 +4,18 @@ from .user import UserTherapist
 
 from omegaconf import DictConfig
 
+THERAPISTS = {
+    "basic": BasicTherapist,
+    "eliza": ElizaTherapist,
+    "user": UserTherapist,
+}
+
 
 def get_therapist(configs: DictConfig):
     agent_type = configs.agent_type
     print(f"Loading {agent_type} therapist agent...")
-    if agent_type == "basic":
-        return BasicTherapist(configs=configs)
-    elif agent_type == "eliza":
-        return ElizaTherapist(configs=configs)
-    elif agent_type == "user":
-        # name = input("Enter your name: ")
-        return UserTherapist(configs=configs)
+    if agent_type in THERAPISTS:
+        return THERAPISTS[agent_type](configs=configs)
     else:
         raise ValueError(f"Unknown therapist agent type: {agent_type}")
 

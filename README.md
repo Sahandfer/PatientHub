@@ -8,13 +8,13 @@
 - [x] [PatientPsi](https://arxiv.org/abs/2405.19660)
 - [x] [RoleplayDoh](https://aclanthology.org/2024.emnlp-main.591/)
 - [x] [Eeyore](https://aclanthology.org/2025.findings-acl.707.pdf)
+- [x] [ConsistentMI](https://github.com/IzzetYoung/ConsistentMIClientSimulator)
+- [x] [PSYCHE](https://arxiv.org/pdf/2501.01594)
+- [x] [SimPatient](https://github.com/IanSteenstra/SimPatient)
 - [ ] [ClientCast](https://github.com/wangjs9/ClientCAST)
-- [ ] [ConsistentMI](https://github.com/IzzetYoung/ConsistentMIClientSimulator)
 - [ ] [AnnaAgent](https://github.com/sci-m-wang/AnnaAgent)
 - [ ] [PatientSim](https://github.com/dek924/PatientSim)
-- [x] [PSYCHE](https://arxiv.org/pdf/2501.01594)
 - [ ] [EvoPatient](https://github.com/ZJUMAI/EvoPatient)
-- [x] [SimPatient](https://github.com/IanSteenstra/SimPatient)
 
 # Guide
 
@@ -53,6 +53,7 @@ uv run python -m src.scripts.simulate client=[client] therapist=[therapist] eval
   - `patientPsi`
   - `roleplayDoh`
   - `eeyore`
+  - `consistentMI`
   - `psyche`
   - `SimPatient`
 - `therapist` can be one of the following

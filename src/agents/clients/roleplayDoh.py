@@ -2,11 +2,12 @@ import json
 import random
 from typing import Any, Dict, List
 from pydantic import BaseModel, Field
+
 from src.agents import InferenceAgent
 from src.utils import load_json, load_prompts, get_model_client
+
 from omegaconf import DictConfig
 from langchain_core.messages import SystemMessage
-from langchain_core.language_models import BaseChatModel
 
 
 class Response(BaseModel):

@@ -1,4 +1,3 @@
-import os
 import random
 from typing import Any, Dict, List
 
@@ -8,8 +7,12 @@ from src.agents import InferenceAgent
 from src.utils import get_model_client, load_json, load_prompts, save_json
 
 from omegaconf import DictConfig
-from langchain_core.language_models import BaseChatModel
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, get_buffer_string
+from langchain_core.messages import (
+    AIMessage,
+    HumanMessage,
+    SystemMessage,
+    get_buffer_string,
+)
 
 
 class Response(BaseModel):
@@ -86,7 +89,9 @@ class SimPatientClient(InferenceAgent):
         return res
 
     def set_therapist(
-        self, therapist: Dict[str, Any], prev_sessions: List[Dict[str, str]] | None = None
+        self,
+        therapist: Dict[str, Any],
+        prev_sessions: List[Dict[str, str]] | None = None,
     ):
         self.therapist = therapist.get("name", "Therapist")
 
@@ -215,4 +220,3 @@ class SimPatientClient(InferenceAgent):
         }
         self.data["cognitive_model_values"] = self.cognitive_model_values
         save_json(self.data, self.configs.data_path)
-        

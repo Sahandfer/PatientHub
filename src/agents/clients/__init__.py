@@ -3,33 +3,29 @@ from .patientPsi import PatientPsiClient
 from .roleplayDoh import RoleplayDohClient
 from .THU import THUClient
 from .eeyore import EeyoreClient
-from .psyche import psycheClient
-from .SimPatient import SimPatientClient
-from .consistentMI import consistentMIClient
+from .psyche import PsycheClient
+from .simPatient import SimPatientClient
+from .consistentMI import ConsistentMIClient
 
 from omegaconf import DictConfig
-from langchain_core.language_models import BaseChatModel
+
+CLIENTS = {
+    "basic": BasicClient,
+    "patientPsi": PatientPsiClient,
+    "roleplayDoh": RoleplayDohClient,
+    "thu": THUClient,
+    "eeyore": EeyoreClient,
+    "psyche": PsycheClient,
+    "SimPatient": SimPatientClient,
+    "consistentMI": ConsistentMIClient,
+}
 
 
 def get_client(configs: DictConfig):
     agent_type = configs.agent_type
     print(f"Loading {agent_type} client agent...")
-    if agent_type == "basic":
-        return BasicClient(configs=configs)
-    elif agent_type == "patientPsi":
-        return PatientPsiClient(configs=configs)
-    elif agent_type == "roleplayDoh":
-        return RoleplayDohClient(configs=configs)
-    elif agent_type == "thu":
-        return THUClient(configs=configs)
-    elif agent_type == "eeyore":
-        return EeyoreClient(configs=configs)
-    elif agent_type == 'psyche':
-        return psycheClient(configs=configs)
-    elif agent_type == 'SimPatient':
-        return SimPatientClient(configs=configs)
-    elif agent_type == 'consistentMI':
-        return consistentMIClient(configs=configs)
+    if agent_type in CLIENTS:
+        return CLIENTS[agent_type](configs=configs)
     else:
         raise ValueError(f"Unknown client agent type: {agent_type}")
 
@@ -40,4 +36,7 @@ __all__ = [
     "RoleplayDohClient",
     "THUClient",
     "EeyoreClient",
+    "PsycheClient",
+    "SimPatientClient",
+    "ConsistentMIClient",
 ]
