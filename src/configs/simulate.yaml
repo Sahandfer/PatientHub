@@ -1,7 +1,7 @@
 defaults:
   - _self_
-  - client: eeyore
-  - therapist: user
+  - client: user
+  - therapist: CBT
   - evaluator: basic
 session:
   lang: en
@@ -9,4 +9,4 @@ session:
   max_turns: 10
   langfuse: False
   recursion_limit: 1000
-  output_dir: "data/sessions/temp/session_1.json"
+  output_dir: "data/sessions/dify/session_1.json"

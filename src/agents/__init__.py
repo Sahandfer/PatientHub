@@ -1,4 +1,4 @@
-from .base import BaseAgent, InferenceAgent, TrainableAgent
+from .base import BaseAgent, InferenceAgent, TrainableAgent, UserAgent
 
 from .clients import get_client
 from .evaluators import get_evaluator
@@ -18,4 +18,10 @@ def get_inference_agent(category: str, configs: DictConfig):
         raise ValueError(f"Unknown agent category: {category}")
 
 
-__all__ = ["BaseAgent", "InferenceAgent", "TrainableAgent", "get_inference_agent"]
+__all__ = [
+    "BaseAgent",
+    "InferenceAgent",
+    "TrainableAgent",
+    "UserAgent",
+    "get_inference_agent",
+]

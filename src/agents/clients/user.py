@@ -11,15 +11,15 @@ class Response(BaseModel):
     content: str = Field(description="The content of user input")
 
 
-class UserTherapist(UserAgent):
+class UserClient(UserAgent):
     def __init__(self, configs: DictConfig):
-        self.name = "Therapist"
+        self.name = "client"
         self.messages = []
 
-    def set_client(self, client, prev_sessions: List[Dict[str, str] | None] = []):
-        self.client = client["name"]
+    def set_therapist(self, therapist, prev_sessions: List[Dict[str, str] | None] = []):
+        self.therapist = therapist.get("name", "therapist")
 
-    def generate(self, response_format: BaseModel = Response):
+    def generate(self, response_format: BaseModel):
         res = input("Your response: ")
         return response_format(content=res)
 
@@ -32,4 +32,4 @@ class UserTherapist(UserAgent):
 
     def reset(self):
         self.messages = []
-        self.client = None
+        self.therapist = None

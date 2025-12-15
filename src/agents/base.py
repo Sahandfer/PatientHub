@@ -4,8 +4,10 @@ from typing import Any, Dict, List
 
 class BaseAgent(ABC):
     r"""An abstract base class for all agents."""
+
     role: str
     agent_type: str
+
 
 class TrainableAgent(BaseAgent):
     r"""An abstract base class for trainable agents."""
@@ -21,6 +23,7 @@ class TrainableAgent(BaseAgent):
     ) -> Dict[str, float]:
         r"""Evaluates the agent's performance on the provided data."""
         pass
+
 
 class InferenceAgent(BaseAgent):
     r"""An abstract base class for inference agents."""
@@ -38,4 +41,21 @@ class InferenceAgent(BaseAgent):
     @abstractmethod
     def reset(self, *args: Any, **kwargs: Any) -> Any:
         r"""Resets the agent to its initial state."""
+        pass
+
+
+class UserAgent(BaseAgent):
+    r"""An abstract base class for users as agents."""
+
+    messages: List[Any]
+    lang: str
+
+    @abstractmethod
+    def generate(self, response_format: Any) -> Any:
+        r"""Processes the user input and returns a response."""
+        pass
+
+    @abstractmethod
+    def reset(self, *args: Any, **kwargs: Any) -> Any:
+        r"""Resets the user agent to its initial state."""
         pass

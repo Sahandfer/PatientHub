@@ -45,7 +45,7 @@ class BasicTherapist(InferenceAgent):
         self.configs = configs
 
         self.data = load_json(configs.data_path)[configs.data_idx]
-        self.name = data["demographics"]["name"]
+        self.name = self.data["demographics"]["name"]
 
         self.model_client = get_model_client(configs)
         self.prompts = load_prompts(

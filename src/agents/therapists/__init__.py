@@ -1,6 +1,7 @@
 from .basic import BasicTherapist
 from .eliza import ElizaTherapist
 from .user import UserTherapist
+from .CBT import CBTTherapist
 
 from omegaconf import DictConfig
 
@@ -8,6 +9,7 @@ THERAPISTS = {
     "basic": BasicTherapist,
     "eliza": ElizaTherapist,
     "user": UserTherapist,
+    "CBT": CBTTherapist,
 }
 
 
@@ -24,4 +26,5 @@ __all__ = [
     "BasicTherapist",
     "ElizaTherapist",
     "UserTherapist",
+    "CBTTherapist",
 ]

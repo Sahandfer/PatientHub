@@ -15,9 +15,7 @@ def generate_characters(configs: DictConfig):
         print(f"Generating characters for label: {label}")
         for topic in topics:
             print(f"# {topic}")
-            # character_generator.create_character(label=label, topic=topic)
-            break
-        break
+            character_generator.create_character(label=label, topic=topic)
 
 
 if __name__ == "__main__":

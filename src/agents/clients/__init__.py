@@ -1,11 +1,12 @@
 from .basic import BasicClient
 from .patientPsi import PatientPsiClient
 from .roleplayDoh import RoleplayDohClient
-from .THU import THUClient
 from .eeyore import EeyoreClient
 from .psyche import PsycheClient
 from .simPatient import SimPatientClient
 from .consistentMI import ConsistentMIClient
+from .difyTest import DifyTestClient
+from .user import UserClient
 
 from omegaconf import DictConfig
 
@@ -13,11 +14,12 @@ CLIENTS = {
     "basic": BasicClient,
     "patientPsi": PatientPsiClient,
     "roleplayDoh": RoleplayDohClient,
-    "thu": THUClient,
     "eeyore": EeyoreClient,
     "psyche": PsycheClient,
     "SimPatient": SimPatientClient,
     "consistentMI": ConsistentMIClient,
+    "difyTest": DifyTestClient,
+    "user": UserClient,
 }
 
 
@@ -34,9 +36,10 @@ __all__ = [
     "BasicClient",
     "PatientPsiClient",
     "RoleplayDohClient",
-    "THUClient",
     "EeyoreClient",
     "PsycheClient",
     "SimPatientClient",
     "ConsistentMIClient",
+    "DifyTestClient",
+    "UserClient",
 ]
