@@ -1,3 +1,13 @@
+"""
+An example for simulating a therapy session between a client and a therapist.
+It requires:
+    - A client agent
+    - A therapist agent
+    - (Optional) An evaluator agent
+It creates a TherapySession object and runs the simulation using LangGraph.
+The configurations for the session and agents are specified in the `configs/simulate.yaml` file.
+"""
+
 import hydra
 from omegaconf import DictConfig
 
