@@ -1,10 +1,8 @@
 agent_type: patientPsi
-data_path: data/characters/Patient Psi CM Dataset.json
+data_path: data/characters/PatientPsi.json
 data_idx: 0
 api_type: LAB
 model_name: gpt-4o
-# api_type: OR
-# model_name: z-ai/glm-4.5-air:free
 patient_type: upset
 temperature: 0.7
 max_tokens: 8192

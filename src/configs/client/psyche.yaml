@@ -1,5 +1,5 @@
 agent_type: psyche
-data_path: data/characters/Psyche MFC.json
+data_path: data/characters/Psyche.json
 data_idx: 0
 api_type: LAB
 model_name: gpt-4o

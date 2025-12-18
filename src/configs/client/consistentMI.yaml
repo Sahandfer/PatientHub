@@ -1,16 +1,14 @@
 agent_type: consistentMI
-data_path: data/characters/ConsistentMI Profile.json
-topics_path: data/characters/ConsistentMI Topics.json
+data_path: data/characters/ConsistentMI.json
+topics_path: data/resources/ConsistentMI_topics.json
 data_index: 0
 lang: en
-
-model_client:
+chat_model:
   api_type: LAB
   model_name: gpt-4o
   temperature: 0.7
   max_tokens: 100
   max_retries: 3
-
 model_retriever:
   api_type: huggingface
   model_name: BAAI/bge-reranker-v2-m3

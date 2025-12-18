@@ -1,7 +1,7 @@
 agent_type: roleplayDoh
-data_path: data/characters/Patient Psi CM Dataset.json
+data_path: data/characters/PatientPsi.json
 data_idx: 0
-principles: data/characters/roleplayDohPrinciple.json
+principles: data/resources/roleplayDohPrinciple.json
 api_type: LAB
 model_name: gpt-4o
 temperature: 0.7

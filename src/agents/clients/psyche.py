@@ -19,8 +19,7 @@ class PsycheClient(InferenceAgent):
     def __init__(self, configs: DictConfig):
         self.configs = configs
 
-        all_cases = load_json(configs.data_path)
-        self.data = all_cases[-1]
+        self.data = load_json(configs.data_path)[configs.data_idx]
         self.name = "PSYCHE-SP"
 
         self.chat_model = get_chat_model(configs)
@@ -28,9 +27,10 @@ class PsycheClient(InferenceAgent):
             role="client", agent_type="psyche", lang=configs.lang
         )
 
-        mfc_json = json.dumps(self.data, ensure_ascii=False, indent=2)
-        system_content = self.prompts["PSYCHE_SP_prompt"].render(data={"mfc": mfc_json})
-        self.messages = [SystemMessage(content=system_content)]
+        self.sys_prompt = self.prompts["PSYCHE_SP_prompt"].render(
+            data={"mfc": json.dumps(self.data, ensure_ascii=False, indent=2)}
+        )
+        self.messages = [SystemMessage(content=self.sys_prompt)]
 
     def generate(self, messages: List[str], response_format: BaseModel):
         chat_model = self.chat_model.with_structured_output(response_format)
@@ -49,6 +49,4 @@ class PsycheClient(InferenceAgent):
 
     def reset(self):
         self.therapist = None
-        mfc_json = json.dumps(self.data, ensure_ascii=False, indent=2)
-        system_content = self.prompts["PSYCHE_SP_prompt"].render(data={"mfc": mfc_json})
-        self.messages = [SystemMessage(content=system_content)]
+        self.messages = [SystemMessage(content=self.sys_prompt)]

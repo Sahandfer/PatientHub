@@ -1,5 +1,5 @@
 agent_type: eeyore
-data_path: data/characters/Eeyore Profile Cognitive Model.json
+data_path: data/characters/Eeyore.json
 data_idx: 0
 api_type: local
 model_name: /data/public_checkpoints/Eeyore_llama3.1_8B
