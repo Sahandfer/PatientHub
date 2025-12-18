@@ -1,0 +1,4 @@
+agent_type: "psyche"
+input_dir: "data/resources/psyche_character.json"
+output_dir: "data/characters/Psyche MFC.json"
+lang: en

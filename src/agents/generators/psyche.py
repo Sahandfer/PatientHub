@@ -1,11 +1,9 @@
-import json
-from typing import Any, Dict
-
 from omegaconf import DictConfig
+from pydantic import BaseModel, Field, ConfigDict
 from langchain_core.messages import SystemMessage
-from pydantic import BaseModel, Field
 
-from src.utils import load_prompts, get_chat_model
+from src.agents import InferenceAgent
+from src.utils import load_json, load_prompts, get_chat_model, save_json
 
 
 class IdentifyingData(BaseModel):
@@ -298,7 +296,7 @@ class MFCProfile(BaseModel):
 
 
 class MFCHistory(BaseModel):
-    mfc_history: str = Field(
+    MFC_History: str = Field(
         ...,
         alias="MFC-History",
         description=(
@@ -384,93 +382,79 @@ class MFCBehavior(BaseModel):
     )
 
 
-class PsycheGenerator:
+class MFC(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    MFC_Profile: MFCProfile = Field(alias="MFC-Profile")
+    MFC_History: str = Field(alias="MFC-History")
+    MFC_Behavior: MFCBehavior = Field(alias="MFC-Behavior")
+
+
+class PsycheGenerator(InferenceAgent):
     def __init__(self, configs: DictConfig):
         self.configs = configs
         self.chat_model = get_chat_model(configs)
+        self.data = load_json(configs.generator.input_dir)
         self.prompts = load_prompts(
             role="generator", agent_type="psyche", lang=configs.lang
         )
+        self.mfc_profile = None
+        self.mfc_history = None
+        self.mfc_behavior = None
 
-    def generate_mfc_profile(self, diagnosis: str, age: int, sex: str) -> MFCProfile:
-        prompt = self.prompts["MFC_Profile_generate_prompt"].render(
-            diagnosis=diagnosis,
-            age=age,
-            sex=sex,
-        )
-        chat_model = self.chat_model.with_structured_output(MFCProfile)
+    def generate(self, prompt: str, response_format: type[BaseModel]) -> BaseModel:
+        chat_model = self.chat_model.with_structured_output(response_format)
         res = chat_model.invoke([SystemMessage(content=prompt)])
         return res
 
-    def generate_mfc_history(
-        self, diagnosis: str, age: int, sex: str, mfc_profile: MFCProfile
-    ) -> MFCHistory:
-        profile_json = json.dumps(
-            mfc_profile.model_dump(by_alias=True, mode="json"),
-            ensure_ascii=False,
-            indent=2,
+    def generate_mfc_profile(self):
+
+        prompt = self.prompts["MFC_Profile_generate_prompt"].render(
+            diagnosis=self.data["diagnosis"],
+            age=self.data["age"],
+            sex=self.data["sex"],
         )
+        self.mfc_profile = self.generate(prompt, MFCProfile)
+
+    def generate_mfc_history(self):
+        profile_json = self.mfc_profile.model_dump_json(by_alias=True)
         prompt = self.prompts["MFC_History_generate_prompt"].render(
-            diagnosis=diagnosis,
-            age=age,
-            sex=sex,
+            diagnosis=self.data["diagnosis"],
+            age=self.data["age"],
+            sex=self.data["sex"],
             mfc_profile_json=profile_json,
         )
-        chat_model = self.chat_model.with_structured_output(MFCHistory)
-        res = chat_model.invoke([SystemMessage(content=prompt)])
-        return res
+        self.mfc_history = self.generate(prompt, MFCHistory)
 
-    def generate_mfc_behavior(
-        self,
-        diagnosis: str,
-        age: int,
-        sex: str,
-        mfc_profile: MFCProfile,
-        mfc_history: MFCHistory,
-    ) -> MFCBehavior:
-        profile_json = json.dumps(
-            mfc_profile.model_dump(by_alias=True, mode="json"),
-            ensure_ascii=False,
-            indent=2,
-        )
-        history_json = json.dumps(
-            mfc_history.model_dump(by_alias=True, mode="json"),
-            ensure_ascii=False,
-            indent=2,
-        )
+    def generate_mfc_behavior(self):
+        profile_json = self.mfc_profile.model_dump_json(by_alias=True)
+        history_json = self.mfc_history.model_dump_json(by_alias=True)
         prompt = self.prompts["MFC_Behavior_generate_prompt"].render(
-            diagnosis=diagnosis,
-            age=age,
-            sex=sex,
+            diagnosis=self.data["diagnosis"],
+            age=self.data["age"],
+            sex=self.data["sex"],
             mfc_profile_json=profile_json,
             mfc_history_json=history_json,
         )
-        chat_model = self.chat_model.with_structured_output(MFCBehavior)
-        res = chat_model.invoke([SystemMessage(content=prompt)])
-        return res
+        self.mfc_behavior = self.generate(prompt, MFCBehavior)
 
-    def generate_case(self, diagnosis: str, age: int, sex: str) -> Dict[str, Any]:
-        mfc_profile = self.generate_mfc_profile(diagnosis=diagnosis, age=age, sex=sex)
-        mfc_history = self.generate_mfc_history(
-            diagnosis=diagnosis,
-            age=age,
-            sex=sex,
-            mfc_profile=mfc_profile,
-        )
-        mfc_behavior = self.generate_mfc_behavior(
-            diagnosis=diagnosis,
-            age=age,
-            sex=sex,
-            mfc_profile=mfc_profile,
-            mfc_history=mfc_history,
+    def generate_character(self):
+        self.generate_mfc_profile()
+        self.generate_mfc_history()
+        self.generate_mfc_behavior()
+
+        mfc = MFC(
+            MFC_Profile=self.mfc_profile,
+            MFC_History=self.mfc_history.MFC_History,
+            MFC_Behavior=self.mfc_behavior,
         )
 
-        case = {
-            "Diagnosis": diagnosis,
-            "Age": age,
-            "Sex": sex,
-            "MFC-Profile": mfc_profile.model_dump(by_alias=True, mode="json"),
-            "MFC-History": mfc_history.mfc_history,
-            "MFC-Behavior": mfc_behavior.model_dump(by_alias=True, mode="json"),
-        }
-        return case
+        save_json(
+            data=mfc.model_dump(by_alias=True),
+            output_dir=self.configs.generator.output_dir,
+        )
+
+    def reset(self):
+        self.mfc_profile = None
+        self.mfc_history = None
+        self.mfc_behavior = None

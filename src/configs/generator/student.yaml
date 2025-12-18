@@ -1,0 +1,6 @@
+agent_type: "student"
+input_dir: "data/situations/thu_topics.json"
+data_idx: 0
+output_dir: "data/characters/thu/thu_testing.json"
+lang: zh
+mode: topic

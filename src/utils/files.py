@@ -18,19 +18,19 @@ def parse_json_response(res):
         return res
 
 
-def save_json(data, file_path: str):
+def save_json(data, output_dir: str):
     # Check if the directory exists, if not create it
-    if not os.path.exists(os.path.dirname(file_path)):
-        os.makedirs(os.path.dirname(file_path))
+    if not os.path.exists(os.path.dirname(output_dir)):
+        os.makedirs(os.path.dirname(output_dir))
 
     # Create new file and save content if it doesn't exist
-    if not os.path.exists(file_path):
-        with open(file_path, "w", encoding="utf-8") as f:
+    if not os.path.exists(output_dir):
+        with open(output_dir, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
     # Append to existing file
     else:
         prev_data = None
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(output_dir, "r", encoding="utf-8") as f:
             prev_data = json.load(f)
 
         if isinstance(prev_data, list):
@@ -40,7 +40,7 @@ def save_json(data, file_path: str):
         else:
             prev_data = [data]
 
-        with open(file_path, "w", encoding="utf-8") as f:
+        with open(output_dir, "w", encoding="utf-8") as f:
             json.dump(prev_data, f, indent=4, ensure_ascii=False)
 
 
