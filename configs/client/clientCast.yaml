@@ -1,6 +1,9 @@
 agent_type: clientCast
-data_path: data/characters/clients.json
+data_path: data/characters/ClientCast.json
+conv_path: data/resources/ClientCast_human_data.json
+symptoms_path: data/resources/ClientCast_symptoms.json
 data_idx: 0
+conv_id: 0
 api_type: LAB
 model_name: gpt-4o
 temperature: 0.7

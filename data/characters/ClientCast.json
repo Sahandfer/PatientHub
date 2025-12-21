@@ -1,67 +1,69 @@
-{
-    "basic_profile": {
-        "name": "Not Specified",
-        "gender": "Female",
-        "age": -1,
-        "age_explain": "unclear",
-        "occupation": "Not Specified",
-        "topic": "alcohol consumption – discussing frequency and effects of drinking, and setting reduction goals.",
-        "situation": "The client drinks alcohol regularly to unwind but feels guilty and worries about the impact on their depression.",
-        "emotion": "The client feels guilty about their drinking habits and concerned about its effect on their depression.",
-        "reasons": "The client is visiting the therapist because they are concerned about their alcohol consumption and its effect on their depression.",
-        "problem": "alcohol consumption – struggles with drinking more than intended and feeling guilty about it.",
-        "emotion_trigger": "No emotional trigger",
-        "feeling_expression": "Medium – the client shares feelings and acknowledges negative outcomes of drinking but does not deeply explore them.",
-        "emotional_fluctuation": "Medium – the client talks about both relief from drinking and worsening feelings afterward.",
-        "resistance": "Low – the client is open to discussing their drinking habits and setting goals to reduce consumption."
-    },
-    "big_five": {
-        "Openness": {
-            "score_percent": 55,
-            "explanation": "The client enjoys watching movies and reading, indicating a moderate level of openness to new experiences."
+[
+    {
+        "basic_profile": {
+            "name": "Not Specified",
+            "gender": "Female",
+            "age": -1,
+            "age_explain": "unclear",
+            "occupation": "Not Specified",
+            "topic": "alcohol consumption – discussing frequency and effects of drinking, and setting reduction goals.",
+            "situation": "The client drinks alcohol regularly to unwind but feels guilty and worries about the impact on their depression.",
+            "emotion": "The client feels guilty about their drinking habits and concerned about its effect on their depression.",
+            "reasons": "The client is visiting the therapist because they are concerned about their alcohol consumption and its effect on their depression.",
+            "problem": "alcohol consumption – struggles with drinking more than intended and feeling guilty about it.",
+            "emotion_trigger": "No emotional trigger",
+            "feeling_expression": "Medium – the client shares feelings and acknowledges negative outcomes of drinking but does not deeply explore them.",
+            "emotional_fluctuation": "Medium – the client talks about both relief from drinking and worsening feelings afterward.",
+            "resistance": "Low – the client is open to discussing their drinking habits and setting goals to reduce consumption."
         },
-        "Conscientiousness": {
-            "score_percent": 60,
-            "explanation": "The client appears to be aware of their drinking habits and shows a willingness to set goals to change them."
-        },
-        "Extraversion": {
-            "score_percent": 45,
-            "explanation": "The client enjoys social activities like watching movies and drinking but does not mention frequent interactions with others."
-        },
-        "Agreeableness": {
-            "score_percent": 65,
-            "explanation": "The client expresses willingness to reduce alcohol consumption and seems cooperative in discussing personal habits."
-        },
-        "Neuroticism": {
-            "score_percent": 75,
-            "explanation": "The client experiences depression and uses alcohol to cope with negative emotions."
-        }
-    },
-    "symptoms": {
-        "PHQ9": {
-            "1": {
-                "identified": false,
-                "severity_level": null,
-                "severity_label": null,
-                "explanation": "The client indicates they watch movies, read books, and take baths to relax, suggesting they still find interest and pleasure in these activities. They use wine to enhance these experiences, rather than because they lack interest in them."
+        "big_five": {
+            "Openness": {
+                "score_percent": 55,
+                "explanation": "The client enjoys watching movies and reading, indicating a moderate level of openness to new experiences."
+            },
+            "Conscientiousness": {
+                "score_percent": 60,
+                "explanation": "The client appears to be aware of their drinking habits and shows a willingness to set goals to change them."
+            },
+            "Extraversion": {
+                "score_percent": 45,
+                "explanation": "The client enjoys social activities like watching movies and drinking but does not mention frequent interactions with others."
+            },
+            "Agreeableness": {
+                "score_percent": 65,
+                "explanation": "The client expresses willingness to reduce alcohol consumption and seems cooperative in discussing personal habits."
+            },
+            "Neuroticism": {
+                "score_percent": 75,
+                "explanation": "The client experiences depression and uses alcohol to cope with negative emotions."
             }
         },
-        "GAD7": {
-            "1": {
-                "identified": false,
-                "severity_level": null,
-                "severity_label": null,
-                "explanation": "The client did not mention feeling nervous, anxious, or on edge. The conversation focused on alcohol use and its relation to depression, but no symptoms of anxiety were discussed."
-            }
-        },
-        "OQ45": {
-            "1": {
-                "identified": false,
-                "severity_level": null,
-                "severity_label": null,
-                "explanation": "The conversation mainly focuses on the client's drinking habits, feelings, and goals. There is no mention of social interactions or relationships with others, so the client's ability to get along with others cannot be assessed from this information.",
-                "scale_type": "negative"
+        "symptoms": {
+            "PHQ9": {
+                "1": {
+                    "identified": false,
+                    "severity_level": null,
+                    "severity_label": null,
+                    "explanation": "The client indicates they watch movies, read books, and take baths to relax, suggesting they still find interest and pleasure in these activities. They use wine to enhance these experiences, rather than because they lack interest in them."
+                }
+            },
+            "GAD7": {
+                "1": {
+                    "identified": false,
+                    "severity_level": null,
+                    "severity_label": null,
+                    "explanation": "The client did not mention feeling nervous, anxious, or on edge. The conversation focused on alcohol use and its relation to depression, but no symptoms of anxiety were discussed."
+                }
+            },
+            "OQ45": {
+                "1": {
+                    "identified": false,
+                    "severity_level": null,
+                    "severity_label": null,
+                    "explanation": "The conversation mainly focuses on the client's drinking habits, feelings, and goals. There is no mention of social interactions or relationships with others, so the client's ability to get along with others cannot be assessed from this information.",
+                    "scale_type": "negative"
+                }
             }
         }
     }
-}
+]

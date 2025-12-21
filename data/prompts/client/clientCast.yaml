@@ -6,25 +6,25 @@ en:
     Avoid referencing the therapist, the session, or the conversation itself.
     Now, answer the below question, and the answer should be short.
 
-    Conversation:{conversation}
+    Conversation:{{conversation}}
 
-    Question: {query}
+    Question: {{query}}
   simulation: |
     Here is a patient simulation task for you: act as a real patient ([Client]) during a counseling session to assess the psychotherapist's ([Therapist]'s) capabilities.
 
-    CASE SYNOPSIS: {case_synopsis}
+    CASE SYNOPSIS: {{case_synopsis}}
 
-    REASONS FOR TODAY'S VISIT: {reasons_for_visit}
+    REASONS FOR TODAY'S VISIT: {{reasons_for_visit}}
     
-    SYMPTOMS YOU ARE EXPERIENCING: {symptoms}
+    SYMPTOMS YOU ARE EXPERIENCING: {{symptoms}}
     You must manifest all the above symptoms through interaction.
 
-    YOUR APPEARANCE DURING ENCOUNTER: {appearance}
+    YOUR APPEARANCE DURING ENCOUNTER: {{appearance}}
 
     TASK: The conversation history will be provided. As [Client], you are expected to continue the conversation by responding to [Therapist].
 
     AN CONVERSATION BETWEEN THE PATIENT TO SIMULATE AND ANOTHER THERAPIST:
-    {conversation}
+    {{conversation}}
     While the context of the previous conversation should not influence this new session between [Therapist] and you, closely mimic [Original Client]'s communication style, including the tone, word choice, sentence structure, expression of feelings, symptoms or issues. You can adopt the exact expressions/responses used by [Original Client] in the above conversation if necessary.
 
     ADDITIONAL GUIDELINES: As a standardized patient to contribute to the assessment, adhere strictly to the provided guidelines and embody the described personalities or characters. 
@@ -40,12 +40,12 @@ en:
 
     The specific patient has the following characteristics: {problem & reasons for visiting, apparent traits}
 
-    The session conversation is as follows: {conversation}
+    The session conversation is as follows: {{conversation}}
 
     Based on the above information, finish the following questionnaire from the perspective of the client ([Client]). 
     For each query, provide a concise response that begins with "I would rate a" followed by a numerical rating and a clear, single-sentence explanation.
 
-    The questionnaire item is: {item}
-    The item scale is {scale and its meaning}
+    The questionnaire item is: {{item}}
+    The item scale is {{meaning}}
 zh: |
   <在这里输入提示文本>

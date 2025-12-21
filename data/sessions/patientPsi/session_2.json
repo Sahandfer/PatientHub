@@ -1,277 +1,359 @@
-{
-    "profile": {
-        "name": "Alex",
-        "id": "1-1",
-        "type": [
-            "plain",
-            "verbose",
-            "go off on tangents",
-            "hostile",
-            "guarded",
-            "ingratiating"
+[
+    {
+        "profile": {
+            "name": "Alex",
+            "id": "1-1",
+            "type": [
+                "plain",
+                "verbose",
+                "go off on tangents",
+                "hostile",
+                "guarded",
+                "ingratiating"
+            ],
+            "history": "The patient has a history of substance abuse and has been through rehab to overcome it. He has had issues with his family, particularly with his mother, where he has felt rejected and emotionally neglected. He has struggled with obesity since childhood, which has affected his self-esteem and body image. He also has a history of being victimized and bullied due to his weight.",
+            "helpless_belief_current": [
+                "I am trapped.",
+                "I am out of control."
+            ],
+            "unlovable_belief_current": [
+                "I am unlovable.",
+                "I am undesirable, unwanted."
+            ],
+            "worthless_belief_current": [],
+            "intermediate_belief": "Helpless: I'm just not very good at handling stress and I have poor self-control, which is why I need to not put myself in stressful situations. \n Unlovable: If I show my true self, people will reject me the way my mother rejected me.",
+            "intermediate_belief_depression": "Helpless: There's nothing I can do to change my situation. I cannot control myself. \nUnlovable: I don't deserve to be happy, so why even try to stay clean?",
+            "coping_strategies": "The patient has adopted avoidance as a coping strategy by distancing himself from his family to reduce exposure to negativity and conflict. He has started scheduling pleasant activities and planning his day ahead of time in order to maintain a sense of control over his emotions and circumstances.",
+            "situation": "Alex's cousin invited him to attend his upcoming wedding.",
+            "auto_thought": "It will be stressful and negative; people will ask me questions I cannot answer or don't want to answer; my mum would be ashamed of me and critical of me as always; They don't want me there anyway, nobody likes me in this family.",
+            "emotion": [
+                "anxious, worried, fearful, scared, tense",
+                "sad, down, lonely, unhappy"
+            ],
+            "behavior": "Ignored the invitation and did not respond to the RSVP request. Ignored phone calls from family."
+        },
+        "messages": [
+            {
+                "role": "Therapist",
+                "content": "Hello, I'm here to help guide you through some CBT practices. What's on your mind today?"
+            },
+            {
+                "role": "Client",
+                "content": "Honestly, I've been feeling really anxious and down lately. My cousin invited me to his wedding, and I just... I couldn't bring myself to respond. It's like every time I think about it, I get this knot in my stomach. I don't know if I can handle being around my family right now."
+            },
+            {
+                "role": "Therapist",
+                "content": "It sounds like you're feeling anxious and perhaps overwhelmed at the thought of attending your cousin's wedding, especially being around family. That must be really challenging for you right now. When you think about the wedding, what specific thoughts or concerns come to mind?"
+            },
+            {
+                "role": "Client",
+                "content": "I guess I worry about how they'll see me. It's like I'm scared of being judged or rejected... again. I don't want to feel like an outsider or be reminded of all the past stuff with my mom and everything. It just seems easier to avoid it all, you know?"
+            },
+            {
+                "role": "Therapist",
+                "content": "It sounds like you're worried about feeling judged or rejected, which is really understandable given your past experiences. Avoiding the situation might feel safer, but it also seems to be causing you distress. What evidence do you have that supports or contradicts this fear of being judged or feeling like an outsider again?"
+            },
+            {
+                "role": "Client",
+                "content": "Well, in the past, whenever I've been around family, there's always been comments about my weight or my choices. It feels like they always find something to criticize. But I guess there have been times when some of them were supportive, like when I was in rehab. It's just hard for me to trust that the support will be genuine and not just temporary or superficial."
+            },
+            {
+                "role": "Therapist",
+                "content": "It sounds like your past experiences with criticism have understandably made you cautious about trusting your family's support. It's important to recognize both the negative and positive interactions you've had. Considering these experiences, how might you approach this situation in a way that acknowledges your concerns while also staying open to potential support?"
+            },
+            {
+                "role": "Client",
+                "content": "I suppose I could start by just taking small steps, like maybe responding to the invitation or talking to a family member I trust a bit more. I don't have to go all in at once. Maybe if I set some boundaries for myself, it won't feel as overwhelming. But it's still scary to think about being vulnerable around them."
+            },
+            {
+                "role": "Therapist",
+                "content": "It's great that you're considering small steps and setting boundaries to make the situation more manageable. Taking it one step at a time and connecting with a trusted family member could help ease some of your anxiety. What boundaries do you think would be most helpful for you in this situation?"
+            },
+            {
+                "role": "Client",
+                "content": "I think it would help to set limits on how long I stay at the wedding or which conversations I'm willing to engage in. Maybe I can make sure I have a way to leave if things get too uncomfortable. Also, it might be a good idea to have a friend on standby that I can call or text if I need support. Just knowing I have an exit plan might make it feel less daunting."
+            },
+            {
+                "role": "Therapist",
+                "content": "That sounds like a thoughtful and practical plan to help manage your feelings of anxiety. Having clear boundaries and an exit plan, along with a support system outside the event, can provide a sense of control and safety. How do you feel about putting this plan into action, and is there anything else that might help you feel more prepared?"
+            },
+            {
+                "role": "Client",
+                "content": "I'm still nervous about it, but having a plan does make it feel a bit more manageable. Maybe practicing some calming techniques beforehand could help, too. And if I remind myself that I don't have to engage with everyone there, it might ease some of the pressure. It's just about taking it one step at a time, I guess."
+            },
+            {
+                "role": "Therapist",
+                "content": "You're absolutely right—having a plan and taking it one step at a time can make the situation more manageable. Practicing calming techniques and reminding yourself that you can choose your level of engagement are great strategies. How do you feel about identifying some specific calming techniques that you could practice leading up to the event?"
+            },
+            {
+                "role": "Client",
+                "content": "Yeah, I think that could really help. Maybe some deep breathing exercises or mindfulness meditation could be useful. I've tried them before, and they sometimes help me feel more grounded. It might also be good to have a playlist of calming music that I can listen to if I start feeling overwhelmed. Having these tools ready might give me more confidence to face the day."
+            },
+            {
+                "role": "Therapist",
+                "content": "Those sound like excellent tools to help you feel more grounded and confident. Deep breathing, mindfulness meditation, and calming music can be very effective in managing anxiety and providing a sense of calm. Would you like to explore how to incorporate these techniques into your day leading up to the wedding, or is there anything else you'd like to discuss about this plan?"
+            },
+            {
+                "role": "Client",
+                "content": "I think focusing on how to incorporate these techniques would be helpful. It might be good to set aside some time each day to practice them so they become more familiar and easier to use when I need them most. I guess having a routine could also help me feel more prepared and less anxious when the day comes."
+            },
+            {
+                "role": "Therapist",
+                "content": "That sounds like a wonderful approach. Establishing a routine to practice these techniques daily can indeed help them become more instinctive and accessible when you need them most. How do you envision fitting these practices into your daily schedule leading up to the wedding?"
+            },
+            {
+                "role": "Client",
+                "content": "I could try doing some deep breathing exercises in the morning to start my day on a calm note. Maybe I can set aside a few minutes in the afternoon for mindfulness meditation, just as a break to reset. Listening to calming music in the evening might help me wind down and relax before bed. I'll try to stick to this routine consistently, so it becomes a habit."
+            },
+            {
+                "role": "Therapist",
+                "content": "That sounds like a well-thought-out plan, Alex. Consistently practicing these techniques can really help you build a sense of calm and readiness. How do you feel about starting this routine, and is there anything else you'd like to discuss or need support with?"
+            },
+            {
+                "role": "Client",
+                "content": "I'm feeling cautiously optimistic about starting the routine. It's nice to have something concrete to focus on instead of just worrying. I guess my main concern now is sticking with it and not letting my doubts get in the way. Having your support and checking in on my progress would probably help keep me on track."
+            },
+            {
+                "role": "Therapist",
+                "content": "It's completely normal to have some doubts, but your commitment to this routine is a great step forward. Remember, it's okay to have setbacks; what's important is gently guiding yourself back on track. How about we plan to check in on your progress, and you can share any challenges or successes you encounter along the way?"
+            },
+            {
+                "role": "Client",
+                "content": "That sounds reassuring. Knowing that we can check in and talk about how things are going makes me feel more supported. I'll do my best to stick with it and be honest about how it's working for me. Thanks for being there to help me through this."
+            },
+            {
+                "role": "Therapist",
+                "content": "I’m really glad to hear that you feel supported, Alex. I believe in your ability to work through this, and I'm here to help along the way. Let's make sure to continue these conversations and adjust the plan as needed—you're not alone in this journey. How soon would you like to check in on your progress?"
+            },
+            {
+                "role": "Client",
+                "content": "Maybe we could check in next week? That would give me some time to see how the routine is going and if I need to make any changes. Having a set time to talk about it might help keep me accountable, too. I'm hoping I'll have some positive updates to share by then."
+            },
+            {
+                "role": "Therapist",
+                "content": "That sounds like a great plan, Alex. Setting a check-in for next week will give you time to explore the routine and gather your thoughts on how it's working for you. I'm looking forward to hearing about your experiences and supporting you further in this process."
+            },
+            {
+                "role": "Client",
+                "content": "Thanks, I appreciate it. I'll do my best to stick with the plan and see how it goes. It's nice to know I have someone to share this with and get feedback from. I'll see you next week, then."
+            },
+            {
+                "role": "Therapist",
+                "content": "You're very welcome, Alex. I'm glad to be here with you on this journey, and I'm looking forward to our conversation next week. Take care and remember, small steps are still progress."
+            },
+            {
+                "role": "Client",
+                "content": "Thanks, I'll keep that in mind. I'll take it one day at a time and focus on those small steps. See you next week!"
+            },
+            {
+                "role": "Therapist",
+                "content": "Absolutely, Alex. Taking things one day at a time is a wonderful approach. See you next week, and take care until then!"
+            },
+            {
+                "role": "Client",
+                "content": "Thanks, take care too. Bye for now."
+            },
+            {
+                "role": "Therapist",
+                "content": "Bye for now, Alex. Take care, and I'll look forward to our next conversation."
+            },
+            {
+                "role": "Client",
+                "content": "Bye, and thanks again for your support."
+            },
+            {
+                "role": "Therapist",
+                "content": "You're always welcome, Alex. Take care, and talk soon."
+            },
+            {
+                "role": "Client",
+                "content": "Talk soon. Take care."
+            },
+            {
+                "role": "Therapist",
+                "content": "Take care, Alex. Until next time."
+            },
+            {
+                "role": "Client",
+                "content": "Until next time. Bye."
+            },
+            {
+                "role": "Therapist",
+                "content": "Goodbye, Alex. Take care."
+            },
+            {
+                "role": "Client",
+                "content": "Goodbye. Take care."
+            },
+            {
+                "role": "Therapist",
+                "content": "Take care, Alex. Goodbye."
+            },
+            {
+                "role": "Client",
+                "content": "Goodbye. See you next time."
+            },
+            {
+                "role": "Therapist",
+                "content": "See you next time, Alex. Take care until then."
+            },
+            {
+                "role": "Client",
+                "content": "Take care, see you then."
+            },
+            {
+                "role": "Therapist",
+                "content": "See you then, Alex. Take care."
+            },
+            {
+                "role": "Client",
+                "content": "Take care, bye for now."
+            },
+            {
+                "role": "Therapist",
+                "content": "Bye for now, Alex. Take care."
+            },
+            {
+                "role": "Client",
+                "content": "Bye, take care."
+            },
+            {
+                "role": "Therapist",
+                "content": "Take care, Alex. Goodbye."
+            },
+            {
+                "role": "Client",
+                "content": "Goodbye. Take care."
+            },
+            {
+                "role": "Therapist",
+                "content": "Take care, Alex. Goodbye."
+            },
+            {
+                "role": "Client",
+                "content": "Goodbye. Take care."
+            },
+            {
+                "role": "Therapist",
+                "content": "Take care, Alex. Goodbye."
+            },
+            {
+                "role": "Client",
+                "content": "Goodbye, take care."
+            },
+            {
+                "role": "Therapist",
+                "content": "Take care, Alex. Goodbye."
+            },
+            {
+                "role": "Client",
+                "content": "Goodbye. Take care."
+            },
+            {
+                "role": "Therapist",
+                "content": "Take care, Alex. Goodbye."
+            },
+            {
+                "role": "Client",
+                "content": "Goodbye. Take care."
+            },
+            {
+                "role": "Therapist",
+                "content": "Take care, Alex. Goodbye."
+            },
+            {
+                "role": "Client",
+                "content": "Goodbye. Take care."
+            },
+            {
+                "role": "Therapist",
+                "content": "Take care, Alex. Goodbye."
+            },
+            {
+                "role": "Client",
+                "content": "Goodbye. Take care."
+            }
         ],
-        "history": "The patient has a history of substance abuse and has been through rehab to overcome it. He has had issues with his family, particularly with his mother, where he has felt rejected and emotionally neglected. He has struggled with obesity since childhood, which has affected his self-esteem and body image. He also has a history of being victimized and bullied due to his weight.",
-        "helpless_belief_current": [
-            "I am trapped.",
-            "I am out of control."
-        ],
-        "unlovable_belief_current": [
-            "I am unlovable.",
-            "I am undesirable, unwanted."
-        ],
-        "worthless_belief_current": [],
-        "intermediate_belief": "Helpless: I'm just not very good at handling stress and I have poor self-control, which is why I need to not put myself in stressful situations. \n Unlovable: If I show my true self, people will reject me the way my mother rejected me.",
-        "intermediate_belief_depression": "Helpless: There's nothing I can do to change my situation. I cannot control myself. \nUnlovable: I don't deserve to be happy, so why even try to stay clean?",
-        "coping_strategies": "The patient has adopted avoidance as a coping strategy by distancing himself from his family to reduce exposure to negativity and conflict. He has started scheduling pleasant activities and planning his day ahead of time in order to maintain a sense of control over his emotions and circumstances.",
-        "situation": "Alex's cousin invited him to attend his upcoming wedding.",
-        "auto_thought": "It will be stressful and negative; people will ask me questions I cannot answer or don't want to answer; my mum would be ashamed of me and critical of me as always; They don't want me there anyway, nobody likes me in this family.",
-        "emotion": [
-            "anxious, worried, fearful, scared, tense",
-            "sad, down, lonely, unhappy"
-        ],
-        "behavior": "Ignored the invitation and did not respond to the RSVP request. Ignored phone calls from family."
+        "num_turns": 30
     },
-    "messages": [
-        {
-            "role": "Therapist",
-            "content": "Hello, I'm here to help guide you through some CBT practices. What's on your mind today?"
+    {
+        "profile": {
+            "basic_profile": {
+                "name": "Not Specified",
+                "gender": "Female",
+                "age": -1,
+                "age_explain": "unclear",
+                "occupation": "Not Specified",
+                "topic": "alcohol consumption – discussing frequency and effects of drinking, and setting reduction goals.",
+                "situation": "The client drinks alcohol regularly to unwind but feels guilty and worries about the impact on their depression.",
+                "emotion": "The client feels guilty about their drinking habits and concerned about its effect on their depression.",
+                "reasons": "The client is visiting the therapist because they are concerned about their alcohol consumption and its effect on their depression.",
+                "problem": "alcohol consumption – struggles with drinking more than intended and feeling guilty about it.",
+                "emotion_trigger": "No emotional trigger",
+                "feeling_expression": "Medium – the client shares feelings and acknowledges negative outcomes of drinking but does not deeply explore them.",
+                "emotional_fluctuation": "Medium – the client talks about both relief from drinking and worsening feelings afterward.",
+                "resistance": "Low – the client is open to discussing their drinking habits and setting goals to reduce consumption."
+            },
+            "big_five": {
+                "Openness": {
+                    "score_percent": 55,
+                    "explanation": "The client enjoys watching movies and reading, indicating a moderate level of openness to new experiences."
+                },
+                "Conscientiousness": {
+                    "score_percent": 60,
+                    "explanation": "The client appears to be aware of their drinking habits and shows a willingness to set goals to change them."
+                },
+                "Extraversion": {
+                    "score_percent": 45,
+                    "explanation": "The client enjoys social activities like watching movies and drinking but does not mention frequent interactions with others."
+                },
+                "Agreeableness": {
+                    "score_percent": 65,
+                    "explanation": "The client expresses willingness to reduce alcohol consumption and seems cooperative in discussing personal habits."
+                },
+                "Neuroticism": {
+                    "score_percent": 75,
+                    "explanation": "The client experiences depression and uses alcohol to cope with negative emotions."
+                }
+            },
+            "symptoms": {
+                "PHQ9": {
+                    "1": {
+                        "identified": false,
+                        "severity_level": null,
+                        "severity_label": null,
+                        "explanation": "The client indicates they watch movies, read books, and take baths to relax, suggesting they still find interest and pleasure in these activities. They use wine to enhance these experiences, rather than because they lack interest in them."
+                    }
+                },
+                "GAD7": {
+                    "1": {
+                        "identified": false,
+                        "severity_level": null,
+                        "severity_label": null,
+                        "explanation": "The client did not mention feeling nervous, anxious, or on edge. The conversation focused on alcohol use and its relation to depression, but no symptoms of anxiety were discussed."
+                    }
+                },
+                "OQ45": {
+                    "1": {
+                        "identified": false,
+                        "severity_level": null,
+                        "severity_label": null,
+                        "explanation": "The conversation mainly focuses on the client's drinking habits, feelings, and goals. There is no mention of social interactions or relationships with others, so the client's ability to get along with others cannot be assessed from this information.",
+                        "scale_type": "negative"
+                    }
+                }
+            }
         },
-        {
-            "role": "Client",
-            "content": "Honestly, I've been feeling really anxious and down lately. My cousin invited me to his wedding, and I just... I couldn't bring myself to respond. It's like every time I think about it, I get this knot in my stomach. I don't know if I can handle being around my family right now."
-        },
-        {
-            "role": "Therapist",
-            "content": "It sounds like you're feeling anxious and perhaps overwhelmed at the thought of attending your cousin's wedding, especially being around family. That must be really challenging for you right now. When you think about the wedding, what specific thoughts or concerns come to mind?"
-        },
-        {
-            "role": "Client",
-            "content": "I guess I worry about how they'll see me. It's like I'm scared of being judged or rejected... again. I don't want to feel like an outsider or be reminded of all the past stuff with my mom and everything. It just seems easier to avoid it all, you know?"
-        },
-        {
-            "role": "Therapist",
-            "content": "It sounds like you're worried about feeling judged or rejected, which is really understandable given your past experiences. Avoiding the situation might feel safer, but it also seems to be causing you distress. What evidence do you have that supports or contradicts this fear of being judged or feeling like an outsider again?"
-        },
-        {
-            "role": "Client",
-            "content": "Well, in the past, whenever I've been around family, there's always been comments about my weight or my choices. It feels like they always find something to criticize. But I guess there have been times when some of them were supportive, like when I was in rehab. It's just hard for me to trust that the support will be genuine and not just temporary or superficial."
-        },
-        {
-            "role": "Therapist",
-            "content": "It sounds like your past experiences with criticism have understandably made you cautious about trusting your family's support. It's important to recognize both the negative and positive interactions you've had. Considering these experiences, how might you approach this situation in a way that acknowledges your concerns while also staying open to potential support?"
-        },
-        {
-            "role": "Client",
-            "content": "I suppose I could start by just taking small steps, like maybe responding to the invitation or talking to a family member I trust a bit more. I don't have to go all in at once. Maybe if I set some boundaries for myself, it won't feel as overwhelming. But it's still scary to think about being vulnerable around them."
-        },
-        {
-            "role": "Therapist",
-            "content": "It's great that you're considering small steps and setting boundaries to make the situation more manageable. Taking it one step at a time and connecting with a trusted family member could help ease some of your anxiety. What boundaries do you think would be most helpful for you in this situation?"
-        },
-        {
-            "role": "Client",
-            "content": "I think it would help to set limits on how long I stay at the wedding or which conversations I'm willing to engage in. Maybe I can make sure I have a way to leave if things get too uncomfortable. Also, it might be a good idea to have a friend on standby that I can call or text if I need support. Just knowing I have an exit plan might make it feel less daunting."
-        },
-        {
-            "role": "Therapist",
-            "content": "That sounds like a thoughtful and practical plan to help manage your feelings of anxiety. Having clear boundaries and an exit plan, along with a support system outside the event, can provide a sense of control and safety. How do you feel about putting this plan into action, and is there anything else that might help you feel more prepared?"
-        },
-        {
-            "role": "Client",
-            "content": "I'm still nervous about it, but having a plan does make it feel a bit more manageable. Maybe practicing some calming techniques beforehand could help, too. And if I remind myself that I don't have to engage with everyone there, it might ease some of the pressure. It's just about taking it one step at a time, I guess."
-        },
-        {
-            "role": "Therapist",
-            "content": "You're absolutely right—having a plan and taking it one step at a time can make the situation more manageable. Practicing calming techniques and reminding yourself that you can choose your level of engagement are great strategies. How do you feel about identifying some specific calming techniques that you could practice leading up to the event?"
-        },
-        {
-            "role": "Client",
-            "content": "Yeah, I think that could really help. Maybe some deep breathing exercises or mindfulness meditation could be useful. I've tried them before, and they sometimes help me feel more grounded. It might also be good to have a playlist of calming music that I can listen to if I start feeling overwhelmed. Having these tools ready might give me more confidence to face the day."
-        },
-        {
-            "role": "Therapist",
-            "content": "Those sound like excellent tools to help you feel more grounded and confident. Deep breathing, mindfulness meditation, and calming music can be very effective in managing anxiety and providing a sense of calm. Would you like to explore how to incorporate these techniques into your day leading up to the wedding, or is there anything else you'd like to discuss about this plan?"
-        },
-        {
-            "role": "Client",
-            "content": "I think focusing on how to incorporate these techniques would be helpful. It might be good to set aside some time each day to practice them so they become more familiar and easier to use when I need them most. I guess having a routine could also help me feel more prepared and less anxious when the day comes."
-        },
-        {
-            "role": "Therapist",
-            "content": "That sounds like a wonderful approach. Establishing a routine to practice these techniques daily can indeed help them become more instinctive and accessible when you need them most. How do you envision fitting these practices into your daily schedule leading up to the wedding?"
-        },
-        {
-            "role": "Client",
-            "content": "I could try doing some deep breathing exercises in the morning to start my day on a calm note. Maybe I can set aside a few minutes in the afternoon for mindfulness meditation, just as a break to reset. Listening to calming music in the evening might help me wind down and relax before bed. I'll try to stick to this routine consistently, so it becomes a habit."
-        },
-        {
-            "role": "Therapist",
-            "content": "That sounds like a well-thought-out plan, Alex. Consistently practicing these techniques can really help you build a sense of calm and readiness. How do you feel about starting this routine, and is there anything else you'd like to discuss or need support with?"
-        },
-        {
-            "role": "Client",
-            "content": "I'm feeling cautiously optimistic about starting the routine. It's nice to have something concrete to focus on instead of just worrying. I guess my main concern now is sticking with it and not letting my doubts get in the way. Having your support and checking in on my progress would probably help keep me on track."
-        },
-        {
-            "role": "Therapist",
-            "content": "It's completely normal to have some doubts, but your commitment to this routine is a great step forward. Remember, it's okay to have setbacks; what's important is gently guiding yourself back on track. How about we plan to check in on your progress, and you can share any challenges or successes you encounter along the way?"
-        },
-        {
-            "role": "Client",
-            "content": "That sounds reassuring. Knowing that we can check in and talk about how things are going makes me feel more supported. I'll do my best to stick with it and be honest about how it's working for me. Thanks for being there to help me through this."
-        },
-        {
-            "role": "Therapist",
-            "content": "I’m really glad to hear that you feel supported, Alex. I believe in your ability to work through this, and I'm here to help along the way. Let's make sure to continue these conversations and adjust the plan as needed—you're not alone in this journey. How soon would you like to check in on your progress?"
-        },
-        {
-            "role": "Client",
-            "content": "Maybe we could check in next week? That would give me some time to see how the routine is going and if I need to make any changes. Having a set time to talk about it might help keep me accountable, too. I'm hoping I'll have some positive updates to share by then."
-        },
-        {
-            "role": "Therapist",
-            "content": "That sounds like a great plan, Alex. Setting a check-in for next week will give you time to explore the routine and gather your thoughts on how it's working for you. I'm looking forward to hearing about your experiences and supporting you further in this process."
-        },
-        {
-            "role": "Client",
-            "content": "Thanks, I appreciate it. I'll do my best to stick with the plan and see how it goes. It's nice to know I have someone to share this with and get feedback from. I'll see you next week, then."
-        },
-        {
-            "role": "Therapist",
-            "content": "You're very welcome, Alex. I'm glad to be here with you on this journey, and I'm looking forward to our conversation next week. Take care and remember, small steps are still progress."
-        },
-        {
-            "role": "Client",
-            "content": "Thanks, I'll keep that in mind. I'll take it one day at a time and focus on those small steps. See you next week!"
-        },
-        {
-            "role": "Therapist",
-            "content": "Absolutely, Alex. Taking things one day at a time is a wonderful approach. See you next week, and take care until then!"
-        },
-        {
-            "role": "Client",
-            "content": "Thanks, take care too. Bye for now."
-        },
-        {
-            "role": "Therapist",
-            "content": "Bye for now, Alex. Take care, and I'll look forward to our next conversation."
-        },
-        {
-            "role": "Client",
-            "content": "Bye, and thanks again for your support."
-        },
-        {
-            "role": "Therapist",
-            "content": "You're always welcome, Alex. Take care, and talk soon."
-        },
-        {
-            "role": "Client",
-            "content": "Talk soon. Take care."
-        },
-        {
-            "role": "Therapist",
-            "content": "Take care, Alex. Until next time."
-        },
-        {
-            "role": "Client",
-            "content": "Until next time. Bye."
-        },
-        {
-            "role": "Therapist",
-            "content": "Goodbye, Alex. Take care."
-        },
-        {
-            "role": "Client",
-            "content": "Goodbye. Take care."
-        },
-        {
-            "role": "Therapist",
-            "content": "Take care, Alex. Goodbye."
-        },
-        {
-            "role": "Client",
-            "content": "Goodbye. See you next time."
-        },
-        {
-            "role": "Therapist",
-            "content": "See you next time, Alex. Take care until then."
-        },
-        {
-            "role": "Client",
-            "content": "Take care, see you then."
-        },
-        {
-            "role": "Therapist",
-            "content": "See you then, Alex. Take care."
-        },
-        {
-            "role": "Client",
-            "content": "Take care, bye for now."
-        },
-        {
-            "role": "Therapist",
-            "content": "Bye for now, Alex. Take care."
-        },
-        {
-            "role": "Client",
-            "content": "Bye, take care."
-        },
-        {
-            "role": "Therapist",
-            "content": "Take care, Alex. Goodbye."
-        },
-        {
-            "role": "Client",
-            "content": "Goodbye. Take care."
-        },
-        {
-            "role": "Therapist",
-            "content": "Take care, Alex. Goodbye."
-        },
-        {
-            "role": "Client",
-            "content": "Goodbye. Take care."
-        },
-        {
-            "role": "Therapist",
-            "content": "Take care, Alex. Goodbye."
-        },
-        {
-            "role": "Client",
-            "content": "Goodbye, take care."
-        },
-        {
-            "role": "Therapist",
-            "content": "Take care, Alex. Goodbye."
-        },
-        {
-            "role": "Client",
-            "content": "Goodbye. Take care."
-        },
-        {
-            "role": "Therapist",
-            "content": "Take care, Alex. Goodbye."
-        },
-        {
-            "role": "Client",
-            "content": "Goodbye. Take care."
-        },
-        {
-            "role": "Therapist",
-            "content": "Take care, Alex. Goodbye."
-        },
-        {
-            "role": "Client",
-            "content": "Goodbye. Take care."
-        },
-        {
-            "role": "Therapist",
-            "content": "Take care, Alex. Goodbye."
-        },
-        {
-            "role": "Client",
-            "content": "Goodbye. Take care."
-        }
-    ],
-    "num_turns": 30
-}
+        "messages": [
+            {
+                "role": "Therapist",
+                "content": "Hi how are you doing?"
+            },
+            {
+                "role": "Client",
+                "content": "{\"properties\":{\"content\":{\"description\":\"The content of your generated response in this turn\",\"title\":\"Content\",\"type\":\"string\"}},\"title\":\"Response\",\"type\":\"object\"}"
+            }
+        ],
+        "num_turns": 1
+    }
+]
