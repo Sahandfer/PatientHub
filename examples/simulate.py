@@ -23,11 +23,11 @@ from typing import Any, List, Optional
 from omegaconf import DictConfig, MISSING
 from dataclasses import dataclass, field
 
-from src.events import TherapySession
-from src.clients import get_client
-from src.therapists import get_therapist
-from src.evaluators import get_evaluator
-from src.configs import register_configs
+from patienthub.events import TherapySession
+from patienthub.clients import get_client
+from patienthub.therapists import get_therapist
+from patienthub.evaluators import get_evaluator
+from patienthub.configs import register_configs
 
 DEFAULTS = [
     "_self_",
@@ -93,10 +93,10 @@ def simulate(configs: DictConfig) -> None:
         session_handler = CallbackHandler()
         lg_config["callbacks"] = [session_handler]
 
-    # session.graph.invoke(
-    #     input={},
-    #     config=lg_config,
-    # )
+    session.graph.invoke(
+        input={},
+        config=lg_config,
+    )
 
 
 if __name__ == "__main__":

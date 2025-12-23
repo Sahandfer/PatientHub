@@ -17,8 +17,8 @@ from typing import Any, List
 from dataclasses import dataclass, field
 from omegaconf import DictConfig, MISSING
 
-from src.configs import register_configs
-from src.generators import get_generator
+from patienthub.configs import register_configs
+from patienthub.generators import get_generator
 
 DEFAULTS = [
     "_self_",

@@ -17,9 +17,9 @@ from omegaconf import DictConfig, MISSING
 from dataclasses import dataclass
 from typing import Any
 
-from src.configs import register_configs
-from src.utils import load_json, save_json
-from src.evaluators import get_evaluator
+from patienthub.configs import register_configs
+from patienthub.utils import load_json, save_json
+from patienthub.evaluators import get_evaluator
 
 
 @dataclass

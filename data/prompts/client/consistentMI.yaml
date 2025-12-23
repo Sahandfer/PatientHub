@@ -50,7 +50,7 @@ en:
 
 
   # ========= 4. system_prompt =========
-  consistentmi_client_system_prompt: |
+  client_system_prompt: |
     In this role-play scenario, you'll take on the role of a Client discussing about your {{ behavior }} where the Counselor's goal is {{ goal }}.
 
     Here is your personas which you need to follow consistently throughout the conversation:
@@ -424,7 +424,5 @@ en:
     When discussing [topic], The counselor may talk about how {{ behavior }} affects your academic performance or productivity in study. The counselor can also discuss how {{ goal }} can help you achieve better grades and academic success.
     {% endif %}
 
-
-  
 zh: |
   <在这里输入提示文本>

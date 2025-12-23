@@ -4,7 +4,7 @@ It requires:
     - agent_type: either "client" or "therapist"
     - agent_name: the name of the new agent to be created
 It creates:
-- The agent implementation at `src/{agent_type}s/{agent_name}.py`.
+- The agent implementation at `patienthub/{agent_type}s/{agent_name}.py`.
 - The configuration file at `configs/{agent_type}/{agent_name}.yaml`.
 - A prompt template file at `data/prompts/{agent_type}/{agent_name}.yaml`.
 It also adds the new agent to the corresponding `__init__.py` file.
@@ -22,8 +22,8 @@ from omegaconf import DictConfig, MISSING
 from dataclasses import dataclass, field
 from typing import Any, List
 
-from src.configs import register_configs
-from src.generators import get_generator
+from patienthub.configs import register_configs
+from patienthub.generators import get_generator
 
 DEFAULTS = [
     "_self_",

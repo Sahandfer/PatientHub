@@ -3,9 +3,9 @@ en:
     from typing import Dict, List
     from pydantic import BaseModel, Field
 
-    from src.base import ChatAgent
-    from src.configs import APIModelConfig
-    from src.utils import load_prompts, load_json, get_chat_model
+    from patienthub.base import ChatAgent
+    from patienthub.configs import APIModelConfig
+    from patienthub.utils import load_prompts, load_json, get_chat_model
 
     from omegaconf import DictConfig
     from langchain_core.messages import AIMessage, HumanMessage, SystemMessage

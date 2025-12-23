@@ -1,0 +1,275 @@
+{
+    "Health": {
+        "Mental Disorders": 2,
+        "Diseases": 2,
+        "Sexual Health": 2,
+        "Fitness": 2,
+        "Health Care": 2,
+        "Workplace Wellness": 1,
+        "Interpersonal Relationships": 3,
+        "Law": 3,
+        "Economy": 3,
+        "Education": 3
+    },
+    "Interpersonal Relationships": {
+        "Parenting": 2,
+        "Family": 2,
+        "Health": 3,
+        "Law": 3,
+        "Economy": 3
+    },
+    "Parenting": {
+        "Interpersonal Relationships": 2,
+        "Family": 2,
+        "Health": 3,
+        "Education": 2,
+        "Role Model": 1,
+        "Child Development": 1,
+        "Paternal Bond": 1,
+        "Child Care": 1,
+        "Habituation": 1
+    },
+    "Family": {
+        "Interpersonal Relationships": 2,
+        "Parenting": 2,
+        "Law": 2,
+        "Health": 3,
+        "Family Estrangement": 1,
+        "Family Disruption": 1,
+        "Divorce": 1
+    },
+    "Mental Disorders": {
+        "Health": 2,
+        "Diseases": 3
+    },
+    "Diseases": {
+        "Health": 2,
+        "Mental Disorders": 3,
+        "Infection": 1,
+        "Hypertension": 1,
+        "Flu": 1,
+        "Inflammation": 1,
+        "Liver Disease": 1,
+        "Lung Cancer": 1,
+        "COPD": 1,
+        "Asthma": 1,
+        "Stroke": 1,
+        "Diabetes": 1
+    },
+    "Sexual Health": {
+        "Health": 2,
+        "Maternal Health": 1,
+        "Safe Sex": 1,
+        "Preterm Birth": 1,
+        "Miscarriage": 1,
+        "Birth Defects": 1
+    },
+    "Fitness": {
+        "Health": 2,
+        "Physical Activity": 1,
+        "Sport": 1,
+        "Physical Fitness": 1,
+        "Strength": 1,
+        "Flexibility": 1,
+        "Endurance": 1
+    },
+    "Health Care": {
+        "Health": 2,
+        "Dentistry": 1,
+        "Caregiver Burden": 1,
+        "Independent Living": 1,
+        "Human Appearance": 1
+    },
+    "Economy": {
+        "Health": 3,
+        "Interpersonal Relationships": 3,
+        "Law": 2,
+        "Education": 2,
+        "Employment": 1,
+        "Personal Finance": 1,
+        "Cost of Living": 1
+    },
+    "Law": {
+        "Health": 3,
+        "Interpersonal Relationships": 3,
+        "Economy": 2,
+        "Education": 2,
+        "Criminal Law": 1,
+        "Family Law": 1,
+        "Traffic Law": 1
+    },
+    "Education": {
+        "Health": 3,
+        "Interpersonal Relationships": 3,
+        "Law": 2,
+        "Economy": 2,
+        "Student Affairs": 1,
+        "Academic Achievement": 1
+    },
+    "Employment": {
+        "Economy": 1,
+        "Productivity": 1,
+        "Absenteeism": 1,
+        "Workplace Relationships": 1,
+        "Career Break": 1,
+        "Career Assessment": 1,
+        "Absence Rate": 1,
+        "Salary": 1,
+        "Workplace Wellness": 2,
+        "Workplace Incivility": 2
+    },
+    "Personal Finance": {
+        "Economy": 1,
+        "Cost of Living": 1,
+        "Personal Budget": 1,
+        "Debt": 1,
+        "Income Deficit": 1
+    },
+    "Student Affairs": {
+        "Education": 1,
+        "Attendance": 1,
+        "Suspension": 1,
+        "Scholarship": 1
+    },
+    "Academic Achievement": {
+        "Education": 1,
+        "Exam": 1
+    },
+    "Criminal Law": {
+        "Law": 1,
+        "Arrest": 1,
+        "Imprisonment": 1,
+        "Complaint": 1
+    },
+    "Family Law": {
+        "Law": 1,
+        "Family": 1,
+        "Child Custody": 1
+    },
+    "Traffic Law": {
+        "Law": 1,
+        "Traffic Ticket": 1
+    },
+    "Workplace Wellness": {
+        "Health": 1,
+        "Employment": 2
+    },
+    "Workplace Incivility": {
+        "Employment": 2
+    },
+    "Productivity": {
+        "Employment": 1
+    },
+    "Absenteeism": {
+        "Employment": 1
+    },
+    "Workplace Relationships": {
+        "Employment": 1
+    },
+    "Career Break": {
+        "Employment": 1
+    },
+    "Career Assessment": {
+        "Employment": 1
+    },
+    "Absence Rate": {
+        "Employment": 1
+    },
+    "Salary": {
+        "Employment": 1
+    },
+    "Cost of Living": {
+        "Economy": 1,
+        "Personal Finance": 1
+    },
+    "Personal Budget": {
+        "Personal Finance": 1
+    },
+    "Debt": {
+        "Personal Finance": 1
+    },
+    "Income Deficit": {
+        "Personal Finance": 1
+    },
+    "Role Model": {
+        "Parenting": 1
+    },
+    "Child Development": {
+        "Parenting": 1
+    },
+    "Paternal Bond": {
+        "Parenting": 1
+    },
+    "Child Care": {
+        "Parenting": 1
+    },
+    "Habituation": {
+        "Parenting": 1
+    },
+    "Family Estrangement": {
+        "Family": 1
+    },
+    "Family Disruption": {
+        "Family": 1
+    },
+    "Divorce": {
+        "Family": 1
+    },
+    "Arrest": {
+        "Criminal Law": 1
+    },
+    "Imprisonment": {
+        "Criminal Law": 1
+    },
+    "Complaint": {
+        "Criminal Law": 1
+    },
+    "Child Custody": {
+        "Family Law": 1
+    },
+    "Traffic Ticket": {
+        "Traffic Law": 1
+    },
+    "Attendance": {
+        "Student Affairs": 1
+    },
+    "Suspension": {
+        "Student Affairs": 1
+    },
+    "Scholarship": {
+        "Student Affairs": 1
+    },
+    "Exam": {
+        "Academic Achievement": 1
+    },
+    "Infection": {
+        "Diseases": 1
+    },
+    "Hypertension": {
+        "Diseases": 1
+    },
+    "Flu": {
+        "Diseases": 1
+    },
+    "Inflammation": {
+        "Diseases": 1
+    },
+    "Liver Disease": {
+        "Diseases": 1
+    },
+    "Lung Cancer": {
+        "Diseases": 1
+    },
+    "COPD": {
+        "Diseases": 1
+    },
+    "Asthma": {
+        "Diseases": 1
+    },
+    "Stroke": {
+        "Diseases": 1
+    },
+    "Diabetes": {
+        "Diseases": 1
+    }
+}
