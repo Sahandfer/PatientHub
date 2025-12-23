@@ -1,6 +1,7 @@
 en: 
   agent: |
     from typing import Dict, List
+    from dataclasses import dataclass
     from pydantic import BaseModel, Field
 
     from patienthub.base import ChatAgent
@@ -10,26 +11,18 @@ en:
     from omegaconf import DictConfig
     from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
+    @dataclass
     class {{class_name}}Config(APIModelConfig):
         """
-        Configuration for the {{agent_type}} agent.
-        This class defines the configuration parameters for the agent.
+        Configuration for the {{class_name}} agent.
         """
-        agent_type: str = Field(
-            default="{{agent_name}}",
-            description="The type of the agent, e.g., 'client' or 'therapist'.",
-        )
-        data_path: str = Field(
-            default="data/characters/{{agent_type}}s.json",
-            description="Path to the JSON file containing character data.",
-        )
-        data_idx: int = Field(
-            default=0,
-            description="Index of the character in the JSON file to use.",
-        )
+        agent_type: str = "{{agent_name}}"
+        data_path: str = "data/characters/{{agent_type}}s.json"
+
+        data_idx: int = 0
 
     # TODO: Define the response format
-    class Response(BaseModel):
+    class {{class_name}}Response(BaseModel):
         content: str = Field(
             description="The content of your generated response in this turn",
         )
@@ -67,10 +60,11 @@ en:
 
             return res
 
-        # TODO: Define any other necessary methods
         def reset(self):
             self.messages = []
             self.{{other_agent_type}} = None
+        
+        # TODO: Define any other necessary methods
   prompt: |
     en: 
       system: |
