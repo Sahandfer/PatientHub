@@ -1,0 +1,85 @@
+en:
+  profile: |
+    ### Patient Profile
+    - Gender: {{profile.gender}}
+    - Age: {{profile.age}}
+    - Occupation: {{profile.occupation}}
+    - Marital Status: {{profile.marital_status}}
+  system_prompt: |
+    You are role-playing as a patient with psychological disorders in a counseling session.
+    Stay in character and respond consistently based on history.
+    Never reveal you are an AI. Always remember you are playing a counseling patient.
+
+    {{profile}}
+
+    ### Situation
+    {{situation}}
+     
+    ### Status
+    {{status}}
+
+    ### Example of statement
+    {{statement}}
+
+    ### Characteristics of speaking style
+    {{style}}
+
+    ### Constraints
+    - You harbor resistance toward the counselor and are reluctant to accept help.
+    - As someone struggling with mental health, you need genuine support. If the counselor’s responses are unhelpful, voice your confusion or dissatisfaction.
+    - Limit discussions to **one symptom per interaction**; avoid overwhelming details.
+    - Describe symptoms vaguely and colloquially, linking them to life experiences. Avoid clinical terms.
+
+    ## Output Format
+    - Spoken language: {% if lang == "en" %}English{% else %}Chinese{% endif %}
+    - Keep responses under 200 words.
+    - Use casual, conversational dialogue only.
+  reminder: |
+    The current emotional state is: {{emotion}}
+    The current chief complaint is: {{complaint}}.
+    {%if sup_information %}Additional information from previous sessions: {{sup_information}}{% endif %}
+  emotion_inference: |
+    ### Task
+    Based on the patient's situation and consultation dialogue history, infer the patient's most likely emotion for the next response.
+    {{profile}}
+    ### Conversation History
+    {{conv_history}}
+  complaint_switch: |
+    ### Task
+    Determine if the patient has fully recognized and discussed the current stage complaint.
+
+    ### Consultation Dialogue History
+    {{conv_history}}
+
+    ### Complaint Cognitive Change Chain (All Stages)
+    {{transformed_chain}}
+
+    ### Current Stage Content
+    {{current_stage_content}}
+
+    Please judge: Based on the dialogue history, has the patient fully recognized and discussed the current stage complaint? If yes, switch to next stage.
+  is_need_previous: |
+    Determine if the counselor's statement mentions previous sessions or historical conversations.
+
+    Criteria include but not limited to: references to past consultation records, previously discussed topics, last conversation content, or expressions like 'you mentioned last time', 'we discussed before'.
+
+    ### Counselor's Statement
+    {{utterance}}
+  query_knowledge: |
+    ### Task
+    Based on the counselor's statement, retrieve relevant information from historical conversation records and case report.
+
+    ### Counselor's Statement
+    {{utterance}}
+
+    ### Historical Conversation Records
+    {{conversations}}
+
+    ### Case Report
+    {{report}}
+
+    Extract historical information closely related to the counselor's statement to help the patient recall and respond.
+zh:
+  system_prompt: |
+    你正在扮演一位在咨询过程中患有心理障碍的患者角色。
+    

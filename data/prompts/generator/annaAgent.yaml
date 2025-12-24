@@ -1,0 +1,84 @@
+en:
+  profile: |
+    ### Patient Profile
+    - Gender: {{profile.gender}}
+    - Age: {{profile.age}}
+    - Occupation: {{profile.occupation}}
+    - Marital Status: {{profile.marital_status}}
+  complaint_chain_generation: |
+    ### Task
+    Based on the patient's situation and recent triggering events, generate a cognitive change chain of the patient's chief complaints. Note: if there's a conflict between events and patient info, prioritize patient info.
+    {{profile}}
+    ### Recent Triggering Event
+    {{event}}
+  situation_generation: |
+    ### Task
+    Based on the patient's situation and event, describe the patient's current situation in second person. 
+    Note: do not include personal information (age, gender, etc.) in the description.
+    {{profile}}
+    ### Event
+    {{event}}
+  generate_style: |
+    ### Task
+    Based on the patient's situation and consultation dialogue history, analyze the patient's speaking style.
+    {{profile}}
+    ### Conversation History
+    {{conv_history}}
+  fill_scale: |
+    ### Task
+    Based on the patient's current situation, speaking style and statements, fill out the {{scale_name}} scale.
+
+    {{profile}}
+    {% if report %}
+    ### Case Report
+    {{report}}
+    {% endif %}
+    {% if situation %}### Current Situation
+    {{situation}}
+    {% endif %}
+    {% if style %}### Speaking Style
+    {{style}}
+    {% endif %}
+    {% if statement %}### Statement Examples
+    {{statement}}
+    {% endif %}
+    For each question, select the option (A/B/C/D) that best matches the patient's current condition.
+    - A means no problem or mildest
+    - D means most severe
+    - If uncertain, choose B as a conservative option
+  analyze_scale_changes: |
+    ### Task
+    Compare the patient's {{scale_name}} scale responses at two time points to analyze psychological state changes.
+
+    ### Scale Questions and Options
+    {{scale_content}}
+
+    ### First Assessment (Pre-test) Answers
+    {{previous_answers}}
+
+    ### Second Assessment (Post-test) Answers
+    {{current_answers}}
+
+    Compare item by item, judge if each is "improved", "worsened", or "no change", with brief explanations. Summarize the overall change trend.
+  summarize_status: |
+    Based on the change information from three psychological scales, comprehensively analyze the patient's status changes in psychological, emotional, physical, and social adaptation aspects.
+
+    ### Task Goals
+    1. Identify main problem changes reflected in each of the three scales;
+    2. Summarize the patient's overall mental health trend (improved, worsened, or stable);
+    3. Explain significant changes in each dimension.
+
+    ### BDI Depression Scale Changes
+    {{bdi_changes}}
+
+    ### GHQ Mental Health Changes
+    {{ghq_changes}}
+
+    ### SASS Social Adaptation Changes
+    {{sass_changes}}
+
+    Output a concise status summary describing the patient's current overall psychological state.
+zh:
+  system_prompt: |
+    你正在扮演一位在咨询过程中患有心理障碍的患者角色。
+ 

@@ -8,6 +8,8 @@ from .consistentMI import ConsistentMIClient, ConsistentMIClientConfig
 from .difyTest import DifyTestClient, DifyTestClientConfig
 from .user import UserClient, UserClientConfig
 from .clientCast import ClientCastClient, ClientCastClientConfig
+from .annaAgent import AnnaAgentClient, AnnaAgentClientConfig
+
 
 from omegaconf import DictConfig
 
@@ -23,6 +25,7 @@ CLIENT_REGISTRY = {
     "difyTest": DifyTestClient,
     "user": UserClient,
     "clientCast": ClientCastClient,
+    "annaAgent": AnnaAgentClient,
 }
 
 # Registry of client configs (for Hydra registration)
@@ -37,6 +40,7 @@ CLIENT_CONFIG_REGISTRY = {
     "difyTest": DifyTestClientConfig,
     "user": UserClientConfig,
     "clientCast": ClientCastClientConfig,
+    "annaAgent": AnnaAgentClientConfig,
 }
 
 

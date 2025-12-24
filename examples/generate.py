@@ -22,7 +22,7 @@ from patienthub.generators import get_generator
 
 DEFAULTS = [
     "_self_",
-    {"generator": "clientCast"},
+    {"generator": "annaAgent"},
 ]
 
 
@@ -40,7 +40,8 @@ register_configs("generate", GenerateConfig)
 
 
 def generate_client(configs: DictConfig):
-    generator = get_generator(configs=configs)
+    configs.generator.lang = configs.lang
+    generator = get_generator(configs=configs.generator)
     generator.generate_character()
 
 

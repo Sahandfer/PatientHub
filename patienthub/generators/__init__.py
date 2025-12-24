@@ -2,6 +2,7 @@ from .agent_files import AgentFilesGenerator, AgentFilesGeneratorConfig
 from .student import StudentClientGenerator, StudentClientGeneratorConfig
 from .psyche import PsycheGenerator, PsycheGeneratorConfig
 from .clientCast import ClientCastGenerator, ClientCastGeneratorConfig
+from .annaAgent import AnnaAgentGenerator, AnnaAgentGeneratorConfig
 
 from omegaconf import DictConfig
 
@@ -11,6 +12,7 @@ GENERATORS = {
     "student": StudentClientGenerator,
     "psyche": PsycheGenerator,
     "clientCast": ClientCastGenerator,
+    "annaAgent": AnnaAgentGenerator,
 }
 
 # Registry of generator configs (for Hydra registration)
@@ -19,6 +21,7 @@ GENERATOR_CONFIG_REGISTRY = {
     "student": StudentClientGeneratorConfig,
     "psyche": PsycheGeneratorConfig,
     "clientCast": ClientCastGeneratorConfig,
+    "annaAgent": AnnaAgentGeneratorConfig,
 }
 
 

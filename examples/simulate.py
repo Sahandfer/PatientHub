@@ -31,7 +31,7 @@ from patienthub.configs import register_configs
 
 DEFAULTS = [
     "_self_",
-    {"client": "patientPsi"},
+    {"client": "annaAgent"},
     {"therapist": "user"},
 ]
 

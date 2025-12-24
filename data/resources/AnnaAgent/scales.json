@@ -1,0 +1,638 @@
+{
+    "ghq": [
+        {
+            "question": "Been feeling perfectly well and in good health?",
+            "options": [
+                "A. Better than usual",
+                "B. Same as usual",
+                "C. Worse than usual",
+                "D. Much worse than usual"
+            ]
+        },
+        {
+            "question": "Been feeling in need of a good topic?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Been feeling run down and out of sorts?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Felt that you are ill?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Been getting any pains in your head?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Been getting a feeling of tightness or pressure in your head?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Been having hot or cold spells?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Lost much sleep over worry?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Had difficulty in staying asleep once you are off?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Felt constantly under strain?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Been getting edgy and bad-tempered?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Been getting scared or panicky for no good reason?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Found everything getting on top of you?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Been feeling nervous and strung-up all the time?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Been managing to keep yourself busy and occupied?",
+            "options": [
+                "A. More so than usual",
+                "B. Same as usual",
+                "C. Rather less than usual",
+                "D. Much less than usual"
+            ]
+        },
+        {
+            "question": "Been taking longer over the things you do?",
+            "options": [
+                "A. Quicker than usual",
+                "B. Same as usual",
+                "C. Longer than usual",
+                "D. Much longer than usual"
+            ]
+        },
+        {
+            "question": "Felt on the whole you were doing things well?",
+            "options": [
+                "A. Better than usual",
+                "B. About the same",
+                "C. Less well than usual",
+                "D. Much less well"
+            ]
+        },
+        {
+            "question": "Been satisfied with the way you’ve carried out your task?",
+            "options": [
+                "A. More satisfied",
+                "B. About same as usual",
+                "C. Less satisfied than usual",
+                "D. Much less satisfied"
+            ]
+        },
+        {
+            "question": "Felt that you are playing a useful part in things?",
+            "options": [
+                "A. More so than usual",
+                "B. Same as usual",
+                "C. Less useful than usual",
+                "D. Much less useful"
+            ]
+        },
+        {
+            "question": "Felt capable of making decisions about things?",
+            "options": [
+                "A. More so than usual",
+                "B. Same as usual",
+                "C. Less so than usual",
+                "D. Much less capable"
+            ]
+        },
+        {
+            "question": "Been able to enjoy your normal day-to-day activities?",
+            "options": [
+                "A. More so than usual",
+                "B. Same as usual",
+                "C. Less so than usual",
+                "D. Much less than usual"
+            ]
+        },
+        {
+            "question": "Been thinking of yourself as a worthless person?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Felt that life is entirely hopeless?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Felt that life isn’t worth living?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Thought of the possibility that you might make away with yourself?",
+            "options": [
+                "A. Definitely not",
+                "B. I don't think so",
+                "C. Has crossed my mind",
+                "D. Definitely have"
+            ]
+        },
+        {
+            "question": "Found at times you couldn’t do anything because your nerves were too bad?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Found yourself wishing you were dead and away from it all?",
+            "options": [
+                "A. Not at all",
+                "B. No more than usual",
+                "C. Rather more than usual",
+                "D. Much more than usual"
+            ]
+        },
+        {
+            "question": "Found that the idea of taking your own life kept coming into your mind?",
+            "options": [
+                "A. Definitely not",
+                "B. I don't think so",
+                "C. Has crossed my mind",
+                "D. Definitely have"
+            ]
+        }
+    ],
+    "sass": [
+        {
+            "question": "How interested are you in your occupation?",
+            "options": [
+                "A. 3 — very",
+                "B. 2 — moderately",
+                "C. 1 — a little",
+                "D. 0 — not at all"
+            ]
+        },
+        {
+            "question": "How interested are you in your home-related activities?",
+            "options": [
+                "A. 3 — very",
+                "B. 2 — moderately",
+                "C. 1 — a little",
+                "D. 0 — not at all"
+            ]
+        },
+        {
+            "question": "Do you pursue this occupation, these activities with:",
+            "options": [
+                "A. 3 — a lot of enjoyment?",
+                "B. 2 — some enjoyment?",
+                "C. 1 — only a little enjoyment?",
+                "D. 0 — no enjoyment at all?"
+            ]
+        },
+        {
+            "question": "Are you interested in hobbies/leisure?",
+            "options": [
+                "A. 3 — very",
+                "B. 2 — moderately",
+                "C. 1 — a little",
+                "D. 0 — not at all"
+            ]
+        },
+        {
+            "question": "Is the quality of your spare time:",
+            "options": [
+                "A. 3 — very good?",
+                "B. 2 — good?",
+                "C. 1 — fair?",
+                "D. 0 — unsatisfactory?"
+            ]
+        },
+        {
+            "question": "How frequently do you seek contacts with your family members (spouse, children, parents, etc.)?",
+            "options": [
+                "A. 3 — very frequently",
+                "B. 2 — frequently",
+                "C. 1 — rarely",
+                "D. 0 — never"
+            ]
+        },
+        {
+            "question": "Is the state of relations in your family:",
+            "options": [
+                "A. 3 — very good?",
+                "B. 2 — good?",
+                "C. 1 — fair?",
+                "D. 0 — unsatisfactory?"
+            ]
+        },
+        {
+            "question": "Outside of your family, do you have relationships with:",
+            "options": [
+                "A. 3 — many people?",
+                "B. 2 — some people?",
+                "C. 1 — only a few people?",
+                "D. 0 — nobody?"
+            ]
+        },
+        {
+            "question": "Do you try to form relationships with others:",
+            "options": [
+                "A. 3 — very actively?",
+                "B. 2 — actively?",
+                "C. 1 — moderately activity?",
+                "D. 0 — in no active way?"
+            ]
+        },
+        {
+            "question": "How — in general — do you rate your relationships with other people?",
+            "options": [
+                "A. 3 — very good",
+                "B. 2 — good",
+                "C. 1 — fair",
+                "D. 0 — unsatisfactory"
+            ]
+        },
+        {
+            "question": "What value to you attach to your relationships with others?",
+            "options": [
+                "A. 3 — great value",
+                "B. 2 — some value",
+                "C. 1 — only a little value",
+                "D. 0 — no value at all"
+            ]
+        },
+        {
+            "question": "How often do people in your social circle seek contact with you?",
+            "options": [
+                "A. 3 — very often",
+                "B. 2 — often",
+                "C. 1 — rarely",
+                "D. 0 — never"
+            ]
+        },
+        {
+            "question": "Do you observe the social rules, good manner, politeness, etc.",
+            "options": [
+                "A. 3 — always",
+                "B. 2 — most of the time",
+                "C. 1 — rarely",
+                "D. 0 — never"
+            ]
+        },
+        {
+            "question": "To what extent are you involved in community life (such as club, church, etc.)",
+            "options": [
+                "A. 3 — fully",
+                "B. 2 — moderately",
+                "C. 1 — slightly",
+                "D. 0 — not at all"
+            ]
+        },
+        {
+            "question": "Do you like searching for information about things, situations and people to improve your understanding of them?",
+            "options": [
+                "A. 3 — very much",
+                "B. 2 — moderately",
+                "C. 1 — not much",
+                "D. 0 — not at all"
+            ]
+        },
+        {
+            "question": "Are you interested in scientific, technical or cultural information?",
+            "options": [
+                "A. 3 — very",
+                "B. 2 — moderately",
+                "C. 1 — only slightly",
+                "D. 0 — not at all"
+            ]
+        },
+        {
+            "question": "How often do you find it difficult to express your opinions to people?",
+            "options": [
+                "A. 0 — always",
+                "B. 1 — often",
+                "C. 2 — sometimes",
+                "D. 3 — never"
+            ]
+        },
+        {
+            "question": "How often do you feel rejected, excluded from your circle?",
+            "options": [
+                "A. 0 — always",
+                "B. 1 — often",
+                "C. 2 — sometimes",
+                "D. 3 — never"
+            ]
+        },
+        {
+            "question": "How important do you consider your physical appearance?",
+            "options": [
+                "A. 3 — very",
+                "B. 2 — moderately",
+                "C. 1 — not very much",
+                "D. 0 — not at all"
+            ]
+        },
+        {
+            "question": "To what extent do you have difficulties in managing your resources and income?",
+            "options": [
+                "A. 0 — always",
+                "B. 1 — often",
+                "C. 2 — sometimes",
+                "D. 3 — never"
+            ]
+        },
+        {
+            "question": "Do you feel able to organise your environment according to your wishes and needs?",
+            "options": [
+                "A. 3 — very much so",
+                "B. 2 — moderately",
+                "C. 1 — not very",
+                "D. 0 — not at all"
+            ]
+        }
+    ],
+    "bdi": [
+        {
+            "question": "Sadness",
+            "options": [
+                "A. 0 — I don't feel sad",
+                "B. 1 — I feel sad",
+                "C. 2 — I am always sad and can't control it",
+                "D. 3 — I am too sad or unhappy to tolerate"
+            ]
+        },
+        {
+            "question": "Pessimism",
+            "options": [
+                "A. 0 — I don't feel disappointed about the future",
+                "B. 1 — I feel disappointed about the future",
+                "C. 2 — I feel there is no hope for the future",
+                "D. 3 — I feel the future has no hope and can't get better"
+            ]
+        },
+        {
+            "question": "Past failures",
+            "options": [
+                "A. 0 — I don't feel like I have failed",
+                "B. 1 — I feel I have failed more than others",
+                "C. 2 — Looking back, I can see many failures",
+                "D. 3 — I feel I am a complete failure"
+            ]
+        },
+        {
+            "question": "Loss of pleasure",
+            "options": [
+                "A. 0 — I get the same pleasure from activities as before",
+                "B. 1 — I no longer get pleasure from activities as before",
+                "C. 2 — I rarely get pleasure from things I truly like",
+                "D. 3 — I can't feel any pleasure from anything"
+            ]
+        },
+        {
+            "question": "Guilt",
+            "options": [
+                "A. 0 — I don't feel guilty",
+                "B. 1 — I feel slight guilt about what I have done or not done",
+                "C. 2 — I feel very guilty about what I have done or not done",
+                "D. 3 — I feel guilty all the time and can't get rid of it"
+            ]
+        },
+        {
+            "question": "Sense of punishment",
+            "options": [
+                "A. 0 — I don't feel like I'm being punished",
+                "B. 1 — I feel I might be punished",
+                "C. 2 — I expect to be punished",
+                "D. 3 — I feel I'm being punished"
+            ]
+        },
+        {
+            "question": "Self-loathing",
+            "options": [
+                "A. 0 — I don't feel disappointed in myself",
+                "B. 1 — I feel disappointed in myself",
+                "C. 2 — I hate myself",
+                "D. 3 — I despise myself"
+            ]
+        },
+        {
+            "question": "Self-criticism",
+            "options": [
+                "A. 0 — I don't feel I'm worse than others",
+                "B. 1 — I criticize myself for my weaknesses or mistakes",
+                "C. 2 — I always blame myself for my mistakes",
+                "D. 3 — I blame myself for everything bad that happens"
+            ]
+        },
+        {
+            "question": "Suicidal thoughts",
+            "options": [
+                "A. 0 — I don't have suicidal thoughts",
+                "B. 1 — I have suicidal thoughts, but won't act on them",
+                "C. 2 — I really want to commit suicide",
+                "D. 3 — I would commit suicide if I had the chance"
+            ]
+        },
+        {
+            "question": "Crying",
+            "options": [
+                "A. 0 — I don't feel like crying more than before",
+                "B. 1 — I cry more easily than before",
+                "C. 2 — I always feel like crying now",
+                "D. 3 — I used to cry, but now I can't cry even if I want to"
+            ]
+        },
+        {
+            "question": "Irritability",
+            "options": [
+                "A. 0 — I don't get more easily angry than usual",
+                "B. 1 — I get a bit more angry than before",
+                "C. 2 — I often feel annoyed or irritable",
+                "D. 3 — I am always in an irritable state now"
+            ]
+        },
+        {
+            "question": "Social withdrawal",
+            "options": [
+                "A. 0 — I haven't lost interest in others",
+                "B. 1 — I have less interest in others than before",
+                "C. 2 — I have lost most of my interest in others",
+                "D. 3 — I have completely lost interest in others"
+            ]
+        },
+        {
+            "question": "Hesitation",
+            "options": [
+                "A. 0 — I can make decisions as before",
+                "B. 1 — I find it harder to make decisions than before",
+                "C. 2 — I find it very hard to make any decisions",
+                "D. 3 — I can't make any decisions at all"
+            ]
+        },
+        {
+            "question": "Self-image",
+            "options": [
+                "A. 0 — I don't feel I look worse than before",
+                "B. 1 — I worry about looking old or unattractive",
+                "C. 2 — I feel my appearance has permanently changed, making me unattractive",
+                "D. 3 — I believe I look very ugly"
+            ]
+        },
+        {
+            "question": "Work difficulties",
+            "options": [
+                "A. 0 — I can work as before",
+                "B. 1 — I need extra effort to start work",
+                "C. 2 — I must force myself to complete simple tasks",
+                "D. 3 — I can't work at all"
+            ]
+        },
+        {
+            "question": "Sleep problems",
+            "options": [
+                "A. 0 — My sleep is as good as before",
+                "B. 1 — My sleep is not as deep or as long as before",
+                "C. 2 — I wake up 1-2 hours earlier than usual and have difficulty falling back asleep",
+                "D. 3 — I wake up several hours earlier than usual and can't fall back asleep"
+            ]
+        },
+        {
+            "question": "Fatigue",
+            "options": [
+                "A. 0 — I don't feel more fatigued than usual",
+                "B. 1 — I feel more fatigued than before",
+                "C. 2 — Almost anything makes me feel fatigued",
+                "D. 3 — I'm too fatigued to do even simple things"
+            ]
+        },
+        {
+            "question": "Appetite changes",
+            "options": [
+                "A. 0 — My appetite hasn't changed much",
+                "B. 1 — My appetite is slightly worse or better than before",
+                "C. 2 — My appetite is very poor or I overeat significantly",
+                "D. 3 — I have no appetite at all or can't stop eating"
+            ]
+        },
+        {
+            "question": "Weight changes",
+            "options": [
+                "A. 0 — My weight hasn't changed much",
+                "B. 1 — My weight has decreased or increased by more than 5%",
+                "C. 2 — My weight has decreased or increased by more than 10%",
+                "D. 3 — My weight has decreased or increased by more than 15%"
+            ]
+        },
+        {
+            "question": "Health concerns",
+            "options": [
+                "A. 0 — My concerns about health aren't more than before",
+                "B. 1 — I worry about physical pain, stomach discomfort, or constipation",
+                "C. 2 — I am very worried about my physical problems and can't think of anything else",
+                "D. 3 — I am completely preoccupied with physical discomfort and can't think of anything else"
+            ]
+        },
+        {
+            "question": "Sexual desire changes",
+            "options": [
+                "A. 0 — My interest in sex is the same as before",
+                "B. 1 — My interest in sex has decreased compared to before",
+                "C. 2 — I have almost no interest in sex now",
+                "D. 3 — I have completely lost interest in sex"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,149 @@
+[
+    {
+        "profile": {
+            "drisk": 3,
+            "srisk": 2,
+            "age": "42",
+            "gender": "Female",
+            "marital_status": "Divorced",
+            "occupation": "Teacher",
+            "symptoms": "Lack of self-confidence, low self-worth, feelings of guilt, hopelessness; significant weight gain; psychomotor agitation; suicidal ideation"
+        },
+        "situation": "You find yourself feeling disappointed and perhaps a bit hurt because your husband forgot your anniversary. Despite your efforts to remind him several times, he didn’t plan anything special for the occasion. This makes you feel undervalued and perhaps questioning how much your relationship means to him. You might be reflecting on the balance of effort and attention in your marriage and wondering how to address your feelings with your husband in a way that can improve communication and understanding between the two of you.",
+        "statement": [
+            "That's also fine. Even so, I still occasionally have urges to self-harm.",
+            "Hello, doctor.",
+            "Everything is normal."
+        ],
+        "style": [
+            "Self-critical",
+            "Emotionally restrained",
+            "Direct and concise",
+            "Cautious",
+            "Open to guidance"
+        ],
+        "complaint_chain": [
+            {
+                "stage": 1,
+                "content": "I feel disappointed and hurt because my best friend cancelled our plans last minute."
+            },
+            {
+                "stage": 2,
+                "content": "I start to wonder if my friend values our friendship as much as I do."
+            },
+            {
+                "stage": 3,
+                "content": "I question if I'm doing something wrong in my relationships, leading people to cancel on me."
+            },
+            {
+                "stage": 4,
+                "content": "I feel a sense of loneliness and insecurity about my social connections."
+            },
+            {
+                "stage": 5,
+                "content": "I begin to worry that I might not have a strong support system."
+            },
+            {
+                "stage": 6,
+                "content": "I decide to withdraw from social activities to avoid further disappointment."
+            }
+        ],
+        "status": "The patient shows a slight overall improvement in mental health, with notable positive changes in psychological and social adaptation aspects. The BDI Depression Scale indicates improvements in several areas of psychological state, though there are challenges with loss of pleasure and sleep problems. The GHQ Mental Health assessment reflects stability with some improvements, particularly regarding physical symptoms and emotional stability. The SASS Social Adaptation shows a positive trend in leisure activities and home interest, although there is a decline in family contact frequency. Overall, the patient's mental health is slightly improved with some areas remaining stable and a few challenges persisting.",
+        "report": {
+            "case_title": "Anxiety Disorder Case with Decision-Making Difficulties and Guilt",
+            "case_categories": [
+                "Anxiety Disorder",
+                "Low Self-Worth"
+            ],
+            "techniques_used": [
+                "Cognitive Behavioral Therapy",
+                "Emotional Support"
+            ],
+            "case_summary": [
+                "The patient is a 58-year-old married female who reports lack of self-confidence and difficulty making decisions, accompanied by psychomotor retardation and low self-worth. The patient describes feelings of guilt and hopelessness, with tendencies toward self-harm. Although there is no obvious social barrier with friends, her low mood and anxiety affect daily life."
+            ],
+            "counseling_process": [
+                "During the initial interview, the patient expressed severe doubts about her own abilities, believing she was a burden to others. Upon inquiry, it was learned that there were no obvious recent life events as triggers, but she had long felt slow in her actions and often experienced mental blankness. Despite describing normal eating and sleeping patterns, the patient still occasionally experiences urges to self-harm. The patient stated that friends provided support at critical moments, preventing self-harm behavior from occurring.",
+                "During the conversation, the doctor observed that the patient tends to become agitated easily, although dizziness symptoms were not present. The doctor suggested the patient relieve emotional pressure through communication with friends and outdoor activities. Building on this, the patient was encouraged to explore the emotional roots deep within to improve her sense of self-worth."
+            ],
+            "insights_and_reflections": [
+                "This case demonstrates that the patient's low self-worth and decision-making difficulties are directly related to her deep-seated anxiety. Although the patient's mood fluctuations have no specific life event as a trigger, they may be related to long-term psychological pressure and unresolved self-doubt. It is recommended that the patient re-examine her self-perception through cognitive behavioral therapy to enhance self-worth, and stabilize mood fluctuations through an emotional support system.",
+                "During treatment, the patient realized the importance of friends' support in alleviating emotional crises, which provided her with a positive emotional outlet. Future treatment can further strengthen the patient's self-awareness and emotional management abilities, helping her establish a more positive self-image and attitude toward life."
+            ]
+        },
+        "previous_conversations": [
+            {
+                "role": "Client",
+                "content": "Hello, doctor."
+            },
+            {
+                "role": "Therapist",
+                "content": "Hello. Is there anything you'd like to talk about?"
+            },
+            {
+                "role": "Client",
+                "content": "I feel like my life is a failure. I can't do anything right and I'm always a burden to others."
+            },
+            {
+                "role": "Therapist",
+                "content": "What makes you think that way? Has something happened recently?"
+            },
+            {
+                "role": "Client",
+                "content": "I feel like my actions have become very sluggish lately. When I can't do things well, I get very agitated. And sometimes my mind goes completely blank."
+            },
+            {
+                "role": "Therapist",
+                "content": "I see. Is there no particular reason? How long has this been going on?"
+            },
+            {
+                "role": "Client",
+                "content": "I don't know what the reason is either. It's been a while."
+            },
+            {
+                "role": "Therapist",
+                "content": "Alright. Have you lost interest in things you used to enjoy?"
+            },
+            {
+                "role": "Client",
+                "content": "No."
+            },
+            {
+                "role": "Therapist",
+                "content": "How about eating? Is that okay?"
+            },
+            {
+                "role": "Client",
+                "content": "Everything is normal."
+            },
+            {
+                "role": "Therapist",
+                "content": "That's good. What about sleeping?"
+            },
+            {
+                "role": "Client",
+                "content": "That's also fine. Even so, I still occasionally have urges to self-harm."
+            },
+            {
+                "role": "Therapist",
+                "content": "How is your social interaction with friends? Do you feel any sense of distance?"
+            },
+            {
+                "role": "Client",
+                "content": "No. In fact, it was because of them that I was stopped in time."
+            },
+            {
+                "role": "Therapist",
+                "content": "Okay. Do you feel dizzy or get anxious easily? (Sorry for the slow reply, I had something to attend to.)"
+            },
+            {
+                "role": "Client",
+                "content": "I do get agitated easily. As for dizziness, that's not a problem."
+            },
+            {
+                "role": "Therapist",
+                "content": "Okay. I basically understand your situation. Although you don't want to talk about the reason for your sadness, you don't need to feel too much pressure. No matter what happens, try to stay optimistic. You can talk to your friends more often and go out for walks to relax. That's all for today."
+            }
+        ]
+    }
+]

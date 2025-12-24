@@ -1,7 +1,12 @@
 import os
 import json
 import yaml
+import pandas as pd
 from jinja2 import Template
+
+
+def load_csv(path: str):
+    return pd.read_csv(path)
 
 
 def load_json(path: str):

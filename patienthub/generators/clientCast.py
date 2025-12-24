@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 from typing import Any, Dict, Optional, Literal
 from langchain_core.messages import SystemMessage
 
-from patienthub.base import ChatAgent
+from patienthub.base import InferenceAgent
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, get_chat_model, load_json, save_json
 
@@ -264,9 +264,9 @@ class ClientCastCharacter(BaseModel):
     symptoms: Symptoms = Field(..., description="Client's symptom estimates.")
 
 
-class ClientCastGenerator(ChatAgent):
+class ClientCastGenerator(InferenceAgent):
     def __init__(self, configs: DictConfig):
-        self.configs = configs.generator
+        self.configs = configs
         self.chat_model = get_chat_model(self.configs)
         self.data = self.load_data()
         self.symptoms = load_json(self.configs.symptoms_dir)
@@ -332,6 +332,3 @@ class ClientCastGenerator(ChatAgent):
             data=character.model_dump(),
             output_dir=self.configs.output_dir,
         )
-
-    def reset(self):
-        pass
