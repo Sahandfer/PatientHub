@@ -1,20 +1,19 @@
-from dataclasses import dataclass
 from typing import Dict, List
+from omegaconf import DictConfig
+from dataclasses import dataclass
 from pydantic import BaseModel, Field
 
-from patienthub.base import ChatAgent
+from patienthub.base import InferenceAgent
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, get_chat_model
 
-from omegaconf import DictConfig
-
 
 @dataclass
-class ConvEvaluatorConfig(APIModelConfig):
+class ConversationEvaluatorConfig(APIModelConfig):
     """Configuration for Conversation Evaluator."""
 
-    agent_type: str = "client"
-    eval_type: str = "conv"
+    target: str = "client"
+    eval_type: str = "conversation"
     temperature: float = 0.4
     input_dir: str = ""
     output_dir: str = ""
@@ -175,7 +174,7 @@ class TurnLevelFeedback(BaseModel):
     )
 
 
-class ConvEvaluator(ChatAgent):
+class ConversationEvaluator(InferenceAgent):
     def __init__(self, configs: DictConfig):
         self.configs = configs
         self.chat_model = get_chat_model(configs)
