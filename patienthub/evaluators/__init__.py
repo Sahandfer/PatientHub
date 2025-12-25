@@ -1,4 +1,4 @@
-from .dimensions import get_dimensions
+from .dimensions import Aspect, Dimension, get_dimensions
 from .rating import RatingEvaluator, RatingEvaluatorConfig
 
 from omegaconf import DictConfig

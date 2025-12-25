@@ -1,13 +1,13 @@
 from omegaconf import DictConfig
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Type
+from typing import Any, Dict, List, Type
+from langchain_core.messages import SystemMessage
 from pydantic import BaseModel, Field, create_model
-from langchain_core.messages import SystemMessage, HumanMessage
 
-from patienthub.evaluators.dimensions import Dimension, get_dimensions
-from patienthub.base import InferenceAgent
+from patienthub.base import EvaluatorAgent
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, load_json, get_chat_model
+from patienthub.evaluators import Dimension, get_dimensions
+from patienthub.utils import load_prompts, get_chat_model
 
 
 @dataclass
@@ -20,10 +20,16 @@ class RatingEvaluatorConfig(APIModelConfig):
     granularity: str = "session"  # "turn" or "session"
 
 
-class RatingEvaluator(InferenceAgent):
+@dataclass
+class AspectRating(BaseModel):
+    score: int = Field(..., ge=0, le=10, description="Score for this aspect")
+    comments: str = Field(..., description="Reasoning for the score (1 sentence)")
+
+
+class RatingEvaluator(EvaluatorAgent):
     def __init__(self, configs: DictConfig):
         self.configs = configs
-        self.chat_model = get_chat_model(configs)
+        self.model = get_chat_model(configs)
         self.prompts = load_prompts(
             role="evaluator", agent_type="rating", lang=configs.lang
         )
@@ -34,13 +40,10 @@ class RatingEvaluator(InferenceAgent):
         }
 
     def build_schema(self, dimension: Dimension) -> Type[BaseModel]:
-        """Dynamically create a Pydantic model for rating a dimension."""
-        AspectRating = create_model(
-            "AspectRating",
-            score=(int, Field(..., ge=1, le=10, description="Score from 1-10")),
-            comments=(str, Field(..., description="Reasoning for the score")),
-        )
-
+        """
+        Create a Pydantic BaseModel class for rating a dimension.
+        Field descriptions come from aspect descriptions.
+        """
         fields = {
             aspect.name: (AspectRating, Field(..., description=aspect.description))
             for aspect in dimension.aspects
@@ -48,122 +51,65 @@ class RatingEvaluator(InferenceAgent):
 
         fields["overall_score"] = (
             int,
-            Field(..., ge=1, le=10, description="Overall score for this dimension"),
+            Field(..., ge=0, le=10, description="Overall score for this dimension"),
         )
 
         return create_model(f"{dimension.name.title()}Rating", **fields)
 
-    def build_dimension_prompt(self, dimension: Dimension) -> str:
-        """Build prompt section describing what to evaluate for a dimension."""
-        lines = [f"## {dimension.name.title()}", f"{dimension.description}", ""]
-        lines.append("Evaluate the following aspects:")
-        for aspect in dimension.aspects:
-            lines.append(f"- **{aspect.name}**: {aspect.description}")
-            if aspect.guidelines:
-                lines.append(f"  - Guidelines: {aspect.guidelines}")
-        return "\n".join(lines)
+    def generate(self, prompt, response_format: Type[BaseModel]) -> BaseModel:
+        model = self.model.with_structured_output(response_format)
+        return model.invoke([SystemMessage(content=prompt)])
 
-    def generate(
-        self,
-        prompt: str,
-        response_format: Optional[Type[BaseModel]] = None,
-    ) -> BaseModel | str:
-        """Generate a response from the chat model."""
-        if response_format:
-            chat_model = self.chat_model.with_structured_output(response_format)
-        else:
-            chat_model = self.chat_model
-        return chat_model.invoke(prompt)
-
-    def evaluate_dimension(self, dimension: Dimension) -> BaseModel:
-        """Evaluate a single dimension."""
-        schema = self.dimension_schemas[dimension.name]
-
-        # Build the system prompt with context
+    def evaluate_dimension(
+        self, dimension: Dimension, profile=None, conv_history=None
+    ) -> BaseModel:
         sys_prompt = self.prompts["sys_prompt"].render(
-            data={
-                "profile": self.data.get("profile"),
-                "conv_history": self.data.get("messages", []),
-            }
+            data={"profile": profile, "conv_history": conv_history}
         )
-
-        # Build the dimension-specific instructions
-        dimension_prompt = self.build_dimension_prompt(dimension)
-
-        full_prompt = [
-            SystemMessage(content=sys_prompt),
-            HumanMessage(
-                content=f"Please evaluate the following dimension:\n\n{dimension_prompt}"
-            ),
-        ]
-
-        res = self.generate(full_prompt, response_format=schema)
+        schema = self.dimension_schemas[dimension.name]
+        res = self.generate(sys_prompt, response_format=schema)
 
         return res
 
-    def evaluate_turn(self, dimension: Dimension, turn_idx: int) -> BaseModel:
-        """Evaluate a single turn for a dimension."""
-        schema = self.dimension_schemas[dimension.name]
-        messages = self.data.get("messages", [])
+    def evaluate_turn(self):
+        target_role = self.configs.target
+        profile = self.data.get("profile", {})
+        conv_history = self.data.get("messages", [])
 
-        # Get conversation up to and including the target turn
-        context_messages = messages[:turn_idx]
-        target_message = messages[turn_idx]
+        results = {}
+        for dimension in self.dimensions:
+            results[dimension.name] = {}
+            for i, msg in enumerate(conv_history):
+                if msg.get("role") == target_role:
+                    conv_history_slice = conv_history[: i + 1]
+                    result = self.evaluate_turn(
+                        dimension, profile=profile, conv_history=conv_history_slice
+                    )
+                    results[dimension.name][f"turn_{i}"] = result.model_dump()
+        return results
 
-        sys_prompt = self.prompts["sys_prompt"].render(
-            data={
-                "profile": self.data.get("profile"),
-                "conv_history": (
-                    self.data.get("messages", []) if context_messages else None
-                ),
-            }
-        )
-
-        dimension_prompt = self.build_dimension_prompt(dimension)
-
-        full_prompt = [
-            SystemMessage(content=sys_prompt),
-            HumanMessage(
-                content=(
-                    f"Please evaluate the following response:\n\n"
-                    f"**{target_message['role']}**: {target_message['content']}\n\n"
-                    f"Evaluate based on this dimension:\n\n{dimension_prompt}"
-                )
-            ),
-        ]
-
-        chat_model = self.chat_model.with_structured_output(schema)
-        return chat_model.invoke(full_prompt)
+    def evaluate_session(self):
+        results = {}
+        profile = self.data.get("profile", {})
+        conv_history = self.data.get("messages", [])
+        for dimension in self.dimensions:
+            res = self.evaluate_dimension(
+                dimension, profile=profile, conv_history=conv_history
+            )
+            results[dimension.name] = res.model_dump()
+        return results
 
     def evaluate(self, data) -> Dict[str, Any]:
-        """
-        Evaluate conversation data across all dimensions.
 
-        Args:
-            data: Dictionary containing 'profile' and 'messages'
-
-        Returns:
-            Dictionary with evaluation results per dimension
-        """
         self.data = data
-        results = {}
 
+        results = {}
         if self.configs.granularity == "session":
-            # Evaluate entire session
-            for dimension in self.dimensions:
-                result = self.evaluate_dimension(dimension)
-                results[dimension.name] = result.model_dump()
+            results = self.evaluate_session()
 
         elif self.configs.granularity == "turn":
-            # Evaluate each turn separately
-            messages = self.data.get("messages", [])
-            target_role = "Client" if self.configs.target == "client" else "Therapist"
+            results = self.evaluate_turn()
 
-            for dimension in self.dimensions:
-                results[dimension.name] = {}
-                for i, msg in enumerate(messages):
-                    if msg.get("role") == target_role:
-                        result = self.evaluate_turn(dimension, i)
-                        results[dimension.name][f"turn_{i}"] = result.model_dump()
+        results["data"] = data
 
         return results
