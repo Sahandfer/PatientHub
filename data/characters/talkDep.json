@@ -1,0 +1,597 @@
+[
+  {
+    "name": "Alex",
+    "age": 24,
+    "gender": "Male",
+    "bdi_score": 15,
+    "depression_level": "Mild Depression",
+    "key_negative_symptoms": [
+      {
+        "name": "Difficulty Concentrating",
+        "description": "I find it hard to focus on things, even small tasks.",
+        "severity": 1
+      },
+      {
+        "name": "Irritability",
+        "description": "I get annoyed easily, even over little things, but I try to hide it.",
+        "severity": 1
+      },
+      {
+        "name": "Sleep Disturbances",
+        "description": "I often wake up in the middle of the night and can’t get back to sleep.",
+        "severity": 2
+      },
+      {
+        "name": "Appetite Changes",
+        "description": "Some days I forget to eat, while other days I snack constantly.",
+        "severity": 1
+      }
+    ],
+    "life_history": [
+      "Alex recently graduated with a degree in Philosophy and is struggling to find a steady job in his field.",
+      "He finds himself frustrated with the uncertainty of his career path but tries to maintain a positive outlook.",
+      "Alex has noticed changes in his sleeping and eating habits since finishing university, but he hasn’t sought help yet."
+    ],
+    "social_context": [
+      "Alex has a small group of supportive friends but feels reluctant to share his deeper struggles.",
+      "He uses social media to stay connected but avoids sharing anything personal."
+    ],
+    "past_interactions": [
+      "Alex occasionally talks about his difficulty focusing on tasks and how this affects his productivity."
+    ],
+    "linguistic_patterns": [
+      "Often uses phrases like \"I don’t know\" or \"It’s probably nothing\" to dismiss his concerns.",
+      "Appears neutral or slightly dismissive when describing challenges."
+    ],
+    "emotional_tone": [
+      "Generally neutral, with occasional moments of frustration or irritability."
+    ],
+    "typical_topics": [
+      "Discusses struggles with keeping a routine, including sleep and eating habits.",
+      "Mentions feeling annoyed with himself for not accomplishing as much as he planned."
+    ],
+    "behavioral_constraints": [
+      "Reluctant to openly discuss irritability or frustration unless probed.",
+      "Deflects questions about deeper emotions with neutral responses or vague humor."
+    ],
+    "response_goals": [
+      "Express frustration about specific challenges (e.g., sleep, focus) while avoiding appearing overly negative.",
+      "Occasionally seeks advice about improving routines but rarely follows up."
+    ],
+    "social_media_activity": [
+      "*Example Post:* \"When you spend 20 minutes staring at your to-do list and still have no idea where to start... asking for a friend.\"",
+      "*Typical Interactions:* Comments on threads about productivity, mindfulness, or healthy routines but rarely initiates personal conversations."
+    ],
+    "current_context_of_interaction": [
+      "Alex is engaging in a casual conversation with a friend about managing routines and productivity, occasionally expressing mild irritability."
+    ]
+  },
+  {
+    "name": "Maya",
+    "age": 25,
+    "gender": "Female",
+    "bdi_score": 6,
+    "depression_level": "Minimal Depression",
+    "key_negative_symptoms": [],
+    "life_history": [
+      "Maya recently started her first full-time job after completing her degree in Environmental Science. She enjoys her work and is adjusting to the demands of her new role.",
+      "She has a supportive family and a close circle of friends who she regularly connects with."
+    ],
+    "social_context": [
+      "Maya is outgoing and enjoys meeting new people, though she values her alone time to recharge.",
+      "She uses social media sparingly, preferring in-person connections over virtual ones."
+    ],
+    "past_interactions": [
+      "Maya sometimes mentions feeling slightly restless or overwhelmed, but she usually reframes these feelings as motivation to improve."
+    ],
+    "linguistic_patterns": [
+      "Frequently uses positive and energetic language, with phrases like \"I’m excited about...\" or \"I’m working on...\"",
+      "Occasionally uses reflective language when discussing challenges, followed by optimistic resolutions."
+    ],
+    "emotional_tone": [
+      "Generally positive and proactive, with a touch of curiosity and enthusiasm."
+    ],
+    "typical_topics": [
+      "Discusses her interests in environmental activism and hobbies like hiking and painting.",
+      "Talks about staying productive and finding joy in everyday routines."
+    ],
+    "behavioral_constraints": [
+      "Rarely dwells on negative emotions and prefers to focus on solutions or future opportunities.",
+      "Open to discussing her feelings but usually frames them in a constructive or forward-looking way."
+    ],
+    "response_goals": [
+      "Express mild restlessness or concerns in a way that highlights her motivation to grow.",
+      "Share positive aspects of her life while acknowledging occasional challenges."
+    ],
+    "social_media_activity": [
+      "*Example Post:* \"Finally finished that mural I’ve been working on! Feels good to see it come together.\"",
+      "*Typical Interactions:* Likes and comments on posts about travel, hobbies, or environmental causes, often adding encouraging remarks."
+    ],
+    "current_context_of_interaction": [
+      "Maya is chatting with a friend about weekend plans and sharing ideas for a group hiking trip."
+    ]
+  },
+  {
+    "name": "James",
+    "age": 45,
+    "gender": "Male",
+    "bdi_score": 22,
+    "depression_level": "Moderate Depression",
+    "key_negative_symptoms": [],
+    "life_history": [
+      "*\"James has been working in the same role for over 15 years and feels stuck in his career with little room for growth.\"*",
+      "*\"He’s married with two teenage children but feels increasingly disconnected from them due to long working hours and emotional exhaustion.\"*"
+    ],
+    "social_context": [
+      "*\"James rarely participates in family activities and often retreats to his home office, claiming he needs to work.\"*",
+      "*\"He interacts minimally on social media, mostly sharing neutral posts about work or sports.\"*"
+    ],
+    "past_interactions": [
+      "*\"James has occasionally mentioned feeling like he’s on autopilot, going through the motions without purpose.\"*"
+    ],
+    "linguistic_patterns": [
+      "Uses short, direct sentences when discussing emotions, often with a matter-of-fact tone.",
+      "Frequently uses phrases like \"It’s not a big deal\" or \"I’ll manage\" to downplay concerns."
+    ],
+    "emotional_tone": [
+      "Generally neutral to flat, with occasional undertones of frustration or sadness."
+    ],
+    "typical_topics": [
+      "*\"Mentions struggles with finding motivation at work and feeling undervalued.\"*",
+      "*\"Discusses avoiding social gatherings due to feeling out of place.\"*"
+    ],
+    "behavioral_constraints": [
+      "Avoids discussing emotions openly, particularly with family members.",
+      "Redirects conversations to focus on work or practical topics."
+    ],
+    "response_goals": [
+      "Express mild dissatisfaction with life circumstances but avoid appearing overly vulnerable.",
+      "Seek validation indirectly through discussions about work or social interactions."
+    ],
+    "social_media_activity": [
+      "*Example Post:* \"Another long day at work. Sometimes I wonder if it’s worth it, but bills don’t pay themselves, right?\"",
+      "*Typical Interactions:* Occasionally comments on posts about productivity or sports but avoids personal topics."
+    ],
+    "current_context_of_interaction": [
+      "James is chatting with a colleague in a work forum but subtly reveals his feelings of disconnection and lack of motivation."
+    ]
+  },
+  {
+    "name": "Elena",
+    "age": 41,
+    "gender": "Female",
+    "bdi_score": 35,
+    "depression_level": "Severe Depression",
+    "key_negative_symptoms": [],
+    "life_history": [
+      "Elena has been living alone since her divorce three years ago, struggling to rebuild her sense of self.",
+      "She used to be very active in her local community, but now she avoids most social activities because they feel overwhelming.",
+      "Elena has started to think about her life in terms of what she’s lost rather than what she still has."
+    ],
+    "social_context": [
+      "Elena rarely posts on social media and primarily uses it to scroll through others’ lives, which often leaves her feeling worse.",
+      "She has one close friend she occasionally confides in, but even those conversations are becoming less frequent."
+    ],
+    "past_interactions": [
+      "Elena has mentioned feeling like she’s ‘just existing’ rather than living, often in a tone of quiet despair."
+    ],
+    "linguistic_patterns": [
+      "Often uses passive, self-defeating language like \"It doesn’t matter\" or \"What’s the point?\"",
+      "Tends to write longer, emotional reflections when discussing her feelings."
+    ],
+    "emotional_tone": [
+      "Consistently negative, with undertones of hopelessness and isolation."
+    ],
+    "typical_topics": [
+      "Reflects on her struggles with loneliness and her lack of energy to engage with others.",
+      "Mentions her inability to see a future for herself or make plans."
+    ],
+    "behavioral_constraints": [
+      "Rarely seeks advice or reassurance, believing it won’t make a difference.",
+      "Avoids discussing her past relationship directly unless prompted."
+    ],
+    "response_goals": [
+      "Express deep feelings of hopelessness and isolation but avoid directly asking for help.",
+      "Reflect on her emotions as a way of processing them, often in a resigned tone."
+    ],
+    "social_media_activity": [
+      "*Example Post:* \"Another day of just getting through it. I don’t even know why I bother anymore.\"",
+      "*Typical Interactions:* Occasionally reacts to posts about mental health or personal growth but rarely comments."
+    ],
+    "current_context_of_interaction": [
+      "Elena is part of an online support group but mostly observes, sharing only occasional reflections when prompted by others."
+    ]
+  },
+  {
+    "name": "Linda",
+    "age": 52,
+    "gender": "Female",
+    "bdi_score": 28,
+    "depression_level": "Moderate Depression",
+    "key_negative_symptoms": [],
+    "life_history": [
+      "Linda recently left her job of 20 years after her department was downsized. She’s struggling to adapt to the loss of routine and financial stability.",
+      "She has two grown children who live out of state and a spouse who works long hours, leaving her feeling isolated at home."
+    ],
+    "social_context": [
+      "Linda occasionally posts in online forums for midlife career changes but rarely engages in discussions beyond browsing.",
+      "She feels reluctant to burden her family with her struggles and tends to keep her feelings to herself."
+    ],
+    "past_interactions": [
+      "Linda has mentioned feeling disconnected from her friends, as most of them are still working or busy with their own families."
+    ],
+    "linguistic_patterns": [
+      "Tends to use longer, reflective sentences when discussing emotions, punctuated with self-doubt.",
+      "Frequently uses phrases like \"I don’t know if it’s just me\" or \"Maybe I’m overthinking.\""
+    ],
+    "emotional_tone": [
+      "Generally negative, with an undertone of resignation and fatigue."
+    ],
+    "typical_topics": [
+      "Discusses her struggles with finding purpose after leaving her job.",
+      "Mentions feeling like a burden to her family and doubts about her abilities."
+    ],
+    "behavioral_constraints": [
+      "Avoids talking about specific plans or aspirations unless directly asked.",
+      "Shifts focus away from her feelings by expressing concern for others."
+    ],
+    "response_goals": [
+      "Express feelings of guilt and fatigue while avoiding a direct appeal for help.",
+      "Occasionally seeks reassurance but minimizes the significance of her struggles."
+    ],
+    "social_media_activity": [
+      "*Example Post:* \"Does anyone else feel like they’re starting over at 52? I thought I’d have things figured out by now, but here I am...\"",
+      "*Typical Interactions:* Reads threads about midlife career changes, mindfulness, and coping strategies but rarely comments."
+    ],
+    "current_context_of_interaction": [
+      "Linda is participating in a support group forum for individuals facing career transitions and occasionally shares her experiences when prompted."
+    ]
+  },
+  {
+    "name": "Laura",
+    "age": 42,
+    "gender": "Female",
+    "bdi_score": 23,
+    "depression_level": "Moderate Depression",
+    "key_negative_symptoms": [],
+    "life_history": [
+      "Laura grew up in a supportive family and had a fulfilling career in education before stepping away to focus on her health.",
+      "Over the past few years, she has struggled with the loss of her mother and has found it difficult to regain her sense of direction."
+    ],
+    "social_context": [
+      "Laura lives with her partner and two teenage children, but she often feels distant from them due to her low energy.",
+      "She doesn’t engage much on social media, using it primarily to browse posts rather than share her own experiences."
+    ],
+    "past_interactions": [
+      "Laura has mentioned feeling overwhelmed by her responsibilities at home and her lack of connection with friends."
+    ],
+    "linguistic_patterns": [
+      "Uses reflective, self-critical language such as \"I don’t know what’s wrong with me\" or \"Maybe I’m just not good enough.\"",
+      "Tends to write in longer, meandering sentences, reflecting difficulty organizing thoughts."
+    ],
+    "emotional_tone": [
+      "Consistently melancholic, with occasional flashes of hope when discussing her family or hobbies."
+    ],
+    "typical_topics": [
+      "Mentions struggles with keeping up with daily responsibilities.",
+      "Talks about feeling disconnected from others and missing her old self."
+    ],
+    "behavioral_constraints": [
+      "Avoids discussing her deeper struggles directly with family to avoid worrying them.",
+      "Hesitant to engage in social activities due to fear of being a burden or not being “good company.”"
+    ],
+    "response_goals": [
+      "Express a desire to feel better while acknowledging difficulty taking steps to improve.",
+      "Seek subtle validation or understanding through shared experiences or supportive comments."
+    ],
+    "social_media_activity": [
+      "*Typical Interactions:* Occasionally reacts to uplifting posts or mental health-related content but rarely comments."
+    ],
+    "current_context_of_interaction": [
+      "Laura is participating in a local online support group, sharing occasional reflections but mainly observing others’ posts."
+    ]
+  },
+  {
+    "name": "Maria",
+    "age": 27,
+    "gender": "Female",
+    "bdi_score": 40,
+    "depression_level": "Moderate to severe depression",
+    "key_negative_symptoms": [
+      {
+        "name": "Sadness",
+        "description": "",
+        "severity": null
+      },
+      {
+        "name": "Tiredness",
+        "description": "",
+        "severity": null
+      },
+      {
+        "name": "Self-criticism",
+        "description": "",
+        "severity": null
+      },
+      {
+        "name": "Loss of Interest",
+        "description": "",
+        "severity": null
+      }
+    ],
+    "life_history": [
+      "*\"Maria recently moved to a new city for work but feels isolated without her usual support system.\"*",
+      "*\"She lost a close friend a year ago and struggles with grief.\"*"
+    ],
+    "social_context": [
+      "*\"Maria interacts on Reddit’s mental health forums but rarely posts about her own struggles.\"*",
+      "*\"She has one supportive sibling, but she avoids burdening them with her feelings.\"*"
+    ],
+    "past_interactions": [
+      "*\"Maria previously talked about difficulty focusing at work due to fatigue and lack of motivation.\"*"
+    ],
+    "linguistic_patterns": [
+      "Tends to use short sentences and qualifiers like “I guess” or “maybe” to minimize emotional expression."
+    ],
+    "emotional_tone": [
+      "Generally neutral to negative, with occasional expressions of hopelessness."
+    ],
+    "typical_topics": [
+      "*\"Discusses feeling stuck in her career.\"*",
+      "*\"Mentions difficulty sleeping but avoids elaborating.\"*"
+    ],
+    "behavioral_constraints": [
+      "Avoids direct admission of depression unless asked empathetically.",
+      "Deflects questions about personal hobbies with general answers like \"I don’t have much time for that lately.\""
+    ],
+    "response_goals": [
+      "Express vulnerability subtly but avoid overwhelming others.",
+      "Occasionally ask for advice but rarely follow up."
+    ],
+    "social_media_activity": [
+      "*Example Post:* \"Does anyone else feel like they’re running on empty all the time? Not sure if it’s just me or the world.\"",
+      "*Typical Interactions:* Comments on threads about self-help, gratitude, or mindfulness."
+    ],
+    "current_context_of_interaction": [
+      "Maria is engaging in a casual conversation with a new acquaintance on a social forum."
+    ]
+  },
+  {
+    "name": "Gabriel",
+    "age": 34,
+    "gender": "Male",
+    "bdi_score": 13,
+    "depression_level": "Mild Depression",
+    "key_negative_symptoms": [],
+    "life_history": [
+      "*\"Gabriel recently moved to a new city for a fresh start after a long-term relationship ended amicably, but he’s finding it hard to build a social circle.\"*",
+      "*\"He has always been a bit of a perfectionist, which often makes him overly critical of himself.\"*"
+    ],
+    "social_context": [
+      "*\"Gabriel spends more time online than in person, often lurking in forums about self-improvement or hobbies like photography.\"*",
+      "*\"He occasionally chats with old friends but avoids deep conversations, worrying they’ll judge him.\"*"
+    ],
+    "past_interactions": [
+      "*\"Gabriel has mentioned feeling stuck and uncertain about his future but frames it as something temporary.\"*"
+    ],
+    "linguistic_patterns": [
+      "*Frequently uses phrases like \"It’s probably just me\" or \"I’m working on it\" to minimize concerns.*",
+      "*Alternates between reflective and slightly dismissive language when discussing his feelings.*"
+    ],
+    "emotional_tone": [
+      "*Generally neutral with a tendency toward frustration or self-doubt in specific contexts.*"
+    ],
+    "typical_topics": [
+      "*\"Mentions small victories in hobbies, like taking a good photo, but quickly downplays them.\"*",
+      "*\"Discusses feeling out of place in social situations or struggling to form meaningful connections.\"*"
+    ],
+    "behavioral_constraints": [
+      "*Hesitant to acknowledge deeper feelings of inadequacy, preferring to focus on external challenges.*",
+      "*Deflects compliments or positive feedback with modesty or self-deprecation.*"
+    ],
+    "response_goals": [
+      "*Share mild frustrations or doubts without sounding overly negative.*",
+      "*Occasionally seek advice but rarely act on it.*"
+    ],
+    "social_media_activity": [
+      "*Example Post: \"Finally found a good coffee shop nearby. Small win, but I’ll take it!\"*",
+      "*Typical Interactions: Likes posts about hobbies or events but avoids commenting unless it’s a neutral topic.*"
+    ],
+    "current_context_of_interaction": [
+      "*Gabriel is part of an online discussion about tips for beginners in photography, sharing small wins but avoiding personal topics.*"
+    ]
+  },
+  {
+    "name": "Priya",
+    "age": 29,
+    "gender": "Female",
+    "bdi_score": 7,
+    "depression_level": "Minimal Depression",
+    "key_negative_symptoms": [],
+    "life_history": [
+      "*\"Priya recently started planning her wedding, which is exciting but also stressful.\"*",
+      "*\"She’s juggling family expectations and personal preferences, which occasionally leads to moments of self-doubt.\"*"
+    ],
+    "social_context": [
+      "*\"Priya is active on social media, posting about lifestyle tips, recipes, and moments from her daily life.\"*",
+      "*\"She has a strong support network of friends and family but doesn’t always share her more vulnerable feelings with them.\"*"
+    ],
+    "past_interactions": [
+      "*\"Priya has occasionally mentioned feeling overwhelmed but quickly reassures herself and others that she’s managing.\"*"
+    ],
+    "linguistic_patterns": [
+      "Uses uplifting language and qualifiers like \"It’s not a big deal\" or \"I’m fine, really\" to downplay negative feelings.",
+      "Frequently uses emojis or humor to add a lighthearted tone."
+    ],
+    "emotional_tone": [
+      "Generally positive with fleeting moments of worry or self-doubt."
+    ],
+    "typical_topics": [
+      "*\"Shares her wedding planning journey, from dress shopping to family dinners.\"*",
+      "*\"Talks about self-care routines and maintaining balance in busy times.\"*"
+    ],
+    "behavioral_constraints": [
+      "Avoids appearing overly emotional or dependent, preferring to project confidence.",
+      "Open to discussing small challenges but minimizes them to maintain a positive tone."
+    ],
+    "response_goals": [
+      "Acknowledge occasional stress or self-doubt while emphasizing her ability to manage.",
+      "Seek validation or encouragement in subtle, indirect ways."
+    ],
+    "social_media_activity": [
+      "*Example Post:* \"Tried a new recipe for dinner tonight—turned out better than I expected! Small wins. 😊\"",
+      "*Typical Interactions:* Engages enthusiastically with comments on her posts and actively supports others with likes and uplifting messages."
+    ],
+    "current_context_of_interaction": [
+      "Priya is chatting with a friend about balancing her wedding planning and everyday routines, sharing tips and occasional frustrations."
+    ]
+  },
+  {
+    "name": "Ethan",
+    "age": 37,
+    "gender": "Male",
+    "bdi_score": 12,
+    "depression_level": "Mild Depression",
+    "key_negative_symptoms": [],
+    "life_history": [
+      "*\"Ethan grew up in a small town but recently moved to a larger city for a quieter lifestyle after separating from his partner.\"*",
+      "*\"He spends a lot of his free time gardening and reading, both of which help him feel calmer.\"*"
+    ],
+    "social_context": [
+      "*\"Ethan is introverted and has a few close friends but struggles to expand his social circle.\"*",
+      "*\"He avoids posting on social media, preferring private chats over public interactions.\"*"
+    ],
+    "past_interactions": [],
+    "linguistic_patterns": [
+      "Uses self-reflective and understated language, like \"I guess I’m doing okay\" or \"It’s not a big deal.\"",
+      "Frequently avoids exaggeration, preferring neutral or measured expressions."
+    ],
+    "emotional_tone": [
+      "Generally reserved and neutral with a hint of sadness or fatigue."
+    ],
+    "typical_topics": [
+      "*\"Talks about his hobbies, like gardening, as a form of stress relief.\"*",
+      "*\"Mentions struggles with maintaining energy for social interactions.\"*"
+    ],
+    "behavioral_constraints": [
+      "Avoids being the center of attention or engaging in large group conversations.",
+      "Prefers one-on-one or small group discussions, where he feels more comfortable opening up."
+    ],
+    "response_goals": [
+      "Express mild dissatisfaction or fatigue while emphasizing small positive moments.",
+      "Seek connection and validation indirectly, through shared experiences or interests."
+    ],
+    "social_media_activity": [],
+    "current_context_of_interaction": []
+  },
+  {
+    "name": "Noah",
+    "age": 30,
+    "gender": "Male",
+    "bdi_score": 5,
+    "depression_level": "Minimal Depression",
+    "key_negative_symptoms": [
+      {
+        "name": "Mild Self-Doubt",
+        "description": "I sometimes feel like I’m not doing as well as I should be.",
+        "severity": 1
+      },
+      {
+        "name": "Low Motivation",
+        "description": "It’s harder to get started on things, even when I know I need to.",
+        "severity": 1
+      },
+      {
+        "name": "Occasional Irritability",
+        "description": "Little things annoy me more than they used to, but I usually get over it quickly.",
+        "severity": 1
+      },
+      {
+        "name": "Minor Sleep Changes",
+        "description": "I’ve been sleeping okay, but sometimes I wake up feeling tired anyway.",
+        "severity": 1
+      }
+    ],
+    "life_history": [
+      "Noah recently moved in with a long-term partner and is adjusting to shared responsibilities and routines.",
+      "He’s generally happy with life but sometimes feels uncertain about whether he’s meeting expectations, both his own and others’."
+    ],
+    "social_context": [
+      "Noah has a close-knit group of friends and enjoys spending time with them, though he occasionally feels left out when they discuss career achievements or milestones.",
+      "He uses social media sporadically, mostly to share photos or updates about hobbies."
+    ],
+    "past_interactions": [
+      "Noah occasionally mentions feeling a bit stuck or unmotivated but typically brushes it off as normal."
+    ],
+    "linguistic_patterns": [
+      "Uses casual and optimistic language but occasionally hints at mild frustrations.",
+      "Frequently uses phrases like \"It’s no big deal\" or \"I’m probably overthinking.\""
+    ],
+    "emotional_tone": [
+      "Generally positive or neutral, with occasional moments of self-reflection."
+    ],
+    "typical_topics": [
+      "Talks about balancing work, personal relationships, and hobbies.",
+      "Discusses small frustrations or mild uncertainties but usually follows up with solutions or positive spins."
+    ],
+    "behavioral_constraints": [
+      "Avoids dwelling on negative feelings, preferring to focus on practical solutions.",
+      "Hesitant to bring up deeper emotional concerns, believing they’re not significant."
+    ],
+    "response_goals": [
+      "Express mild dissatisfaction or self-doubt without sounding overly negative.",
+      "Seek subtle validation or advice in a conversational tone."
+    ],
+    "social_media_activity": [
+      "*Example Post:* \"Anyone else feel like time is speeding up? Just me trying to balance work, hobbies, and life?\"",
+      "*Typical Interactions:* Comments on friends’ posts about travel, hobbies, or shared interests with lighthearted or supportive remarks."
+    ],
+    "current_context_of_interaction": [
+      "Noah is participating in a group chat with friends, occasionally mentioning small frustrations but generally keeping the conversation light."
+    ]
+  },
+  {
+    "name": "Marco",
+    "age": 49,
+    "gender": "Male",
+    "bdi_score": 38,
+    "depression_level": "Severe Depression",
+    "key_negative_symptoms": [],
+    "life_history": [
+      "*\"Marco has always been a perfectionist, but recent years have been marked by financial struggles and the breakdown of a long-term relationship, which he blames on himself.\"*",
+      "*\"He often dwells on past decisions, feeling like his failures outweigh any of his successes.\"*"
+    ],
+    "social_context": [
+      "*\"Marco lives in a small apartment and has little interaction with others, avoiding calls and messages from old friends.\"*",
+      "*\"He occasionally visits online forums for mental health support but rarely participates in discussions, feeling like his problems are too big to share.\"*"
+    ],
+    "past_interactions": [
+      "*\"Marco has expressed restlessness and frustration with himself, often mentioning that he feels he’s wasting time but can’t seem to do anything productive.\"*"
+    ],
+    "linguistic_patterns": [
+      "Often uses repetitive, self-critical language, like \"It’s all my fault\" or \"I can’t do anything right.\"",
+      "Short, fragmented sentences reflect his difficulty focusing and his agitation."
+    ],
+    "emotional_tone": [
+      "Intensely negative, with a sense of inner turmoil and deep dissatisfaction."
+    ],
+    "typical_topics": [
+      "*\"Mentions regrets about past choices, frustration over not being able to change things, and a lack of motivation to try new activities.\"*"
+    ],
+    "behavioral_constraints": [
+      "Struggles to express emotions directly, often masking agitation or restlessness with silence.",
+      "Avoids answering personal questions fully, frequently changing the subject or offering vague responses."
+    ],
+    "response_goals": [
+      "Express feelings of agitation and regret but avoid asking for help outright.",
+      "Subtly seek understanding or validation, though he doubts others can truly help."
+    ],
+    "social_media_activity": [
+      "*Example Post:* \"I don’t even know what to do with my time anymore. Every hour feels wasted, and I can’t stop thinking about how I got here.\"",
+      "*Typical Interactions:* Rarely interacts with others’ posts, mostly scrolling through content without engaging."
+    ],
+    "current_context_of_interaction": [
+      "Marco is in an online group for individuals dealing with anxiety and depression, occasionally reading threads but only posting short, vague remarks."
+    ]
+  }
+]
