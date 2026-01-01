@@ -37,7 +37,7 @@ class StateDetectionStageII(BaseModel):
     """Stage II: determine the question is specific or broad"""
     
     specificity: Literal["具体", "宽泛", "Specific", "Broad"] = Field(
-        description="问题/建议是具体Specific还是宽泛Broad"
+        description="Whether the question/advise is 具体Specific还是宽泛Broad"
     )
 
 
@@ -45,11 +45,11 @@ class MemoryExtraction(BaseModel):
     """Stage III: Memory extraction"""
     
     has_relevant_info: bool = Field(
-        description="病历中是否有相关信息"
+        description="Whether there is relevant information in the medical record"
     )
     extracted_text: str = Field(
         default="",
-        description="提取的相关文本片段，如无相关信息则为空"
+        description="The extracted text fragment, if there is no relevant information, it is empty"
     )
 
 
@@ -57,7 +57,7 @@ class PatientResponse(BaseModel):
     """Patient final response"""
     
     content: str = Field(
-        description="病人的回复内容"
+        description="The content of the patient's response"
     )
 
 
