@@ -1,10 +1,24 @@
-from patienthub.utils import save_json
-from patienthub.base import ChatAgent
-from typing import TypedDict, List, Dict, Any, Optional
-from langgraph.graph import StateGraph, START, END
+from dataclasses import dataclass
 from colorama import Fore, Style, init
+from typing import TypedDict, List, Dict, Any, Optional
+
+from patienthub.utils import save_json
+
+from langgraph.graph import StateGraph, START, END
 
 init(autoreset=True)
+
+
+@dataclass
+class TherapySessionConfig:
+    """Configuration for a therapy session."""
+
+    event_type: str = "therapySession"
+    reminder_turn_num: int = 5
+    max_turns: int = 30
+    langfuse: bool = False
+    recursion_limit: int = 1000
+    output_dir: str = "data/sessions/default/session_1.json"
 
 
 class TherapySessionState(TypedDict):
@@ -15,21 +29,19 @@ class TherapySessionState(TypedDict):
 
 
 class TherapySession:
-    def __init__(
-        self,
-        configs: Dict[str, Any],
-        client: ChatAgent,
-        therapist: ChatAgent,
-        evaluator: ChatAgent = None,
-    ):
+    def __init__(self, configs: Dict[str, Any]):
         self.configs = configs
-
-        self.client = client
-        self.therapist = therapist
-        self.evaluator = evaluator
 
         self.num_turns = 0
         self.graph = self.build_graph()
+
+    def set_characters(self, characters: Dict[str, Any]):
+        try:
+            self.client = characters["client"]
+            self.therapist = characters["therapist"]
+            self.evaluator = characters.get("evaluator", None)
+        except KeyError as e:
+            raise ValueError(f"Missing character in session: {e}")
 
     def build_graph(self):
         # The session graph
@@ -60,39 +72,26 @@ class TherapySession:
 
         return graph.compile()
 
-    # Preparations before the interaction
     def init_session(self, state: TherapySessionState):
         # Introduce characters together
         self.therapist.set_client({"name": self.client.name})
         self.client.set_therapist({"name": self.therapist.name})
-        # Create an agenda for this session
-        # print("> Creating the agenda for this session...", end="", flush=True)
-        # agenda = self.therapist.generate_agenda()
-        # print(f"\r{' ' * 50}\r> Created agenda for this session", end="\n")
-        # # Initialize client's mental states before the session
-        # print("> Initializing client's mental state...", end="", flush=True)
-        # self.client.init_mental_state()
-        # print(f"\r{' ' * 50}\r> Initialized client's mental state", end="\n")
 
         print("=" * 50)
         return {
-            "msg": f"[Moderator] You may start the session now, {self.therapist.name}.",
+            "msg": "[Moderator] You may start the session now.",
             "messages": [],
-            # "agenda": agenda,
-            # "agenda": None,
         }
 
     def generate_therapist_response(self, state: TherapySessionState):
+        name = self.therapist.name
         res = self.therapist.generate_response(state["msg"])
         print(f"--- Turn # {self.num_turns + 1}/{self.configs.max_turns} ---")
-        # print(
-        #     f"{Fore.CYAN}{Style.BRIGHT}{self.therapist.name}{Style.RESET_ALL}: {res.content}"
-        # )
-        print(f"{Fore.CYAN}{Style.BRIGHT}Therapist{Style.RESET_ALL}: {res.content}")
+        print(f"{Fore.CYAN}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res.content}")
         return {
             "msg": f"{self.therapist.name}: {res.content}",
             "messages": state["messages"]
-            + [{"role": "Therapist", "content": res.content}],
+            + [{"role": "therapist", "content": res.content}],
         }
 
     def generate_client_response(self, state: TherapySessionState):
@@ -102,19 +101,18 @@ class TherapySession:
             "exit",
         ]:
             return {
-                "msg": "Session has ended.",
+                "msg": "The therapist has ended the session.",
                 "messages": state["messages"][:-1],
             }
+        name = self.client.name
         res = self.client.generate_response(state["msg"])
-        print(
-            f"{Fore.RED}{Style.BRIGHT}{self.client.name}{Style.RESET_ALL}: {res.content}"
-        )
+        print(f"{Fore.RED}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res.content}")
         self.num_turns += 1
 
         return {
-            "msg": f"{self.client.name}: {res.content}",
+            "msg": f"{name}: {res.content}",
             "messages": state["messages"]
-            + [{"role": "Client", "content": res.content}],
+            + [{"role": "client", "content": res.content}],
         }
 
     def give_reminder(self, state: TherapySessionState):
@@ -122,7 +120,7 @@ class TherapySession:
         print(f"Reminder: {turns_left} turns left in the session.")
         return {
             "msg": state["msg"]
-            + f"\nModerator: You have {turns_left} turns left in the session. Try to wrap up the conversation."
+            + f"\n[Moderator] You have {turns_left} turns left in the session. Try to wrap up the conversation."
         }
 
     def check_session_end(self, state: TherapySessionState):
@@ -141,16 +139,6 @@ class TherapySession:
         # print("> Generating session feedback...", end="", flush=True)
         # feedback = self.evaluator.generate(state["messages"]).model_dump(mode="json")
         # print(f"\r{' ' * 50}\r> Generated session feedback", end="\n")
-        # for k, v in feedback.items():
-        #     if k != "dimension_feedback":
-        #         print(f"{Fore.GREEN}{Style.BRIGHT}{k}:{Style.RESET_ALL} {v}")
-        #     else:
-        #         for dim, dim_feedback in v.items():
-        #             print(f"  {Fore.YELLOW}{Style.BRIGHT}{dim}:{Style.RESET_ALL}")
-        #             for fk, fv in dim_feedback.items():
-        #                 print(
-        #                     f"    {Fore.CYAN}{Style.BRIGHT}{fk}:{Style.RESET_ALL} {fv}"
-        #                 )
         # summary = self.therapist.generate_summary()
         # print("> Generated summary")
         # feedback = self.client.generate_feedback()
@@ -167,8 +155,21 @@ class TherapySession:
 
         return {
             # "summary": summary.summary,
-            "msg": "Moderator: Session has ended.",
+            "msg": "[Moderator] Session has ended.",
         }
+
+    def load_graph_configs(self):
+        lg_config = {"recursion_limit": self.configs.recursion_limit}
+        if self.configs.langfuse:
+            from langfuse.langchain import CallbackHandler
+
+            session_handler = CallbackHandler()
+            lg_config["callbacks"] = [session_handler]
+        return lg_config
+
+    def start(self):
+        graph_configs = self.load_graph_configs()
+        self.graph.invoke(input={}, config=graph_configs)
 
     def reset(self):
         self.messages = []

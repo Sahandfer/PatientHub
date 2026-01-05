@@ -8,6 +8,7 @@ def register_configs(config_name: str, config_class):
     from patienthub.therapists import register_therapist_configs
     from patienthub.evaluators import register_evaluator_configs
     from patienthub.generators import register_generator_configs
+    from patienthub.events import register_event_configs
 
     cs = ConfigStore.instance()
     cs.store(name=config_name, node=config_class)
@@ -17,6 +18,7 @@ def register_configs(config_name: str, config_class):
     register_therapist_configs(cs)
     register_evaluator_configs(cs)
     register_generator_configs(cs)
+    register_event_configs(cs)
 
 
 __all__ = ["register_configs", "APIModelConfig", "LocalModelConfig"]

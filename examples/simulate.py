@@ -19,11 +19,12 @@ Usage:
 """
 
 import hydra
+
 from typing import Any, List, Optional
 from omegaconf import DictConfig, MISSING
 from dataclasses import dataclass, field
 
-from patienthub.events import TherapySession
+from patienthub.events import get_event
 from patienthub.clients import get_client
 from patienthub.therapists import get_therapist
 from patienthub.evaluators import get_evaluator
@@ -33,19 +34,9 @@ DEFAULTS = [
     "_self_",
     {"client": "talkDep"},
     {"therapist": "user"},
-    # {"evaluator": "inspect"},
+    {"evaluator": "inspect"},
+    {"event": "therapySession"},
 ]
-
-
-@dataclass
-class SessionConfig:
-    """Configuration for a therapy session."""
-
-    reminder_turn_num: int = 5
-    max_turns: int = 30
-    langfuse: bool = False
-    recursion_limit: int = 1000
-    output_dir: str = "data/sessions/default/session.json"
 
 
 @dataclass
@@ -53,10 +44,10 @@ class SimulateConfig:
     """Main configuration for simulation."""
 
     defaults: List[Any] = field(default_factory=lambda: DEFAULTS)
-    session: Any = field(default_factory=SessionConfig)
     client: Any = MISSING
     therapist: Any = MISSING
     evaluator: Optional[Any] = None
+    event: Any = MISSING
     lang: str = "en"
 
 
@@ -80,22 +71,15 @@ def simulate(configs: DictConfig) -> None:
         evaluator = get_evaluator(configs=configs.evaluator, lang=lang)
 
     # Create therapy session
-    session = TherapySession(
-        client=client, therapist=therapist, evaluator=evaluator, configs=configs.session
+    event = get_event(configs=configs.event)
+    event.set_characters(
+        {
+            "client": client,
+            "therapist": therapist,
+            "evaluator": evaluator,
+        }
     )
-
-    # # Setting up langgraph
-    lg_config = {"recursion_limit": configs.session.recursion_limit}
-    if configs.session.langfuse:
-        from langfuse.langchain import CallbackHandler
-
-        session_handler = CallbackHandler()
-        lg_config["callbacks"] = [session_handler]
-
-    # session.graph.invoke(
-    #     input={},
-    #     config=lg_config,
-    # )
+    event.start()
 
 
 if __name__ == "__main__":
