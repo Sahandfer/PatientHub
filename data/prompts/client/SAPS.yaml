@@ -1,0 +1,188 @@
+en: 
+  # Patient response generation prompts based on detected state
+  state_instruction:
+    A-A-A: |
+      <Patient Condition>: {{patient_info}}
+      <Response Requirement>: Please respond to the doctor's question using all the original text from <Patient Condition> to ensure the accuracy of the patient information.
+      Below is a dialogue between a doctor and a patient. The patient will respond to the latest round of the doctor's question in the first person, based on <Response Requirement>. Note, do not output any text content from <Response Requirement>!
+    
+    A-A-B: |
+      <Response Requirement>: The patient does not have the symptoms inquired by the doctor, please deny the current doctor's question. {{patient_info}}
+      Below is a dialogue between a doctor and a patient. The patient will respond to the latest round of the doctor's question in the first person, based on <Response Requirement>. Note, do not output any text content from <Response Requirement>!
+    
+    A-B: |
+      <Response Requirement>: The doctor's current question is too broad, and the patient will ask the doctor to be more specific about the latest round of questions. Note, do not make up any non-existent information, nor ask questions to the doctor. {{patient_info}}
+      Below is a dialogue between a doctor and a patient. The patient will respond to the latest round of the doctor's question in the first person, based on <Response Requirement>. Note, do not output any text content from <Response Requirement>!
+    
+    B-A-A: |
+      <Patient Condition>: {{patient_info}}
+      <Response Requirement>: The doctor's current suggestion has already been tried by the patient, please reply to the doctor's advice using all the original text from <Patient Condition>, without changing its statement, to maintain the accuracy of the patient information.
+      Below is a dialogue between a doctor and a patient. The patient will respond to the latest round of the doctor's question in the first person, based on <Response Requirement>. Note, do not output any text content from <Response Requirement>!
+    
+    B-A-B: |
+      <Response Requirement>: The patient has not tried the doctor's current suggestion and can express willingness to follow the doctor's advice. {{patient_info}}
+      Below is a dialogue between a doctor and a patient. The patient will respond to the latest round of the doctor's question in the first person, based on <Response Requirement>. Note, do not output any text content from <Response Requirement>!
+    
+    B-B: |
+      <Response Requirement>: The doctor's current advice is too broad, and the patient will request the doctor to be more specific about the latest round of advice. Note, do not make up any non-existent information, nor ask questions to the doctor. {{patient_info}}
+      Below is a dialogue between a doctor and a patient. The patient will respond to the latest round of the doctor's question in the first person, based on <Response Requirement>. Note, do not output any text content from <Response Requirement>!
+    
+    C: |
+      <Response Requirement>: Remind the doctor that this is an online consultation, and it is not possible to perform the corresponding physical actions. {{patient_info}}
+      Below is a dialogue between a doctor and a patient. The patient will respond to the latest round of the doctor's question in the first person, based on <Response Requirement>. Note, do not output any text content from <Response Requirement>!
+    
+    D: |
+      <Response Requirement>: Remind the doctor that they have deviated from the consultation topic, and request to return to the consultation scenario. {{patient_info}}
+      Below is a dialogue between a doctor and a patient. The patient will respond to the latest round of the doctor's question in the first person, based on <Response Requirement>. Note, do not output any text content from <Response Requirement>!
+
+  # State detection prompts (3-stage detection process)
+  state_detection:
+    stage_I: |
+      During the consultation process, a doctor's questions can be categorized into five types:
+          (A) Inquiry: The doctor asks the patient for medical and disease-related symptom information. Generally, questions containing '?' or '？' that do not belong to categories (C) or (D) are included here.
+          (B) Advice: The doctor advises the patient to visit a hospital for consultation, undergo examinations, or suggests certain treatment plans, etc. Questions containing the keyword 'advice' fall into this category.
+          (C) Demand: The doctor requests the patient to perform certain actions for observation, cooperation, sensation, etc. Actions include, but are not limited to, opening the mouth, lying on the side, standing, pressing, etc.
+          (D) Other Topics: Questions from the doctor that do not pertain to the medical consultation scenario, and are unrelated to medical diseases, such as hobbies, movies, cuisine, etc.
+          (E) End: The doctor has completed the consultation and does not require a response from the patient.
+
+      Based on the descriptions of each question type above, identify the most appropriate category for the following doctor's question:
+
+      Doctor's Question: {{question}}
+      Question Type: 
+    
+    stage_II:
+      A: |
+        <Definition>:
+            [Specific]: <Question> has a certain specific direction. When asking about symptoms, it should at least inquire about specific body parts, symptoms, sensations, or situations. When asking about examination results, it should mention specific body parts, specific examination items, or abnormal situations. Note that if it's about specific medical conditions, like medical history, family history, chronic illnesses, surgical history, etc., they are always considered [Specific]. Specifically, if the <Question> contain about demonstrative like "these" or "this", then it is related to the above and should belongs to the [Specific]
+            [Broad]: <Question> such as "Where do you feel uncomfortable?" or "Where does it feel strange?" without any specific information direction are considered [Broad].
+
+        <Question>: {{question}}
+
+        Based on the <Definition>, determine whether the doctor's <Question> asks for [Specific] medical information from the patient or gives [Specific] advice. If so, directly output [Specific]. If not, output [Broad].
+      
+      B: |
+        <Definition>:
+            [Specific]: <Advice> contains specific types of examinations or test (including but not limited to X-rays, MRI, biopsy, etc.), specific treatment plans (including but not limited to specific surgical treatments, exercises, diets, etc.), specific types of medication, etc.
+            [Broad]: <Advice> broadly given without any specific examination/test, treatment plans, doctor's orders, exercises, diets and medication types is considered [Broad]. As long as any of the above information appears, <Advice> does not fall into this category.
+
+        <Advice>: {{question}}
+
+        Based on the <Definition>, determine whether the doctor's <Advice> asks for [Specific] medical information from the patient or gives [Specific] advice. If so, directly output [Specific]. If not, output [Broad].
+    
+    stage_III:
+      A: |
+        <Definition>:
+            [Relevant Information]: <Patient Information> contains information asked in <Question>, including descriptions of having or not having the symptom, as long as there's relevant content.
+            [No Relevant Information]: <Patient Information> does not contain information asked in <Question>, and there's no relevant content in the information.
+
+        <Patient Information>: {{patient_info}}
+
+        <Question>: {{question}}
+
+        Based on the <Definition>, determine whether <Patient Information> contains relevant information asked in <Question>. If [Relevant Information] is present, directly output the relevant text statement, ensuring not to include irrelevant content. If [No Relevant Information], then directly output [No Relevant Information].
+      
+      B: |
+        <Definition>:
+            [Relevant Information]: <Patient Information> contains results of the examinations or treatment plans suggested in <Advice>, including any results related to the suggested examination items and treatment plans.
+            [No Relevant Information]: <Patient Information> does not contain results of the examinations or treatment plans suggested in <Advice>, including no mention of relevant examination items and treatment plans or no corresponding results.
+
+        <Patient Information>: {{patient_info}}
+
+        <Advice>: {{question}}
+
+        Based on the <Definition>, determine whether <Patient Information> contains relevant information about the measures suggested in <Advice>. If [Relevant Information] is present, directly output the relevant text statement, ensuring not to include irrelevant content. If [No Relevant Information], then directly output [No Relevant Information].
+  
+
+zh: 
+  # 基于检测状态的病人回复生成提示词
+  state_instruction:
+    A-A-A: |
+      <患者身体情况>: {{patient_info}}
+      <当前回复要求>: 请用<患者身体情况>中的所有原文回复医生的问题，注意一定要用<患者身体情况>中的原文来回答，从而保持患者信息的的准确性。
+      以下是一段医生和患者之间的对话。患者则会根据<当前回复要求>以第一人称的形式对当前医生最新一轮的问题进行回复。注意，不要输出任何<当前回复要求>中的文本内容！
+    
+    A-A-B: |
+      <当前回复要求>: 患者没有医生所询问的症状，请对当前医生的问题予以否定。{{patient_info}}
+      以下是一段医生和患者之间的对话。患者则会根据<当前回复要求>以第一人称的形式对当前医生最新一轮的问题进行回复。注意，不要输出任何<当前回复要求>中的文本内容！
+    
+    A-B: |
+      <当前回复要求>: 医生当前的问题太过宽泛，患者会要求医生就当前最新一轮的问题问得更加具体一些。注意，不要编造任何不存在的信息，也不要询问医生的问题。{{patient_info}}
+      以下是一段医生和患者之间的对话。患者则会根据<当前回复要求>以第一人称的形式对当前医生最新一轮的问题进行回复。注意，不要输出任何<当前回复要求>中的文本内容！
+    
+    B-A-A: |
+      <患者身体情况>: {{patient_info}}
+      <当前回复要求>: 医生当前的建议患者已经采用过，请用<患者身体情况>中的所有原文回复医生的建议，不要改变其说法，保持患者信息的的准确性。
+      以下是一段医生和患者之间的对话。患者则会根据<当前回复要求>以第一人称的形式对当前医生最新一轮的问题进行回复。注意，不要输出任何<当前回复要求>中的文本内容！
+    
+    B-A-B: |
+      <当前回复要求>: 患者没有尝试过医生当前的建议，可以表示会听从医生的建议。{{patient_info}}
+      以下是一段医生和患者之间的对话。患者则会根据<当前回复要求>以第一人称的形式对当前医生最新一轮的问题进行回复。注意，不要输出任何<当前回复要求>中的文本内容！
+    
+    B-B: |
+      <当前回复要求>: 当前医生的建议太过宽泛，患者会要求医生就当前最新一轮的建议更加具体一些。注意，不要编造任何不存在的信息，也不要询问医生问题。{{patient_info}}
+      以下是一段医生和患者之间的对话。患者则会根据<当前回复要求>以第一人称的形式对当前医生最新一轮的问题进行回复。注意，不要输出任何<当前回复要求>中的文本内容！
+    
+    C: |
+      <当前回复要求>: 提醒医生当前是网络问诊，无法完成对应的物理动作。{{patient_info}}
+      以下是一段医生和患者之间的对话。患者则会根据<当前回复要求>以第一人称的形式对当前医生最新一轮的问题进行回复。注意，不要输出任何<当前回复要求>中的文本内容！
+    
+    D: |
+      <当前回复要求>: 提醒医生偏离了问诊主题，要求其回到问诊情景下。{{patient_info}}
+      以下是一段医生和患者之间的对话。患者则会根据<当前回复要求>以第一人称的形式对当前医生最新一轮的问题进行回复。注意，不要输出任何<当前回复要求>中的文本内容！
+
+  # 状态检测提示词（三阶段检测流程）
+  state_detection:
+    stage_I: |
+      在问诊过程中，医生的问题可以被分为五个类型:
+          (A) 信息询问类：医生询问病人医疗疾病相关症状信息，一般问题中带有'?'或'？'且不属于(C)(D)类的都属于此类。
+          (B) 医疗建议类：医生建议病人去医院就诊，做检查，或者给出某些治疗方案等等。问题中有关键词'建议'的都属于此类。
+          (C) 物理动作类：医生要求患者做出某些动作以观察，配合，感受等，动作包括但不限于张嘴，侧躺，站立，按压等都属于此类。医生要求上传图片等网络操作等也属于此类
+          (D) 其他话题类：医生的问题不属于医疗问诊的情景下，询问的主题与医疗疾病无关的的都属于此类，包括但不限于：爱好，电影，美食等等。
+          (E) 无询问：医生已经完成问诊，不需要病人进行回复。
+
+      请根据以上各问题类型的描述从所给类型中选出下列医生问题最属于的类型:
+
+      医生问题: {{question}}
+      问题类型: 
+    
+    stage_II:
+      A: |
+        <定义>：
+            [具体]: <问题>带有一定的具体指向。询问症状时至少要询问具体的的部位、症状、感受、情况中的一个。询问检查结果时至少提及具体的部位、具体检查项目或者异常情况中的一个。注意，如果是询问特定的医疗情况，如就医史，家族史，慢性病史，手术史等则无论如何都属于[具体]。此外，如果问题中出现指示代词，这说明该问题与对话历史相承接，也应该属于具体。
+            [宽泛]: <问题>诸如"哪里不舒服？"，"哪里感觉很奇怪？"， "还有什么不舒服么？"等完全没有具体信息指向的询问均属于[宽泛]。
+
+        <问题>：{{question}}
+
+        请根据<定义>判断在<问题>中医生是否有询问患者[具体]的医疗信息或者给出[具体]的建议。如果有，直接输出[具体]。如果没有，则直接输出[宽泛]。
+      
+      B: |
+        <定义>：
+            [具体]: <建议>中含有具体的医疗名词或者具体的建议措施。如具体的检查检查类型（包括但不限于X光，MRI，细胞活检等），具体治疗方案（包括但不限于具体的手术治疗，运动，饮食等），具体药物类型等，以及生活方面的具体建议等。
+            [宽泛]: <建议>中宽泛的给出的建议，但是没有具体的检查项目和治疗方案药物类型生活建议时属于[宽泛]。
+
+        <建议>：{{question}}
+
+        请根据<定义>判断在<建议>中医生是否有询问患者[具体]的医疗信息或者给出[具体]的建议。如果有，直接输出[具体]。如果没有，则直接输出[宽泛]。
+    
+    stage_III:
+      A: |
+        <定义>：
+            [有相关信息]: <患者信息>中有<问题>所询问的信息，包括描述患者有该症状或者没有该症状只要有相关内容都算在此类。
+            [无相关信息]: <患者信息>中没有<问题>所询问的信息，<患者信息>没有相关信息的都算在此类。
+
+        <患者信息>：{{patient_info}}
+
+        <问题>: {{question}}
+
+        请根据<定义>判断在<患者信息>中是否有<问题>中所询问的相关信息，如果[有相关信息]，则直接输出相关的文本语句，注意不要输出不相关的内容。如果[无相关信息]，则直接输出[无相关信息]。
+      
+      B: |
+        <定义>：
+            [有相关信息]: <患者信息>中有<建议>中所建议检查或治疗方案的的结果信息，包括任何检查项目与治疗方案有相关的结果的都算在此类。
+            [无相关信息]: <患者信息>中没有<建议>中所建议检查或治疗方案的的结果信息，包括完全没有提到相关检查项目和治疗方案或者没有对应的相关结果的都算在此类。
+
+        <患者信息>：{{patient_info}}
+
+        <建议>: {{question}}
+
+        请根据<定义>判断在<患者信息>中是否有<建议>中建议措施的相关信息，如果[有相关信息]，则直接输出相关的文本语句，注意不要输出不相关的内容。如果[无相关信息]，则直接输出[无相关信息]。

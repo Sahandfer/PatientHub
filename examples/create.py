@@ -11,10 +11,10 @@ It also adds the new agent to the corresponding `__init__.py` file.
 
 Usage:
     # Create a new client agent
-    uv run python -m examples.create gen_agent_type=client gen_agent_name=myAgent
+    uv run python -m examples.create generator.gen_agent_type=client generator.gen_agent_name=myAgent
 
     # Create a new therapist agent
-    uv run python -m examples.create gen_agent_type=therapist gen_agent_name=myTherapist
+    uv run python -m examples.create generator.gen_agent_type=therapist generator.gen_agent_name=myTherapist
 """
 
 import hydra

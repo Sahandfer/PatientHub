@@ -72,7 +72,7 @@ class ClientCastClient(ChatAgent):
     def render_conv(self):
         return "\n".join(
             [
-                f"{ turn.get("role").capitalize()}: {turn.get("content")}\n"
+                f"{ turn.get('role').capitalize()}: {turn.get('content')}\n"
                 for turn in self.conv
             ]
         )

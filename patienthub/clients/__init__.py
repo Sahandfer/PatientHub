@@ -10,6 +10,8 @@ from .user import UserClient, UserClientConfig
 from .clientCast import ClientCastClient, ClientCastClientConfig
 from .annaAgent import AnnaAgentClient, AnnaAgentClientConfig
 from .talkDep import TalkDepClient, TalkDepClientConfig
+from .SAPS import SAPSClient, SAPSClientConfig
+
 
 
 from omegaconf import DictConfig
@@ -28,6 +30,7 @@ CLIENT_REGISTRY = {
     "clientCast": ClientCastClient,
     "annaAgent": AnnaAgentClient,
     "talkDep": TalkDepClient,
+    "SAPS": SAPSClient,
 }
 
 # Registry of client configs (for Hydra registration)
@@ -44,6 +47,7 @@ CLIENT_CONFIG_REGISTRY = {
     "clientCast": ClientCastClientConfig,
     "annaAgent": AnnaAgentClientConfig,
     "talkDep": TalkDepClientConfig,
+    "SAPS": SAPSClientConfig,
 }
 
 
