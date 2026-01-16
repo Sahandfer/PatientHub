@@ -1,0 +1,117 @@
+{
+    "profile": {
+        "name": "Alex",
+        "id": "1-1",
+        "type": [
+            "plain",
+            "verbose",
+            "go off on tangents",
+            "hostile",
+            "guarded",
+            "ingratiating"
+        ],
+        "history": "The patient has a history of substance abuse and has been through rehab to overcome it. He has had issues with his family, particularly with his mother, where he has felt rejected and emotionally neglected. He has struggled with obesity since childhood, which has affected his self-esteem and body image. He also has a history of being victimized and bullied due to his weight.",
+        "helpless_belief_current": [
+            "I am trapped.",
+            "I am out of control."
+        ],
+        "unlovable_belief_current": [
+            "I am unlovable.",
+            "I am undesirable, unwanted."
+        ],
+        "worthless_belief_current": [],
+        "intermediate_belief": "Helpless: I'm just not very good at handling stress and I have poor self-control, which is why I need to not put myself in stressful situations. \n Unlovable: If I show my true self, people will reject me the way my mother rejected me.",
+        "intermediate_belief_depression": "Helpless: There's nothing I can do to change my situation. I cannot control myself. \nUnlovable: I don't deserve to be happy, so why even try to stay clean?",
+        "coping_strategies": "The patient has adopted avoidance as a coping strategy by distancing himself from his family to reduce exposure to negativity and conflict. He has started scheduling pleasant activities and planning his day ahead of time in order to maintain a sense of control over his emotions and circumstances.",
+        "situation": "Alex's cousin invited him to attend his upcoming wedding.",
+        "auto_thought": "It will be stressful and negative; people will ask me questions I cannot answer or don't want to answer; my mum would be ashamed of me and critical of me as always; They don't want me there anyway, nobody likes me in this family.",
+        "emotion": [
+            "anxious, worried, fearful, scared, tense",
+            "sad, down, lonely, unhappy"
+        ],
+        "behavior": "Ignored the invitation and did not respond to the RSVP request. Ignored phone calls from family."
+    },
+    "messages": [
+        {
+            "role": "therapist",
+            "content": "Oh, great. Another session. Let's get this over with. What's your problem today?"
+        },
+        {
+            "role": "client",
+            "content": "I can sense that you might be having a rough day, but I really appreciate your time. I'm struggling with some personal issues and feeling quite anxious. If you could offer some guidance or support, I would be very grateful."
+        },
+        {
+            "role": "therapist",
+            "content": "Honestly, everyone feels anxious sometimes, so you're not special. Maybe just try not to think about it so much. It's probably not that big of a deal anyway."
+        },
+        {
+            "role": "client",
+            "content": "I get what you're saying about not thinking about it too much, but it's hard for me to just ignore it. It's been pretty overwhelming lately."
+        },
+        {
+            "role": "therapist",
+            "content": "Well, maybe you should learn to deal with it. Overwhelming feelings are just part of life, you know? Just try not to be so dramatic about it."
+        },
+        {
+            "role": "client",
+            "content": "I'm trying to make sense of how to deal with these intense feelings. It's not easy to figure out the best way forward. Sometimes it feels like I'm just stuck and can't see the right path. How do people usually handle this kind of thing?"
+        },
+        {
+            "role": "therapist",
+            "content": "Honestly, most people just muddle through and eventually things blow over. You could try flipping a coin if you can't decide what to do. It's not rocket science, really."
+        },
+        {
+            "role": "client",
+            "content": "I appreciate the idea of just pushing through, but sometimes I feel like I'm missing some kind of roadmap or plan to deal with everything. It's like I'm standing at a crossroads with no clear signs, and I wonder if there's a way others have navigated similar uncertainties. I’d be interested in hearing about any paths or methods that might have helped them find their way."
+        },
+        {
+            "role": "therapist",
+            "content": "Roadmaps, paths... you're really overthinking this. Just pick something and stick with it. People don't get magical guidance; they just make it up as they go along, and if it works, great. If not, well, that's life."
+        },
+        {
+            "role": "client",
+            "content": "I see what you're saying about overthinking. Maybe I should just pick a strategy and try it. It might help if I practice some scenarios to get more comfortable with the idea. I'll give it a shot and see where it leads."
+        },
+        {
+            "role": "therapist",
+            "content": "Sure, whatever works. Just don't get too caught up in practicing scenarios. Life isn't a rehearsal, you know? Anyway, good luck with that, I guess. Let's wrap this up."
+        },
+        {
+            "role": "client",
+            "content": "I understand life isn't a rehearsal, but sometimes I feel like I'm constantly preparing for something that never comes. It's been helpful to discuss this and explore different options for moving forward. Thank you for your guidance. I'll reflect on our conversation and see how I can apply it in my daily routine. Have a good day."
+        },
+        {
+            "role": "therapist",
+            "content": "Yeah, sure, whatever. Just remember, most of this stuff is probably in your head anyway. Hope you figure it out, or don't. Either way, it's your call. Take care, I guess."
+        },
+        {
+            "role": "client",
+            "content": "I appreciate your time and the chance to talk about my concerns. Even though it's tough, I know that finding my own approach is important. I'll take this opportunity to reflect and consider what might work best for me. Thanks for the session, and I hope your day improves. Goodbye."
+        },
+        {
+            "role": "therapist",
+            "content": "Okay, well, let's call it a day. Good luck with all that reflecting and considering. Hopefully things magically get better for you. Bye."
+        },
+        {
+            "role": "client",
+            "content": "Thank you for listening. I've been trying to find new ways to handle the stress at work, experimenting with different approaches like organizing my tasks better and taking short breaks. It's been challenging to find what truly works, but I'm determined to keep trying until I feel more settled. I appreciate the chance to discuss this with you, and I hope your day improves as well. Take care."
+        },
+        {
+            "role": "therapist",
+            "content": "Sounds like a lot of effort for something that might not even work. But hey, if organizing tasks and taking breaks makes you feel better, go for it. Hope you figure it out eventually. Goodbye."
+        },
+        {
+            "role": "client",
+            "content": "Thank you for acknowledging my efforts. Even though it's a trial-and-error process, I'm optimistic that I'll find a way to manage my stress effectively. It's been helpful to talk about it, and I'm grateful for the space to explore these ideas. Take care, and I hope things get better for you, too. Goodbye."
+        },
+        {
+            "role": "therapist",
+            "content": "Alright, enough with the gratitude. Just keep doing whatever you're doing and maybe it'll work out. Or not. Either way, it was a session. Goodbye."
+        },
+        {
+            "role": "client",
+            "content": "Alright, goodbye."
+        }
+    ],
+    "num_turns": 10
+}

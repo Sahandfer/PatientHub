@@ -1,0 +1,117 @@
+{
+    "profile": {
+        "name": "Alex",
+        "id": "1-1",
+        "type": [
+            "plain",
+            "verbose",
+            "go off on tangents",
+            "hostile",
+            "guarded",
+            "ingratiating"
+        ],
+        "history": "The patient has a history of substance abuse and has been through rehab to overcome it. He has had issues with his family, particularly with his mother, where he has felt rejected and emotionally neglected. He has struggled with obesity since childhood, which has affected his self-esteem and body image. He also has a history of being victimized and bullied due to his weight.",
+        "helpless_belief_current": [
+            "I am trapped.",
+            "I am out of control."
+        ],
+        "unlovable_belief_current": [
+            "I am unlovable.",
+            "I am undesirable, unwanted."
+        ],
+        "worthless_belief_current": [],
+        "intermediate_belief": "Helpless: I'm just not very good at handling stress and I have poor self-control, which is why I need to not put myself in stressful situations. \n Unlovable: If I show my true self, people will reject me the way my mother rejected me.",
+        "intermediate_belief_depression": "Helpless: There's nothing I can do to change my situation. I cannot control myself. \nUnlovable: I don't deserve to be happy, so why even try to stay clean?",
+        "coping_strategies": "The patient has adopted avoidance as a coping strategy by distancing himself from his family to reduce exposure to negativity and conflict. He has started scheduling pleasant activities and planning his day ahead of time in order to maintain a sense of control over his emotions and circumstances.",
+        "situation": "Alex's cousin invited him to attend his upcoming wedding.",
+        "auto_thought": "It will be stressful and negative; people will ask me questions I cannot answer or don't want to answer; my mum would be ashamed of me and critical of me as always; They don't want me there anyway, nobody likes me in this family.",
+        "emotion": [
+            "anxious, worried, fearful, scared, tense",
+            "sad, down, lonely, unhappy"
+        ],
+        "behavior": "Ignored the invitation and did not respond to the RSVP request. Ignored phone calls from family."
+    },
+    "messages": [
+        {
+            "role": "therapist",
+            "content": "Alright, so what trivial matter are we discussing today? I hope it's something more interesting than the usual whining."
+        },
+        {
+            "role": "client",
+            "content": "Well, actually, I've been thinking a lot about this wedding invitation from my cousin. It's been kind of stressing me out, and I'm not sure how to handle it."
+        },
+        {
+            "role": "therapist",
+            "content": "Oh wow, a wedding invitation. That sounds like a real crisis. Maybe just flip a coin or something? Seems like a lot of unnecessary drama over a simple decision."
+        },
+        {
+            "role": "client",
+            "content": "I get that it might sound simple, but it's more than just deciding whether or not to go. It brings up a lot of anxiety for me, especially with my family dynamics and how I've felt in the past. It's hard to explain, but I guess it's tied to feeling like I'm not really wanted there."
+        },
+        {
+            "role": "therapist",
+            "content": "So you're worried about feeling unwanted at a party. If you don't want to go, don't go. But honestly, if you can't handle a simple social event, maybe you should just stay home and avoid people altogether. Seems like you're making a mountain out of a molehill."
+        },
+        {
+            "role": "client",
+            "content": "I understand how it might seem like I'm overreacting, but it's not just about the party. It's about the feelings of rejection and anxiety that come up with my family. It's tied to past experiences and how I've felt growing up, and it affects my self-esteem and self-worth."
+        },
+        {
+            "role": "therapist",
+            "content": "Oh, here we go with the self-esteem talk. Everyone has family issues. You're not the first person to feel rejected. Maybe just stop dwelling on the past and get over it already. Life's too short to be stuck on old drama."
+        },
+        {
+            "role": "client",
+            "content": "I know everyone has their issues, but for me, it's been really hard to just move on. These feelings have been with me for a long time, and they affect how I see myself and interact with others. I'm trying to work through them, and that's why I'm here in therapy."
+        },
+        {
+            "role": "therapist",
+            "content": "Well, it sounds like you're just stuck in a cycle of self-pity. Maybe if you stopped feeling sorry for yourself, things would get better. Therapy isn't magic, you know. It's not going to fix everything for you."
+        },
+        {
+            "role": "client",
+            "content": "I understand that therapy isn't a magic fix, but I'm here because I want to work on these issues. It's not about feeling sorry for myself; it's about trying to understand and improve how I cope with these feelings. I'm hoping to learn how to manage them better and make positive changes in my life."
+        },
+        {
+            "role": "therapist",
+            "content": "Okay, if you say so. But honestly, I think you're making it way more complicated than it needs to be. Just try not to overthink everything and maybe you'll start seeing the changes you want. It's not rocket science, after all."
+        },
+        {
+            "role": "client",
+            "content": "I agree, I can overthink things sometimes. I guess it's just hard not to when these feelings come up so strongly. I'd appreciate any practical advice or strategies you could suggest that could help me manage these thoughts and feelings better."
+        },
+        {
+            "role": "therapist",
+            "content": "Practical advice? I don't know, maybe just distract yourself with a hobby or something. Or whenever you start overthinking, just tell yourself to stop. Seems like a pretty straightforward solution to me."
+        },
+        {
+            "role": "client",
+            "content": "I appreciate the suggestion, and I do try to keep myself busy with activities that I enjoy. But sometimes, it feels like the thoughts and feelings are too strong to just ignore or push away. I'm really looking for ways to address the underlying issues so that I can handle these situations better in the long run."
+        },
+        {
+            "role": "therapist",
+            "content": "Well, if keeping busy isn't enough, maybe you should just accept that this is how things are. Not everything can be fixed. Just try to deal with it and maybe eventually you'll learn to live with it. That's the best I can offer, really."
+        },
+        {
+            "role": "client",
+            "content": "I hear what you're saying about acceptance, and I understand that some things may not change completely. But I believe there's still value in working on understanding myself better and finding ways to cope more effectively. I really want to find a way to live with these feelings without them taking over my life."
+        },
+        {
+            "role": "therapist",
+            "content": "Sure, keep hoping for that breakthrough. But remember, life isn't always about deep understanding and perfect coping strategies. Sometimes, you just have to suck it up and get through the day. Good luck with that, I guess."
+        },
+        {
+            "role": "client",
+            "content": "I understand where you're coming from, and I do appreciate that some days are just about getting through. But I still believe that finding a balance between acceptance and actively working on myself can make a difference. I'll keep trying to find ways to manage my feelings and improve my situation."
+        },
+        {
+            "role": "therapist",
+            "content": "Well, if that's what you want to do, go ahead. Just don't expect miracles. It's all about survival, really. Anyway, I guess that's all the time we have. Hopefully, you find whatever it is you're looking for."
+        },
+        {
+            "role": "client",
+            "content": "Thank you for your time. I appreciate the space to talk things through, even if we didn't see eye to eye. I'll keep working on finding the right path for myself."
+        }
+    ],
+    "num_turns": 10
+}

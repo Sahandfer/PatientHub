@@ -2,6 +2,8 @@ from .basic import BasicTherapist, BasicTherapistConfig
 from .eliza import ElizaTherapist, ElizaTherapistConfig
 from .user import UserTherapist, UserTherapistConfig
 from .CBT import CBTTherapist, CBTTherapistConfig
+from .bad import BadTherapist, BadTherapistConfig
+
 
 from omegaconf import DictConfig
 
@@ -11,6 +13,7 @@ THERAPIST_REGISTRY = {
     "eliza": ElizaTherapist,
     "user": UserTherapist,
     "CBT": CBTTherapist,
+    "bad": BadTherapist,
 }
 
 # Registry of therapist configs (for Hydra registration)
@@ -19,6 +22,7 @@ THERAPIST_CONFIG_REGISTRY = {
     "eliza": ElizaTherapistConfig,
     "user": UserTherapistConfig,
     "CBT": CBTTherapistConfig,
+    "bad": BadTherapistConfig,
 }
 
 
