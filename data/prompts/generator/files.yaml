@@ -18,7 +18,6 @@ en:
         """
         agent_type: str = "{{agent_name}}"
         data_path: str = "data/characters/{{agent_type}}s.json"
-
         data_idx: int = 0
 
     # TODO: Define the response format

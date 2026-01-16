@@ -37,9 +37,17 @@ class PatientPsiClient(ChatAgent):
         self.prompts = load_prompts(
             role="client", agent_type="patientPsi", lang=configs.lang
         )
-        self.messages = [
-            SystemMessage(content=self.prompts["profile"].render(data=self.data))
-        ]
+        self.load_sys_prompt()
+
+    def load_sys_prompt(self):
+        profile = self.prompts["profile"].render(data=self.data)
+        patient_type = self.prompts["patientType"].render(
+            patient_type=self.configs.patient_type
+        )
+        conv_prompt = self.prompts["conversation"].render(
+            data=self.data, patientType=patient_type
+        )
+        self.messages = [SystemMessage(content=profile + conv_prompt)]
 
     def generate(self, messages: List[str], response_format: BaseModel):
         chat_model = self.chat_model.with_structured_output(response_format)
@@ -50,16 +58,6 @@ class PatientPsiClient(ChatAgent):
         self.therapist = therapist.get("name", "Therapist")
 
     def generate_response(self, msg: str):
-        if len(self.messages) == 1:
-            patient_type_content = self.prompts["patientType"].render(
-                patient_type=self.configs.patient_type
-            )
-            self.messages[0].content += "\n" + self.prompts["conversation"].render(
-                data=self.data,
-                patientType=self.configs.patient_type,
-                patientTypeContent=patient_type_content,
-            )
-
         self.messages.append(HumanMessage(content=msg))
         res = self.generate(self.messages, response_format=Response)
         self.messages.append(AIMessage(content=res.model_dump_json()))
@@ -67,5 +65,5 @@ class PatientPsiClient(ChatAgent):
         return res
 
     def reset(self):
-        self.messages = []
+        self.load_sys_prompt()
         self.therapist = None

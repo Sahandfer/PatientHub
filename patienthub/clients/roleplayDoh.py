@@ -17,7 +17,7 @@ class RoleplayDohClientConfig(APIModelConfig):
     """Configuration for RoleplayDoh client agent."""
 
     agent_type: str = "roleplayDoh"
-    data_path: str = "data/characters/RoleplayDoh.json"
+    data_path: str = "data/characters/PatientPsi.json"
     principles: str = "data/resources/roleplayDohPrinciple.json"
     data_idx: int = 0
 
