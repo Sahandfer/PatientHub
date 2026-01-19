@@ -1,0 +1,72 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.quickStart {
+  padding: 3rem 0;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.codeBlock {
+  background: var(--ifm-color-emphasis-200);
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  text-align: left;
+}
+
+.codeBlock code {
+  font-family: "Fira Code", "Consolas", monospace;
+  font-size: 0.9rem;
+  white-space: pre;
+}
+
+.methods {
+  padding: 3rem 0;
+}
+
+.methodCard {
+  background: var(--ifm-card-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  padding: 1.5rem;
+  height: 100%;
+  transition: box-shadow 0.2s ease;
+}
+
+.methodCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.methodCard h4 {
+  margin-bottom: 0.25rem;
+}
+
+.venue {
+  color: var(--ifm-color-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
