@@ -1,10 +1,9 @@
+from typing import Dict, Any
+from datetime import datetime
 from dataclasses import dataclass
 from colorama import Fore, Style, init
-from typing import TypedDict, List, Dict, Any, Optional
-
 from patienthub.utils import save_json
-
-from langgraph.graph import StateGraph, START, END
+from burr.core import ApplicationBuilder, State, action, when, expr
 
 init(autoreset=True)
 
@@ -16,24 +15,103 @@ class TherapySessionConfig:
     event_type: str = "therapySession"
     reminder_turn_num: int = 5
     max_turns: int = 30
-    langfuse: bool = False
-    recursion_limit: int = 1000
     output_dir: str = "data/sessions/default/session_1.json"
 
 
-class TherapySessionState(TypedDict):
-    messages: List[Dict[str, Any]]
-    summary: Optional[str]
-    homework: Optional[List[str]]
-    msg: Optional[str]
+@action(reads=[], writes=["messages", "msg", "initialized"])
+def init_session(state: State, therapist, client) -> State:
+    """Initialize the therapy session."""
+    therapist.set_client({"name": client.name})
+    client.set_therapist({"name": therapist.name})
+
+    print("=" * 50)
+    return state.update(
+        messages=[],
+        msg="[Moderator] You may start the session now.",
+        initialized=True,
+    )
+
+
+@action(reads=["msg", "messages", "num_turns"], writes=["msg", "messages"])
+def generate_therapist_response(state: State, therapist, max_turns) -> State:
+    """Generate therapist's response."""
+    name = therapist.name
+    res = therapist.generate_response(state["msg"])
+
+    print(f"--- Turn # {state['num_turns'] + 1}/{max_turns} ---")
+    print(f"{Fore.CYAN}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res.content}")
+
+    return state.update(
+        msg=f"{name}: {res.content}",
+        messages=state["messages"] + [{"role": "therapist", "content": res.content}],
+    )
+
+
+@action(
+    reads=["msg", "messages", "num_turns"],
+    writes=["msg", "messages", "num_turns", "session_ended"],
+)
+def generate_client_response(state: State, therapist, client) -> State:
+    """Generate client's response."""
+    # Check if therapist ended the session
+    therapist_msg = state["msg"].replace(f"{therapist.name}: ", "")
+    if therapist_msg in ["END", "end", "exit"]:
+        return state.update(
+            msg="The therapist has ended the session.",
+            messages=state["messages"][:-1],
+            session_ended=True,
+        )
+
+    name = client.name
+    res = client.generate_response(state["msg"])
+    print(f"{Fore.RED}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res.content}")
+
+    return state.update(
+        msg=f"{name}: {res.content}",
+        messages=state["messages"] + [{"role": "client", "content": res.content}],
+        num_turns=state["num_turns"] + 1,
+        session_ended=False,
+    )
+
+
+@action(reads=["msg", "num_turns"], writes=["msg", "needs_reminder"])
+def check_and_remind(state: State, max_turns, reminder_turn_num) -> State:
+    """Check if reminder is needed and update state."""
+    turns_left = max_turns - state["num_turns"]
+    needs_reminder = 0 < turns_left <= reminder_turn_num
+
+    if needs_reminder:
+        print(f"Reminder: {turns_left} turns left in the session.")
+        return state.update(
+            msg=state["msg"]
+            + f"\n[Moderator] You have {turns_left} turns left in the session. Try to wrap up the conversation.",
+            needs_reminder=True,
+        )
+
+    return state.update(needs_reminder=False)
+
+
+@action(reads=["messages", "num_turns"], writes=["msg"])
+def end_session(state: State, client, output_dir) -> State:
+    """End the session and save results."""
+    session_state = {
+        "profile": client.data,
+        "messages": state["messages"],
+        "num_turns": state["num_turns"],
+    }
+    save_json(session_state, output_dir)
+
+    print("=" * 50)
+    return state.update(msg="[Moderator] Session has ended.")
 
 
 class TherapySession:
-    def __init__(self, configs: Dict[str, Any]):
+    def __init__(self, configs: TherapySessionConfig):
         self.configs = configs
-
-        self.num_turns = 0
-        self.graph = self.build_graph()
+        self.client = None
+        self.therapist = None
+        self.evaluator = None
+        self.app = None
 
     def set_characters(self, characters: Dict[str, Any]):
         try:
@@ -43,136 +121,72 @@ class TherapySession:
         except KeyError as e:
             raise ValueError(f"Missing character in session: {e}")
 
-    def build_graph(self):
-        # The session graph
-        graph = StateGraph(TherapySessionState)
-
-        # Nodes for the graph
-        graph.add_node("initiate_session", self.init_session)
-        graph.add_node("generate_therapist_response", self.generate_therapist_response)
-        graph.add_node("generate_client_response", self.generate_client_response)
-        graph.add_node("give_reminder", self.give_reminder)
-        graph.add_node("end_session", self.end_session)
-
-        # Edges for the graph
-        graph.add_edge(START, "initiate_session")
-        graph.add_edge("initiate_session", "generate_therapist_response")
-        graph.add_edge("generate_therapist_response", "generate_client_response")
-        graph.add_conditional_edges(
-            "generate_client_response",
-            self.check_session_end,
-            {
-                "END": "end_session",
-                "CONTINUE": "generate_therapist_response",
-                "REMIND": "give_reminder",
-            },
+    def build_app(self):
+        """Build the Burr application."""
+        run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+        app = (
+            ApplicationBuilder()
+            .with_actions(
+                init_session=init_session.bind(
+                    therapist=self.therapist, client=self.client
+                ),
+                generate_therapist_response=generate_therapist_response.bind(
+                    therapist=self.therapist, max_turns=self.configs.max_turns
+                ),
+                generate_client_response=generate_client_response.bind(
+                    therapist=self.therapist, client=self.client
+                ),
+                check_and_remind=check_and_remind.bind(
+                    max_turns=self.configs.max_turns,
+                    reminder_turn_num=self.configs.reminder_turn_num,
+                ),
+                end_session=end_session.bind(
+                    client=self.client, output_dir=self.configs.output_dir
+                ),
+            )
+            .with_transitions(
+                ("init_session", "generate_therapist_response"),
+                ("generate_therapist_response", "generate_client_response"),
+                (
+                    "generate_client_response",
+                    "end_session",
+                    when(session_ended=True),
+                ),
+                (
+                    "generate_client_response",
+                    "end_session",
+                    expr(f"num_turns >= {self.configs.max_turns}"),
+                ),
+                ("generate_client_response", "check_and_remind"),
+                ("check_and_remind", "generate_therapist_response"),
+            )
+            .with_entrypoint("init_session")
+            .with_state(
+                messages=[],
+                msg="",
+                num_turns=0,
+                session_ended=False,
+                initialized=False,
+                needs_reminder=False,
+            )
+            .with_tracker(project="patienthub")  # Enables local tracking
+            .with_identifiers(app_id=f"therapy_session_{run_id}")
+            .build()
         )
-        graph.add_edge("give_reminder", "generate_therapist_response")
-        graph.add_edge("end_session", END)
-
-        return graph.compile()
-
-    def init_session(self, state: TherapySessionState):
-        # Introduce characters together
-        self.therapist.set_client({"name": self.client.name})
-        self.client.set_therapist({"name": self.therapist.name})
-
-        print("=" * 50)
-        return {
-            "msg": "[Moderator] You may start the session now.",
-            "messages": [],
-        }
-
-    def generate_therapist_response(self, state: TherapySessionState):
-        name = self.therapist.name
-        res = self.therapist.generate_response(state["msg"])
-        print(f"--- Turn # {self.num_turns + 1}/{self.configs.max_turns} ---")
-        print(f"{Fore.CYAN}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res.content}")
-        return {
-            "msg": f"{self.therapist.name}: {res.content}",
-            "messages": state["messages"]
-            + [{"role": "therapist", "content": res.content}],
-        }
-
-    def generate_client_response(self, state: TherapySessionState):
-        if state["msg"].replace(f"{self.therapist.name}: ", "") in [
-            "END",
-            "end",
-            "exit",
-        ]:
-            return {
-                "msg": "The therapist has ended the session.",
-                "messages": state["messages"][:-1],
-            }
-        name = self.client.name
-        res = self.client.generate_response(state["msg"])
-        print(f"{Fore.RED}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res.content}")
-        self.num_turns += 1
-
-        return {
-            "msg": f"{name}: {res.content}",
-            "messages": state["messages"]
-            + [{"role": "client", "content": res.content}],
-        }
-
-    def give_reminder(self, state: TherapySessionState):
-        turns_left = self.configs.max_turns - self.num_turns
-        print(f"Reminder: {turns_left} turns left in the session.")
-        return {
-            "msg": state["msg"]
-            + f"\n[Moderator] You have {turns_left} turns left in the session. Try to wrap up the conversation."
-        }
-
-    def check_session_end(self, state: TherapySessionState):
-        if state["msg"] == "Session has ended.":
-            return "END"
-        turns_left = self.configs.max_turns - self.num_turns
-        if self.num_turns >= self.configs.max_turns:
-            print("=" * 50)
-            return "END"
-        elif turns_left <= self.configs.reminder_turn_num:
-            return "REMIND"
-
-        return "CONTINUE"
-
-    def end_session(self, state: TherapySessionState):
-        # print("> Generating session feedback...", end="", flush=True)
-        # feedback = self.evaluator.generate(state["messages"]).model_dump(mode="json")
-        # print(f"\r{' ' * 50}\r> Generated session feedback", end="\n")
-        # summary = self.therapist.generate_summary()
-        # print("> Generated summary")
-        # feedback = self.client.generate_feedback()
-        # print("> Generated feedback")
-        session_state = {
-            "profile": self.client.data,
-            "messages": state["messages"],
-            "num_turns": self.num_turns,
-            # "summary": summary.model_dump(mode="json"),
-            # "agenda": self.therapist.agenda.model_dump(mode="json"),
-            # "feedback": feedback,
-        }
-        save_json(session_state, self.configs.output_dir)
-
-        return {
-            # "summary": summary.summary,
-            "msg": "[Moderator] Session has ended.",
-        }
-
-    def load_graph_configs(self):
-        lg_config = {"recursion_limit": self.configs.recursion_limit}
-        if self.configs.langfuse:
-            from langfuse.langchain import CallbackHandler
-
-            session_handler = CallbackHandler()
-            lg_config["callbacks"] = [session_handler]
-        return lg_config
+        return app
 
     def start(self):
-        graph_configs = self.load_graph_configs()
-        self.graph.invoke(input={}, config=graph_configs)
+        """Run the therapy session."""
+        self.app = self.build_app()
+
+        # Run until end_session is reached
+        while True:
+            action, result, state = self.app.step()
+            if action.name == "end_session":
+                break
 
     def reset(self):
-        self.messages = []
-        self.num_turns = 0
+        """Reset the session state."""
+        self.app = None
         self.client.reset()
         self.therapist.reset()

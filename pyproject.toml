@@ -84,4 +84,8 @@ dependencies = [
     "trio>=0.32.0",
     "httpx>=0.28.1",
     "pandas>=2.3.3",
+    "litellm>=1.81.0",
+    "instructor>=1.14.4",
+    "burr[start]>=0.40.2",
+    "numpy>=2.3.4",
 ]
