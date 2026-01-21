@@ -1,5 +1,6 @@
 import json
 import random
+from omegaconf import DictConfig
 from dataclasses import dataclass
 from typing import Any, Dict, List
 from pydantic import BaseModel, Field
@@ -7,9 +8,6 @@ from pydantic import BaseModel, Field
 from patienthub.base import ChatAgent
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_json, load_prompts, get_chat_model
-
-from omegaconf import DictConfig
-from langchain_core.messages import SystemMessage
 
 
 @dataclass
@@ -20,12 +18,6 @@ class RoleplayDohClientConfig(APIModelConfig):
     data_path: str = "data/characters/PatientPsi.json"
     principles: str = "data/resources/roleplayDohPrinciple.json"
     data_idx: int = 0
-
-
-class Response(BaseModel):
-    content: str = Field(
-        description="Final response delivered to the therapist after self-revision."
-    )
 
 
 class QuestionSet(BaseModel):
@@ -93,11 +85,6 @@ class RoleplayDohClient(ChatAgent):
     ):
         self.therapist = therapist.get("name", "Therapist")
 
-    def generate(self, messages: List[Any], response_format: BaseModel):
-        model = self.chat_model.with_structured_output(response_format)
-        res = model.invoke(messages)
-        return res
-
     def generate_questions(
         self, principle: str, therapist_message: str, client_response: str
     ):
@@ -106,10 +93,10 @@ class RoleplayDohClient(ChatAgent):
             therapist_message=therapist_message,
             client_response=client_response,
         )
-        result = self.generate(
-            [SystemMessage(content=prompt)], response_format=QuestionSet
+        res = self.chat_model.generate(
+            [{"role": "system", "content": prompt}], response_format=QuestionSet
         )
-        questions = (result.questions or []) + (result.extra_questions or [])
+        questions = (res.questions or []) + (res.extra_questions or [])
         if not questions:
             questions = [
                 "Is the client's response relevant and consistent with the therapist's latest message?"
@@ -130,22 +117,23 @@ class RoleplayDohClient(ChatAgent):
             therapist_message=therapist_message,
             client_response=response,
         )
-        res = self.generate(
-            [SystemMessage(content=prompt)], response_format=AssessmentResult
+        res = self.chat_model.generate(
+            [{"role": "system", "content": prompt}], response_format=AssessmentResult
         )
         return res
 
     def generate_response(self, msg: str):
         self.messages.append({"role": "therapist", "content": msg})
-        messages = [f"{msg['role']}: {msg['content']}" for msg in self.messages]
 
         # 1) Generate initial response
         response_pt = self.prompts["response"].render(
             profile=self.profile,
-            conv_history="\n".join(messages),
+            conv_history="\n".join(
+                [f"{msg['role']}: {msg['content']}" for msg in self.messages]
+            ),
         )
-        initial_response = self.generate(
-            [SystemMessage(content=response_pt)], response_format=Response
+        initial_response = self.chat_model.generate(
+            [{"role": "system", "content": response_pt}]
         )
 
         # 2) Generate questions
@@ -162,14 +150,16 @@ class RoleplayDohClient(ChatAgent):
             ans.strip().lower().startswith("no") for ans in assessment.answers
         )
         revised_response = assessment.response.strip()
-        if has_violation and revised_response:
-            client_response = revised_response
-        else:
-            client_response = initial_response.content
 
-        self.messages.append({"role": "client", "content": client_response})
+        response = (
+            revised_response
+            if has_violation and revised_response
+            else initial_response.content
+        )
 
-        return Response(content=client_response)
+        self.messages.append({"role": "client", "content": response})
+
+        return response
 
     def reset(self):
         self.messages = []

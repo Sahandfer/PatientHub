@@ -1,13 +1,11 @@
-from dataclasses import dataclass
 from typing import Dict, List
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from omegaconf import DictConfig
+from dataclasses import dataclass
 
 from patienthub.base import ChatAgent
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, load_json, get_chat_model
-
-from omegaconf import DictConfig
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 
 @dataclass
@@ -20,12 +18,6 @@ class ClientCastClientConfig(APIModelConfig):
     symptoms_path: str = "data/resources/ClientCast/symptoms.json"
     data_idx: int = 0
     conv_id: int = 0
-
-
-class Response(BaseModel):
-    content: str = Field(
-        description="The content of your generated response in this turn",
-    )
 
 
 class ClientCastClient(ChatAgent):
@@ -41,7 +33,7 @@ class ClientCastClient(ChatAgent):
         self.prompts = load_prompts(
             role="client", agent_type="clientCast", lang=configs.lang
         )
-        self.messages = self.render_sys_prompt()
+        self.build_sys_prompt()
 
     def get_case_synopsis(self):
         profile = self.data.get("basic_profile", {})
@@ -69,43 +61,35 @@ class ClientCastClient(ChatAgent):
             res += f"- {trait}: {details.get('explanation', '')}\n"
         return res
 
-    def render_conv(self):
-        return "\n".join(
+    def build_sys_prompt(self):
+        case_synopsis, reasons = self.get_case_synopsis()
+        symptoms = self.get_symptoms()
+        appearance = self.get_appreance()
+        conversation = "\n".join(
             [
                 f"{ turn.get('role').capitalize()}: {turn.get('content')}\n"
                 for turn in self.conv
             ]
         )
-
-    def render_sys_prompt(self):
-        case_synopsis, reasons = self.get_case_synopsis()
-        symptoms = self.get_symptoms()
-        appearance = self.get_appreance()
-        conversation = self.render_conv()
-        system_prompt = self.prompts["simulation"].render(
+        sys_prompt = self.prompts["simulation"].render(
             case_synopsis=case_synopsis,
             reasons_for_visit=reasons,
             symptoms=symptoms,
             appearance=appearance,
             conversation=conversation,
         )
-        return [SystemMessage(content=system_prompt)]
-
-    def generate(self, messages: List[str], response_format: BaseModel):
-        chat_model = self.chat_model.with_structured_output(response_format)
-        res = chat_model.invoke(messages)
-        return res
+        self.messages = [{"role": "system", "content": sys_prompt}]
 
     def set_therapist(self, therapist, prev_sessions: List[Dict[str, str] | None] = []):
         self.therapist = therapist.get("name", "therapist")
 
     def generate_response(self, msg: str):
-        self.messages.append(HumanMessage(content=msg))
-        res = self.generate(self.messages, response_format=Response)
-        self.messages.append(AIMessage(content=res.content))
+        self.messages.append({"role": "user", "content": msg})
+        res = self.chat_model.generate(self.messages)
+        self.messages.append({"role": "assistant", "content": res.content})
 
         return res
 
     def reset(self):
-        self.messages = self.render_sys_prompt()
+        self.build_sys_prompt()
         self.therapist = None

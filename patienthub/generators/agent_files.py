@@ -1,6 +1,6 @@
 import os
-from dataclasses import dataclass
 from omegaconf import DictConfig
+from dataclasses import dataclass
 
 from patienthub.utils import load_prompts
 

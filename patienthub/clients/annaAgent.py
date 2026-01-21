@@ -1,14 +1,12 @@
 import random
-from typing import List, Literal, Dict
+from typing import Literal, Dict
+from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
 
 from patienthub.base import ChatAgent
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, load_json, get_chat_model
-
-from omegaconf import DictConfig
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 
 @dataclass
@@ -145,7 +143,7 @@ class AnnaAgentClient(ChatAgent):
         )
 
         self.load_data()
-        self.load_sys_prompt()
+        self.build_sys_prompt()
 
     def load_data(self):
         self.profile = self.data.get("profile", {})
@@ -155,7 +153,7 @@ class AnnaAgentClient(ChatAgent):
         self.conv_history = ""  # Flattened history without instructions
         self.chain_idx = 1
 
-    def load_sys_prompt(self):
+    def build_sys_prompt(self):
         sys_prompt = self.prompts["system_prompt"].render(
             profile=self.profile_str,
             situation=self.data.get("situation", ""),
@@ -164,22 +162,17 @@ class AnnaAgentClient(ChatAgent):
             style="\n-".join(self.data.get("style", [])),
             lang=self.configs.lang,
         )
-        self.messages = [SystemMessage(content=sys_prompt)]
+        self.messages = [{"role": "system", "content": sys_prompt}]
 
     def set_therapist(self, therapist):
         self.therapist = therapist.get("name", "therapist")
-
-    def generate(self, messages: List[str], response_format: BaseModel):
-        chat_model = self.chat_model.with_structured_output(response_format)
-        res = chat_model.invoke(messages)
-        return res
 
     def infer_emotion(self):
         prompt = self.prompts["emotion_inference"].render(
             profile=self.profile_str, conv_history=self.conv_history
         )
-        res = self.generate(
-            [SystemMessage(content=prompt)],
+        res = self.chat_model.generate(
+            [{"role": "system", "content": prompt}],
             response_format=EmotionResponse,
         )
 
@@ -228,8 +221,9 @@ class AnnaAgentClient(ChatAgent):
             transformed_chain=transformed_chain,
             current_stage_content=transformed_chain.get(self.chain_idx, ""),
         )
-        res = self.generate(
-            [SystemMessage(content=prompt)], response_format=IsRecognizedResponse
+        res = self.chat_model.generate(
+            [{"role": "system", "content": prompt}],
+            response_format=IsRecognizedResponse,
         )
         if res.is_recognized:
             self.chain_idx += 1
@@ -237,8 +231,8 @@ class AnnaAgentClient(ChatAgent):
     def is_need_previous(self, msg: str):
         prompt = self.prompts["is_need_previous"].render(utterance=msg)
 
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)],
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
             response_format=IsNeedPreviousResponse,
         )
 
@@ -252,8 +246,9 @@ class AnnaAgentClient(ChatAgent):
             utterance=msg, conversations=past_conv, report=self.report
         )
 
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)], response_format=KnowledgeResponse
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
+            response_format=KnowledgeResponse,
         )
 
         return res.knowledge
@@ -284,17 +279,17 @@ class AnnaAgentClient(ChatAgent):
             emotion=emotion, complaint=complaint, sup_information=sup_information
         )
 
-        self.messages.append(HumanMessage(content=msg + "\n" + reminder))
+        self.messages.append({"role": "user", "content": msg + "\n" + reminder})
         self.conv_history += f"\ntherapist: {msg}\nclient: "
 
         # 4) Generate final response
-        res = self.generate(self.messages, response_format=Response)
-        self.messages.append(AIMessage(content=res.content))
+        res = self.chat_model.generate(self.messages, response_format=Response)
+        self.messages.append({"role": "assistant", "content": res.content})
         self.conv_history += res.content
 
         return res
 
     def reset(self):
         self.load_data()
-        self.load_sys_prompt()
+        self.build_sys_prompt()
         self.therapist = None

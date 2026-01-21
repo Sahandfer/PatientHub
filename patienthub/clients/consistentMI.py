@@ -1,18 +1,14 @@
 import random
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
-
 from omegaconf import DictConfig
+from dataclasses import dataclass
 from pydantic import BaseModel, Field
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from typing import Any, Dict, List, Optional
 
 from patienthub.base import ChatAgent
 from patienthub.configs import APIModelConfig
-from patienthub.utils.models import get_reranker
-from patienthub.utils import get_chat_model, load_json, load_prompts
+from patienthub.utils import get_reranker, get_chat_model, load_json, load_prompts
 
 
-# ===== Config =====
 @dataclass
 class ConsistentMIClientConfig(APIModelConfig):
     """Configuration for ConsistentMI client agent."""
@@ -24,11 +20,6 @@ class ConsistentMIClientConfig(APIModelConfig):
     data_idx: int = 0
     chat_model: Any = None
     model_retriever: Any = None
-
-
-# ===== Response Schemas =====
-class Response(BaseModel):
-    content: str = Field(description="The content of your generated response")
 
 
 class BinaryAnswer(BaseModel):
@@ -96,7 +87,6 @@ class ClientState:
 class ActionSelector:
     """Handles action selection logic for different stages."""
 
-    # Receptivity distributions for Precontemplation stage
     RECEPTIVITY_DISTRIBUTIONS: Dict[str, Dict[str, int]] = {
         "very_low": {
             "Deny": 23,
@@ -266,7 +256,6 @@ class TopicMatcher:
         return float("inf")
 
 
-# ===== Main Client =====
 class ConsistentMIClient(ChatAgent):
     """ConsistentMI client agent for motivational interviewing simulation."""
 
@@ -277,10 +266,10 @@ class ConsistentMIClient(ChatAgent):
             role="client", agent_type="consistentMI", lang=configs.lang
         )
         self.chat_model = get_chat_model(configs.chat_model)
-        self.messages = [SystemMessage(content=self.load_sys_prompt())]
 
         # Additional components
         self.load_profile()
+        self.build_sys_prompt()
         self.state = self.load_state()
         self.topic_matcher = TopicMatcher(configs, self.reranker)
 
@@ -299,16 +288,18 @@ class ConsistentMIClient(ChatAgent):
         self.motivation_text = motivation_list[-1] if motivation_list else ""
         self.engaged_topics = motivation_list[:-1] if len(motivation_list) > 1 else []
 
-    def load_sys_prompt(self):
+    def build_sys_prompt(self):
         self.personas: List[str] = self.data.get("Personas", [])
         self.beliefs: List[str] = self.data.get("Beliefs", [])
         personas_and_beliefs = "\n".join(f"- {t}" for t in self.personas + self.beliefs)
 
-        return self.prompts["client_system_prompt"].render(
+        sys_prompt = self.prompts["client_system_prompt"].render(
             behavior=self.behavior,
             goal=self.goal,
             personas_and_beliefs=personas_and_beliefs,
         )
+
+        self.messages = [{"role": "system", "content": sys_prompt}]
 
     def load_state(self) -> ClientState:
         suggestibilities = self.data.get("suggestibilities", [])
@@ -321,26 +312,27 @@ class ConsistentMIClient(ChatAgent):
             engagement=initial_receptivity,
         )
 
+    def get_conv_str(self):
+        return "\n".join(
+            [
+                f"{'Client' if msg['role']=='user' else 'Therapist'}: {msg['content']}"
+                for msg in self.messages[max(1, len(self.messages) - 5) :]
+            ]
+        )
+
     def set_therapist(self, therapist: Dict) -> None:
         self.therapist = therapist.get("name", "Therapist")
 
-    def generate(self, messages: List[Any], response_format: type[BaseModel]) -> Any:
-        chat_model = self.chat_model.with_structured_output(response_format)
-        return chat_model.invoke(messages)
-
     def verify_motivation(self) -> str:
         """Check if therapist has addressed client's motivation."""
-        context_block = ""
-        for msg in self.messages[max(1, len(self.messages) - 5) :]:
-            role = "Therapist" if isinstance(msg, HumanMessage) else "Client"
-            context_block += f"{role}: {msg.content}\n"
-
         prompt = self.prompts["verify_motivation_prompt"].render(
             goal=self.goal,
-            context_block=context_block,
+            context_block=self.get_conv_str(),
             motivation=self.motivation_text,
         )
-        res = self.generate([SystemMessage(content=prompt)], BinaryAnswer)
+        res = self.chat_model.generate(
+            [{"role": "system", "content": prompt}], BinaryAnswer
+        )
 
         if res.answer:
             self.state.update(new_stage="Motivation")
@@ -369,18 +361,19 @@ class ConsistentMIClient(ChatAgent):
             self.state.engagement = 2
         else:
             self.state.engagement = 1
-            if sum(1 for m in self.messages if isinstance(m, HumanMessage)) > 10:
+            if sum(1 for m in self.messages if m["role"] == "user") > 10:
                 self.state.error_topic_count += 1
 
         return f"The client's perceived topic is {predicted_topic}."
 
-    # ===== Action Selection =====
     def get_precontemplation_distribution(self, context: str) -> Dict[str, int]:
         """Get action distribution for Precontemplation stage."""
         prompt = self.prompts["select_action_prompt"].render(recent_context=context)
 
         try:
-            res = self.generate([SystemMessage(content=prompt)], ActionDistribution)
+            res = self.chat_model.generate(
+                [{"role": "system", "content": prompt}], ActionDistribution
+            )
             context_dist = {
                 "Deny": res.Deny,
                 "Downplay": res.Downplay,
@@ -413,8 +406,8 @@ class ConsistentMIClient(ChatAgent):
         )
 
         try:
-            res = self.generate(
-                [SystemMessage(content=prompt)], ContemplationActionDistribution
+            res = self.chat_model.generate(
+                [{"role": "system", "content": prompt}], ContemplationActionDistribution
             )
             return {
                 "Inform": res.Inform,
@@ -439,8 +432,8 @@ class ConsistentMIClient(ChatAgent):
         )
 
         try:
-            res = self.generate(
-                [SystemMessage(content=prompt)], PreparationActionDistribution
+            res = self.chat_model.generate(
+                [{"role": "system", "content": prompt}], PreparationActionDistribution
             )
             return {
                 "Inform": res.Inform,
@@ -452,13 +445,16 @@ class ConsistentMIClient(ChatAgent):
         except Exception:
             return {"Inform": 1, "Engage": 1, "Reject": 1, "Accept": 1, "Plan": 1}
 
-    # ===== Action Selection =====
     def select_action(self, stage: str) -> str:
         """Select action based on current stage."""
-        context = ""
-        for msg in self.messages[max(1, len(self.messages) - 5) :]:
-            role = "Therapist" if isinstance(msg, HumanMessage) else "Client"
-            context += f"{role}: {msg.content}\n"
+        context = self.get_conv_str()
+
+        if stage == "Contemplation":
+            distribution = self.get_contemplation_distribution(context)
+        elif stage == "Preparation":
+            distribution = self.get_preparation_distribution(context)
+        else:
+            distribution = self.get_precontemplation_distribution(context)
 
         if stage == "Contemplation":
             distribution = self.get_contemplation_distribution(context)
@@ -498,7 +494,6 @@ class ConsistentMIClient(ChatAgent):
         }
         return configs.get(action)
 
-    # ===== Information Selection =====
     def select_information(self, action: str) -> Optional[str]:
         """Select relevant information for the action."""
         last_therapist = self.messages[-1].content
@@ -513,7 +508,9 @@ class ConsistentMIClient(ChatAgent):
 
         for item in source_list:
             prompt = self.prompts[prompt_key].render(persona=item)
-            res = self.generate([SystemMessage(content=prompt)], BinaryAnswer)
+            res = self.chat_model.generate(
+                [{"role": "system", "content": prompt}], BinaryAnswer
+            )
             if res.answer:
                 if consume:
                     source_list.remove(item)
@@ -526,8 +523,6 @@ class ConsistentMIClient(ChatAgent):
         if consume:
             source_list.remove(item)
         return chosen
-
-    # ===== Reply Generation =====
 
     def gather_information(self, stage: str, action: str) -> Optional[str]:
         """Gather information needed for the action."""
@@ -577,8 +572,8 @@ class ConsistentMIClient(ChatAgent):
 
         return instruction
 
-    def generate_response(self, msg: str) -> Response:
-        self.messages.append(HumanMessage(content=msg))
+    def generate_response(self, msg: str):
+        self.messages.append({"role": "user", "content": msg})
 
         self.update_state()
         self.state.update(self.beliefs)
@@ -590,13 +585,17 @@ class ConsistentMIClient(ChatAgent):
 
         information = self.gather_information(stage, action)
         instruction = self.build_instruction(stage, action, information)
-        self.messages.append(HumanMessage(content=instruction))
+        self.messages.append({"role": "user", "content": instruction})
 
-        res = self.generate(self.messages, response_format=Response)
-        self.messages.append(AIMessage(content=res.content))
+        res = self.chat_model.generate(self.messages)
+        self.messages.append({"role": "assistant", "content": res.content})
 
-        content = res.content.removeprefix("Client: ").strip()
-        return Response(content=content)
+        return res
 
     def reset(self) -> None:
         self.load_profile()
+        self.build_sys_prompt()
+        self.state = self.load_state()
+        self.topic_matcher = TopicMatcher(self.configs, self.reranker)
+        self.topic_matcher.init_passages(self.prompts, self.behavior, self.goal, [])
+        self.therapist = None

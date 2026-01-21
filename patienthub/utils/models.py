@@ -1,9 +1,17 @@
 import os
+import logging
+import instructor
+from pydantic import BaseModel
 from dotenv import load_dotenv
 from dataclasses import dataclass
-from typing import Any, List, Optional
-from langchain.chat_models import init_chat_model
-from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
+from typing import Any, List, Optional, Dict
+from litellm import completion, supports_response_schema
+
+logging.getLogger("LiteLLM").setLevel(logging.WARNING)
+
+
+# from langchain.chat_models import init_chat_model
+# from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
 
 load_dotenv(".env")
 
@@ -28,6 +36,29 @@ def get_device(device_index: int):
     return torch.device("cpu")
 
 
+class ChatModel:
+    def __init__(self, model_name, **kwargs):
+        self.model_name = model_name
+        self.kwargs = kwargs
+        self.res_format_support = supports_response_schema(model=model_name)
+        if not self.res_format_support:
+            print("> Model does not support response format")
+
+    def generate(self, messages, response_format=None):
+        if not self.res_format_support or response_format is None:
+            res = completion(model=self.model_name, messages=messages, **self.kwargs)
+            return res.choices[0].message
+        else:
+            client = instructor.from_litellm(completion)
+            res = client.chat.completions.create(
+                model=self.model_name,
+                messages=messages,
+                response_model=response_format,
+                **self.kwargs,
+            )
+            return res
+
+
 def get_chat_model(configs):
     def get(name, default=None):
         return get_config_value(configs, name, default)
@@ -35,43 +66,11 @@ def get_chat_model(configs):
     model_type = get("model_type")
     model_name = get("model_name")
 
-    if model_type == "local":
-        hf_pipe = HuggingFacePipeline.from_model_id(
-            model_id=model_name,
-            task="text-generation",
-            device=get("device"),
-            pipeline_kwargs={
-                "max_new_tokens": get("max_new_tokens"),
-                "temperature": get("temperature"),
-                "repetition_penalty": get("repetition_penalty"),
-                "return_full_text": False,
-            },
-        )
-        return init_chat_model(
-            model_provider="huggingface", model=model_name, llm=hf_pipe
-        )
-    if model_type == "huggingface":
-        return ChatHuggingFace.from_model_id(
-            model_id=model_name,
-            task="text-generation",
-            device=get("device"),
-            model_kwargs={
-                "max_new_tokens": get("max_new_tokens"),
-                "temperature": get("temperature"),
-                "repetition_penalty": get("repetition_penalty"),
-                "return_full_text": False,
-            },
-        )
-    if model_type == "LAB":
-        return init_chat_model(
-            model=model_name,
-            model_provider="openai",
-            base_url=os.environ.get(f"{model_type}_BASE_URL"),
-            api_key=os.environ.get(f"{model_type}_API_KEY"),
-            temperature=get("temperature"),
-            max_tokens=get("max_tokens"),
-            max_retries=get("max_retries"),
-        )
+    return ChatModel(
+        model_name=model_name,
+        base_url=os.environ.get(f"{model_type}_BASE_URL", None),
+        api_key=os.environ.get(f"{model_type}_API_KEY", None),
+    )
 
 
 def load_reranker_model(model_name: str, device: Any):

@@ -1,12 +1,10 @@
 import re
 import random
 from dataclasses import dataclass
-from pydantic import BaseModel, Field
 from patienthub.base import ChatAgent
 from typing import Any, List, Tuple, Dict, Optional
 
 
-# ===== Config =====
 @dataclass
 class ElizaTherapistConfig:
     """Configuration for Eliza Therapist agent."""
@@ -15,14 +13,6 @@ class ElizaTherapistConfig:
     lang: str = "en"
 
 
-# ===== Response Schema =====
-class Response(BaseModel):
-    content: str = Field(
-        description="The content of Eliza's generated response based on the client's input"
-    )
-
-
-# ===== Eliza Implementation =====
 class ElizaTherapist(ChatAgent):
     """
     A simple implementation of the ELIZA chatbot therapist.
@@ -31,7 +21,6 @@ class ElizaTherapist(ChatAgent):
     in 1964-1966. It simulates a Rogerian psychotherapist using pattern matching.
     """
 
-    # Pattern-response pairs: (regex, list of responses with {0} placeholders)
     PATTERNS: List[Tuple[str, List[str]]] = [
         (
             r"hello|hi|hey",
@@ -185,14 +174,9 @@ class ElizaTherapist(ChatAgent):
         self.client_name: Optional[str] = None
         self.is_first_message = True
 
-    def set_client(self, client: Dict, prev_sessions: Optional[List] = None) -> None:
+    def set_client(self, client: Dict) -> None:
         """Set the client information."""
         self.client_name = client.get("name", "Client")
-
-    def reflect(self, text: str) -> str:
-        """Swap first/second person pronouns for more natural responses."""
-        tokens = text.lower().split()
-        return " ".join(self.REFLECTIONS.get(token, token) for token in tokens)
 
     def preprocess(self, text: str) -> str:
         """Normalize input text by removing extra whitespace and client name."""
@@ -200,58 +184,36 @@ class ElizaTherapist(ChatAgent):
             text = text.replace(self.client_name, "")
         return re.sub(r"\s+", " ", text).strip()
 
+    def reflect(self, text: str) -> str:
+        """Swap first/second person pronouns for more natural responses."""
+        tokens = text.lower().split()
+        return " ".join(self.REFLECTIONS.get(token, token) for token in tokens)
 
-def try_match(self, pattern: str, text: str) -> Optional[re.Match]:
-    """Try to match a pattern against text."""
-    return re.search(pattern, text, re.IGNORECASE)
+    def format_response(self, response: str, match: re.Match) -> str:
+        """Format response with reflected captured group."""
+        if "{0}" not in response:
+            return response
+        phrase = match.group(1) if match.lastindex else ""
+        return response.format(self.reflect(phrase))
 
+    def match_pattern(self, text: str) -> str:
+        """Find matching pattern and generate appropriate response."""
+        for pattern, responses in self.PATTERNS:
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                response = random.choice(responses)
+                return self.format_response(response, match)
+        return random.choice(self.FALLBACK_RESPONSES)
 
-def format_response(self, response: str, match: re.Match) -> str:
-    """Format response with reflected captured group."""
-    if "{0}" not in response:
-        return response
-    phrase = match.group(1) if match.lastindex else ""
-    return response.format(self.reflect(phrase))
-
-
-def match_pattern(self, text: str) -> str:
-    """Find matching pattern and generate appropriate response."""
-    for pattern, responses in self.PATTERNS:
-        match = self.try_match(pattern, text)
-        if match:
-            response = random.choice(responses)
-            return self.format_response(response, match)
-    return random.choice(self.FALLBACK_RESPONSES)
-
-    def generate(
-        self,
-        messages: List[str] | List[Dict] = [],
-        response_format: Optional[type[BaseModel]] = None,
-    ) -> Response:
-        """Generate a response based on the last message."""
-        # Extract text from last message
-        if not messages:
-            return Response(content=random.choice(self.FALLBACK_RESPONSES))
-
-        last_msg = messages[-1]
-        if isinstance(last_msg, dict):
-            text = last_msg.get("content", "")
-        else:
-            text = str(last_msg)
-
-        text = self.preprocess(text)
-        content = self.match_pattern(text)
-        return Response(content=content)
-
-    def generate_response(self, msg: str) -> Response:
+    def generate_response(self, msg: str) -> str:
         """Generate a response for a single message string."""
         if self.is_first_message:
             self.is_first_message = False
-            return Response(content="Hello. How can I help you today?")
-
-        text = self.preprocess(msg)
-        content = self.match_pattern(text)
-        return Response(content=content)
+            return "Hello. How can I help you today?"
+        else:
+            text = self.preprocess(msg)
+            content = self.match_pattern(text)
+            return content
 
     def reset(self) -> None:
         """Reset the therapist to initial state."""

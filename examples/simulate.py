@@ -21,8 +21,8 @@ Usage:
 import hydra
 
 from typing import Any, List, Optional
-from omegaconf import DictConfig, MISSING
 from dataclasses import dataclass, field
+from omegaconf import DictConfig, MISSING
 
 from patienthub.events import get_event
 from patienthub.clients import get_client
@@ -32,9 +32,9 @@ from patienthub.configs import register_configs
 
 DEFAULTS = [
     "_self_",
-    {"client": "talkDep"},
+    {"client": "psyche"},
     {"therapist": "user"},
-    {"evaluator": "inspect"},
+    # {"evaluator": "inspect"},
     {"event": "therapySession"},
 ]
 

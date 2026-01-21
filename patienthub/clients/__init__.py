@@ -1,11 +1,9 @@
-from .basic import BasicClient, BasicClientConfig
 from .patientPsi import PatientPsiClient, PatientPsiClientConfig
 from .roleplayDoh import RoleplayDohClient, RoleplayDohClientConfig
 from .eeyore import EeyoreClient, EeyoreClientConfig
 from .psyche import PsycheClient, PsycheClientConfig
 from .simPatient import SimPatientClient, SimPatientClientConfig
 from .consistentMI import ConsistentMIClient, ConsistentMIClientConfig
-from .difyTest import DifyTestClient, DifyTestClientConfig
 from .user import UserClient, UserClientConfig
 from .clientCast import ClientCastClient, ClientCastClientConfig
 from .annaAgent import AnnaAgentClient, AnnaAgentClientConfig
@@ -18,14 +16,12 @@ from omegaconf import DictConfig
 
 # Registry of client implementations
 CLIENT_REGISTRY = {
-    "basic": BasicClient,
     "patientPsi": PatientPsiClient,
     "roleplayDoh": RoleplayDohClient,
     "eeyore": EeyoreClient,
     "psyche": PsycheClient,
     "simPatient": SimPatientClient,
     "consistentMI": ConsistentMIClient,
-    "difyTest": DifyTestClient,
     "user": UserClient,
     "clientCast": ClientCastClient,
     "annaAgent": AnnaAgentClient,
@@ -36,14 +32,12 @@ CLIENT_REGISTRY = {
 
 # Registry of client configs (for Hydra registration)
 CLIENT_CONFIG_REGISTRY = {
-    "basic": BasicClientConfig,
     "patientPsi": PatientPsiClientConfig,
     "roleplayDoh": RoleplayDohClientConfig,
     "eeyore": EeyoreClientConfig,
     "psyche": PsycheClientConfig,
     "simPatient": SimPatientClientConfig,
     "consistentMI": ConsistentMIClientConfig,
-    "difyTest": DifyTestClientConfig,
     "user": UserClientConfig,
     "clientCast": ClientCastClientConfig,
     "annaAgent": AnnaAgentClientConfig,

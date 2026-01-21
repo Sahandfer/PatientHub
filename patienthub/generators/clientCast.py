@@ -1,8 +1,7 @@
-from dataclasses import dataclass
 from omegaconf import DictConfig
+from dataclasses import dataclass
 from pydantic import BaseModel, Field
 from typing import Any, Dict, Optional, Literal
-from langchain_core.messages import SystemMessage
 
 from patienthub.base import InferenceAgent
 from patienthub.configs import APIModelConfig
@@ -268,7 +267,7 @@ class ClientCastGenerator(InferenceAgent):
     def __init__(self, configs: DictConfig):
         self.configs = configs
         self.chat_model = get_chat_model(self.configs)
-        self.data = self.load_data()
+        self.conv_history = self.load_data()
         self.symptoms = load_json(self.configs.symptoms_dir)
         self.prompts = load_prompts(
             role="generator", agent_type="clientCast", lang=configs.lang
@@ -276,26 +275,24 @@ class ClientCastGenerator(InferenceAgent):
 
     def load_data(self):
         data = load_json(self.configs.input_dir)[self.configs.data_idx]
-        conv_history = ""
-        for msg in data.get("messages", []):
-            conv_history += f"{msg['role']}: {msg['content']}\n"
-        return conv_history.strip()
-
-    def generate(self, prompt: str, response_format: type[BaseModel] = None):
-        if response_format is not None:
-            model = self.chat_model.with_structured_output(response_format)
-            return model.invoke([SystemMessage(content=prompt)])
-        else:
-            return self.chat_model.invoke([SystemMessage(content=prompt)]).content
+        return "\n".join(
+            [f"{msg['role']}: {msg['content']}\n" for msg in data.get("messages", [])]
+        ).strip()
 
     def generate_basic_profile(self) -> BasicProfile:
-        prompt = self.prompts["basic_profile_prompt"].render(conversation=self.data)
-        res = self.generate(prompt, BasicProfile)
+        prompt = self.prompts["basic_profile_prompt"].render(
+            conversation=self.conv_history
+        )
+        res = self.chat_model.generate(
+            [{"role": "system", "content": prompt}], response_format=BasicProfile
+        )
         return res
 
     def generate_big_five(self) -> BigFive:
-        prompt = self.prompts["big_five_prompt"].render(conversation=self.data)
-        res = self.generate(prompt, BigFive)
+        prompt = self.prompts["big_five_prompt"].render(conversation=self.conv_history)
+        res = self.chat_model.generate(
+            [{"role": "system", "content": prompt}], response_format=BigFive
+        )
         return res
 
     def generate_symptoms(self) -> Symptoms:
@@ -303,12 +300,18 @@ class ClientCastGenerator(InferenceAgent):
         for disorder, symptoms in self.symptoms.items():
             for i, symptom in enumerate(symptoms):
                 prompt = self.prompts["symptoms_prompt"].render(
-                    conversation=self.data, symptom=symptom
+                    conversation=self.conv_history, symptom=symptom
                 )
                 if disorder == "OQ-45":
-                    res = self.generate(prompt, OQ45Estimate)
+                    res = self.chat_model.generate(
+                        [{"role": "system", "content": prompt}],
+                        response_format=OQ45Estimate,
+                    )
                 else:
-                    res = self.generate(prompt, SymptomEstimate)
+                    res = self.chat_model.generate(
+                        [{"role": "system", "content": prompt}],
+                        response_format=SymptomEstimate,
+                    )
                 full_res[disorder.replace("-", "")] = {f"{i+1}": res}
                 # For the sake of API cost, we only do this for one symptom from each disorder
                 break

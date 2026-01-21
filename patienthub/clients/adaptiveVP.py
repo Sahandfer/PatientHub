@@ -1,18 +1,11 @@
-from typing import Dict, List, Literal
+from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
+from typing import Dict, List, Literal
 
 from patienthub.base import ChatAgent
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, load_json, get_chat_model
-
-from omegaconf import DictConfig
-from langchain_core.messages import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage,
-    get_buffer_string,
-)
 
 
 @dataclass
@@ -148,19 +141,14 @@ class AdaptiveVPClient(ChatAgent):
 
     def get_conv_str(self) -> str:
         """Get conversation history as string"""
-        return get_buffer_string(
-            self.messages,
-            human_prefix="Nurse",
-            ai_prefix="Patient",
+        return "\n".join(
+            f"{msg['role']}: {msg['content']}"
+            for msg in self.messages
+            if msg["role"] != "system"
         )
 
     def set_therapist(self, therapist, prev_sessions: List[Dict[str, str] | None] = []):
         self.therapist = therapist.get("name", "therapist")
-
-    def generate(self, messages: List[str], response_format: BaseModel):
-        chat_model = self.chat_model.with_structured_output(response_format)
-        res = chat_model.invoke(messages)
-        return res
 
     # For brevity, we only include one agent's evaluation (the original paper uses multi-agent evaluation and their consensus as the final result)
     def calc_eval_score(self, eval_res: Analysis) -> int:
@@ -187,13 +175,15 @@ class AdaptiveVPClient(ChatAgent):
         )
 
     def generate_response(self, msg: str):
-        self.messages.append(HumanMessage(content=msg))
+        self.messages.append({"role": "user", "content": msg})
 
         # Step 1: Determine the patient's response direction based on the nurse's message
         prompt = self.prompts["evaluate"].render(
             patient_profile=self.profile, conv_history=self.get_conv_str()
         )
-        res = self.generate([SystemMessage(content=prompt)], response_format=Analysis)
+        res = self.chat_model.generate(
+            [{"role": "system", "content": prompt}], response_format=Analysis
+        )
         score = self.calc_eval_score(res)
         direction = self.directions[score]
 
@@ -204,8 +194,10 @@ class AdaptiveVPClient(ChatAgent):
             direction=direction,
             conv_history=self.get_conv_str(),
         )
-        res = self.generate([SystemMessage(content=prompt)], response_format=Response)
-        self.messages.append(AIMessage(content=res.content))
+        res = self.chat_model.generate(
+            [{"role": "system", "content": prompt}], response_format=Response
+        )
+        self.messages.append({"role": "assistant", "content": res.content})
 
         # Step 3: Evaluate the safety of the generated response (if necessary)
         # prompt = self.prompts["safety"].render(

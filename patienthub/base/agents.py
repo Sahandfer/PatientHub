@@ -46,15 +46,6 @@ class ChatAgent(ABC):
     lang: str
 
     @abstractmethod
-    def generate(
-        self,
-        messages: List[str] | List[Dict[str, Any]] = [],
-        response_format: Optional[Type[BaseModel]] = None,
-    ) -> BaseModel | str:
-        r"""Generates a response based on the input messages."""
-        pass
-
-    @abstractmethod
     def reset(self, *args: Any) -> None:
         r"""Resets the ChatAgent to its initial state."""
         pass

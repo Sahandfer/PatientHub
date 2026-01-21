@@ -1,13 +1,10 @@
-from dataclasses import dataclass
 from typing import Dict, List
-from pydantic import BaseModel, Field
+from omegaconf import DictConfig
+from dataclasses import dataclass
 
 from patienthub.base import ChatAgent
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, load_json, get_chat_model
-
-from omegaconf import DictConfig
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 
 @dataclass
@@ -18,12 +15,6 @@ class PatientPsiClientConfig(APIModelConfig):
     data_path: str = "data/characters/PatientPsi.json"
     data_idx: int = 0
     patient_type: str = "upset"
-
-
-class Response(BaseModel):
-    content: str = Field(
-        description="The content of your generated response in this turn",
-    )
 
 
 class PatientPsiClient(ChatAgent):
@@ -37,9 +28,9 @@ class PatientPsiClient(ChatAgent):
         self.prompts = load_prompts(
             role="client", agent_type="patientPsi", lang=configs.lang
         )
-        self.load_sys_prompt()
+        self.build_sys_prompt()
 
-    def load_sys_prompt(self):
+    def build_sys_prompt(self):
         profile = self.prompts["profile"].render(data=self.data)
         patient_type = self.prompts["patientType"].render(
             patient_type=self.configs.patient_type
@@ -47,23 +38,18 @@ class PatientPsiClient(ChatAgent):
         conv_prompt = self.prompts["conversation"].render(
             data=self.data, patientType=patient_type
         )
-        self.messages = [SystemMessage(content=profile + conv_prompt)]
-
-    def generate(self, messages: List[str], response_format: BaseModel):
-        chat_model = self.chat_model.with_structured_output(response_format)
-        res = chat_model.invoke(messages)
-        return res
+        self.messages = [{"role": "system", "content": profile + conv_prompt}]
 
     def set_therapist(self, therapist, prev_sessions: List[Dict[str, str] | None] = []):
         self.therapist = therapist.get("name", "Therapist")
 
     def generate_response(self, msg: str):
-        self.messages.append(HumanMessage(content=msg))
-        res = self.generate(self.messages, response_format=Response)
-        self.messages.append(AIMessage(content=res.model_dump_json()))
+        self.messages.append({"role": "user", "content": msg})
+        res = self.chat_model.generate(self.messages)
+        self.messages.append({"role": "assistant", "content": res.content})
 
         return res
 
     def reset(self):
-        self.load_sys_prompt()
+        self.build_sys_prompt()
         self.therapist = None

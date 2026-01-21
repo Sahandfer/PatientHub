@@ -1,3 +1,4 @@
+from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
 from typing import Any, Dict, List, Literal
@@ -5,9 +6,6 @@ from typing import Any, Dict, List, Literal
 from patienthub.base import ChatAgent
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, load_json, get_chat_model
-
-from omegaconf import DictConfig
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 
 @dataclass
@@ -46,12 +44,6 @@ class StageIIIResponse(BaseModel):
     )
 
 
-class FinalResponse(BaseModel):
-    """Patient final response"""
-
-    content: str = Field(description="The content of the patient's response")
-
-
 class SAPSClient(ChatAgent):
     """State-Aware Patient Simulator Client.
 
@@ -67,12 +59,12 @@ class SAPSClient(ChatAgent):
         self.configs = configs
 
         self.data = load_json(configs.data_path)[configs.data_idx]
-        self.name = self.data.get("name", "Client")
+        self.name = self.data.get("name", "SAPSClient")
 
         self.chat_model = get_chat_model(configs)
         self.prompts = load_prompts(role="client", agent_type="saps", lang=configs.lang)
 
-        self.messages: List[Any] = []
+        self.messages = []
 
     def set_therapist(
         self,
@@ -81,16 +73,11 @@ class SAPSClient(ChatAgent):
     ):
         self.therapist = therapist.get("name", "Therapist")
 
-    def generate(self, messages: List[Any], response_format: BaseModel) -> BaseModel:
-        """Generate response using structured output"""
-        chat_model = self.chat_model.with_structured_output(response_format)
-        res = chat_model.invoke(messages)
-        return res
-
     def perform_stage_I(self, question: str) -> StageIResponse:
         prompt = self.prompts["state_detection"]["stage_I"].render(question=question)
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)], response_format=StageIResponse
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
+            response_format=StageIResponse,
         )
         return res.question_type
 
@@ -101,8 +88,9 @@ class SAPSClient(ChatAgent):
         prompt = self.prompts["state_detection"]["stage_II"][question_type].render(
             question=question
         )
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)], response_format=StageIIResponse
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
+            response_format=StageIIResponse,
         )
         return "A" if res.specificity == "Specific" else "B"
 
@@ -118,8 +106,9 @@ class SAPSClient(ChatAgent):
         prompt = self.prompts["state_detection"]["stage_III"][question_type].render(
             question=question, patient_info=self.data["patient_info"]
         )
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)], response_format=StageIIIResponse
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
+            response_format=StageIIIResponse,
         )
         memory = res.extracted_text if res.has_relevant_info else ""
         return memory, "A" if memory else "B"
@@ -138,18 +127,17 @@ class SAPSClient(ChatAgent):
 
         return state, memory
 
-    def generate_response(self, msg: str) -> FinalResponse:
-        self.messages.append(HumanMessage(content=msg))
+    def generate_response(self, msg: str):
+        self.messages.append({"role": "user", "content": msg})
 
         state, memory = self.get_state(msg)
 
         prompt = self.prompts["state_instruction"][state].render(patient_info=memory)
+        messages = [{"role": "system", "content": prompt}] + self.messages
 
-        messages = [SystemMessage(content=prompt)] + self.messages
+        res = self.chat_model.generate(messages=messages)
 
-        res = self.generate(messages=messages, response_format=FinalResponse)
-
-        self.messages.append(AIMessage(content=res.content))
+        self.messages.append({"role": "assistant", "content": res.content})
 
         return res
 

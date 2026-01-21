@@ -1,33 +1,25 @@
+from omegaconf import DictConfig
 from dataclasses import dataclass
 from patienthub.base import ChatAgent
-from omegaconf import DictConfig
-from pydantic import BaseModel, Field
 
 
 @dataclass
 class UserClientConfig:
-    """Configuration for User (human) client."""
+    """Configuration for UserClient (human user as client)."""
 
     agent_type: str = "user"
-
-
-class Response(BaseModel):
-    content: str = Field(description="The content of user input")
+    lang: str = "en"
 
 
 class UserClient(ChatAgent):
     def __init__(self, configs: DictConfig):
-        self.name = "humanClient"
+        self.name = "Human Client"
 
     def set_therapist(self, therapist):
         self.therapist = therapist.get("name", "therapist")
 
-    def generate(self):
-        res = input("Your response: ")
-        return Response(content=res.strip())
-
     def generate_response(self, msg: str):
-        res = self.generate()
+        res = input("Your response: ")
         return res
 
     def reset(self):

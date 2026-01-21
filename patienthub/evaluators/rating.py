@@ -1,7 +1,6 @@
 from omegaconf import DictConfig
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Type
-from langchain_core.messages import SystemMessage
 from pydantic import BaseModel, Field, create_model
 
 from .dimensions import Dimension, get_dimensions
@@ -59,10 +58,6 @@ class RatingEvaluator(EvaluatorAgent):
 
         return create_model(f"{dimension.name.title()}Rating", **fields)
 
-    def generate(self, prompt, response_format: Type[BaseModel]) -> BaseModel:
-        model = self.model.with_structured_output(response_format)
-        return model.invoke([SystemMessage(content=prompt)])
-
     def flatten_conv(self, conv_history: List[Dict]) -> str:
         return "\n".join(
             [f"{msg['role'].lower()}: {msg['content']}" for msg in conv_history]
@@ -73,7 +68,9 @@ class RatingEvaluator(EvaluatorAgent):
         for dimension in self.dimensions:
             schema = self.dimension_schemas[dimension.name]
             sys_prompt = self.prompts["sys_prompt"].render(data=data)
-            res = self.generate(sys_prompt, response_format=schema)
+            res = self.chat_model.generate(
+                {"role": "system", "content": sys_prompt}, response_format=schema
+            )
             results[dimension.name] = res.model_dump()
 
         return results

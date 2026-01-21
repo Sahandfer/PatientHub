@@ -1,20 +1,12 @@
 import random
+from omegaconf import DictConfig
 from dataclasses import dataclass
 from typing import Any, Dict, List
-
 from pydantic import BaseModel, Field
 
 from patienthub.base import ChatAgent
 from patienthub.configs import APIModelConfig
 from patienthub.utils import get_chat_model, load_json, load_prompts
-
-from omegaconf import DictConfig
-from langchain_core.messages import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage,
-    get_buffer_string,
-)
 
 
 @dataclass
@@ -26,12 +18,6 @@ class SimPatientClientConfig(APIModelConfig):
     data_idx: int = 0
     continue_last_session: bool = False
     conv_history_path: str = "data/sessions/SimPatient/session_1.json"
-
-
-class Response(BaseModel):
-    content: str = Field(
-        description="The content of your generated response in this turn",
-    )
 
 
 class InternalStateResponse(BaseModel):
@@ -100,9 +86,8 @@ class SimPatientClient(ChatAgent):
             session_history=session_history,
         )
 
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)],
-            response_format=Response,
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
         )
 
         self.between_session_event = res.content.strip()
@@ -137,17 +122,10 @@ class SimPatientClient(ChatAgent):
     ):
         self.therapist = therapist.get("name", "Therapist")
 
-    def generate(self, messages: List[Any], response_format: BaseModel):
-        chat_model = self.chat_model.with_structured_output(response_format)
-        res = chat_model.invoke(messages)
-        return res
-
     def update_internal_state(self, therapist_message: str, patient_response: str):
         """Update internal cognitive model based on the latest interaction."""
-        session_history = get_buffer_string(
-            self.messages,
-            human_prefix="Therapist",
-            ai_prefix="Client",
+        session_history = "\n".join(
+            f"{msg['role']}: {msg['content']}" for msg in self.messages
         )
 
         prompt = self.prompts["update_internal_state"].render(
@@ -157,8 +135,8 @@ class SimPatientClient(ChatAgent):
             patient_response=patient_response,
         )
 
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)],
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
             response_format=InternalStateResponse,
         )
 
@@ -171,12 +149,12 @@ class SimPatientClient(ChatAgent):
         self.data["cognitive_model"] = self.cognitive_model
 
     def generate_response(self, msg: str):
-        self.messages.append(HumanMessage(content=msg))
+        self.messages.append({"role": "user", "content": msg})
 
-        current_session_history = get_buffer_string(
-            self.messages,
-            human_prefix="Therapist",
-            ai_prefix="Client",
+        current_session_history = "\n".join(
+            f"{'Client' if m['role'] == 'user' else 'Therapist'}: {m['content']}"
+            for m in self.messages
+            if m["role"] in ["user", "assistant"]
         )
 
         prompt = self.prompts["response"].render(
@@ -188,17 +166,15 @@ class SimPatientClient(ChatAgent):
             counselor_input=msg,
         )
 
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)],
-            response_format=Response,
-        )
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
+        ).content.strip()
 
-        patient_msg = res.content.strip()
-        self.messages.append(AIMessage(content=patient_msg))
+        self.messages.append({"role": "assistant", "content": res})
 
         self.update_internal_state(
             therapist_message=msg,
-            patient_response=patient_msg,
+            patient_response=res,
         )
 
         return res

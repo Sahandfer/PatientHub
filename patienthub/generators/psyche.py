@@ -1,8 +1,7 @@
 from typing import Literal
-from dataclasses import dataclass
 from omegaconf import DictConfig
+from dataclasses import dataclass
 from pydantic import BaseModel, Field, ConfigDict
-from langchain_core.messages import SystemMessage
 
 from patienthub.base import ChatAgent
 from patienthub.configs import APIModelConfig
@@ -420,11 +419,6 @@ class PsycheGenerator(ChatAgent):
         self.mfc_history = None
         self.mfc_behavior = None
 
-    def generate(self, prompt: str, response_format: type[BaseModel]) -> BaseModel:
-        chat_model = self.chat_model.with_structured_output(response_format)
-        res = chat_model.invoke([SystemMessage(content=prompt)])
-        return res
-
     def generate_mfc_profile(self):
 
         prompt = self.prompts["MFC_Profile"].render(
@@ -432,7 +426,9 @@ class PsycheGenerator(ChatAgent):
             age=self.data["age"],
             sex=self.data["sex"],
         )
-        self.mfc_profile = self.generate(prompt, MFCProfile)
+        self.mfc_profile = self.chat_model.generate(
+            [{"role": "system", "content": prompt}], responses_format=MFCProfile
+        )
 
     def generate_mfc_history(self):
         profile_json = self.mfc_profile.model_dump_json(by_alias=True)
@@ -442,7 +438,9 @@ class PsycheGenerator(ChatAgent):
             sex=self.data["sex"],
             mfc_profile_json=profile_json,
         )
-        self.mfc_history = self.generate(prompt, MFCHistory)
+        self.mfc_history = self.chat_model.generate(
+            [{"role": "system", "content": prompt}], responses_format=MFCHistory
+        )
 
     def generate_mfc_behavior(self):
         profile_json = self.mfc_profile.model_dump_json(by_alias=True)
@@ -454,7 +452,9 @@ class PsycheGenerator(ChatAgent):
             mfc_profile_json=profile_json,
             mfc_history_json=history_json,
         )
-        self.mfc_behavior = self.generate(prompt, MFCBehavior)
+        self.mfc_behavior = self.chat_model.generate(
+            [{"role": "system", "content": prompt}], responses_format=MFCBehavior
+        )
 
     def generate_character(self):
         self.generate_mfc_profile()

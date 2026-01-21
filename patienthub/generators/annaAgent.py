@@ -1,9 +1,8 @@
 import random
-from dataclasses import dataclass
 from omegaconf import DictConfig
+from dataclasses import dataclass
 from pydantic import BaseModel, Field
 from typing import Any, Dict, Optional, Literal, List
-from langchain_core.messages import SystemMessage
 
 from patienthub.base import InferenceAgent
 from patienthub.configs import APIModelConfig
@@ -129,11 +128,6 @@ class AnnaAgentGenerator(InferenceAgent):
         self.teen_events = load_json(f"{input_dir}/teen_events.json")[self.configs.lang]
         self.scales = load_json(f"{input_dir}/scales.json")
 
-    def generate(self, messages, response_format: BaseModel):
-        chat_model = self.chat_model.with_structured_output(response_format)
-        res = chat_model.invoke(messages)
-        return res
-
     def fill_scale(
         self,
         time: Literal["prev", "current"],
@@ -157,8 +151,8 @@ class AnnaAgentGenerator(InferenceAgent):
             )
         else:
             raise ValueError("time must be 'prev' or 'current'")
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)],
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
             response_format=ScaleAnswer,
         )
 
@@ -196,8 +190,8 @@ class AnnaAgentGenerator(InferenceAgent):
             profile=self.profile_str,
             event=event,
         )
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)],
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
             response_format=ComplaintChainResponse,
         )
 
@@ -208,8 +202,8 @@ class AnnaAgentGenerator(InferenceAgent):
             profile=self.profile_str,
             event=event,
         )
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)],
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
             response_format=SituationResponse,
         )
 
@@ -220,8 +214,8 @@ class AnnaAgentGenerator(InferenceAgent):
             profile=self.profile_str,
             conv_history=self.prev_conv_str,
         )
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)],
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
             response_format=StyleResponse,
         )
 
@@ -253,8 +247,8 @@ class AnnaAgentGenerator(InferenceAgent):
             current_answers=current,
         )
 
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)],
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
             response_format=ScaleChangesResponse,
         )
 
@@ -279,8 +273,8 @@ class AnnaAgentGenerator(InferenceAgent):
             sass_changes=changes["sass"]["summary"],
         )
 
-        res = self.generate(
-            messages=[SystemMessage(content=prompt)],
+        res = self.chat_model.generate(
+            messages=[{"role": "system", "content": prompt}],
             response_format=StatusResponse,
         )
 

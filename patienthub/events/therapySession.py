@@ -37,13 +37,14 @@ def generate_therapist_response(state: State, therapist, max_turns) -> State:
     """Generate therapist's response."""
     name = therapist.name
     res = therapist.generate_response(state["msg"])
+    res = res.content if not isinstance(res, str) else res
 
     print(f"--- Turn # {state['num_turns'] + 1}/{max_turns} ---")
-    print(f"{Fore.CYAN}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res.content}")
+    print(f"{Fore.CYAN}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res}")
 
     return state.update(
-        msg=f"{name}: {res.content}",
-        messages=state["messages"] + [{"role": "therapist", "content": res.content}],
+        msg=f"{name}: {res}",
+        messages=state["messages"] + [{"role": "therapist", "content": res}],
     )
 
 
@@ -64,11 +65,12 @@ def generate_client_response(state: State, therapist, client) -> State:
 
     name = client.name
     res = client.generate_response(state["msg"])
-    print(f"{Fore.RED}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res.content}")
+    res = res.content if not isinstance(res, str) else res
+    print(f"{Fore.RED}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res}")
 
     return state.update(
-        msg=f"{name}: {res.content}",
-        messages=state["messages"] + [{"role": "client", "content": res.content}],
+        msg=f"{name}: {res}",
+        messages=state["messages"] + [{"role": "client", "content": res}],
         num_turns=state["num_turns"] + 1,
         session_ended=False,
     )
