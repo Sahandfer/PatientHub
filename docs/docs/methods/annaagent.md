@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# AnnaAgent
+# AnnaAgent 
 
 > Dynamic Evolution Agent System with Multi-Session Memory for Realistic Seeker Simulation
 
@@ -11,7 +11,7 @@ sidebar_position: 4
 
 ## Overview
 
-AnnaAgent simulates help-seeking clients across multiple therapy sessions with dynamic memory evolution. It features a sophisticated emotion system based on the GoEmotions taxonomy (28 emotion categories) and models the progression of psychological complaints through multi-stage chains.
+AnnaAgent aims to simulate the dynamic evolution of the AI seeker's emotions and multi-session memory. It features a sophisticated emotion system based on the GoEmotions taxonomy (28 emotion categories) and models the progression of psychological complaints through multi-stage chains.
 
 ## Key Features
 
@@ -115,3 +115,10 @@ print(response.content)
 3. **Context Check**: Evaluates if historical information is needed for the response
 4. **Complaint Progression**: Tracks progress through the cognitive change chain
 5. **Response Generation**: Produces contextually appropriate responses with emotional consistency
+
+## Resources
+
+`data/resources/AnnaAgent/adult_events.csv`: Psychological distress events regarding adults
+`data/resources/AnnaAgent/teen_events.json`: Psychological distress events regarding teenagers
+`data/resources/AnnaAgent/scales.json`: Scales of GHQ, SASS and BDI
+

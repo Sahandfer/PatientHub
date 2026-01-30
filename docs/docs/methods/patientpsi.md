@@ -2,8 +2,7 @@
 sidebar_position: 10
 ---
 
-# PatientPsi
-
+# PatientPsi 
 > PATIENT-Ψ: Using Large Language Models to Simulate Patients for Training Mental Health Professionals
 
 **Venue**: EMNLP 2024 (Main Conference)  
@@ -11,14 +10,13 @@ sidebar_position: 10
 
 ## Overview
 
-PatientPsi creates realistic patient simulations based on cognitive behavioral therapy (CBT) principles. It models patients with specific cognitive distortions, core beliefs, and automatic thoughts.
+PatientPsi creates realistic patient simulations based on **cognitive behavioral therapy (CBT)** principles. It models patients with specific cognitive distortions, core beliefs, and automatic thoughts.
 
 ## Key Features
 
-- **Cognitive Model**: Implements CBT cognitive triangle (thoughts, feelings, behaviors)
-- **Core Beliefs**: Persistent underlying beliefs that drive behavior
-- **Automatic Thoughts**: Spontaneous negative thoughts triggered by situations
-- **Personality Modeling**: Big Five personality traits influence responses
+- **Cognitive Model**: Implements CBT cognitive model (Relevant History, Core Beliefs, Intermediate Beliefs, Coping Strategies...)
+- **Conversational Styles**: Defines 6 conversational styles (Plain, Upset, Verbose, Reserved, Tangent, Pleasing)
+- **CBT-Grounded**: Uses CBT profiles as a ground truth to evaluate trainees/therapists' ability.
 
 ## Usage
 
@@ -64,76 +62,36 @@ print(response.content)
 
 ```json
 {
-  "demographics": {
     "name": "Alex",
-    "age": 28,
-    "gender": "male",
-    "occupation": "software engineer"
-  },
-  "mental_state": {
-    "affect": "depressed, anxious",
-    "behavior": "social withdrawal, procrastination",
-    "cognition": {
-      "core_beliefs": ["I am inadequate", "Others are more competent than me"],
-      "negative_automatic_thoughts": [
-        "I will fail this project",
-        "Everyone will see I'm a fraud"
-      ]
-    }
-  },
-  "personality": {
-    "summary": "Introverted, perfectionistic, self-critical",
-    "openness": 6,
-    "conscientiousness": 8,
-    "extraversion": 3,
-    "agreeableness": 7,
-    "neuroticism": 8
-  },
-  "presenting_problem": "Experiencing anxiety and depression related to work performance"
+    "id": "1-1",
+    "type": [
+        "plain",
+        "verbose",
+        "go off on tangents",
+        "hostile",
+        "guarded",
+        "ingratiating"
+    ],
+    "history": "The patient has a history of substance abuse and has been through rehab to overcome it. He has had issues with his family, particularly with his mother, where he has felt rejected and emotionally neglected. He has struggled with obesity since childhood, which has affected his self-esteem and body image. He also has a history of being victimized and bullied due to his weight.",
+    "helpless_belief_current": [
+        "I am trapped.",
+        "I am out of control."
+    ],
+    "unlovable_belief_current": [
+        "I am unlovable.",
+        "I am undesirable, unwanted."
+    ],
+    "worthless_belief_current": [],
+    "intermediate_belief": "Helpless: I'm just not very good at handling stress and I have poor self-control, which is why I need to not put myself in stressful situations. \n Unlovable: If I show my true self, people will reject me the way my mother rejected me.",
+    "intermediate_belief_depression": "Helpless: There's nothing I can do to change my situation. I cannot control myself. \nUnlovable: I don't deserve to be happy, so why even try to stay clean?",
+    "coping_strategies": "The patient has adopted avoidance as a coping strategy by distancing himself from his family to reduce exposure to negativity and conflict. He has started scheduling pleasant activities and planning his day ahead of time in order to maintain a sense of control over his emotions and circumstances.",
+    "situation": "Alex's cousin invited him to attend his upcoming wedding.",
+    "auto_thought": "It will be stressful and negative; people will ask me questions I cannot answer or don't want to answer; my mum would be ashamed of me and critical of me as always; They don't want me there anyway, nobody likes me in this family.",
+    "emotion": [
+        "anxious, worried, fearful, scared, tense",
+        "sad, down, lonely, unhappy"
+    ],
+    "behavior": "Ignored the invitation and did not respond to the RSVP request. Ignored phone calls from family."
 }
 ```
 
-## How It Works
-
-1. **System Prompt Construction**: Combines demographic info, cognitive model, and personality
-2. **Response Generation**: Patient responds based on core beliefs and automatic thoughts
-3. **Consistency**: Maintains character consistency through conversation history
-
-### Cognitive Triangle
-
-```
-        Thoughts
-       (Automatic)
-           │
-     ┌─────┴─────┐
-     ▼           ▼
- Feelings ◄───► Behaviors
- (Affect)     (Actions)
-```
-
-## Example Conversation
-
-**Therapist**: "How have you been feeling at work lately?"
-
-**Patient (PatientPsi)**: "Honestly, not great. I've been really anxious about the new project. Every time I sit down to work on it, I keep thinking that I'm going to mess it up somehow. Like everyone else on the team seems to know what they're doing, but I feel like I'm just... pretending."
-
-**Therapist**: "It sounds like you're experiencing some self-doubt. Can you tell me more about these thoughts?"
-
-**Patient**: "I guess... I just feel like I'm not as good as everyone thinks I am. Like eventually they're going to figure out that I don't really belong here. I've been avoiding meetings because I'm afraid someone will ask me a question and I won't know the answer."
-
-## Best Practices
-
-1. **Use with CBT Therapist**: Designed for CBT-style interactions
-2. **Explore Automatic Thoughts**: Ask about specific situations to trigger cognitive patterns
-3. **Note Avoidance Behaviors**: Character will demonstrate behavioral symptoms
-
-## Limitations
-
-- Single-session focus (no memory between sessions)
-- Fixed cognitive model (doesn't update based on therapy)
-- Best suited for CBT training scenarios
-
-## Related Methods
-
-- [ConsistentMI](/docs/methods/consistentmi) - For MI-focused training
-- [Eeyore](/docs/methods/eeyore) - For depression-specific simulation

@@ -71,53 +71,51 @@ print(response.content)
 | ----------- | ---------------------- | ----------------------------------- |
 | `data_path` | Path to character file | `data/characters/ConsistentMI.json` |
 | `data_idx`  | Character index        | `0`                                 |
+| `topics_path`  | Topics from Wiki        | `data/resources/ConsistentMI/topics.json`          |
+| `topic_graph_path` | Correlation between topics    | `data/resources/ConsistentMI/topic_graph.json`    |
+| `model_retriever`  | retrieve the most relevant topic | None |  
 
 ## Character Data Format
 
 ```json
 {
-  "name": "Jordan",
-  "age": 32,
-  "presenting_issue": "alcohol use",
-  "background": "Recently divorced, using alcohol to cope with stress",
-  "initial_stage": "precontemplation",
-  "change_topic": "reducing alcohol consumption",
-  "motivations": [
-    "Health concerns",
-    "Relationship with children",
-    "Job performance"
-  ],
-  "barriers": ["Social pressure", "Stress relief habit", "Fear of boredom"],
-  "stage_behaviors": {
-    "precontemplation": [
-      "Minimize the problem",
-      "Blame external factors",
-      "Show defensiveness"
+    "idx": 25,
+    "topic": "reducing drug use",
+    "initial_stage": "Precontemplation",
+    "suggestibilities": [
+        3,
+        3,
+        3,
+        2,
+        3
     ],
-    "contemplation": [
-      "Express ambivalence",
-      "Ask questions about change",
-      "Acknowledge some concerns"
-    ]
-  }
+    "Personas": [
+        "You smoke weed to relax after a long day.",
+        "Your wife is concerned about your smoking habits",
+        "Your wife has pushed you to seek help.",
+        "You have failed a UA at work.",
+        "Your boss may fire you for failing the UA."
+    ],
+    "Acceptable Plans": [
+        "You consider talking to his boss and taking steps to address his substance use to prevent losing his job."
+    ],
+    "Beliefs": [
+        "You believe weed helps you unwind.",
+        "You don't perceive smoking weed as a problem.",
+        "You view smoking weed as a way to manage stress from working, paying the bills and house."
+    ],
+    "quality": "high",
+    "Motivation": [
+        "Career Break",
+        "Employment",
+        "Economy",
+        "You are motivated because of the risk of smoking weed in career break for yourself, as you may lose your job."
+    ],
+    "Behavior": "drug use"
 }
 ```
 
 ## How It Works
-
-### State Machine
-
-```
-┌──────────────────┐     Good MI     ┌───────────────┐
-│ Precontemplation │ ──────────────► │ Contemplation │
-└──────────────────┘                 └───────────────┘
-        ▲                                   │
-        │ Poor MI                    Good MI│
-        │                                   ▼
-┌───────┴─────────┐                 ┌──────────────┐
-│   Resistance    │ ◄────────────── │  Preparation │
-└─────────────────┘    Poor MI      └──────────────┘
-```
 
 ### Action Selection
 
@@ -158,15 +156,6 @@ The client selects actions based on:
 
 **Client** (slight shift): "Well... I guess sometimes I drink more than I plan to. But who doesn't, right?"
 
-## MI Techniques That Promote Change
-
-| Technique      | Example                                  | Effect               |
-| -------------- | ---------------------------------------- | -------------------- |
-| Open Questions | "What concerns you about your drinking?" | Elicits change talk  |
-| Affirmations   | "It takes courage to talk about this."   | Builds self-efficacy |
-| Reflections    | "You're worried about your health."      | Shows understanding  |
-| Summaries      | "So you've mentioned..."                 | Organizes thoughts   |
-
 ## Evaluating MI Skills
 
 Use with the `rating` evaluator:
@@ -188,10 +177,4 @@ uv run python -m examples.evaluate \
 ## Limitations
 
 - Stage transitions may not perfectly match clinical expectations
-- Cultural factors not explicitly modeled
-- Binary resistance model (engaged vs. resistant)
 
-## Related Methods
-
-- [SimPatient](/docs/methods/overview) - Also models cognitive states in MI context
-- [PatientPsi](/docs/methods/patientpsi) - CBT-focused alternative

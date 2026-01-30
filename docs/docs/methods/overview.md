@@ -56,22 +56,6 @@ PatientHub implements various agent types for comprehensive therapy simulation r
 
 ## Comparison
 
-### Complexity vs. Realism Trade-off
-
-```
-High Realism
-    │
-    │   ConsistentMI ●
-    │              Eeyore ●
-    │         SimPatient ●
-    │    PatientPsi ●
-    │         RoleplayDoh ●
-    │   SAPS ●
-    │ Basic ●
-    │
-    └────────────────────────► High Complexity
-```
-
 ### Feature Comparison
 
 | Feature           | PatientPsi | ConsistentMI | Eeyore | SimPatient |

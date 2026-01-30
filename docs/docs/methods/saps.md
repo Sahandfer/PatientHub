@@ -18,9 +18,9 @@ SAPS introduces State Tracking and Memory Bank mechanisms, forcing the patient s
 
 It uses specific Prompts to judge in three stages:  
 
-1. **Broad Category (Stage I)**: Classify the doctor's questions into Inquiry, Advice, Demand, Other Topic or End
-2. **Specificity (Stage II)**: Determine the question is specific or broad
-3. **Relevance (Stage III)**: Extract relevant information from the complete medical record  
+- **Broad Category (Stage I)**: Classify the doctor's questions into Inquiry, Advice, Demand, Other Topic or End
+- **Specificity (Stage II)**: Determine the question is specific or broad
+- **Relevance (Stage III)**: Extract relevant information from the complete medical record  
 
 Based on the final state obtained by the State Tracker, SAPS selects the corresponding **state_instruction prompt** to generate the patient response.
 
@@ -30,6 +30,34 @@ Based on the final state obtained by the State Tracker, SAPS selects the corresp
 
 ```bash
 uv run python -m examples.simulate client=saps therapist=user
+```
+
+### Python TODO:
+
+```python 
+from omegaconf import OmegaConf
+from patienthub.clients import get_client
+
+config = OmegaConf.create(
+    {
+        "agent_type": "saps",
+        "model_type": "LAB",
+        "model_name": "gpt-4o",
+        "temperature": 0.7,
+        "max_tokens": 1024,
+        "max_retries": 3,
+        "data_path": "data/characters/SAPS.json",
+        "data_idx": 0,
+    }
+)
+
+client = get_client(configs=config, lang="en")
+client.set_therapist({"name": "Doctor"})
+
+response = client.generate_response(
+    "Could you describe your main symptoms and when they started?"
+)
+print(response.content)
 ```
 
 ## Configuration
@@ -48,7 +76,7 @@ uv run python -m examples.simulate client=saps therapist=user
   }
 ```
 
-## Other Resources
+## Resources
 
 Two Doctor LLMs Test Sets
 

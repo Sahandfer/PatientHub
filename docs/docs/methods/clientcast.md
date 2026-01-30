@@ -11,7 +11,7 @@ sidebar_position: 8
 
 ## Overview
 
-ClientCast creates client simulations for assessing LLM-based therapists. It uses detailed psychological profiles including Big Five personality traits, symptom assessments (PHQ-9, GAD-7, OQ-45), and conversation history from real therapy sessions to create realistic client behavior.
+ClientCast creates client simulations for assessing LLM-based therapists. It introduces well-designed and detailed psychological profiles including Big Five personality traits, symptom assessments (PHQ-9, GAD-7, OQ-45), and conversation history from real therapy sessions to create realistic client behavior.
 
 ## Key Features
 
@@ -71,7 +71,7 @@ print(response.content)
 | --------------- | --------------------------- | ------------------------------------------- |
 | `data_path`     | Path to character file      | `data/characters/ClientCast.json`           |
 | `conv_path`     | Path to conversation data   | `data/resources/ClientCast/human_data.json` |
-| `symptoms_path` | Path to symptom definitions | `data/resources/ClientCast/symptoms.json`   |
+| `symptoms_path` | Path to symptom assessment definitions | `data/resources/ClientCast/symptoms.json`   |
 | `data_idx`      | Character index             | `0`                                         |
 | `conv_id`       | Conversation excerpt ID     | `0`                                         |
 
@@ -147,11 +147,16 @@ print(response.content)
 4. **Conversation Grounding**: References real therapy conversation excerpts
 5. **Response Generation**: Produces responses consistent with profile and conversation context
 
-## Research Applications
+## Resources
+
+`data/resources/ClientCast/human_data.json`: Human therapy conversation excerpts for grounding client simulations
+`data/resources/ClientCast/symptoms.json`: Symptom item texts for PHQ-9, GAD-7, and OQ-45 used to identify symptoms in the ClientCast profile
+
+<!-- ## Research Applications
 
 ClientCast is designed for:
 
 - **Therapist Assessment**: Evaluating LLM-based therapist quality
 - **A/B Testing**: Comparing different therapist approaches
 - **Safety Evaluation**: Testing therapist responses to various client presentations
-- **Benchmark Creation**: Building standardized client cases for evaluation
+- **Benchmark Creation**: Building standardized client cases for evaluation -->

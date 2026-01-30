@@ -25,32 +25,11 @@ PSYCHE provides comprehensive multi-faceted character profiles (MFC) for psychia
 
 PSYCHE profiles include three main sections:
 
-### MFC-Profile
+- **MFC-Profile**: Clinical identifying information and psychiatric history (including identifying data, chief complaint, medical history, social history, impulsivity...)
 
-Clinical identifying information and psychiatric history:
+- **MFC-History**: Narrative life history providing context for current conversation
 
-- Identifying data (age, sex, marital status, occupation)
-- Chief complaint
-- Present illness with symptoms, triggers, and stressors
-- Past psychiatric and medical history
-- Current medications
-- Family history
-- Developmental/social history
-- Impulsivity and risk assessment
-
-### MFC-History
-
-Narrative life history providing context for current presentation
-
-### MFC-Behavior
-
-Mental Status Examination findings:
-
-- General appearance/attitude/behavior
-- Mood and affect
-- Speech characteristics
-- Thought process and content
-- Insight and reliability
+- **MFC-Behavior**: Mental Status Examination findings (including mood, tone, thought process...)
 
 ## Usage
 
@@ -163,14 +142,14 @@ print(response.content)
 
 1. **MFC Loading**: Loads the complete multi-faceted character profile
 2. **System Prompt Construction**: Combines all profile components into comprehensive context
-3. **Response Generation**: Produces responses consistent with mental status findings
+3. **Response Generation**: Produces responses consistent with mental status findings(profile)
 4. **Clinical Authenticity**: Maintains behavioral observations (mood, affect, verbal patterns)
 
-## Research Applications
+<!-- ## Research Applications
 
 PSYCHE is designed for:
 
 - **Psychiatric Training**: Practice conducting mental status examinations
 - **Assessment Evaluation**: Testing psychiatric assessment agents
 - **Risk Assessment Training**: Practice identifying and responding to safety concerns
-- **Clinical Documentation**: Understanding psychiatric evaluation formats
+- **Clinical Documentation**: Understanding psychiatric evaluation formats -->

@@ -15,11 +15,9 @@ TalkDep creates clinically grounded personas for depression screening research. 
 
 ## Key Features
 
-- **BDI-Grounded**: Each persona has a specific BDI score and depression level
-- **Symptom Profiles**: Detailed negative symptoms with severity ratings
-- **Linguistic Patterns**: Realistic speech patterns associated with depression levels
-- **Social Context**: Rich background including social media activity patterns
-- **Behavioral Constraints**: Guidelines for realistic response generation
+- **BDI-II**: Strictly constructed based on the Beck Depression Inventory-II (BDI-II).
+- **BDI-Grounded**: By using pre-defined BDI-II scores as a ground truth to evaluate and quantify the performance of the simulation.
+- **Validated Personas**: Constructed 12 validated depression personas, covering four severity levels: Minimal, Mild, Moderate, and Severe.
 
 ## Depression Levels
 
@@ -140,9 +138,11 @@ print(response.content)
 3. **Conversation Handling**: Maintains conversation history for context
 4. **Response Generation**: Generates responses following linguistic patterns and behavioral constraints
 
-## Research Applications
+## Resources
 
-TalkDep is particularly useful for:
+`data/characters/talkDep.json`: 12 validated depression personas, covering range from Minimal to Severe.
+
+Which is particularly useful for:
 
 - **Screening Agent Evaluation**: Testing depression detection models
 - **Training Data Generation**: Creating synthetic conversations for ML training
