@@ -66,7 +66,7 @@ const config: Config = {
           title: 'Docs',
           items: [
             { label: 'Getting Started', to: '/docs/getting-started/installation' },
-            { label: 'API Reference', to: '/docs/api/clients' },
+            { label: 'Components', to: '/docs/components/overview' },
           ],
         },
         {

@@ -265,4 +265,4 @@ custom_css = "/public/custom.css"
 ## Next Steps
 
 - [Chainlit Documentation](https://docs.chainlit.io/)
-- [API Reference](/docs/api/clients) - Client configuration options
+- [Clients Reference](/docs/components/clients/overview) - Client configuration options

@@ -39,19 +39,19 @@ uv run python -m examples.evaluate \
 
 Client dimensions are defined in the instruction YAML (e.g. `data/prompts/evaluator/client/scalar.yaml`):
 
-| Dimension           | Description                                                                       |
-| ------------------- | --------------------------------------------------------------------------------- |
-| `consistency`       | Consistency with profile and self-consistency across turns                        |
+| Dimension           | Description                                                                        |
+| ------------------- | ---------------------------------------------------------------------------------- |
+| `consistency`       | Consistency with profile and self-consistency across turns                         |
 | `emotional_depth`   | Authenticity, complexity, and appropriateness of emotional expression              |
 | `pedagogical_value` | Whether responses create learning opportunities and an appropriate challenge level |
-| `engagement`        | Interaction quality: agreeableness, “self-curing” tendency, and realism           |
+| `engagement`        | Interaction quality: agreeableness, “self-curing” tendency, and realism            |
 
 ### For Therapists
 
 Therapist dimensions are also instruction-driven (e.g. `data/prompts/evaluator/therapist/cbt.yaml`):
 
-| Dimension                      | Description                                         |
-| ----------------------------- | --------------------------------------------------- |
+| Dimension                     | Description                                          |
+| ----------------------------- | ---------------------------------------------------- |
 | `adherence_to_cbt_principles` | Adherence to CBT principles (rubric aspects in YAML) |
 
 ## Configuration
@@ -141,9 +141,7 @@ print(results)
 {
   "consistency": {
     "profile_factual": {
-      "extracted_passages": [
-        "Client: ..."
-      ],
+      "extracted_passages": ["Client: ..."],
       "reasoning": "..."
     }
   }
@@ -252,5 +250,5 @@ uv run python -m examples.evaluate \
 
 ## Next Steps
 
-- [API Reference: Evaluators](/docs/api/evaluators) - Detailed evaluator API
+- [Evaluators Reference](/docs/components/evaluators/overview) - Detailed evaluator documentation
 - [Contributing: New Evaluators](/docs/contributing/new-evaluators) - Add custom evaluators
