@@ -16,7 +16,6 @@ const sidebars = {
       label: 'User Guide',
       items: [
         'guide/simulations',
-        'guide/batch-processing',
         'guide/evaluation',
         'guide/web-demo',
       ],

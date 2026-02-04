@@ -26,7 +26,7 @@ config = OmegaConf.create({
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
     'temperature': 0.7,
-    'max_tokens': 1024,
+    'max_tokens': 8192,
     'max_retries': 3,
 })
 
@@ -35,30 +35,11 @@ therapist = get_therapist(configs=config, lang='en')
 
 ## Therapist Interface
 
-All therapists implement the `ChatAgent` interface:
+Therapist agents are stateful `ChatAgent` implementations. In practice, all built-in therapists provide:
 
-```python
-class ChatAgent(ABC):
-    @abstractmethod
-    def generate(self, messages, response_format) -> BaseModel:
-        """Generate a response given message history."""
-        pass
-
-    @abstractmethod
-    def generate_response(self, msg: str) -> Response:
-        """Generate response to a client message."""
-        pass
-
-    @abstractmethod
-    def set_client(self, client: Dict, prev_sessions=None):
-        """Set the client for the session."""
-        pass
-
-    @abstractmethod
-    def reset(self):
-        """Reset the therapist state."""
-        pass
-```
+- `set_client(client: dict, prev_sessions: list | None = None) -> None`
+- `generate_response(msg: str) -> str | Any` (returns a string, or an object with `.content`)
+- `reset() -> None`
 
 ## Configuration Options
 
@@ -67,10 +48,10 @@ class ChatAgent(ABC):
 | Option        | Type  | Default    | Description               |
 | ------------- | ----- | ---------- | ------------------------- |
 | `agent_type`  | str   | required   | Therapist type identifier |
-| `model_type`  | str   | `"OPENAI"`    | Model provider            |
+| `model_type`  | str   | `"OPENAI"` | Model provider key (used to read `${MODEL_TYPE}_API_KEY` / `${MODEL_TYPE}_BASE_URL`) |
 | `model_name`  | str   | `"gpt-4o"` | Model identifier          |
 | `temperature` | float | `0.7`      | Sampling temperature      |
-| `max_tokens`  | int   | `1024`     | Max response tokens       |
+| `max_tokens`  | int   | `8192`     | Max response tokens       |
 | `max_retries` | int   | `3`        | API retry attempts        |
 
 ## CBT Therapist
@@ -83,7 +64,7 @@ config = OmegaConf.create({
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
     'temperature': 0.7,
-    'max_tokens': 1024,
+    'max_tokens': 8192,
     'max_retries': 3,
 })
 
@@ -91,21 +72,9 @@ therapist = get_therapist(configs=config, lang='en')
 therapist.set_client({'name': 'Alex'})
 
 response = therapist.generate_response("I feel like a failure at work.")
-print(response.content)
+print(response)
 # Example: "I hear that you're feeling like a failure.
 #           Can you tell me about a specific situation that made you feel this way?"
-```
-
-### CBT Response Format
-
-```python
-class Response(BaseModel):
-    reasoning: str = Field(
-        description="The reasoning behind the response (internal)"
-    )
-    content: str = Field(
-        description="The therapist's response to the client"
-    )
 ```
 
 ## User Therapist
@@ -151,7 +120,7 @@ config = OmegaConf.create({
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
     'temperature': 0.7,
-    'max_tokens': 1024,
+    'max_tokens': 8192,
     'max_retries': 3,
 })
 
@@ -209,11 +178,11 @@ for turn in range(5):
     conversation.append({'role': 'therapist', 'content': therapist_msg})
 
     client_response = client.generate_response(therapist_msg)
-    print(f"Client: {client_response.content}\n")
-    conversation.append({'role': 'client', 'content': client_response.content})
+    client_content = client_response.content if not isinstance(client_response, str) else client_response
+    print(f"Client: {client_content}\n")
+    conversation.append({'role': 'client', 'content': client_content})
 
-    therapist_response = therapist.generate_response(client_response.content)
-    therapist_msg = therapist_response.content
+    therapist_msg = therapist.generate_response(client_content)
 ```
 
 ## Listing Available Therapists

@@ -11,7 +11,6 @@ Events manage the flow of therapy sessions and other interactions.
 | Event            | Description              | Config Class           |
 | ---------------- | ------------------------ | ---------------------- |
 | `therapySession` | Standard therapy session | `TherapySessionConfig` |
-| `interview`      | Structured interview     | `InterviewConfig`      |
 
 ## TherapySession
 
@@ -26,8 +25,6 @@ config = OmegaConf.create({
     'event_type': 'therapySession',
     'max_turns': 30,
     'reminder_turn_num': 5,
-    'langfuse': False,
-    'recursion_limit': 1000,
     'output_dir': 'data/sessions/default/session_1.json',
 })
 ```
@@ -39,8 +36,6 @@ config = OmegaConf.create({
 | `event_type`        | str  | `"therapySession"` | Event type identifier             |
 | `max_turns`         | int  | `30`               | Maximum conversation turns        |
 | `reminder_turn_num` | int  | `5`                | Turns before end to show reminder |
-| `langfuse`          | bool | `False`            | Enable Langfuse tracing           |
-| `recursion_limit`   | int  | `1000`             | LangGraph recursion limit         |
 | `output_dir`        | str  | varies             | Output file path                  |
 
 ### Usage
@@ -48,20 +43,30 @@ config = OmegaConf.create({
 ```python
 from omegaconf import OmegaConf
 from patienthub.clients import get_client
-from patienthub.therapists import get_therapist
 from patienthub.events import get_event
+from patienthub.therapists import get_therapist
+from patienthub.clients.patientPsi import PatientPsiClientConfig
+from patienthub.therapists.eliza import ElizaTherapistConfig
 
-# Load components
-client = get_client(configs=client_config, lang='en')
-therapist = get_therapist(configs=therapist_config, lang='en')
+# Before running:
+# - set OPENAI_API_KEY (required)
+# - set OPENAI_BASE_URL (optional)
+# You can export them or put them in PatientHub/.env and run from the PatientHub directory.
 
 # Create event
 event_config = OmegaConf.create({
     'event_type': 'therapySession',
-    'max_turns': 20,
+    'max_turns': 1,
+    'reminder_turn_num': 1,
     'output_dir': 'outputs/my_session.json',
 })
 event = get_event(configs=event_config)
+
+# Load agents (calls an LLM for the client agent)
+client_config = OmegaConf.structured(PatientPsiClientConfig())
+therapist_config = OmegaConf.structured(ElizaTherapistConfig())
+client = get_client(configs=client_config, lang='en')
+therapist = get_therapist(configs=therapist_config, lang='en')
 
 # Set up characters
 event.set_characters({
@@ -74,42 +79,47 @@ event.set_characters({
 event.start()
 ```
 
+### Run via CLI (Hydra)
+
+```bash
+python -m examples.simulate client=patientPsi therapist=eliza event.max_turns=1 event.output_dir=outputs/my_session.json
+```
+
 ### Session Flow
 
-The TherapySession uses LangGraph to manage the conversation flow:
+The TherapySession is implemented as a finite-state workflow and runs until an end condition is met:
 
 ```
 START
   │
   ▼
-initiate_session
+init_session
   │
   ▼
-generate_therapist_response ◄──┐
-  │                            │
-  ▼                            │
-generate_client_response       │
-  │                            │
-  ├─── CONTINUE ───────────────┘
+generate_therapist_response
   │
-  ├─── REMIND ──► give_reminder ──► generate_therapist_response
+  ▼
+generate_client_response ──┬──► end_session (therapist says END/end/exit)
+  │                        │
+  ├──► end_session (num_turns >= max_turns)
   │
-  └─── END ──► end_session
-                   │
-                   ▼
-                  END
+  └──► check_and_remind ──► generate_therapist_response
+            │
+            └── (adds a reminder when turns_left <= reminder_turn_num)
 ```
 
 ### Session State
 
 ```python
-from typing import TypedDict, List, Dict, Any, Optional
+from typing import TypedDict, List, Dict, Any
 
 class TherapySessionState(TypedDict):
     messages: List[Dict[str, Any]]  # Conversation history
-    summary: Optional[str]           # Session summary (if generated)
-    homework: Optional[List[str]]    # Assigned homework
-    msg: Optional[str]               # Current message being processed
+    msg: str                        # Current message being processed
+    num_turns: int                  # Number of completed turns
+    session_ended: bool             # End flag
+    initialized: bool               # Init flag
+    needs_reminder: bool            # Reminder flag
 ```
 
 ### Methods
@@ -148,149 +158,11 @@ Sessions are saved as JSON:
 
 ```json
 {
-  "profile": {
-    "demographics": { "name": "Alex", "age": 28 },
-    "presenting_problem": "Anxiety at work"
-  },
+  "profile": { "name": "Client" },
   "messages": [
     { "role": "therapist", "content": "Hello, how are you feeling today?" },
     { "role": "client", "content": "I've been really anxious lately..." }
   ],
   "num_turns": 15
 }
-```
-
-## Interview Event
-
-For structured interviews with predetermined questions.
-
-### Configuration
-
-```python
-config = OmegaConf.create({
-    'event_type': 'interview',
-    'num_questions': 5,
-    'langfuse': False,
-    'output_dir': 'data/interviews/default/interview_1.json',
-})
-```
-
-### Interview State
-
-```python
-class InterviewState(TypedDict):
-    questions: List[str]          # List of questions
-    answers: List[str]            # Collected answers
-    current_question: Optional[str]
-    msg: Optional[str]
-```
-
-### Usage
-
-```python
-from patienthub.events import get_event
-from patienthub.clients import get_client
-from patienthub.evaluators import get_evaluator
-
-# Load interviewee (client)
-interviewee = get_client(configs=client_config, lang='en')
-
-# Load interviewer (evaluator with questions)
-interviewer = get_evaluator(configs=eval_config, lang='en')
-
-# Create interview event
-event = get_event(configs=interview_config)
-event.set_characters({
-    'interviewee': interviewee,
-    'interviewer': interviewer,
-})
-
-event.start()
-```
-
-## Custom Events
-
-Create custom events by extending the base pattern:
-
-```python
-from dataclasses import dataclass
-from typing import TypedDict, List, Dict, Any
-from langgraph.graph import StateGraph, START, END
-
-
-@dataclass
-class MyEventConfig:
-    event_type: str = "myEvent"
-    # ... custom options
-
-
-class MyEventState(TypedDict):
-    # ... define state
-
-
-class MyEvent:
-    def __init__(self, configs):
-        self.configs = configs
-        self.graph = self.build_graph()
-
-    def set_characters(self, characters: Dict[str, Any]):
-        # Store characters
-        pass
-
-    def build_graph(self):
-        graph = StateGraph(MyEventState)
-
-        # Add nodes
-        graph.add_node("step1", self.step1)
-        graph.add_node("step2", self.step2)
-
-        # Add edges
-        graph.add_edge(START, "step1")
-        graph.add_edge("step1", "step2")
-        graph.add_edge("step2", END)
-
-        return graph.compile()
-
-    def step1(self, state):
-        # ... implementation
-        return state
-
-    def step2(self, state):
-        # ... implementation
-        return state
-
-    def start(self):
-        self.graph.invoke(input={})
-```
-
-Register in `patienthub/events/__init__.py`:
-
-```python
-from .myEvent import MyEvent, MyEventConfig
-
-EVENT_REGISTRY = {
-    'therapySession': TherapySession,
-    'interview': Interview,
-    'myEvent': MyEvent,
-}
-```
-
-## Langfuse Integration
-
-Enable tracing for debugging and analysis:
-
-```python
-config = OmegaConf.create({
-    'event_type': 'therapySession',
-    'langfuse': True,
-    # ...
-})
-```
-
-Set environment variables:
-
-```bash
-LANGFUSE_PUBLIC_KEY=your_public_key
-LANGFUSE_SECRET_KEY=your_secret_key
-LANGFUSE_HOST=https://cloud.langfuse.com
 ```

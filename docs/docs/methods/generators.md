@@ -167,6 +167,5 @@ GeneratorRegistry.register("my_generator", MyCustomGenerator)
 
 ## See Also
 
-- [User Guide: Batch Processing](../guide/batch-processing.md)
 - [API Reference: Clients](../api/clients.md)
 - [Creating Custom Agents](../contributing/new-agents.md)

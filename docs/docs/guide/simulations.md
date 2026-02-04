@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Running Simulations TODO:
+# Running Simulations
 
 PatientHub provides multiple ways to run therapy session simulations.
 
@@ -11,7 +11,7 @@ PatientHub provides multiple ways to run therapy session simulations.
 The simplest approach uses the command-line interface:
 
 ```bash
-uv run python -m examples.simulate
+uv run python -m examples.simulate client=user therapist=eliza
 ```
 
 ### Customize Components
@@ -20,8 +20,8 @@ uv run python -m examples.simulate
 # Specify client and therapist
 uv run python -m examples.simulate client=patientPsi therapist=CBT
 
-# Add evaluation
-uv run python -m examples.simulate client=patientPsi therapist=CBT evaluator=rating
+# Attach an evaluator (note: TherapySession does not execute it; see Evaluation guide)
+uv run python -m examples.simulate client=patientPsi therapist=CBT +evaluator=llm_judge
 
 # Adjust session parameters
 uv run python -m examples.simulate event.max_turns=25 event.reminder_turn_num=5
@@ -32,14 +32,15 @@ uv run python -m examples.simulate event.max_turns=25 event.reminder_turn_num=5
 For programmatic control:
 
 ```python
-from omegaconf import OmegaConf
 from patienthub.clients import get_client
+from patienthub.events.therapySession import TherapySession
 from patienthub.therapists import get_therapist
-from patienthub.events import get_event
+from omegaconf import OmegaConf
 
 # Configure client
 client_config = OmegaConf.create({
     'agent_type': 'patientPsi',
+    'patient_type': 'upset',
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
     'temperature': 0.7,
@@ -61,7 +62,6 @@ therapist_config = OmegaConf.create({
 
 # Configure session
 event_config = OmegaConf.create({
-    'event_type': 'therapySession',
     'max_turns': 20,
     'reminder_turn_num': 5,
     'output_dir': 'outputs/my_session.json',
@@ -70,7 +70,7 @@ event_config = OmegaConf.create({
 # Load components
 client = get_client(configs=client_config, lang='en')
 therapist = get_therapist(configs=therapist_config, lang='en')
-event = get_event(configs=event_config)
+event = TherapySession(configs=event_config)
 
 # Set up session
 event.set_characters({
@@ -88,17 +88,18 @@ event.start()
 For fine-grained control over each turn:
 
 ```python
-from omegaconf import OmegaConf
 from patienthub.clients import get_client
+from omegaconf import OmegaConf
 
 config = OmegaConf.create({
-    'agent_type': 'consistentMI',
+    'agent_type': 'patientPsi',
+    'patient_type': 'upset',
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
     'temperature': 0.7,
     'max_tokens': 1024,
     'max_retries': 3,
-    'data_path': 'data/characters/ConsistentMI.json',
+    'data_path': 'data/characters/PatientPsi.json',
     'data_idx': 0,
 })
 
@@ -117,15 +118,13 @@ therapist_messages = [
 for msg in therapist_messages:
     print(f"Therapist: {msg}")
     conversation.append({'role': 'therapist', 'content': msg})
-
     response = client.generate_response(msg)
     print(f"Client: {response.content}\n")
     conversation.append({'role': 'client', 'content': response.content})
 
 # Save conversation
-import json
-with open('outputs/manual_session.json', 'w') as f:
-    json.dump({'messages': conversation}, f, indent=2)
+from patienthub.utils import save_json
+save_json({'messages': conversation}, 'outputs/manual_session.json', overwrite=True)
 ```
 
 ## Human-in-the-Loop
@@ -168,22 +167,26 @@ while True:
 
 ## Session Events
 
-The `TherapySession` event manages the simulation flow using LangGraph:
+The `TherapySession` event manages the simulation flow using a Burr state machine:
 
-1. **initiate_session**: Set up client and therapist
+1. **init_session**: Set up client and therapist
 2. **generate_therapist_response**: Get therapist's message
 3. **generate_client_response**: Get client's response
-4. **give_reminder**: Notify about remaining turns
+4. **check_and_remind**: Notify about remaining turns
 5. **end_session**: Save session data
 
 ### Session State
 
 ```python
+from typing import TypedDict, List, Dict, Any, Optional
+
 class TherapySessionState(TypedDict):
     messages: List[Dict[str, Any]]  # Conversation history
-    summary: Optional[str]           # Session summary
-    homework: Optional[List[str]]    # Assigned homework
     msg: Optional[str]               # Current message
+    num_turns: int
+    session_ended: bool
+    initialized: bool
+    needs_reminder: bool
 ```
 
 ## Output Format
@@ -193,8 +196,8 @@ Sessions are saved as JSON:
 ```json
 {
   "profile": {
-    "demographics": { "name": "Alex", "age": 28 },
-    "presenting_problem": "..."
+    "name": "Alex",
+    "id": "1-1"
   },
   "messages": [
     { "role": "therapist", "content": "Hello, how are you?" },
@@ -206,6 +209,5 @@ Sessions are saved as JSON:
 
 ## Next Steps
 
-- [Batch Processing](/docs/guide/batch-processing) - Run multiple simulations
 - [Evaluation](/docs/guide/evaluation) - Assess conversation quality
 - [Web Demo](/docs/guide/web-demo) - Interactive interface

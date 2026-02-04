@@ -46,8 +46,15 @@ function QuickStart() {
           <div className="col col--6 col--offset-3">
             <pre className={styles.codeBlock}>
               <code>
-                {`# Install PatientHub
-pip install patienthub
+                {`# Clone the repository
+git clone https://github.com/Sahandfer/Patient-Simulation.git
+cd Patient-Simulation
+
+# Install dependencies
+uv sync
+
+# Activate the environment
+source .venv/bin/activate
 
 # Run a simulation
 uv run python -m examples.simulate \\

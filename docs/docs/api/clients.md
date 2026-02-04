@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Client Agents API TODO:
+# Client Agents API
 
 Client agents simulate patients in therapy conversations.
 
@@ -10,7 +10,7 @@ Client agents simulate patients in therapy conversations.
 
 | Agent          | Description                                 | Config Class               |
 | -------------- | ------------------------------------------- | -------------------------- |
-| `patientPsi`   | CBT-focused patient (EMNLP 2024)            | `PatientPsiClientConfig`   |
+| `saps`         | State-aware medical patient                 | `SAPSClientConfig`         |
 | `consistentMI` | MI client with stage transitions (ACL 2025) | `ConsistentMIClientConfig` |
 | `eeyore`       | Depression simulation (ACL 2025)            | `EeyoreClientConfig`       |
 | `annaAgent`    | Multi-session with memory (ACL 2025)        | `AnnaAgentClientConfig`    |
@@ -18,10 +18,9 @@ Client agents simulate patients in therapy conversations.
 | `simPatient`   | Cognitive model updates (CHI 2025)          | `SimPatientClientConfig`   |
 | `talkDep`      | Depression screening (CIKM 2025)            | `TalkDepClientConfig`      |
 | `clientCast`   | Psychotherapy assessment                    | `ClientCastClientConfig`   |
-| `saps`         | State-aware medical patient                 | `SAPSClientConfig`         |
 | `psyche`       | Psychiatric assessment                      | `PsycheClientConfig`       |
+| `patientPsi`   | CBT-focused patient (EMNLP 2024)            | `PatientPsiClientConfig`   |
 | `roleplayDoh`  | Principle-based simulation (EMNLP 2024)     | `RoleplayDohClientConfig`  |
-| `basic`        | Simple baseline client                      | `BasicClientConfig`        |
 | `user`         | Human input client                          | `UserClientConfig`         |
 
 ## Loading a Client
@@ -35,10 +34,11 @@ config = OmegaConf.create({
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
     'temperature': 0.7,
-    'max_tokens': 1024,
+    'max_tokens': 8192,
     'max_retries': 3,
     'data_path': 'data/characters/PatientPsi.json',
     'data_idx': 0,
+    'patient_type': 'upset',
 })
 
 client = get_client(configs=config, lang='en')
@@ -95,45 +95,14 @@ class ChatAgent(ABC):
 | Option        | Type  | Default    | Description                                              |
 | ------------- | ----- | ---------- | -------------------------------------------------------- |
 | `agent_type`  | str   | required   | Client type identifier                                   |
-| `model_type`  | str   | `"OPENAI"`    | Model provider (`openai`, `local`) |
+| `model_type`  | str   | `"OPENAI"` | Model provider key (used to read `${MODEL_TYPE}_API_KEY` / `${MODEL_TYPE}_BASE_URL`) |
 | `model_name`  | str   | `"gpt-4o"` | Model identifier                                         |
 | `temperature` | float | `0.7`      | Sampling temperature (0-1)                               |
-| `max_tokens`  | int   | `1024`     | Max response tokens                                      |
+| `max_tokens`  | int   | `8192`     | Max response tokens                                      |
 | `max_retries` | int   | `3`        | API retry attempts                                       |
 | `data_path`   | str   | varies     | Path to character JSON file                              |
 | `data_idx`    | int   | `0`        | Index of character in file                               |
 | `lang`        | str   | `"en"`     | Language code                                            |
-
-### Client-Specific Options
-
-#### ConsistentMI
-
-```python
-{
-    'agent_type': 'consistentMI',
-    'initial_stage': 'precontemplation',  # Stage of change model
-    # Stages: precontemplation, contemplation, preparation, action, maintenance
-}
-```
-
-#### SimPatient
-
-```python
-{
-    'agent_type': 'simPatient',
-    'continue_last_session': False,  # Resume from previous session
-    'conv_history_path': 'data/sessions/SimPatient/session_1.json',
-}
-```
-
-#### AdaptiveVP
-
-```python
-{
-    'agent_type': 'adaptiveVP',
-    # Uses stage direction for adaptive responses
-}
-```
 
 ## Response Format
 
@@ -164,7 +133,7 @@ class Response(BaseModel):
 
 ## Example: Comparing Clients
 
-```python
+```python 
 from patienthub.clients import get_client, CLIENT_REGISTRY
 from omegaconf import OmegaConf
 
@@ -172,24 +141,28 @@ base_config = {
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
     'temperature': 0.7,
-    'max_tokens': 1024,
+    'max_tokens': 8192,
     'max_retries': 3,
 }
 
 test_message = "How have you been feeling lately?"
 
-for agent_type in ['patientPsi', 'eeyore', 'consistentMI']:
+data_paths = {
+    'saps': 'data/characters/SAPS.json',
+    'talkDep': 'data/characters/talkDep.json',
+    'psyche': 'data/characters/Psyche.json',
+}
+
+for agent_type in ['saps', 'talkDep', 'psyche']:
     config = OmegaConf.create({
         **base_config,
         'agent_type': agent_type,
-        'data_path': f'data/characters/{agent_type[0].upper() + agent_type[1:]}.json',
+        'data_path': data_paths[agent_type],
         'data_idx': 0,
     })
-
     try:
         client = get_client(configs=config, lang='en')
         client.set_therapist({'name': 'Therapist'})
-
         response = client.generate_response(test_message)
         print(f"\n=== {agent_type} ===")
         print(response.content[:200] + "..." if len(response.content) > 200 else response.content)
@@ -210,38 +183,9 @@ config_class = CLIENT_CONFIG_REGISTRY['patientPsi']
 print(config_class)
 ```
 
-## Character Data Format
+## Data Format
 
-Character data is stored in JSON files under `data/characters/`:
-
-```json
-[
-  {
-    "demographics": {
-      "name": "Alex",
-      "age": 28,
-      "gender": "male",
-      "occupation": "software engineer"
-    },
-    "presenting_problem": "Feeling overwhelmed at work...",
-    "mental_state": {
-      "affect": "depressed, anxious",
-      "cognition": {
-        "core_beliefs": ["I am inadequate", "Others are more competent"],
-        "negative_automatic_thoughts": [
-          "I will fail",
-          "They'll find out I'm a fraud"
-        ]
-      }
-    },
-    "personality": {
-      "summary": "Introverted, perfectionistic",
-      "neuroticism": 8,
-      "extraversion": 3
-    }
-  }
-]
-```
+Prompt Data is stored in `PatientHub/data/prompts/`. Character data is stored in files under `data/characters/`. Each file is a JSON list; `data_idx` selects one entry. The exact schema is client-specific (see the shipped files like `data/characters/PatientPsi.json` and the corresponding client implementation under `patienthub/clients/`).
 
 ## Extending Clients
 

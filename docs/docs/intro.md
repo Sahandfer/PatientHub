@@ -16,7 +16,6 @@ PatientHub is a comprehensive framework that brings together **12+ patient simul
 - 🧠 **Multiple Patient Agents** - PatientPsi, ConsistentMI, Eeyore, and more
 - 🧑‍⚕️ **Therapist Agents** - CBT, MI, Eliza, or human-in-the-loop
 - 📊 **Built-in Evaluation** - Consistency, therapeutic alliance, emotion
-- 🔄 **Batch Processing** - Run large-scale experiments
 - 🌐 **Web Demo** - Interactive Chainlit interface
 
 ## Quick Example
@@ -40,7 +39,7 @@ client = get_client(configs=config, lang='en')
 client.set_therapist({'name': 'Dr. Smith'})
 
 response = client.generate_response("How are you feeling today?")
-print(response.content)
+print(response)
 ```
 
 ## Supported Methods

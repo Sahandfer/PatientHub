@@ -52,6 +52,9 @@ class SimPatientClient(ChatAgent):
 
         self.data = load_json(configs.data_path)
         self.name = "SimPatient"
+        self.persona = self.data.get("persona", {})
+        self.past_session_history = ""
+        self.conv_history_path = configs.conv_history_path
 
         self.chat_model = get_chat_model(configs)
         self.prompts = load_prompts(
@@ -63,7 +66,7 @@ class SimPatientClient(ChatAgent):
 
     def load_profile(self):
         profile_data = self.data.get("persona", {})
-        self.profile = self.prompts["profile"].render(data=profile_data)
+        self.profile = self.prompts["profile"].render(persona=profile_data, data=profile_data)
 
     def load_cognitive_model(self, prev_cognitive_model: Dict[str, int] | None = None):
         cognitive_model = self.data.get("cognitive_model", {})
@@ -75,7 +78,7 @@ class SimPatientClient(ChatAgent):
                 "patient_reward": random.randint(1, 10),
             }
         self.cognitive_model = self.prompts["cognitive_model"].render(
-            data=cognitive_model
+            cognitive_model=cognitive_model, data=cognitive_model
         )
 
     def generate_between_session_event(self, session_history: str):
@@ -104,9 +107,11 @@ class SimPatientClient(ChatAgent):
                 self.prev_session_history = "\n".join(
                     f"{m.get('role', '')}: {m.get('content', '')}" for m in messages
                 )
+                self.past_session_history = self.prev_session_history
                 self.generate_between_session_event(self.prev_session_history)
             except Exception:
                 self.prev_session_history = ""
+                self.past_session_history = ""
                 self.between_session_event = None
 
             cognitive_model = session_data.get("data", {}).get("cognitive_model", {})

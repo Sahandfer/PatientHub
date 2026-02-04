@@ -70,7 +70,7 @@ client = get_client(configs=config, lang='en')
 client.set_therapist({'name': 'Therapist'})
 
 response = client.generate_response("What brings you in today?")
-print(response.content)
+print(response)
 ```
 
 ## Configuration

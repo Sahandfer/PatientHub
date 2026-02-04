@@ -65,7 +65,7 @@ client.set_therapist({"name": "Doctor"})
 response = client.generate_response(
     "Could you describe your main symptoms and when they started?"
 )
-print(response.content)
+print(response)
 ```
 
 ## Configuration

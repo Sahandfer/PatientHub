@@ -90,10 +90,10 @@ client.set_therapist({'name': 'Dr. Smith'})
 
 # Generate responses
 response = client.generate_response("Hello, how are you feeling today?")
-print(response.content)
+print(response)
 
 response = client.generate_response("Can you tell me more about that?")
-print(response.content)
+print(response)
 ```
 
 ## Interactive Web Demo
@@ -117,6 +117,5 @@ uv run python -m examples.simulate event.output_dir=outputs/my_session.json
 ## What's Next?
 
 - [Learn about different patient agents](/docs/methods/overview)
-- [Run batch experiments](/docs/guide/batch-processing)
 - [Evaluate conversations](/docs/guide/evaluation)
 - [Configuration options](/docs/getting-started/configuration)

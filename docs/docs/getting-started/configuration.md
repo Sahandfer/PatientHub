@@ -111,7 +111,6 @@ event:
   event_type: therapySession
   max_turns: 30
   reminder_turn_num: 5
-  langfuse: false # Enable Langfuse tracing
   output_dir: data/sessions/default/session_1.json
 ```
 
@@ -119,12 +118,12 @@ event:
 
 ```yaml
 evaluator:
-  eval_type: rating
+  agent_type: llm_judge
+  eval_type: scalar # classification | scalar | binary | extraction
   target: client # client or therapist
-  dimensions:
-    - consistency
-    - emotion
-  granularity: session # session, turn, or turn_by_turn
+  instruction_dir: data/prompts/evaluator/client/scalar.yaml
+  granularity: session # session | turn | turn_by_turn
+  use_reasoning: false
 ```
 
 ## Command Line Overrides

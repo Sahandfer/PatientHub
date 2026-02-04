@@ -75,7 +75,7 @@ client = get_client(configs=config, lang='en')
 client.set_therapist({'name': 'Counselor'})
 
 response = client.generate_response("How have things been going since we last talked?")
-print(response.content)
+print(response)
 ```
 
 ## Configuration

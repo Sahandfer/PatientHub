@@ -47,6 +47,7 @@ config = OmegaConf.create({
     'max_tokens': 1024,
     'max_retries': 3,
     'data_path': 'data/characters/PatientPsi.json',
+    'patient_type': 'upset',
     'data_idx': 0,
 })
 
@@ -54,7 +55,7 @@ client = get_client(configs=config, lang='en')
 client.set_therapist({'name': 'Dr. Smith'})
 
 response = client.generate_response("How have you been feeling lately?")
-print(response.content)
+print(response)
 ```
 
 ## Configuration

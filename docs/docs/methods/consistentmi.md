@@ -58,6 +58,9 @@ config = OmegaConf.create({
     'max_tokens': 1024,
     'max_retries': 3,
     'data_path': 'data/characters/ConsistentMI.json',
+    'topics_path': 'data/resources/ConsistentMI/topics.json',
+    'topic_graph_path': 'data/resources/ConsistentMI/topic_graph.json',
+    'model_retriever': None,
     'data_idx': 0,
 })
 
@@ -68,7 +71,7 @@ client.set_therapist({'name': 'Counselor'})
 response = client.generate_response(
     "I noticed you mentioned you've been drinking more lately. How do you feel about that?"
 )
-print(response.content)
+print(response)
 ```
 
 ## Configuration
@@ -145,17 +148,6 @@ print(response.content)
 **Therapist** (using reflection): "Work stress has been a factor, and you feel in control of your drinking."
 
 **Client** (slight shift): "Well... I guess sometimes I drink more than I plan to. But who doesn't, right?"
-
-## Evaluating MI Skills
-
-Use with the `rating` evaluator:
-
-```bash
-uv run python -m examples.evaluate \
-  evaluator=rating \
-  evaluator.target=therapist \
-  evaluator.dimensions=[active_listening]
-```
 
 ## Best Practices
 

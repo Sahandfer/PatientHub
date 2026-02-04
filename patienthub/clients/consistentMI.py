@@ -265,13 +265,15 @@ class ConsistentMIClient(ChatAgent):
         self.prompts = load_prompts(
             role="client", agent_type="consistentMI", lang=configs.lang
         )
-        self.chat_model = get_chat_model(configs.chat_model)
+        # ConsistentMIClientConfig extends APIModelConfig, so model settings live on
+        # `configs` directly (model_type/model_name/temperature/max_tokens/...).
+        self.chat_model = get_chat_model(configs)
 
         # Additional components
         self.load_profile()
         self.build_sys_prompt()
         self.state = self.load_state()
-        self.topic_matcher = TopicMatcher(configs, self.reranker)
+        self.topic_matcher = TopicMatcher(configs)
 
         # Load profile and initialize
         self.topic_matcher.init_passages(self.prompts, self.behavior, self.goal, [])
@@ -341,7 +343,7 @@ class ConsistentMIClient(ChatAgent):
 
     def evaluate_topic_engagement(self) -> Optional[str]:
         """Evaluate how well therapist is engaging with client's topics."""
-        last_utterance = self.messages[-1].content if self.messages else ""
+        last_utterance = self.messages[-1]["content"] if self.messages else ""
         top_topics = self.topic_matcher.find_related_topics(last_utterance)
         predicted_topic = top_topics[0] if top_topics else self.engaged_topics[0]
 
@@ -575,7 +577,7 @@ class ConsistentMIClient(ChatAgent):
     def generate_response(self, msg: str):
         self.messages.append({"role": "user", "content": msg})
 
-        self.update_state()
+        # self.update_state()
         self.state.update(self.beliefs)
         self.evaluate_topic_engagement()
 

@@ -69,7 +69,7 @@ client = get_client(configs=config, lang='en')
 client.set_therapist({'name': 'Dr. Kim'})
 
 response = client.generate_response("How have you been since our last session?")
-print(response.content)
+print(response)
 ```
 
 The original implementation described in this paper are based on Qwen2.5-7B-Instruct.
