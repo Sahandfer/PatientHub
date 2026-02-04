@@ -11,17 +11,25 @@ PatientHub uses [Hydra](https://hydra.cc/) for configuration management, making 
 Create a `.env` file in the project root:
 
 ```bash
-# For OPENAI API (default)
+{model_type}_API_KEY=api_key_for_the_service
+{model_type}_BASE_URL=base_url_for_the_service
+```
+
+For example,
+
+```bash
+# For OpenAI (default)
 OPENAI_API_KEY=your_openai_key
 OPENAI_BASE_URL=https://api.openai.com
 
-# For HuggingFace
-HF_TOKEN=your_huggingface_token
+# For VLLM (n this case, model_type = VLLM)
+VLLM_BASE_URL=http://127.0.0.1
+VLLM_API_KEY=None
 ```
 
 ## Model Configuration
 
-### Using OPENAI API (Default)
+### Using OpenAI (Default)
 
 ```python
 config = {
@@ -33,57 +41,21 @@ config = {
 }
 ```
 
-### Using OpenAI
-
-```python
-config = {
-    'model_type': 'openai',
-    'model_name': 'gpt-4-turbo',
-    'temperature': 0.7,
-    'max_tokens': 1024,
-}
-```
-
-### Using HuggingFace
-
-```python
-config = {
-    'model_type': 'huggingface',
-    'model_name': 'meta-llama/Llama-2-7b-chat-hf',
-    'device': 0,  # GPU device index
-    'max_new_tokens': 512,
-    'temperature': 0.7,
-    'repetition_penalty': 1.1,
-}
-```
-
-### Using Local Models
-
-```python
-config = {
-    'model_type': 'local',
-    'model_name': 'path/to/your/model',
-    'device': 0,
-    'max_new_tokens': 512,
-    'temperature': 0.7,
-}
-```
-
 ## Client Configuration
 
 ### Common Options
 
 | Option        | Type  | Default    | Description             |
 | ------------- | ----- | ---------- | ----------------------- |
-| `agent_type`  | str   | required   | Client type identifier  |
-| `model_type`  | str   | `"OPENAI"`    | Model provider          |
+| `agent_type`  | str   | required   | Agent type identifier   |
+| `model_type`  | str   | `"OPENAI"` | Model provider          |
 | `model_name`  | str   | `"gpt-4o"` | Model identifier        |
 | `temperature` | float | `0.7`      | Sampling temperature    |
 | `max_tokens`  | int   | `1024`     | Max response tokens     |
 | `max_retries` | int   | `3`        | API retry attempts      |
 | `data_path`   | str   | varies     | Path to character JSON  |
 | `data_idx`    | int   | `0`        | Index in character file |
-| `lang`        | str   | `"en"`     | Language code           |
+| `lang`        | str   | `"en"`     | Language                |
 
 ### Client-Specific Options
 

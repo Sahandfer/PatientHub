@@ -51,11 +51,7 @@ const config: Config = {
           position: 'left',
           label: 'Documentation',
         },
-        {
-          to: '/docs/api/clients',
-          label: 'API',
-          position: 'left',
-        },
+
         {
           href: 'https://github.com/Sahandfer/Patient-Simulation',
           label: 'GitHub',

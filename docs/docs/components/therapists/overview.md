@@ -4,12 +4,12 @@ Therapist agents in PatientHub provide the therapeutic interventions during simu
 
 ## Available Therapists
 
-| Therapist         | Key     | Description                                                                         |
-| ----------------- | ------- | ----------------------------------------------------------------------------------- |
-| **CBT Therapist** | `cbt`   | A Cognitive Behavioral Therapy therapist that employs evidence-based CBT techniques |
-| **Eliza**         | `eliza` | Classic pattern-matching therapist based on the original ELIZA program              |
-| **Bad Therapist** | `bad`   | A deliberately poor therapist for training purposes                                 |
-| **User**          | `user`  | Human-in-the-loop therapist for interactive sessions                                |
+| Therapist                     | Key     | Description                                                                         |
+| ----------------------------- | ------- | ----------------------------------------------------------------------------------- |
+| [**CBT Therapist**](./cbt.md) | `cbt`   | A Cognitive Behavioral Therapy therapist that employs evidence-based CBT techniques |
+| [**Eliza**](./eliza.md)       | `eliza` | Classic pattern-matching therapist based on the original ELIZA program              |
+| [**Bad Therapist**](./bad.md) | `bad`   | A deliberately poor therapist for training purposes                                 |
+| [**User**](./user.md)         | `user`  | Human-in-the-loop therapist for interactive sessions                                |
 
 ## Usage
 
@@ -128,5 +128,4 @@ TherapistRegistry.register("my_therapist", MyCustomTherapist)
 
 ## See Also
 
-- [API Reference: Therapists](../api/therapists.md)
-- [Creating Custom Therapists](../contributing/new-agents.md)
+- [Creating Custom Therapists](../../contributing/new-agents.md)

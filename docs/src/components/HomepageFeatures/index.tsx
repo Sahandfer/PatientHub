@@ -11,7 +11,7 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: '12+ Simulation Methods',
+    title: '12 Simulation Methods',
     emoji: '🧠',
     description: (
       <>

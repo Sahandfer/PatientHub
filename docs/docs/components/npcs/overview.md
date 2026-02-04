@@ -13,9 +13,9 @@ NPCs enable more realistic and complex therapy scenarios by introducing addition
 
 ## Available NPCs
 
-| NPC Type        | Description                                 |
-| --------------- | ------------------------------------------- |
-| **Interviewer** | Conducts structured interviews with clients |
+| NPC                                 | Key           | Description                                 |
+| ----------------------------------- | ------------- | ------------------------------------------- |
+| [**Interviewer**](./interviewer.md) | `interviewer` | Conducts structured interviews with clients |
 
 ## Usage
 
@@ -42,54 +42,6 @@ interviewer = NPCRegistry.create("interviewer", config={
 
 # Use the NPC in a simulation
 response = interviewer.respond(conversation_history)
-```
-
-## Interviewer NPC
-
-The Interviewer NPC conducts structured clinical interviews, useful for:
-
-- Intake assessments
-- Diagnostic interviews
-- Follow-up evaluations
-- Research data collection
-
-### Configuration
-
-```yaml
-npc:
-  type: interviewer
-  config:
-    model: gpt-4o
-    interview_type: intake
-    questions:
-      - "What brings you here today?"
-      - "Can you tell me about your current symptoms?"
-```
-
-## Creating Custom NPCs
-
-You can create custom NPCs to add new characters to your simulations:
-
-```python
-from patienthub.npcs.base import NPC
-
-class FamilyMember(NPC):
-    def __init__(self, config):
-        super().__init__(config)
-        self.relationship = config.get("relationship", "parent")
-        self.personality = config.get("personality", "supportive")
-
-    def respond(self, conversation_history):
-        # Generate response based on relationship and personality
-        return response
-```
-
-Then register it:
-
-```python
-from patienthub.npcs import NPCRegistry
-
-NPCRegistry.register("family_member", FamilyMember)
 ```
 
 ## Use Cases
@@ -122,7 +74,33 @@ NPCs can role-play different social scenarios to help clients practice:
 - Assertiveness training
 - Conflict resolution
 
+## Creating Custom NPCs
+
+You can create custom NPCs to add new characters to your simulations:
+
+```python
+from patienthub.npcs.base import NPC
+
+class FamilyMember(NPC):
+    def __init__(self, config):
+        super().__init__(config)
+        self.relationship = config.get("relationship", "parent")
+        self.personality = config.get("personality", "supportive")
+
+    def respond(self, conversation_history):
+        # Generate response based on relationship and personality
+        return response
+```
+
+Then register it:
+
+```python
+from patienthub.npcs import NPCRegistry
+
+NPCRegistry.register("family_member", FamilyMember)
+```
+
 ## See Also
 
-- [User Guide: Simulations](../guide/simulations.md)
-- [Creating Custom Agents](../contributing/new-agents.md)
+- [User Guide: Simulations](../../guide/simulations.md)
+- [Creating Custom Agents](../../contributing/new-agents.md)

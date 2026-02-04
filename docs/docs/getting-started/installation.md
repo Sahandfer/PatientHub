@@ -60,7 +60,7 @@ uv run python -c "from patienthub.clients import CLIENT_REGISTRY; print(list(CLI
 You should see a list of available client agents:
 
 ```
-['basic', 'patientPsi', 'roleplayDoh', 'eeyore', 'psyche', 'simPatient', 'consistentMI', ...]
+['patientPsi', 'roleplayDoh', 'eeyore', 'psyche', 'simPatient', 'consistentMI', ...]
 ```
 
 ## Optional: Web Demo Dependencies

@@ -264,7 +264,7 @@ def test_agent_conversation(agent_config):
 
 ## Step 6: Add Documentation
 
-Create a doc page in `docs/docs/methods/`:
+Create a doc page in `docs/docs/components/`:
 
 ```markdown
 ---

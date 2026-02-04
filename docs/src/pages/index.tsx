@@ -23,12 +23,12 @@ function HomepageHeader() {
             to="/docs/">
             Get Started 🚀
           </Link>
-          <Link
+          {/* <Link
             className="button button--outline button--secondary button--lg"
             style={{ marginLeft: '1rem' }}
-            to="/docs/methods/overview">
-            Explore Methods 📚
-          </Link>
+            to="/docs/components/overview">
+            Explore 📚
+          </Link> */}
         </div>
       </div>
     </header>
@@ -83,7 +83,7 @@ function SupportedMethods() {
     <section className={styles.methods}>
       <div className="container">
         <Heading as="h2" className="text--center margin-bottom--lg">
-          12+ Research-Backed Methods
+          11 Research-Backed Methods
         </Heading>
         <div className="row">
           {methods.map((method, idx) => (
@@ -99,7 +99,7 @@ function SupportedMethods() {
         <div className="text--center margin-top--lg">
           <Link
             className="button button--primary button--lg"
-            to="/docs/methods/overview">
+            to="/docs/components/overview">
             View All Methods →
           </Link>
         </div>

@@ -116,6 +116,6 @@ uv run python -m examples.simulate event.output_dir=outputs/my_session.json
 
 ## What's Next?
 
-- [Learn about different patient agents](/docs/methods/overview)
+- [Learn about different components](/docs/components/overview)
 - [Evaluate conversations](/docs/guide/evaluation)
 - [Configuration options](/docs/getting-started/configuration)

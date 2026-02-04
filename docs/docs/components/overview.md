@@ -2,33 +2,34 @@
 sidebar_position: 0
 ---
 
-# Supported Agents Overview
+# Overview
 
 PatientHub implements various agent types for comprehensive therapy simulation research. This includes client agents (patient simulations) from leading AI and HCI venues, as well as therapist agents, evaluators, NPCs, and generators.
 
-## Agent Categories
+## Available Components
 
-- **[Clients](./saps.md)** - Patient simulation agents with various disorders and behaviors
-- **[Therapists](./therapists.md)** - Therapeutic intervention agents (CBT, Eliza, etc.)
-- **[Evaluators](./evaluators.md)** - Assessment agents for measuring therapy quality
-- **[NPCs](./npcs.md)** - Supporting characters for complex scenarios
-- **[Generators](./generators.md)** - Tools for creating synthetic client profiles
+- **[Clients](./clients/overview.md)** - Patient simulation agents with various disorders and behaviors
+- **[Therapists](./therapists/overview.md)** - Therapeutic intervention agents (CBT, Eliza, etc.)
+- **[Evaluators](./evaluators/overview.md)** - Assessment agents for measuring therapy quality
+- **[Generators](./generators/overview.md)** - Tools for creating synthetic client profiles
+- **[Events](./events/overview.md)** - Session management and interaction flow
+- **[NPCs](./npcs/overview.md)** - Supporting characters for complex scenarios
 
 ## Client Agents Summary
 
-| Method                                     | Venue          | Year | Focus Area                | Key Feature                 |
-| ------------------------------------------ | -------------- | ---- | ------------------------- | --------------------------- |
-| [SAPS](/docs/methods/saps)                 | ArXiv          | 2024 | Clinical Diagnosis        | State-aware responses       |
-| [ConsistentMI](/docs/methods/consistentmi) | ACL (Main)     | 2025 | Motivational Interviewing | Stage-of-change transitions |
-| [Eeyore](/docs/methods/eeyore)             | ACL (Findings) | 2025 | Depression                | Expert-validated simulation |
-| [AnnaAgent](/docs/methods/annaagent)       | ACL (Findings) | 2025 | Multi-session             | Dynamic memory evolution    |
-| [AdaptiveVP](/docs/methods/adaptivevp)     | ACL (Findings) | 2025 | Nurse Training            | Adaptive dialogue           |
-| [SimPatient](/docs/methods/simpatient)     | CHI            | 2025 | Alcohol Misuse            | Cognitive state updates     |
-| [TalkDep](/docs/methods/talkdep)           | CIKM           | 2025 | Depression Screening      | Clinical grounding          |
-| [ClientCAST](/docs/methods/clientcast)     | ArXiv          | 2024 | Psychotherapy             | Client-centered assessment  |
-| [PSYCHE](/docs/methods/psyche)             | ArXiv          | 2025 | Psychiatric Assessment    | Multi-faceted evaluation    |
-| [PatientPsi](/docs/methods/patientpsi)     | EMNLP (Main)   | 2024 | CBT                       | Cognitive model-based       |
-| [RoleplayDoh](/docs/methods/roleplaydoh)   | EMNLP (Main)   | 2024 | Counseling                | Principle-based simulation  |
+| Method                                                | Venue          | Year | Focus Area                | Key Feature                 |
+| ----------------------------------------------------- | -------------- | ---- | ------------------------- | --------------------------- |
+| [SAPS](/docs/components/clients/saps)                 | ArXiv          | 2024 | Clinical Diagnosis        | State-aware responses       |
+| [ConsistentMI](/docs/components/clients/consistentmi) | ACL (Main)     | 2025 | Motivational Interviewing | Stage-of-change transitions |
+| [Eeyore](/docs/components/clients/eeyore)             | ACL (Findings) | 2025 | Depression                | Expert-validated simulation |
+| [AnnaAgent](/docs/components/clients/annaagent)       | ACL (Findings) | 2025 | Multi-session             | Dynamic memory evolution    |
+| [AdaptiveVP](/docs/components/clients/adaptivevp)     | ACL (Findings) | 2025 | Nurse Training            | Adaptive dialogue           |
+| [SimPatient](/docs/components/clients/simpatient)     | CHI            | 2025 | Alcohol Misuse            | Cognitive state updates     |
+| [TalkDep](/docs/components/clients/talkdep)           | CIKM           | 2025 | Depression Screening      | Clinical grounding          |
+| [ClientCAST](/docs/components/clients/clientcast)     | ArXiv          | 2024 | Psychotherapy             | Client-centered assessment  |
+| [PSYCHE](/docs/components/clients/psyche)             | ArXiv          | 2025 | Psychiatric Assessment    | Multi-faceted evaluation    |
+| [PatientPsi](/docs/components/clients/patientpsi)     | EMNLP (Main)   | 2024 | CBT                       | Cognitive model-based       |
+| [RoleplayDoh](/docs/components/clients/roleplaydoh)   | EMNLP (Main)   | 2024 | Counseling                | Principle-based simulation  |
 
 ## By Focus Area
 

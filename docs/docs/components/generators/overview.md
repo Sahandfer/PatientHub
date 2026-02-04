@@ -13,20 +13,22 @@ Generators enable the automatic creation of:
 
 ## Available Generators
 
-| Generator                | Description                                   |
-| ------------------------ | --------------------------------------------- |
-| **AnnaAgent Generator**  | Creates character files for AnnaAgent clients |
-| **ClientCast Generator** | Generates diverse client characters           |
-| **Psyche Generator**     | Creates psychologically rich client profiles  |
+| Generator                                   | Key          | Description                                   |
+| ------------------------------------------- | ------------ | --------------------------------------------- |
+| [**AnnaAgent Generator**](./annaagent.md)   | `annaAgent`  | Creates character files for AnnaAgent clients |
+| [**ClientCast Generator**](./clientcast.md) | `clientCast` | Generates diverse client characters           |
+| [**Psyche Generator**](./psyche.md)         | `psyche`     | Creates psychologically rich client profiles  |
 
 ## Usage
 
 ### Command Line
 
 ```bash
-python examples/generate.py \
-    --generator annaAgent \
-    --output outputs/characters/
+# Generate with defaults
+uv run python -m examples.generate
+
+# Override generator type
+uv run python -m examples.generate generator=psyche
 ```
 
 ### In Code
@@ -167,5 +169,4 @@ GeneratorRegistry.register("my_generator", MyCustomGenerator)
 
 ## See Also
 
-- [API Reference: Clients](../api/clients.md)
-- [Creating Custom Agents](../contributing/new-agents.md)
+- [Creating Custom Agents](../../contributing/new-agents.md)

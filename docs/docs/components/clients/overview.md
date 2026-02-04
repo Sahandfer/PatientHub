@@ -8,20 +8,20 @@ Client agents simulate patients in therapy conversations.
 
 ## Available Clients
 
-| Agent          | Description                                 | Config Class               |
-| -------------- | ------------------------------------------- | -------------------------- |
-| `saps`         | State-aware medical patient                 | `SAPSClientConfig`         |
-| `consistentMI` | MI client with stage transitions (ACL 2025) | `ConsistentMIClientConfig` |
-| `eeyore`       | Depression simulation (ACL 2025)            | `EeyoreClientConfig`       |
-| `annaAgent`    | Multi-session with memory (ACL 2025)        | `AnnaAgentClientConfig`    |
-| `adaptiveVP`   | Nurse training simulation (ACL 2025)        | `AdaptiveVPClientConfig`   |
-| `simPatient`   | Cognitive model updates (CHI 2025)          | `SimPatientClientConfig`   |
-| `talkDep`      | Depression screening (CIKM 2025)            | `TalkDepClientConfig`      |
-| `clientCast`   | Psychotherapy assessment                    | `ClientCastClientConfig`   |
-| `psyche`       | Psychiatric assessment                      | `PsycheClientConfig`       |
-| `patientPsi`   | CBT-focused patient (EMNLP 2024)            | `PatientPsiClientConfig`   |
-| `roleplayDoh`  | Principle-based simulation (EMNLP 2024)     | `RoleplayDohClientConfig`  |
-| `user`         | Human input client                          | `UserClientConfig`         |
+| Client                                | Key            | Description                                 |
+| ------------------------------------- | -------------- | ------------------------------------------- |
+| [**SAPS**](./saps.md)                 | `saps`         | State-aware medical patient                 |
+| [**ConsistentMI**](./consistentmi.md) | `consistentMI` | MI client with stage transitions (ACL 2025) |
+| [**Eeyore**](./eeyore.md)             | `eeyore`       | Depression simulation (ACL 2025)            |
+| [**AnnaAgent**](./annaagent.md)       | `annaAgent`    | Multi-session with memory (ACL 2025)        |
+| [**AdaptiveVP**](./adaptivevp.md)     | `adaptiveVP`   | Nurse training simulation (ACL 2025)        |
+| [**SimPatient**](./simpatient.md)     | `simPatient`   | Cognitive model updates (CHI 2025)          |
+| [**TalkDep**](./talkdep.md)           | `talkDep`      | Depression screening (CIKM 2025)            |
+| [**ClientCast**](./clientcast.md)     | `clientCast`   | Psychotherapy assessment                    |
+| [**Psyche**](./psyche.md)             | `psyche`       | Psychiatric assessment                      |
+| [**PatientPsi**](./patientpsi.md)     | `patientPsi`   | CBT-focused patient (EMNLP 2024)            |
+| [**RoleplayDoh**](./roleplaydoh.md)   | `roleplayDoh`  | Principle-based simulation (EMNLP 2024)     |
+| [**User**](./user.md)                 | `user`         | Human input client                          |
 
 ## Loading a Client
 
@@ -92,17 +92,17 @@ class ChatAgent(ABC):
 
 ### Common Options
 
-| Option        | Type  | Default    | Description                                              |
-| ------------- | ----- | ---------- | -------------------------------------------------------- |
-| `agent_type`  | str   | required   | Client type identifier                                   |
+| Option        | Type  | Default    | Description                                                                          |
+| ------------- | ----- | ---------- | ------------------------------------------------------------------------------------ |
+| `agent_type`  | str   | required   | Client type identifier                                                               |
 | `model_type`  | str   | `"OPENAI"` | Model provider key (used to read `${MODEL_TYPE}_API_KEY` / `${MODEL_TYPE}_BASE_URL`) |
-| `model_name`  | str   | `"gpt-4o"` | Model identifier                                         |
-| `temperature` | float | `0.7`      | Sampling temperature (0-1)                               |
-| `max_tokens`  | int   | `8192`     | Max response tokens                                      |
-| `max_retries` | int   | `3`        | API retry attempts                                       |
-| `data_path`   | str   | varies     | Path to character JSON file                              |
-| `data_idx`    | int   | `0`        | Index of character in file                               |
-| `lang`        | str   | `"en"`     | Language code                                            |
+| `model_name`  | str   | `"gpt-4o"` | Model identifier                                                                     |
+| `temperature` | float | `0.7`      | Sampling temperature (0-1)                                                           |
+| `max_tokens`  | int   | `8192`     | Max response tokens                                                                  |
+| `max_retries` | int   | `3`        | API retry attempts                                                                   |
+| `data_path`   | str   | varies     | Path to character JSON file                                                          |
+| `data_idx`    | int   | `0`        | Index of character in file                                                           |
+| `lang`        | str   | `"en"`     | Language code                                                                        |
 
 ## Response Format
 
@@ -133,7 +133,7 @@ class Response(BaseModel):
 
 ## Example: Comparing Clients
 
-```python 
+```python
 from patienthub.clients import get_client, CLIENT_REGISTRY
 from omegaconf import OmegaConf
 
@@ -185,8 +185,30 @@ print(config_class)
 
 ## Data Format
 
-Prompt Data is stored in `PatientHub/data/prompts/`. Character data is stored in files under `data/characters/`. Each file is a JSON list; `data_idx` selects one entry. The exact schema is client-specific (see the shipped files like `data/characters/PatientPsi.json` and the corresponding client implementation under `patienthub/clients/`).
+- Prompt Data is stored in `data/prompts`.
+- Character data is stored in files under `data/characters`
+- Each file is a JSON list; `data_idx` selects the entry to be simulated
 
-## Extending Clients
+## By Focus Area
 
-See [Contributing: New Agents](/docs/contributing/new-agents) for how to create custom client implementations.
+### Depression & Mood Disorders
+
+- **Eeyore**: Realistic depression simulation with expert validation
+- **TalkDep**: Clinically grounded personas for depression screening
+
+### Motivational Interviewing
+
+- **ConsistentMI**: Stage-of-change model with consistent behavior
+- **SimPatient**: Cognitive model with internal state tracking
+
+### General Psychotherapy
+
+- **PatientPsi**: CBT-focused with cognitive distortions
+- **RoleplayDoh**: Domain-expert created principles
+- **ClientCast**: Assessment-focused simulation
+
+### Specialized Training
+
+- **AdaptiveVP**: Nurse communication training
+- **SAPS**: Medical diagnosis training
+- **Psyche**: Psychiatric assessment training

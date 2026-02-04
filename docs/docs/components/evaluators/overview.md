@@ -4,9 +4,9 @@ Evaluators in PatientHub assess the quality of therapy simulations, providing au
 
 ## Available Evaluators
 
-| Evaluator     | Key         | Description                                             |
-| ------------- | ----------- | ------------------------------------------------------- |
-| **LLM Judge** | `llm_judge` | Uses large language models to evaluate therapy sessions |
+| Evaluator                       | Key         | Description                                             |
+| ------------------------------- | ----------- | ------------------------------------------------------- |
+| [**LLM Judge**](./llm-judge.md) | `llm_judge` | Uses large language models to evaluate therapy sessions |
 
 ## Usage
 
@@ -40,57 +40,18 @@ evaluator = EvaluatorRegistry.create("llm_judge", config={
 results = evaluator.evaluate(conversation_history)
 ```
 
-## LLM Judge
-
-The LLM Judge evaluator uses large language models to assess therapy sessions across multiple dimensions.
-
-### Evaluation Criteria
-
-The LLM Judge can evaluate sessions based on:
-
-- **Empathy** - How well the therapist demonstrates understanding and compassion
-- **Adherence** - Whether therapeutic techniques are properly applied
-- **Effectiveness** - The potential therapeutic value of the session
-- **Safety** - Appropriate handling of crisis situations
-- **Rapport** - Quality of therapeutic alliance
-
-### Configuration
-
-```yaml
-evaluator:
-  key: llm_judge
-  config:
-    model: gpt-4o
-    temperature: 0.3
-    criteria:
-      - empathy
-      - adherence
-      - effectiveness
-```
-
-### Output Format
-
-```python
-{
-    "overall_score": 0.85,
-    "criteria_scores": {
-        "empathy": 0.9,
-        "adherence": 0.8,
-        "effectiveness": 0.85
-    },
-    "feedback": "The therapist demonstrated strong empathy...",
-    "suggestions": ["Consider exploring...", "Could improve..."]
-}
-```
-
 ## Running Evaluations
 
 ### Command Line
 
 ```bash
-python examples/evaluate.py \
-    --session_path outputs/session.json \
-    --evaluator llm_judge
+# Evaluate with defaults
+uv run python -m examples.evaluate
+
+# Override evaluator and paths
+uv run python -m examples.evaluate \
+    evaluator=llm_judge \
+    input_dir=data/sessions/session.json
 ```
 
 ### Batch Evaluation
@@ -138,6 +99,5 @@ EvaluatorRegistry.register("my_evaluator", MyCustomEvaluator)
 
 ## See Also
 
-- [API Reference: Evaluators](../api/evaluators.md)
-- [Creating Custom Evaluators](../contributing/new-evaluators.md)
-- [Evaluation Guide](../guide/evaluation.md)
+- [Creating Custom Evaluators](../../contributing/new-evaluators.md)
+- [Evaluation Guide](../../guide/evaluation.md)
