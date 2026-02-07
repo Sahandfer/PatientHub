@@ -47,8 +47,8 @@ function QuickStart() {
             <pre className={styles.codeBlock}>
               <code>
                 {`# Clone the repository
-git clone https://github.com/Sahandfer/Patient-Simulation.git
-cd Patient-Simulation
+git clone https://github.com/Sahandfer/PatientHub.git
+cd PatientHub
 
 # Install dependencies
 uv sync

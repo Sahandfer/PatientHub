@@ -2,7 +2,7 @@
 
 > A unified hub to create, simulate, and evaluate methods for patient/client simulation.
 
-📚 **[Documentation](https://sahandsabour.github.io/PatientHub/)** | 🚀 **[Quick Start](#quick-start)** | 📦 **[Supported Agents](#3-supported-agents)**
+📚 **[Documentation](https://sahandfer.github.io/PatientHub/)** | 🚀 **[Quick Start](#quick-start)** | 📦 **[Supported Agents](#3-supported-agents)**
 
 ## Quick Start
 

@@ -30,6 +30,7 @@ config = OmegaConf.create({
     'temperature': 0.7,
     'max_tokens': 1024,
     'max_retries': 3,
+    'patient_type': 'upset',
     'data_path': 'data/characters/PatientPsi.json',
     'data_idx': 0,
 })

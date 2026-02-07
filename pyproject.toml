@@ -25,3 +25,7 @@ dev = [
     "ipykernel>=7.0.1",    
     "chainlit>=2.8.3",
 ]
+
+[tool.setuptools.packages.find]
+include = ["patienthub*"] 
+exclude = ["data*"]
