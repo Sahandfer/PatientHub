@@ -53,7 +53,7 @@ const config: Config = {
         },
 
         {
-          href: 'https://github.com/Sahandfer/Patient-Simulation',
+          href: 'https://github.com/Sahandfer/PatientHub',
           label: 'GitHub',
           position: 'right',
         },
