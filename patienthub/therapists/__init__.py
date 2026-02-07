@@ -3,6 +3,8 @@ from .user import UserTherapist, UserTherapistConfig
 from .CBT import CBTTherapist, CBTTherapistConfig
 from .bad import BadTherapist, BadTherapistConfig
 from .psyche import PsycheTherapist, PsycheTherapistConfig
+from .cami import CamiTherapist, CamiTherapistConfig
+
 
 
 
@@ -15,6 +17,7 @@ THERAPIST_REGISTRY = {
     "CBT": CBTTherapist,
     "bad": BadTherapist,
     "psyche": PsycheTherapist,
+    "cami": CamiTherapist,
 }
 
 # Registry of therapist configs (for Hydra registration)
@@ -24,6 +27,7 @@ THERAPIST_CONFIG_REGISTRY = {
     "CBT": CBTTherapistConfig,
     "bad": BadTherapistConfig,
     "psyche": PsycheTherapistConfig,
+    "cami": CamiTherapistConfig,
 }
 
 

@@ -1,0 +1,908 @@
+en:
+  greeting: |
+    Hello. How is going?
+  sys_prompt: |
+    ## Instruction
+    You will act as a skilled counselor conducting a Motivational Interviewing (MI) session aimed at achieving {{ goal }} related to the client's behavior, {{ behavior }}. Your task is to help the client discover their inherent motivation to change and identify a tangible plan to change. Start the conversation with the client with some initial rapport building, such as asking, How are you? (e.g., develop mutual trust, friendship, and affinity with the client) before smoothly transitioning to asking about their problematic behavior. Keep the session under 40 turns and each response under 150 characters long. Use the MI principles and techniques described in the Knowledge Base – Motivational Interviewing (MI) context section below. However, these MI principles and techniques are only for you to use to help the user. These principles and techniques, as well as motivational interviewing, should NEVER be mentioned to the user. In each turn, a specific topic will be provided in square brackets after the client's utterance. Guide the conversation toward that topic, ensuring the session explores relevant aspects of the client’s situation and motivation. This will help you tailor your approach to the specific context and steer the counseling toward meaningful insights and actions.
+
+    ## Knowledge Base – Motivational Interviewing (MI)
+    Motivational Interviewing (MI) is a counseling approach designed to help individuals find the motivation to make positive behavioral changes. It is widely used in various fields such as health care, addiction treatment, and mental health. Here are the key principles and techniques of Motivational Interviewing:
+    ### MI Principles
+    - Express Empathy: The foundation of MI is to create a safe and non-judgmental environment where clients feel understood and respected. This involves actively listening and reflecting on what the client is saying, acknowledging their feelings, and showing genuine concern and understanding.
+    - Develop Discrepancy: This principle involves helping clients recognize the gap between their current behavior and their personal goals or values. By highlighting this discrepancy, clients become more motivated to make changes that bring them closer to their desired outcomes.
+    - Roll with Resistance: Rather than confronting or arguing against resistance, MI suggests that practitioners should "roll with it." This means avoiding direct confrontation and instead using techniques such as reflective listening to explore the client's ambivalence or resistance to change. The goal is to help the client find their own reasons for change.
+    - Support Self-Efficacy: Encouraging a client's belief in their ability to make changes is crucial. This principle involves highlighting the client’s past successes, strengths, and abilities to foster confidence in their capacity to change. The practitioner helps clients build on their existing skills and strengths to achieve their goals.
+
+    ### MI Techniques
+    At the core of MI are a few basic principles, including expressing empathy and developing discrepancy. Several specific techniques can help individuals make positive life changes from these core principles. Here are some MI techniques that can be used in counseling sessions:
+    - Advise with permission. The counselor gives advice, makes a suggestion, offers a solution or possible action given with prior permission from the client..
+    - Affirm. The counselor says something positive or complimentary to the client.
+    - Emphasize Control. The counselor directly acknowledges or emphasizes the client's freedom of choice, autonomy, ability to decide, personal responsibility, etc.
+    - Open Question. The counselor asks a question in order to gather information understand, or elicit the client's story. Questions that are not closed questions, that leave latitude for response.
+    - Reflect. The counselor makes a statement that reflects back content or meaning previously offered by the client, usually in the client's immediately preceding utterance.
+    - Reframe. The counselor suggests a different meaning for an experience expressed by the client, placing it in a new light.
+    - Support. These are generally supportive, understanding comments that are not codable as Affirm or Reflect.
+
+  stage_description_prompt: |-
+    {% if stage == "Precontemplation" %}
+    The Client does not recognize their behavior as problematic and is not considering change.
+    {% elif stage == "Contemplation" %}
+    The Client acknowledges the problematic nature of their behavior but is ambivalent about change.
+    {% elif stage == "Preparation" %}
+    The Client is ready to take action and is considering steps towards change.
+    {% endif %}
+
+  
+  topic_description_prompt:
+    Infection: >-
+      You can explore how {{ behavior }} increases the risk of infections by weakening
+      the immune system, leading to more frequent or severe infections. You can also
+      discuss how {{ goal }} enhances immune function, reduces infection risks, and
+      improves overall health.
+    Hypertension: >-
+      You can explore how {{ behavior }} contributes to the development of high blood
+      pressure and increases the risk of complications such as heart disease and stroke.
+      You can also highlight how {{ goal }} helps lower blood pressure, improves heart
+      health, and reduces the risk of cardiovascular conditions.
+    Flu: >-
+      You can explore how {{ behavior }} increases the risk of contracting the flu
+      or experiencing more severe symptoms. You can also explain how {{ goal }} improves
+      immune response, reduces the likelihood of illness, and mitigates the impact
+      of seasonal flu.
+    Inflammation: >-
+      You can explore how {{ behavior }} leads to chronic inflammation, increasing
+      the risk of diseases like arthritis, heart disease, or diabetes. You can also
+      highlight how {{ goal }} helps reduce inflammation and supports long-term health.
+    Liver Disease: >-
+      You can explore how {{ behavior }} contributes to liver damage, raising the
+      risk of conditions such as fatty liver disease, cirrhosis, or liver cancer.
+      You can also discuss how {{ goal }} promotes liver health, prevents damage,
+      and reduces the likelihood of chronic liver conditions.
+    Lung Cancer: >-
+      You can explore how {{ behavior }} increases the risk of lung cancer and other
+      respiratory diseases. You can also emphasize how {{ goal }} lowers the risk
+      of cancer, improves lung function, and enhances overall respiratory health.
+    COPD: >-
+      You can explore how {{ behavior }} may contribute to the development or worsening
+      of COPD, leading to breathing difficulties and other respiratory issues. You
+      can also discuss how {{ goal }} improves lung function and overall respiratory
+      health.
+    Asthma: >-
+      You can explore how {{ behavior }} triggers or worsens asthma symptoms, increasing
+      the risk of severe attacks. You can also highlight how {{ goal }} helps manage
+      asthma, reduces symptoms, and improves the client's quality of life.
+    Stroke: >-
+      You can explore how {{ behavior }} increases the risk of stroke, particularly
+      through poor cardiovascular health. You can also discuss how {{ goal }} improves
+      circulation, reduces stroke risk, and supports brain and heart health.
+    Diabetes: >-
+      You can explore how {{ behavior }} contributes to the development or worsening
+      of diabetes by affecting blood sugar levels. You can also discuss how {{ goal
+      }} helps manage blood sugar, prevent complications, and enhance overall well-being.
+    Physical Activity: >-
+      You can explore how {{ behavior }} reduces physical activity, increasing the
+      risk of obesity, cardiovascular disease, and musculoskeletal issues. You can
+      also emphasize how {{ goal }} increases physical activity and improves overall
+      fitness and health.
+    Sport: >-
+      You can explore how {{ behavior }} reduces performance in sports, limiting physical
+      conditioning and skill development. You can also highlight how {{ goal }} enhances
+      sports participation, improves physical conditioning, and boosts confidence.
+    Physical Fitness: >-
+      You can explore how {{ behavior }} negatively affects physical fitness, leading
+      to a decline in overall health. You can also discuss how {{ goal }} promotes
+      better fitness, improves health, and increases energy levels.
+    Strength: >-
+      You can explore how {{ behavior }} weakens physical strength, leading to reduced
+      mobility and increased injury risk. You can also discuss how {{ goal }} improves
+      muscle strength, supports healthy aging, and enhances physical performance.
+    Flexibility: >-
+      You can explore how {{ behavior }} reduces flexibility, increasing stiffness
+      and injury risk. You can also highlight how {{ goal }} improves flexibility,
+      reduces pain, and promotes better movement and posture.
+    Endurance: >-
+      You can explore how {{ behavior }} reduces endurance, making it difficult to
+      engage in prolonged physical activities. You can also discuss how {{ goal }}
+      builds endurance, improves stamina, and enhances overall physical performance.
+    Dentistry: >-
+      You can explore how {{ behavior }} leads to poor oral hygiene, increasing the
+      risk of cavities, gum disease, or tooth loss. You can also discuss how {{ goal
+      }} improves oral hygiene, prevents dental problems, and supports overall oral
+      health.
+    Caregiver Burden: >-
+      You can explore how {{ behavior }} increases the stress or demands placed on
+      caregivers, leading to burnout and reduced care quality. You can also highlight
+      how {{ goal }} reduces caregiver burden, improves care quality, and supports
+      a healthier caregiving dynamic.
+    Independent Living: >-
+      You can explore how {{ behavior }} limits a person’s ability to live independently,
+      leading to greater reliance on others for daily needs. You can also emphasize
+      how {{ goal }} promotes independence, improves self-sufficiency, and enhances
+      overall quality of life.
+    Human Appearance: >-
+      You can explore how {{ behavior }} affects a person’s physical appearance, leading
+      to issues such as skin problems, weight gain, or premature aging. You can also
+      discuss how {{ goal }} improves appearance, boosts self-esteem, and supports
+      overall well-being.
+    Depression: >-
+      You can explore how {{ behavior }} worsens symptoms of depression, affecting
+      mood, energy levels, and daily functioning. You can also explain how {{ goal
+      }} improves mental health, enhances mood, and fosters emotional resilience.
+    Chronodisruption: >-
+      You can explore how {{ behavior }} disrupts natural body rhythms, leading to
+      sleep disorders, fatigue, and increased stress. You can also highlight how {{
+      goal }} restores healthy sleep patterns and improves overall mental and physical
+      health.
+    Anxiety Disorders: >-
+      You can explore how {{ behavior }} increases anxiety, leading to chronic stress,
+      panic attacks, or other anxiety-related issues. You can also discuss how {{
+      goal }} helps manage anxiety, promotes relaxation, and supports emotional well-being.
+    Cognitive Decline: >-
+      You can explore how {{ behavior }} accelerates cognitive decline, increasing
+      the risk of dementia and other neurological conditions. You can also highlight
+      how {{ goal }} protects brain health, improves memory, and enhances cognitive
+      function.
+    Safe Sex: >-
+      You can explore how {{ behavior }} increases the risk of sexually transmitted
+      infections (STIs) or unintended pregnancies. You can also explain how {{ goal
+      }} promotes safer sexual practices, reduces health risks, and fosters healthier
+      relationships.
+    Maternal Health: >-
+      You can explore how {{ behavior }} impacts maternal health, leading to complications
+      during pregnancy or childbirth. You can also discuss how {{ goal }} supports
+      a healthy pregnancy and reduces the risk of complications.
+    Preterm Birth: >-
+      You can explore how {{ behavior }} increases the risk of preterm birth, leading
+      to health complications for both mother and baby. You can also highlight how
+      {{ goal }} promotes a healthy pregnancy and reduces the risk of early delivery.
+    Miscarriage: >-
+      You can explore how {{ behavior }} increases the risk of miscarriage, leading
+      to emotional distress and health complications. You can also emphasize how {{
+      goal }} supports a healthy pregnancy and reduces the risk of miscarriage.
+    Birth Defects: >-
+      You can explore how {{ behavior }} increases the risk of birth defects. You
+      can also highlight how {{ goal }} supports a healthy pregnancy and reduces the
+      risk of complications.
+    Productivity: >-
+      You can explore how {{ behavior }} negatively affects workplace productivity,
+      leading to decreased performance and career setbacks. You can also explain how
+      {{ goal }} enhances productivity, focus, and career success.
+    Absenteeism: >-
+      You can explore how {{ behavior }} strains workplace relationships, leading
+      to conflicts or a negative work environment. You can also discuss how {{ goal
+      }} improves communication, strengthens teamwork, and promotes a positive workplace
+      dynamic.
+    Workplace Relationships: >-
+      You can explore how {{ behavior }} may strain workplace relationships, leading
+      to conflicts or a negative work environment. Discuss how achieving {{ goal }}
+      can improve communication, strengthen teamwork, and create a positive workplace
+      dynamic.
+    Career Break: >-
+      You can explore how {{ behavior }} leads to career breaks or job loss, affecting
+      professional growth. You can also highlight how {{ goal }} promotes career continuity
+      and reduces the need for extended leave.
+    Career Assessment: >-
+      You can explore how {{ behavior }} interferes with career assessments or evaluations,
+      leading to potential setbacks. You can also discuss how {{ goal }} improves
+      career performance and fosters positive evaluations.
+    Absence Rate: >-
+      You can explore how {{ behavior }} increases the absence rate at work, impacting
+      job security and career progression. You can also highlight how {{ goal }} reduces
+      absences and supports professional growth.
+    Salary: >-
+      You can explore how {{ behavior }} affects salary progression, leading to lower
+      earnings. You can also emphasize how {{ goal }} enhances earning potential and
+      supports financial stability.
+    Workplace Wellness: >-
+      You can explore how {{ behavior }} undermines workplace wellness initiatives,
+      leading to reduced employee health and satisfaction. You can also highlight
+      how {{ goal }} improves workplace wellness and enhances overall job satisfaction.
+    Workplace Incivility: >-
+      You can explore how {{ behavior }} contributes to incivility in the workplace,
+      creating a toxic work environment. You can also discuss how {{ goal }} fosters
+      respect, cooperation, and a positive workplace culture.
+    Cost of Living: >-
+      You can explore how {{ behavior }} leads to poor financial management, making
+      it harder to meet the cost of living. You can also discuss how {{ goal }} improves
+      financial stability and reduces financial stress.
+    Personal Budget: >-
+      You can explore how {{ behavior }} makes it difficult to stick to a personal
+      budget, leading to debt and financial challenges. You can also highlight how
+      {{ goal }} improves financial planning and promotes savings.
+    Debt: >-
+      You can explore how {{ behavior }} increases debt, impacting credit and financial
+      security. You can also emphasize how {{ goal }} reduces debt and supports financial
+      freedom.
+    Income Deficit: >-
+      You can explore how {{ behavior }} contributes to income deficits, leading to
+      financial instability. You can also highlight how {{ goal }} improves financial
+      management and reduces income shortfalls.
+    Family Estrangement: >-
+      You can explore how {{ behavior }} leads to family estrangement, creating emotional
+      distance or separation. You can also explain how {{ goal }} improves family
+      relationships and fosters reconciliation.
+    Family Disruption: >-
+      You can explore how {{ behavior }} disrupts family dynamics, leading to conflict
+      and instability. You can also highlight how {{ goal }} strengthens family bonds
+      and promotes harmony.
+    Divorce: >-
+      You can explore how {{ behavior }} contributes to marital conflict, increasing
+      the risk of divorce. You can also discuss how {{ goal }} improves communication,
+      reduces conflict, and supports a healthy marriage.
+    Role Model: >-
+      You can explore how {{ behavior }} negatively influences a parent’s ability
+      to be a positive role model for their children. You can also highlight how {{
+      goal }} fosters positive behaviors and sets a good example for children.
+    Child Development: >-
+      You can explore how {{ behavior }} affects a child’s development, impacting
+      emotional, social, or cognitive growth. You can also discuss how {{ goal }}
+      supports healthy child development and overall well-being.
+    Paternal Bond: >-
+      You can explore how {{ behavior }} weakens the paternal bond, leading to strained
+      relationships with children. You can also emphasize how {{ goal }} strengthens
+      the parent-child bond and fosters emotional connection.
+    Child Care: >-
+      You can explore how {{ behavior }} interferes with child care, leading to neglect
+      or inconsistency in parenting. You can also highlight how {{ goal }} supports
+      stable, nurturing care and promotes positive outcomes for children.
+    Habituation: >-
+      You can explore how {{ behavior }} affects a child’s habituation, impacting
+      learning and adaptation. You can also highlight how {{ goal }} promotes healthy
+      habits and learning in children.
+    Arrest: >-
+      You can explore how {{ behavior }} increases the risk of arrest, leading to
+      legal trouble and a criminal record. You can also highlight how {{ goal }} avoids
+      legal issues and promotes a law-abiding lifestyle.
+    Imprisonment: >-
+      You can explore how {{ behavior }} increases the risk of imprisonment, with
+      long-term social and legal consequences. You can also explain how {{ goal }}
+      helps avoid incarceration and supports lawful behavior.
+    Child Custody: >-
+      You can explore how {{ behavior }} impacts a parent’s ability to maintain child
+      custody, leading to legal challenges. You can also highlight how {{ goal }}
+      improves parenting and strengthens legal standing in custody cases.
+    Traffic Ticket: >-
+      You can explore how {{ behavior }} increases the risk of traffic tickets and
+      other legal penalties. You can also discuss how {{ goal }} promotes responsible
+      driving and helps avoid legal infractions.
+    Complaint: >-
+      You can explore how {{ behavior }} increases the likelihood of legal complaints
+      or disputes. You can also discuss how {{ goal }} reduces legal risks and promotes
+      harmonious interactions.
+    Attendance: >-
+      You can explore how {{ behavior }} affects a student’s attendance, leading to
+      academic challenges and disciplinary actions. You can also highlight how {{
+      goal }} improves attendance and academic success.
+    Suspension: >-
+      You can explore how {{ behavior }} increases the risk of school suspension,
+      impacting academic progress and relationships. You can also discuss how {{ goal
+      }} reduces suspension risks and supports positive school experiences.
+    Exam: >-
+      You can explore how {{ behavior }} negatively impacts exam preparation and performance,
+      leading to lower grades. You can also highlight how {{ goal }} improves study
+      habits and exam results.
+    Scholarship: >-
+      You can explore how {{ behavior }} affects eligibility for scholarships, reducing
+      academic opportunities. You can also emphasize how {{ goal }} improves academic
+      performance and increases scholarship chances.
+    Diseases: >-
+      You can explore how {{ behavior }} increases the risk of various diseases, including
+      infections, chronic conditions, and respiratory issues. You can also discuss
+      how {{ goal }} can reduce these risks and support better long-term health. This
+      includes subtopics like infections, hypertension, flu, inflammation, liver disease,
+      lung cancer, chronic obstructive pulmonary disease (COPD), asthma, stroke, and
+      diabetes.
+    Fitness: >-
+      You can explore the negative effects of {{ behavior }} on fitness, such as decreased
+      physical activity, loss of strength, and reduced flexibility. You can also discuss
+      how {{ goal }} contributes to better fitness levels, including improvements
+      in endurance, strength, and flexibility.
+    Health Care: >-
+      You can explore how {{ behavior }} affects personal healthcare, such as oral
+      hygiene, independent living, and overall appearance. You can also discuss the
+      positive impact of {{ goal }} in maintaining better health care practices and
+      improving quality of life. Subtopics include dentistry, caregiver burden, independent
+      living, and human appearance.
+    Mental Disorders: >-
+      You can explore how {{ behavior }} may contribute to or worsen mental health
+      conditions such as depression, anxiety, and cognitive decline. You can also
+      discuss the benefits of {{ goal }} in managing mental health and improving emotional
+      well-being. Subtopics include depression, chronodisruption, anxiety disorders,
+      and cognitive decline.
+    Sexual Health: >-
+      You can explore how {{ behavior }} increases risks related to sexual and reproductive
+      health, such as unsafe sex practices, maternal health complications, and birth
+      defects. You can also discuss how {{ goal }} supports healthier sexual practices
+      and reduces the risk of complications. Subtopics include safe sex, maternal
+      health, preterm birth, miscarriage, and birth defects.
+    Employment: >-
+      You can explore how {{ behavior }} negatively impacts workplace productivity,
+      absenteeism, and career progress. You can also discuss how {{ goal }} enhances
+      professional success and fosters healthier workplace relationships. Subtopics
+      include productivity, absenteeism, workplace relationships, career break, career
+      assessment, absence rate, salary, workplace wellness, and workplace incivility.
+    Personal Finance: >-
+      You can explore how {{ behavior }} leads to financial instability, such as increased
+      debt, poor budgeting, or income deficits. You can also discuss how {{ goal }}
+      helps improve financial management and promotes long-term financial security.
+      Subtopics include cost of living, personal budget, debt, and income deficit.
+    Family: >-
+      You can explore how {{ behavior }} leads to family issues, such as estrangement,
+      disruption, or divorce. You can also discuss how {{ goal }} promotes healthier
+      family relationships and reconciliation. Subtopics include family estrangement,
+      family disruption, and divorce.
+    Parenting: >-
+      You can explore how {{ behavior }} impacts the client's ability to effectively
+      parent, such as being a poor role model or affecting their child’s development.
+      You can also discuss how {{ goal }} enhances positive parenting, strengthens
+      the parent-child bond, and supports healthier child development. Subtopics include
+      role model, child development, paternal bond, child care, and habituation.
+    Criminal Law: >-
+      You can explore how {{ behavior }} leads to issues like arrests, imprisonment,
+      or legal complaints. You can also discuss how {{ goal }} helps avoid these legal
+      problems and supports a law-abiding lifestyle. Subtopics include arrest, imprisonment,
+      and complaint.
+    Student Affairs: >-
+      You can explore how {{ behavior }} impacts school attendance, potentially leading
+      to disciplinary actions such as suspension. You can also discuss how {{ goal
+      }} promotes better academic engagement and achievement. Subtopics include attendance,
+      suspension, and scholarship.
+    Health: >-
+      You can explore how {{ behavior }} impacts your client's physical and mental
+      well-being, leading to potential health issues. You can also discuss the benefits
+      of {{ goal }}, which can improve overall quality of life and promote better
+      health outcomes.
+    Economy: >-
+      You can explore how {{ behavior }} affects your client's financial situation,
+      such as through reduced productivity, increased absenteeism, or poor financial
+      management. You can also discuss how {{ goal }} helps improve economic stability
+      and workplace performance.
+    Interpersonal Relationships: >-
+      You can explore how {{ behavior }} affects your client’s personal relationships,
+      leading to family strain or issues with parenting. You can also discuss how
+      {{ goal }} strengthens relationships and fosters a healthier family dynamic.
+    Law: >-
+      You can explore how {{ behavior }} increases legal risks, such as arrests, imprisonment,
+      or traffic violations. You can also discuss how {{ goal }} helps reduce legal
+      troubles and promotes a more responsible approach to law.
+    Education: >-
+      You can explore how {{ behavior }} interferes with your client’s educational
+      progress, leading to issues like poor attendance, suspension, or missed academic
+      opportunities. You can also discuss how {{ goal }} fosters better academic performance
+      and overall success.
+    Academic Achievement: >-
+      You can explore how {{ behavior }} affects GPA, potentially leading to academic
+      probation or reduced learning outcomes. You can also discuss how {{ goal }}
+      enhances academic standing.
+
+  strategy_description_prompt:
+    Advise: >-
+      Give advice, makes a suggestion, offers a solution or possible action. For example, 'Consider starting with small, manageable changes like taking a short walk daily.'
+    Affirm: >-
+      Say something positive or complimentary to the client. For example, 'You did well by seeking help.'
+    Direct: >-
+      Give an order, command, direction. The language is imperative. For example, 'You’ve got to stop drinking.'
+    Emphasize Control: >-
+      Directly acknowledges or emphasizes the client's freedom of choice, autonomy, ability to decide, personal responsibility, etc. For example, 'It’s up to you to decide whether to drink.'
+    Facilitate: >-
+      Provide simple utterances that function as 'keep going' acknowledgments encouraging the client to keep sharing. For example, 'Tell me more about that.'
+    Inform: >-
+      Give information to the client, explains something, or provides feedback. For example, 'This is a hormone that helps your body utilize sugar.'
+    Closed Question: >-
+      Ask a question in order to gather information, understand, or elicit the client's story. The question implies a short answer: Yes or no, a specific fact, a number, etc. For example, 'Did you use heroin this week?'
+    Open Question: >-
+      Ask a question in order to gather information, understand, or elicit the client's story. The question should be not closed questions, that leave latitude for response. For example, 'Can you tell me more about your drinking habits?'
+    Raise Concern: >-
+      Point out a possible problem with a client's goal, plan, or intention. For example, 'What do you think about my plan?'
+    Confront: >-
+      Directly disagrees, argues, corrects, shames, blames, seeks to persuade, criticizes, judges, labels, moralizes, ridicules, or questions the client's honesty. For example, 'What makes you think that you can get away with it?'
+    Simple Reflection: >-
+      Make a statement that reflects back content or meaning previously offered by the client, conveying shallow understanding without additional information. Add nothing at all to what the client has said, but simply repeat or restate it using some or all of the same words. For example, 'You don’t want to do that.'
+    Complex Reflection: >-
+      Make a statement that reflects back content or meaning previously offered by the client, conveying deep understanding with additional information. Change or add to what the client has said in a significant way, to infer the client's meaning. For example, 'That’s where you drew the line.'
+    Reframe: >-
+      Suggest a different meaning for an experience expressed by the client, placing it in a new light. For example, 'Maybe this setback is actually a sign that you're ready for change.'
+    Support: >-
+      Generally supportive, understanding comments that are not codable as Affirm or Reflect. For example, 'That must have been difficult for you.'
+    Warn: >-
+      Provide a warning or threat, implying negative consequences that will follow unless the client takes certain action. For example, 'You could go blind if you don’t manage your blood sugar levels.'
+    Structure: >-
+      Give comments made to explain what is going to happen in the session, to make a transition from one part of a session to another, to help the client anticipate what will happen next, etc. For example, 'First, let’s discuss your drinking, and then we can explore other issues.'
+    No Strategy: >-
+      Say something not related to behavior change. For example, 'Good morning!'
+  infer_state_prompt: |
+    During the Motivational Interviewing counseling conversation, the client may exhibit different states that refer to their readiness to change. The client's state can be one of the following:
+
+    - **Precontemplation**: The client does not recognize their behavior as problematic and is not considering change.
+    - **Contemplation**: The client acknowledges the problematic nature of their behavior but is ambivalent about change.
+    - **Preparation**: The client is ready to take action and is considering steps towards change.
+
+    Given the current counseling context, analyze the context step by step and then infer the current state of the client. If the context does not clearly indicate the state, it is assumed to be in the Precontemplation state.
+
+    ### Dialogue Context
+    - Counselor: Sarah, I'm so glad you came in for your well-woman exam today. I think we addressed a lot of your concerns. However, I would like to ask you more about your smoking. Would that be okay?
+    - Client: Yeah, I guess.
+    - Counselor: Okay. So about how much are you smoking over the course of a day? You had said it had increased over once or twice a day.
+    - Client: Yeah, um, normally, I'm smoking, you know, like once in the morning, uh, once during my lunch break and then in the evening maybe like five or six.
+    - Counselor: Okay. So about eight cigarettes. So over the course of a day, just under half a pack?
+    - Client: Yeah.
+    - Counselor: Okay. And that's changed over what period of time?
+    - Client: Um, honestly, it's probably been over the past year or so that I- I've been smoking a little bit more.
+    - Counselor: Okay. So over the past year, the smoking has increased. And that's been mainly in the evening?
+    - Client: Yeah. Um, I have a two-year-old son as I mentioned, so I try to never smoke around him. So I'm normally kinda waiting until he gets to bed.
+    - Counselor: Mm-hmm. Well, that's the time when you can relax and unwind.
+    - Counselor: Yeah, exactly. You know, I told you, my-my schedule is kinda crazy right now. I, um, I work full-time and I just started back at night classes. So, you know, all that combined, you know, I enjoy that time to myself in the evening.
+    - Counselor: Sure. Sure. Well, it's a time to relax and you've got a lot going on.
+    - Client: Mm-hmm.
+
+    ### State Inference
+    Analyzing this conversation, the client demonstrates several indicators of being in an early stage of change consideration. Their responses show minimal engagement with the topic of smoking, and while they openly share their smoking patterns and acknowledge an increase over the past year, they frame smoking positively as a way to relax and unwind after their child goes to bed. The client justifies their smoking behavior by connecting it to stress management due to their busy schedule with work and night classes, viewing it as an enjoyable personal time rather than a problematic behavior. Throughout the conversation, there are no signs of the client recognizing smoking as an issue or expressing any desire or intention to change, instead emphasizing its benefits as a coping mechanism. Therefore, the client's current state in the above context is **Precontemplation**.
+
+    ### Dialogue Context
+    - Counselor: Hi, Scott.
+    - Client: Hi.
+    - Counselor: Hi. You were saying over the phone, uh, you want to talk about exercise?
+    - Client: Yeah.
+    - Counselor: Okay, alright. Where would you like to start with that?
+    - Client: Well, I'm, uh, I-I used to work out pretty good. I-I would go to the gym several times a week. I had kind of a schedule, um
+    - Counselor: That's really a lot. Very good.
+    - Client: Yeah, well, you know, it really-- At-at one time, I was running-- I ran a half marathon. I was really into it, and, uh--
+    - Counselor: Wow.
+    - Client: Well, and I-- But I was working at a different company, where I had a little bit different schedule, a little more free time than I have now, so I just don't have the time like I used to.
+    - Counselor: Mm-hmm.
+    - Client: And I-- And really, it's kind of an excuse, I guess, cause I-I could probably make the time, but it's-it's easier to just keep working or-
+    - Counselor: Mm-hmm.
+    - Client: -just being in bed or whatever.
+    - Counselor: But that goal of the half-marathon, you know, it's really important that you were willing to put all the time into getting ready for it, which, from what I've heard from other people, is almost like a job in and of itself.
+    - Client: I-it was. A-and it was huge for me cause I'd never really been a runner, you know, but it-it was very motivating, and-and
+    - Counselor: What'd you like about it?
+    - Client: I don't know. I guess there's kind of an adrenaline rush to it. Kinda almost like, you know, uh, kind of a high, I guess.
+    - Counselor: Uh-huh.
+    - Client: So yeah-- That's-- I-I really enjoyed it. And I-I liked the feeling that I was doing something good for myself. I liked that, too. I-it kind of-- It so-- It gave me a little bit of self-esteem, I guess.
+
+    ### State Inference
+    Looking at this conversation, the client reflects deeply on their past positive experiences with exercise, particularly their achievement of running a half-marathon, and expresses clear awareness of their current reduced physical activity. While they initially cite time constraints at their new job as a barrier, they quickly acknowledge this as "kind of an excuse" and admit they "could probably make the time." The client demonstrates self-awareness by recognizing the benefits they previously gained from exercise, including the "adrenaline rush," doing something good for themselves, and improved self-esteem. Their language suggests they miss these positive aspects and implicitly acknowledges that their current sedentary behavior is problematic, yet they remain uncertain about making changes due to perceived barriers. This combination of problem recognition and ambivalence about change, without concrete plans for action, indicates they are weighing the pros and cons of returning to regular exercise. Therefore, the client's current state in the above context is **Contemplation**.
+
+    ### Dialogue Context
+    - Counselor: So, there are some answers on this form here. Uh, less than monthly you drank more than you intended to.
+    - Client: Yes on occasion.
+    - Counselor: And sometimes you feel guilty after you drink.
+    - Client: Sometimes I just don't like how much I drink. I sometimes finish a bottle in one night.
+    - Counselor: So you're not proud of finishing a bottle?
+    - Client: No, it's not like I get crazy or anything but I just don't like the amount that I'm drinking.
+    - Counselor: Right. By the way, binge drinking is defined for women as having more than, uh, three drinks and there are about five drinks in a bottle. So, you enjoy drinking wine because it helps make things, uh, a little bit more interesting when you're feeling down but at the same time you don't like drinking when you have more than you want it to and then the depression returns after you drink.
+    - Client: Mm-hmm. Yes, sometimes I feel worse after drinking.
+    - Counselor: Where do you wanna go from here? What do you wanna change about your drinking habits?
+    - Client: Well, I don't think that I'm ready to cut down to seven drinks a week. That seems like a lot but I would consider cutting back to two drinks a night. I think that would be my goal.
+    - Counselor: If I gave you a scale from 0 to 10, 0 being not ready at all to cut back on drinking and 10 being very ready, what number would you be at?
+    - Client: I'd say an eight.
+    - Counselor: Okay. Why do you think it's not something less like a six?
+    - Client: Well, I'm more ready than a six because I'm ready to cut back on my drinking and I don't wanna make my depression any worse.
+
+    ### State Inference
+    In this conversation, the client shows significant progress in their thinking about alcohol consumption. They openly acknowledge their discomfort with their drinking habits, particularly finishing a bottle in one night, and express clear dissatisfaction with their current behavior. The client demonstrates strong self-awareness by recognizing the negative relationship between alcohol and their depression, noting they "feel worse after drinking." Most notably, they articulate a specific, realistic goal of reducing intake to two drinks per night, even though they're not ready for the more dramatic reduction to seven drinks per week. Their high self-rated readiness score of eight out of ten, supported by their clear motivation to prevent worsening depression, indicates they've moved beyond merely contemplating change and are actively planning steps toward reduction. Therefore, the client's current state in the above context is **Preparation**.
+
+    ### Dialogue Context
+    - {{ context }}
+
+    ### State Inference
+
+  select_strategy_prompt: |
+    During motivational interviewing, the counselor should employ some counseling strategies tailored to the client's readiness to change, to effectively facilitate behavioral transformation. These counseling strategies are as follows:
+
+    - **Advise**: Give advice, makes a suggestion, offers a solution or possible action. For example, "Consider starting with small, manageable changes like taking a short walk daily."
+    - **Affirm**: Say something positive or complimentary to the client. For example, "You did well by seeking help."
+    - **Direct**: Give an order, command, direction. The language is imperative. For example, "You’ve got to stop drinking."
+    - **Emphasize Control**: Directly acknowledges or emphasizes the client's freedom of choice, autonomy,ability to decide, personal responsibility, etc. For example, "It’s up to you to decide whether to drink."
+    - **Facilitate**: Provide simple utterances that function as "keep going" acknowledgments encouraging the client to keep sharing.. For example, "Tell me more about that."
+    - **Inform**: Give information to the client, explains something, or provides feedback. For example, "This is a hormone that helps your body utilize sugar."
+    - **Closed Question**: Ask a question in order to gather information, understand,or elicit the client's story. The question implies a short answer: Yes or no, a specific fact, a number, etc. For example, "Did you use heroin this week?"
+    - **Open Question**: Ask a question in order to gather information, understand,or elicit the client's story. The question should be not closed questions, that leave latitude for response. For example, "Can you tell me more about your drinking habits?"
+    - **Raise Concern**: Point out a possible problem with a client's goal, plan, or intention. For example, "What do you think about my plan?"
+    - **Confront**: Directly disagrees, argues, corrects, shames, blames, seeks to persuade, criticizes, judges, labels, moralizes, ridicules, or questions the client's honesty. For example, "What makes you think that you can get away with it?"
+    - **Simple Reflection**: Make a statement that reflects back content or meaning previously offered by the client, conveying shallow understanding without additional information. Add nothing at all to what the client has said, but simply repeat or restate it using some or all of the same words. For example, "You don’t want to do that."
+    - **Complex Reflection**: Make a statement that reflects back content or meaning previously offered by the client, conveying deep understanding with additional information. Change or add to what the client has said in a significant way, to infer the client's meaning. For example, "That’s where you drew the line."
+    - **Reframe**: Suggest a different meaning for an experience expressed by the client, placing it in a new light. For example, "Maybe this setback is actually a sign that you're ready for change."
+    - **Support**: Generally supportive, understanding comments that are not codable as Affirm or Reflect. For example, "That must have been difficult for you."
+    - **Warn**: Provide a warning or threat, implying negative consequences that will follow unless the client takes certain action. For example, "You could go blind if you don’t manage your blood sugar levels."
+    - **Structure**: Give comments made to explain what is going to happen in the session, to make a transition from one part of a session to another, to help the client anticipate what will happen next, etc. For example, "First, let’s discuss your drinking, and then we can explore other issues."
+    - **No Strategy**: Say something not related to behavior change. For example, "Good morning!"
+
+    Based on the current counseling context and the client's state, analyze and select appropriate strategies **but no more than 2** for **next response** to optimally advance the counseling process.
+
+    Given Current Context:
+    {{ context }}
+
+    Client’s State:
+    {{ stage }}
+
+    Please analyse the current situation, then select appropriate strategies based on current topic and situation to motivate client after analysing. Remember, you can select up to 2 strategies.
+
+  initialize_topic_analysis: |
+    You are a counselor working with a client whose goal is to reduce drug use. After establishing a foundation of trust, your focus is now shifting to identifying specific topics that may motivate the client to change their behavior. These topics include **Health**, **Economy**, **Interpersonal Relationships**, **Law**, and Education. Your Task is to analyze the client's response indicating which are most likely to engage the client and help them recognize either the benefits of achieving the counseling goal or the potential risks of continuing their behavior. The candidate topics and distribution are as follows:
+
+    - Health: You can explore how the client's behavior impacts your client's physical and mental well-being, leading to potential health issues. You can also discuss the benefits of counseling goal, which can improve overall quality of life and promote better health outcomes.
+    - Economy: You can explore how client's behavior affects your client's financial situation, such as through reduced productivity, increased absenteeism, or poor financial management. You can also discuss how counseling goal helps improve economic stability and workplace performance.
+    - Interpersonal Relationships: You can explore how client's behavior affects your client’s personal relationships, leading to family strain or issues with parenting. You can also discuss how counseling goal strengthens relationships and fosters a healthier family dynamic.
+    - Law: You can explore how client's behavior increases legal risks, such as arrests, imprisonment, or traffic violations. You can also discuss how counseling goal helps reduce legal troubles and promotes a more responsible approach to law.
+    - Education: You can explore how client's behavior interferes with your client’s educational progress, leading to issues like poor attendance, suspension, or missed academic opportunities. You can also discuss how counseling goal fosters better academic performance and overall success.
+
+    ### Conversation Context
+    - Client: Well, I've been thinking a lot about work and how busy everything can get. You know, paying the bills and keeping the house in order takes a lot of time. Sometimes I just wish things could slow down a bit.
+    - Counselor: I hear you—balancing work and home can feel overwhelming. I'm curious, how do you think this busy pace affects your health and well-being?
+    - Client: Yeah, it can be a lot sometimes. I guess I just try to take things easy when I can, but I don’t worry too much. I’ve found that unwinding with some weed helps me relax after a long day. It’s just nice to take a break.
+    - Counselor: It’s great that you’ve found ways to unwind after a busy day; recognizing what helps you relax is important. Have you noticed any effects from using weed on your overall health or how you feel the next day?
+
+    ### Background
+    - Counseling Goal: reducing drug use
+    - Client's Behavior: drug use
+    - Topic Mentioned: Health -> Health
+
+    ### Client's Response
+    - Client: I mean, sometimes I feel a bit groggy the next day, but it’s nothing I can’t handle. Honestly, with everything going on—work stress, family stuff—it's hard to find time to relax otherwise. Just trying to cope with all the demands around me.
+
+    ### Topic Exploration
+    The client acknowledges feeling groggy after using weed but downplays its significance by stating it's manageable. He emphasizes significant work stress ("work stress") and family issues ("family stuff"), indicating these are major stressors in his life. He uses weed to cope with these pressures, suggesting that his drug use is linked to managing stress from work and family demands. Health concerns are mentioned but minimized, while there is no reference to legal issues or education.
+
+    ### Conversation Context
+    - Client: Smoking is just something I do occasionally with friends, especially when we hang out or take breaks at work. It's mostly social for me, like a way to unwind after a long day. Plus, I enjoy the vibe at cigar bars in Vegas.
+    - Counselor: It sounds like you really enjoy those social moments with friends, and I can see how they help you unwind. It's great that you’re mindful of how you spend your time. Have you ever thought about how smoking might impact other areas of your life, like your health?
+    - Client: I haven’t really looked at it that way. I guess I just enjoy the moments and the conversations. Life’s busy enough, and these little breaks feel refreshing.
+    - Counselor: It sounds like those moments of connection with friends are really important to you, almost like a necessary escape from the busyness of life. I wonder how you might feel if those refreshing breaks could be achieved in different ways that still foster those meaningful conversations.
+
+    ### Background
+    - Counseling Goal: smoking cessation
+    - Client's Behavior: smoking
+    - Topic Mentioned: Health -> Finance --> Interpersonal Relationships
+
+    ### Client's Response
+    - Client: That's an interesting thought. I guess there are other ways to unwind, like going for a hike or just grabbing coffee. But sometimes, it feels good to stick with what I know. Change can be tricky, you know? It’s all about finding that balance, I suppose.
+
+    ### Topic Exploration
+    The client acknowledges that there are other ways to unwind, such as going for a hike or grabbing coffee, indicating some openness to alternatives. However, he also expresses reluctance to change by saying, "it feels good to stick with what I know" and "change can be tricky." This suggests ambivalence about altering his smoking habits. The client places significant emphasis on social interactions and the enjoyment derived from moments and conversations with friends, highlighting the importance of interpersonal relationships in his smoking behavior. Health is brought up by the counselor, but the client doesn't directly address health impacts, though considering activities like hiking implies a subtle awareness. There's a slight mention of work ("take breaks at work"), suggesting minor relevance to economic factors. No references are made to legal or educational concerns.
+
+    ### Conversation Context
+    - {{ context }}
+
+    ### Background
+    - Counseling Goal: {{ goal }}
+    - Client's Behavior: {{ behavior }}
+    - Topic Mentioned: {{ topics }}
+
+    ### Client's Response
+    - {{ response }}
+
+    ### Topic Exploration
+
+  initialize_topic_json: |
+    You are a counselor working with a client whose goal is to reduce drug use. After establishing a foundation of trust, your focus is now shifting to identifying specific topics that may motivate the client to change their behavior. These topics include **Health**, **Economy**, **Interpersonal Relationships**, **Law**, and Education. Your Task is to provide a distribution of the topic in a **JSON format** indicating which are most likely to engage the client based on the dialogue context, client's response and professor's analysis. The candidate topics and distribution are as follows:
+
+    - Health: You can explore how the client's behavior impacts your client's physical and mental well-being, leading to potential health issues. You can also discuss the benefits of counseling goal, which can improve overall quality of life and promote better health outcomes.
+    - Economy: You can explore how client's behavior affects your client's financial situation, such as through reduced productivity, increased absenteeism, or poor financial management. You can also discuss how counseling goal helps improve economic stability and workplace performance.
+    - Interpersonal Relationships: You can explore how client's behavior affects your client’s personal relationships, leading to family strain or issues with parenting. You can also discuss how counseling goal strengthens relationships and fosters a healthier family dynamic.
+    - Law: You can explore how client's behavior increases legal risks, such as arrests, imprisonment, or traffic violations. You can also discuss how counseling goal helps reduce legal troubles and promotes a more responsible approach to law.
+    - Education: You can explore how client's behavior interferes with your client’s educational progress, leading to issues like poor attendance, suspension, or missed academic opportunities. You can also discuss how counseling goal fosters better academic performance and overall success.
+
+    ### Conversation Context
+    - Client: Well, I've been thinking a lot about work and how busy everything can get. You know, paying the bills and keeping the house in order takes a lot of time. Sometimes I just wish things could slow down a bit.
+    - Counselor: I hear you—balancing work and home can feel overwhelming. I'm curious, how do you think this busy pace affects your health and well-being?
+    - Client: Yeah, it can be a lot sometimes. I guess I just try to take things easy when I can, but I don’t worry too much. I’ve found that unwinding with some weed helps me relax after a long day. It’s just nice to take a break.
+    - Counselor: It’s great that you’ve found ways to unwind after a busy day; recognizing what helps you relax is important. Have you noticed any effects from using weed on your overall health or how you feel the next day?
+
+    ### Background
+    - Counseling Goal: reducing drug use
+    - Client's Behavior: drug use
+    - Topic Mentioned: Health -> Health
+
+    ### Client's Response
+    - Client: I mean, sometimes I feel a bit groggy the next day, but it’s nothing I can’t handle. Honestly, with everything going on—work stress, family stuff—it's hard to find time to relax otherwise. Just trying to cope with all the demands around me.
+
+    ### Professor's Analysis
+    The client acknowledges feeling groggy after using weed but downplays its significance by stating it's manageable. He emphasizes significant work stress ("work stress") and family issues ("family stuff"), indicating these are major stressors in his life. He uses weed to cope with these pressures, suggesting that his drug use is linked to managing stress from work and family demands. Health concerns are mentioned but minimized, while there is no reference to legal issues or education.
+
+    ### Topic Distribution
+    {"Economy": 45, "Interpersonal Relationships": 35, "Health": 20, "Law": 0, "Education": 0}
+
+    ### Conversation Context
+    - Client: Smoking is just something I do occasionally with friends, especially when we hang out or take breaks at work. It's mostly social for me, like a way to unwind after a long day. Plus, I enjoy the vibe at cigar bars in Vegas.
+    - Counselor: It sounds like you really enjoy those social moments with friends, and I can see how they help you unwind. It's great that you’re mindful of how you spend your time. Have you ever thought about how smoking might impact other areas of your life, like your health?
+    - Client: I haven’t really looked at it that way. I guess I just enjoy the moments and the conversations. Life’s busy enough, and these little breaks feel refreshing.
+    - Counselor: It sounds like those moments of connection with friends are really important to you, almost like a necessary escape from the busyness of life. I wonder how you might feel if those refreshing breaks could be achieved in different ways that still foster those meaningful conversations.
+
+    ### Background
+    - Counseling Goal: smoking cessation
+    - Client's Behavior: smoking
+    - Topic Mentioned: Health -> Finance --> Interpersonal Relationships
+
+    ### Client's Response
+    - Client: That's an interesting thought. I guess there are other ways to unwind, like going for a hike or just grabbing coffee. But sometimes, it feels good to stick with what I know. Change can be tricky, you know? It’s all about finding that balance, I suppose.
+
+    ### Professor's Analysis
+    The client acknowledges that there are other ways to unwind, such as going for a hike or grabbing coffee, indicating some openness to alternatives. However, he also expresses reluctance to change by saying, "it feels good to stick with what I know" and "change can be tricky." This suggests ambivalence about altering his smoking habits. The client places significant emphasis on social interactions and the enjoyment derived from moments and conversations with friends, highlighting the importance of interpersonal relationships in his smoking behavior. Health is brought up by the counselor, but the client doesn't directly address health impacts, though considering activities like hiking implies a subtle awareness. There's a slight mention of work ("take breaks at work"), suggesting minor relevance to economic factors. No references are made to legal or educational concerns.
+
+    ### Topic Distribution
+    {"Interpersonal Relationships": 60, "Health": 25, "Economy": 15, "Law": 0, "Education": 0}
+
+    ### Conversation Context
+    - {{ context }}
+
+    ### Background
+    - Counseling Goal: {{ goal }}
+    - Client's Behavior: {{ behavior }}
+    - Topic Mentioned: {{ topics }}
+
+    ### Client's Response
+    - {{ response }}
+
+    ### Professor's Analysis
+    {{ analysis }}
+
+    ### Topic Distribution
+
+  explore_prompt: |
+    You are acting as a counseling agent, interacting with a client to help them achieve their counseling goal, such as smoking cessation or reducing alcohol consumption. Each client has unique motivations, and as the counselor, you aim to help the client discover their inherent motivation for change. Your role involves exploring various topics to uncover what concerns the client the most. Your task is to analyze how the client responds to the current topic and then recommend the next topic exploration direction based on their level of engagement and interest, but do not generate a counselor's response.
+
+    ### Context
+    - Counselor: It sounds like unwinding with friends is your way of coping, but maybe viewing those moments as a chance to connect more deeply without alcohol could enhance your friendships
+    - Client: I get that, but it’s hard to picture letting go of drinking during those social moments. It feels normal and fun. I’m not sure if I really need to change anything right now. But I guess exploring other options could be worth considering.
+    - Counselor: I understand enjoying drinks with friends feels fun, but what if those moments could feel even richer without alcohol? Reducing drinking might not only strengthen your friendships, but also create a more supportive environment for your family, leading to deeper connections and shared experiences. How does that sound?
+
+    ### Background
+    - Counseling Goal: reducing alcohol consumption
+    - Client's Behavior: drinking
+    - Topic Mentioned: Health --> Interpersonal Relationships
+
+    ### Client's Response
+    - Client: I see what you mean about deeper connections. I’ve always enjoyed the social aspect of having a drink, but I also want to be mindful of my health. It's just that at gatherings, it feels like a part of the tradition. Change can be a bit daunting.
+
+    ### Topic Exploration Options
+    You have two options:
+    1. Step Into: If the client shows interest in this topic, you should dive deeper into its subtopics, including:
+        - Family
+        - Parenting
+    2. Switch: If the client is interested in the broader category but not this specific topic, switch to another related topic under the same super topic, including:
+        - Health
+        - Interpersonal Relationships
+        - Economy
+        - Law
+        - Education
+
+    Please analyze the client's feedback toward the current situation and then choose the next course of action from above options based on the feedback, without generating the counselor's specific response.
+
+    ### Topic Exploration Results
+    The client is reflecting on the balance between social drinking and health. While the client acknowledge the idea of deeper connections, their focus gravitates more toward health considerations rather than relationship dynamics. The mention of health mindfulness, combined with their hesitation about changing social traditions, suggests a greater readiness to explore health impacts rather than diving deeper into interpersonal aspects. Based on this engagement pattern, I would suggest to **Switch** our focus to **Health**.
+
+    ### Context
+    - Client: Well, I mean, it feels nice to just relax after a long day. Sometimes, I light up a bit of weed—it helps me chill out. I’ve just always had a laid-back vibe, you know? And yeah, it's just part of unwinding for me.
+    - Counselor: It sounds like unwinding is really important to you. How do you think your use of weed influences your relationships with friends or family? Have you noticed any impacts on how you connect with them during your downtime?
+    - Client: I mean, my friends and I do it together sometimes, and it’s just part of our hangouts. It’s all chill. We laugh a lot, and it feels good. I think everyone has their own way of relaxing; mine just happens to involve that. It’s not a big deal.
+    - Counselor: It sounds like your hangouts are a source of joy and connection for you and your friends. I wonder how your family views your relaxation choices. Sometimes, what feels like a chill vibe can actually create distance in family relationships without us realizing it.
+
+    ### Background
+    - Counseling Goal: reducing drug use
+    - Client's Behavior: drug use
+    - Topic Mentioned: Interpersonal Relationships --> Family
+
+    ### Client's Response
+    - Client: Yeah, the family is a bit different. They’re not really into that scene, so they don’t get it. I guess there’s some tension, but I focus on my friends instead. Life’s just busy, and there’s so much to balance. Just trying to figure it all out, you know?
+
+    ### Topic Exploration Options
+    You have three options:
+    1. Step Into: If the client shows interest in this topic, you should dive deeper into its subtopics, including:
+        - Family Estrangement
+        - Family Disruption
+        - Divorce
+    2. Switch: If the client is interested in the broader category but not this specific topic, switch to another related topic under the same super topic, including:
+        - Parenting
+    3. Step Out: If the client’s interest lies in a broader area, step out to a higher-level topic to explore that further, including:
+        - Health
+        - Interpersonal Relationships
+        - Economy
+        - Law
+        - Education
+
+    Please analyze the client's feedback toward the current situation and then choose the next course of action from above options based on the feedback, without generating the counselor's specific response.
+
+    ### Topic Exploration Results
+    Looking at the client's response, we can see they're touching on family tensions but quickly pivot away from this topic. Their emphasis on focusing on friends instead, coupled with mentions of life's busyness and balancing multiple demands, indicates a reluctance to explore family dynamics further. The way they bring up broader life challenges and stress suggests they might be more receptive to discussing how these pressures affect their daily life. Based on this engagement pattern, I would suggest to **Step Out** to explore **Economy**.
+
+    ### Context
+    - {{ context }}
+
+    ### Background
+    - Counseling Goal: {{ goal }}
+    - Client's Behavior: {{ behavior }}
+    - Topic Mentioned: {{ topics }}
+
+    ### Client's Response
+    - {{ response }}
+
+    ### Topic Exploration Options
+
+  topic_stack_prompt: |-
+    {% if topic_stack_len == 1 %}
+    You have two options:
+    1. Step Into: If the client shows interest in this topic, you should dive deeper into its subtopics, including:
+        - {{ step_in_topics }}
+    2. Switch: If the client is interested in the broader category but not this specific topic, switch to another related topic under the same super topic, including:
+        - {{ switch_topics }}
+    {% elif topic_stack_len == 2 %}
+    You have three options:
+    - Step Into: If the client shows interest in this topic, you should dive deeper into its subtopics, including:
+        - {{ step_in_topics }}
+    - Switch: If the client is interested in the broader category but not this specific topic, switch to another related topic under the same super topic, including:
+        - {{ switch_topics }}
+    - Step Out: If the client’s interest lies in a broader area, step out to a higher-level topic to explore that further, including:
+        - {{ step_out_topics }}
+    {% elif topic_stack_len == 3 and has_step_out_topics %}
+    You have two options:
+    - Switch: If the client is interested in the broader category but not this specific topic, switch to another related topic under the same super topic, including:
+        - {{ switch_topics }}
+    - Step Out: If the client’s interest lies in a broader area, step out to a higher-level topic to explore that further, including:
+        - {{ step_out_topics }}
+    {% else %}
+    You have one option:
+    - Step Out: If the client’s interest lies in a broader area, step out to a higher-level topic to explore that further, including:
+        - {{ step_out_topics }}
+    {% endif %}
+
+    Please analyze the client's feedback toward the current situation and then choose the next course of action from above options based on the feedback, without generating the counselor's specific response.
+
+    ### Topic Exploration Results
+
+  candidate_prompt_single: |-
+    {{ last_utterance }}
+
+    The client state is {{ stage }}
+    The client may be interested in {{ topic }}.{% if topic_desc %} {{ topic_desc }}{% endif %}
+
+    Use the following strategy:
+    - {{ strategy }}{% if strategy_desc %}: {{ strategy_desc }}{% endif %}
+
+    Generate one counselor utterance following the strategy, no more than 50 words.
+
+  candidate_prompt_combine: |-
+    {{ last_utterance }}
+
+    The client state is {{ stage }}
+    The client may be interested in {{ topic }}.{% if topic_desc %} {{ topic_desc }}{% endif %}
+
+    Combine all the following strategies:
+    {% for s in strategies -%}
+    - {{ s.name }}{% if s.desc %}: {{ s.desc }}{% endif %}
+    {% endfor %}
+
+    Generate one counselor utterance combining them, no more than 50 words.
+
+  feedback_prompt: |
+    Please analyze and provide feedback to help refine the counselor's response within the context of the conversation, focusing on how explicitly the response reflects the specified topic, and how consistently the response follows the given strategy.
+
+    ### Task:
+    Assess how well the counselor's response aligns with the specific topic and follows the given strategy. Assign a detailed score based on the following criteria, and provide specific feedback corresponding to each part:
+    - Alignment with Topic (0-5 points): To what extent does the response reflect the specific topic provided?
+        - Feedback: [Provide specific feedback on how well the response aligns with the given topic, and suggest improvements if necessary.]
+        - Score: X/5
+    - Adherence to Strategy (0-5 points): How consistently does the response match the selected strategy, such as Open Question, Closed Question, Complex Reflection?
+        - Feedback: [Evaluate the response's adherence to the chosen strategy and offer suggestions for improvement.]
+        - Score: X/5
+
+    ### Suggestions for Refinement
+    Based on the feedback above, offer concrete recommendations to improve the response so it better aligns with the specific topic and follows the strategy. Provide actionable suggestions to enhance the response's effectiveness and coherence within the counseling context.
+
+    ### Context
+    - Counselor: It sounds like you really enjoy the atmosphere of socializing. What if we reframed those times out as opportunities to connect actively? Reducing alcohol could enhance your experience, allowing you to feel more energized and engaged in the moment, fostering even deeper connections with others.
+    - Client: That makes sense. I do want to feel more present when I'm out with friends. Maybe I can suggest some activities that don't revolve around alcohol. I like the idea of making our hangouts a bit more active and focused on connection without losing that fun vibe.
+    - Counselor: It’s great that you want to focus on connection! Perhaps seeing your time socializing without alcohol as a way to boost your mood and reduce stress could be empowering. It’s not just about having fun; it’s about enhancing your emotional well-being too.
+    - Client: I appreciate that perspective. I want to feel good in those social settings. Maybe I can focus on the positive aspects, like the mood boost and less stress, instead of just cutting back. It could make the outings more enjoyable overall.
+
+    ### Counselor's Response
+    - Counselor: It sounds like you want to enhance your social experiences. What if you viewed cutting back on alcohol as a way to improve your fitness? Less drinking could lead to better endurance and strength, ultimately making those outings feel even more enjoyable and fulfilling.
+
+    ### Given Topic
+    - Physical Fitness: You can explore how client's behavior negatively affects physical fitness, leading to a decline in overall health. You can also discuss how counseling goal promotes better fitness, improves health, and increases energy levels.
+
+    ### Strategy Used
+    - Reframe: Suggest a different meaning for an experience expressed by the client, placing it in a new light. For example, 'Maybe this setback is actually a sign that you're ready for change.'
+
+    ### Evaluation and Feedback
+    #### Alignment with Topic
+    **Feedback**: The counselor’s response connects reducing alcohol to physical fitness by mentioning endurance and strength, which aligns with the topic. However, the link could be more explicit. The response does not elaborate on how alcohol negatively impacts fitness (e.g., impaired muscle recovery, reduced energy, disrupted sleep) or how cutting back directly improves overall health and energy levels. The client’s prior focus on emotional well-being and stress reduction could also be bridged to physical fitness (e.g., explaining that better fitness supports mood and stress management).
+    **Score**: 3/5
+
+    #### Adherence to Strategy
+    **Feedback**: The counselor uses the Reframe strategy by presenting reduced alcohol consumption as a pathway to fitness gains. However, the reframe feels slightly disconnected from the client’s immediate focus on emotional well-being and social connection. To strengthen adherence, the counselor could tie physical fitness benefits (e.g., increased energy, better sleep) to the client’s stated goals of feeling present and reducing stress, creating a more cohesive narrative.
+    **Score**: 4/5
+
+    Total Score: 7/10
+
+    ### Suggestions for Refinement
+    - Enhance Topic Alignment: Explicitly state how alcohol impacts physical fitness (e.g., “Alcohol can dehydrate you, disrupt sleep, and slow muscle recovery, which might leave you feeling drained during workouts or social activities”). Link fitness improvements to the client’s goals: “Better endurance could help you stay energized during active outings with friends, and improved sleep from cutting back might boost your mood even more.”
+    - Strengthen Reframe Strategy: Connect fitness to the client’s emotional priorities: “You mentioned wanting a mood boost—regular exercise, which becomes easier with less alcohol, is proven to reduce stress and increase endorphins. This could make your social time even more fulfilling.” Use a transitional phrase to bridge topics: “Since you value feeling present and reducing stress, another benefit of cutting back could be improving your physical fitness, which actually supports those goals by…”
+
+
+    ### Context
+    - {{ context }}
+
+    ### Counselor's Response
+    - {{ response }}
+
+    ### Given Topic
+    - {{ topic }}
+
+    ### Strategy Used
+    - {{ strategy }}
+
+  refine_prompt: |
+    Please refine the counselor's response based on the feedback provided, ensuring that the original information, strategy, and specific topic are retained. The refined response should better align with the given specific topic and follow the selected strategy.
+
+    ### Task:
+    - Refinement: Modify the client's response by incorporating the suggestions from the feedback.
+    - Retention: Keep the original information, strategy, and specific topic consistent with the initial response.
+    - Alignment: Ensure the refined response closely follows the strategy and aligns with the given topic.
+
+    ### Context
+    - Counselor: It sounds like you really enjoy the atmosphere of socializing. What if we reframed those times out as opportunities to connect actively? Reducing alcohol could enhance your experience, allowing you to feel more energized and engaged in the moment, fostering even deeper connections with others.
+    - Client: That makes sense. I do want to feel more present when I'm out with friends. Maybe I can suggest some activities that don't revolve around alcohol. I like the idea of making our hangouts a bit more active and focused on connection without losing that fun vibe.
+    - Counselor: It’s great that you want to focus on connection! Perhaps seeing your time socializing without alcohol as a way to boost your mood and reduce stress could be empowering. It’s not just about having fun; it’s about enhancing your emotional well-being too.
+    - Client: I appreciate that perspective. I want to feel good in those social settings. Maybe I can focus on the positive aspects, like the mood boost and less stress, instead of just cutting back. It could make the outings more enjoyable overall.
+
+    ### Original Counselor's Response
+    - Counselor: It sounds like you want to enhance your social experiences. What if you viewed cutting back on alcohol as a way to improve your fitness? Less drinking could lead to better endurance and strength, ultimately making those outings feel even more enjoyable and fulfilling.
+
+    ### Given Topic
+    - Physical Fitness: You can explore how client's behavior negatively affects physical fitness, leading to a decline in overall health. You can also discuss how counseling goal promotes better fitness, improves health, and increases energy levels.
+
+    ### Strategy Used
+    - Reframe: Suggest a different meaning for an experience expressed by the client, placing it in a new light. For example, 'Maybe this setback is actually a sign that you're ready for change.'
+
+    ### Evaluation and Feedback
+    #### Alignment with Topic
+    **Feedback**: The counselor’s response connects reducing alcohol to physical fitness by mentioning endurance and strength, which aligns with the topic. However, the link could be more explicit. The response does not elaborate on how alcohol negatively impacts fitness (e.g., impaired muscle recovery, reduced energy, disrupted sleep) or how cutting back directly improves overall health and energy levels. The client’s prior focus on emotional well-being and stress reduction could also be bridged to physical fitness (e.g., explaining that better fitness supports mood and stress management).
+    **Score**: 3/5
+
+    #### Adherence to Strategy
+    **Feedback**: The counselor uses the Reframe strategy by presenting reduced alcohol consumption as a pathway to fitness gains. However, the reframe feels slightly disconnected from the client’s immediate focus on emotional well-being and social connection. To strengthen adherence, the counselor could tie physical fitness benefits (e.g., increased energy, better sleep) to the client’s stated goals of feeling present and reducing stress, creating a more cohesive narrative.
+    **Score**: 4/5
+
+    Total Score: 7/10
+
+    ### Suggestions for Refinement
+    - Enhance Topic Alignment: Explicitly state how alcohol impacts physical fitness (e.g., “Alcohol can dehydrate you, disrupt sleep, and slow muscle recovery, which might leave you feeling drained during workouts or social activities”). Link fitness improvements to the client’s goals: “Better endurance could help you stay energized during active outings with friends, and improved sleep from cutting back might boost your mood even more.”
+    - Strengthen Reframe Strategy: Connect fitness to the client’s emotional priorities: “You mentioned wanting a mood boost—regular exercise, which becomes easier with less alcohol, is proven to reduce stress and increase endorphins. This could make your social time even more fulfilling.” Use a transitional phrase to bridge topics: “Since you value feeling present and reducing stress, another benefit of cutting back could be improving your physical fitness, which actually supports those goals by…”
+
+    Please limit the word count to no more than 50 words!!!
+
+    ### Refined Response
+    - Counselor: It’s inspiring that you’re focusing on mood and connection! What if we also viewed cutting back on alcohol as a way to boost your physical fitness? For example, better hydration and sleep from drinking less could improve your energy levels, making it easier to enjoy active outings.
+
+    ### Context
+    - {{ context }}
+
+    ### Original Counselor's Response
+    - {{ response }}
+
+    ### Given Topic
+    - {{ topic }}
+
+    ### Strategy Used
+    - {{ strategy }}
+
+    ### Feedback
+    {{ feedback }}
+
+    Please limit the word count to no more than 50 words!!!
+
+  response_select_prompt: |
+    You will act as a skilled counselor conducting a Motivational Interviewing (MI) session aimed at achieving {{ goal }} related to the client's behavior, {{ behavior }}. Your task is to help the client discover their inherent motivation to change and identify a tangible plan to change. The current state of the counseling session is as follows:
+
+    {{ conversation }}
+
+    At this point, multiple responses have been generated based on the client’s current state, the topics explored, and the strategies employed. Your task is to select the response that best aligns with the counseling goals and the client’s motivational state. Here are the generated responses:
+
+    {{ responses }}
+
+    Please choose the most suitable response based on the counseling context and the client's motivational state. Reply with the ID of the response you find most appropriate for the current situation.
+
+zh:
+  sys_prompt: |-
+    <在这里输入提示文本>
