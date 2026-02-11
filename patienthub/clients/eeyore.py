@@ -7,7 +7,6 @@ from patienthub.configs import APIModelConfig
 from patienthub.utils import load_json, load_prompts, get_chat_model
 
 
-
 @dataclass
 class EeyoreClientConfig(APIModelConfig):
     """Configuration for Eeyore client agent (local model)."""
@@ -15,8 +14,9 @@ class EeyoreClientConfig(APIModelConfig):
     agent_type: str = "eeyore"
     data_path: str = "data/characters/Eeyore.json"
     model_type: str = "LOCAL"
-    model_name: str = "hosted_vllm//data3/public_checkpoints/huggingface_models/Eeyore_llama3.1_8B"
+    model_name: str = "hosted_vllm//<path_to_weights>/Eeyore_llama3.1_8B"
     data_idx: int = 0
+
 
 class EeyoreClient(ChatAgent):
     def __init__(self, configs: DictConfig):
@@ -34,7 +34,7 @@ class EeyoreClient(ChatAgent):
         self.build_sys_prompt()
 
     def build_sys_prompt(self) -> str:
-        sys_prompt =  self.prompts["system_prompt"].render(profile=self.profile)
+        sys_prompt = self.prompts["system_prompt"].render(profile=self.profile)
         self.messages = [{"role": "system", "content": sys_prompt}]
 
     def set_therapist(
@@ -43,7 +43,6 @@ class EeyoreClient(ChatAgent):
         prev_sessions: List[Dict[str, str]] | None = None,
     ):
         self.therapist = therapist.get("name", "Therapist")
-
 
     def generate_response(self, msg: str):
         self.messages.append({"role": "user", "content": msg})
