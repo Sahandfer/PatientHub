@@ -1,17 +1,12 @@
 import os
 import logging
 import instructor
-from pydantic import BaseModel
 from dotenv import load_dotenv
 from dataclasses import dataclass
 from typing import Any, List, Optional, Dict
-from litellm import completion, supports_response_schema
+from litellm import completion, supports_response_schema, completion_cost
 
 logging.getLogger("LiteLLM").setLevel(logging.WARNING)
-
-
-# from langchain.chat_models import init_chat_model
-# from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
 
 load_dotenv(".env")
 
@@ -41,12 +36,28 @@ class ChatModel:
         self.model_name = model_name
         self.kwargs = kwargs
         self.res_format_support = supports_response_schema(model=model_name)
+        self.total_cost = 0.0
+        self.total_tokens = 0
+        self.prompt_tokens = 0
+        self.completion_tokens = 0
         if not self.res_format_support:
             print("> Model does not support response format")
+
+    def track_usage(self, response):
+        """Track token usage and cost from API response using LiteLLM."""
+        if hasattr(response, "usage") and response.usage:
+            self.prompt_tokens += response.usage.prompt_tokens or 0
+            self.completion_tokens += response.usage.completion_tokens or 0
+            self.total_tokens += response.usage.total_tokens or 0
+        try:
+            self.total_cost += completion_cost(completion_response=response)
+        except Exception:
+            pass  # Cost calculation not available for this model
 
     def generate(self, messages, response_format=None):
         if not self.res_format_support or response_format is None:
             res = completion(model=self.model_name, messages=messages, **self.kwargs)
+            self.track_usage(res)
             return res.choices[0].message
         else:
             client = instructor.from_litellm(completion)
@@ -56,7 +67,25 @@ class ChatModel:
                 response_model=response_format,
                 **self.kwargs,
             )
+            if hasattr(res, "_raw_response"):
+                self.track_usage(res._raw_response)
             return res
+
+    def get_usage(self) -> Dict:
+        """Get usage summary."""
+        return {
+            "prompt_tokens": self.prompt_tokens,
+            "completion_tokens": self.completion_tokens,
+            "total_tokens": self.total_tokens,
+            "total_cost": round(self.total_cost, 6),
+        }
+
+    def reset_usage(self):
+        """Reset usage tracking."""
+        self.total_cost = 0.0
+        self.total_tokens = 0
+        self.prompt_tokens = 0
+        self.completion_tokens = 0
 
 
 def get_chat_model(configs):

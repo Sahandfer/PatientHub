@@ -13,8 +13,8 @@ class TherapySessionConfig:
     """Configuration for a therapy session."""
 
     event_type: str = "therapySession"
-    reminder_turn_num: int = 5
-    max_turns: int = 30
+    reminder_turn_num: int = 2
+    max_turns: int = 15
     output_dir: str = "data/sessions/default/session_1.json"
 
 
@@ -94,16 +94,32 @@ def check_and_remind(state: State, max_turns, reminder_turn_num) -> State:
 
 
 @action(reads=["messages", "num_turns"], writes=["msg"])
-def end_session(state: State, client, output_dir) -> State:
+def end_session(state: State, client, therapist, output_dir) -> State:
     """End the session and save results."""
+    # Collect usage from both agents
+    usage = {"client": {}, "therapist": {}}
+    if hasattr(client, "chat_model") and hasattr(client.chat_model, "get_usage"):
+        usage["client"] = client.chat_model.get_usage()
+    if hasattr(therapist, "chat_model") and hasattr(therapist.chat_model, "get_usage"):
+        usage["therapist"] = therapist.chat_model.get_usage()
+
+    # Calculate total cost
+    total_cost = usage["client"].get("total_cost", 0) + usage["therapist"].get(
+        "total_cost", 0
+    )
+    usage["total_cost"] = round(total_cost, 6)
+
     session_state = {
         "profile": client.data,
         "messages": state["messages"],
         "num_turns": state["num_turns"],
+        "usage": usage,
     }
     save_json(session_state, output_dir)
 
     print("=" * 50)
+    if total_cost > 0:
+        print(f"Session cost: ${total_cost:.4f}")
     return state.update(msg="[Moderator] Session has ended.")
 
 
@@ -143,7 +159,9 @@ class TherapySession:
                     reminder_turn_num=self.configs.reminder_turn_num,
                 ),
                 end_session=end_session.bind(
-                    client=self.client, output_dir=self.configs.output_dir
+                    client=self.client,
+                    therapist=self.therapist,
+                    output_dir=self.configs.output_dir,
                 ),
             )
             .with_transitions(
