@@ -6,124 +6,101 @@ Therapist agents in PatientHub provide the therapeutic interventions during simu
 
 | Therapist                     | Key     | Description                                                                         |
 | ----------------------------- | ------- | ----------------------------------------------------------------------------------- |
-| [**CBT Therapist**](./cbt.md) | `cbt`   | A Cognitive Behavioral Therapy therapist that employs evidence-based CBT techniques |
+| [**MI Therapist**](./cami.md) | `cami`   | A Counselor Agent Supporting Motivational Interviewing through State Inference and Topic Exploration |
+| [**CBT Therapist**](./psyche.md) | `psyche`   | A psychiatrist agent simulated using a structured prompt with explicit clinical assessment criteria. |
+| [**CBT Therapist**](./cbt.md) | `CBT`   | A Cognitive Behavioral Therapy therapist that employs evidence-based CBT techniques |
 | [**Eliza**](./eliza.md)       | `eliza` | Classic pattern-matching therapist based on the original ELIZA program              |
 | [**Bad Therapist**](./bad.md) | `bad`   | A deliberately poor therapist for training purposes                                 |
-| [**User**](./user.md)         | `user`  | Human-in-the-loop therapist for interactive sessions                                |
+| [**User**](./user.md)         | `user`  | Human-in-the-loop therapist for interactive sessions |      
+
+- Prompt Data is stored in `data/prompts/therapist`.
 
 ## Usage
 
-### In Configuration
-
-```yaml
-therapist:
-  key: cbt
-  config:
-    model: gpt-4o
-```
-
-### In Code
+### Listing Available Therapists
 
 ```python
-from patienthub.therapists import TherapistRegistry
+from patienthub.therapists import THERAPIST_CONFIG_REGISTRY, THERAPIST_REGISTRY
+
+# List all therapist types
+print("Available therapists:", list(THERAPIST_REGISTRY.keys()))
+
+# Get config class for a therapist
+config_class = THERAPIST_CONFIG_REGISTRY['cami']
+print(config_class)
+```
+
+### Loading a Therapist
+
+```python
+from omegaconf import OmegaConf
+
+from patienthub.therapists import THERAPIST_REGISTRY, CBTTherapistConfig, get_therapist
 
 # Get available therapists
-available = TherapistRegistry.list()
+available = list(THERAPIST_REGISTRY.keys())
 
 # Create a therapist
-therapist = TherapistRegistry.create("cbt", config={"model": "gpt-4o"})
-```
-
-## CBT Therapist
-
-The CBT (Cognitive Behavioral Therapy) therapist implements evidence-based CBT techniques including:
-
-- **Cognitive restructuring** - Identifying and challenging negative thought patterns
-- **Behavioral activation** - Encouraging engagement in positive activities
-- **Problem-solving** - Helping clients develop coping strategies
-- **Psychoeducation** - Explaining the connection between thoughts, feelings, and behaviors
-
-### Configuration
-
-```yaml
-therapist:
-  key: cbt
-  config:
-    model: gpt-4o
-    temperature: 0.7
-```
-
-## Eliza
-
-ELIZA is a classic pattern-matching conversational agent originally developed at MIT. This implementation provides a nostalgic but functional therapist that:
-
-- Uses pattern matching to generate responses
-- Reflects statements back to the client
-- Asks open-ended questions
-- Provides unconditional positive regard
-
-### Configuration
-
-```yaml
-therapist:
-  key: eliza
-```
-
-## Bad Therapist
-
-The bad therapist is intentionally designed to demonstrate poor therapeutic practices. Useful for:
-
-- Training mental health professionals to recognize bad practices
-- Testing client agent robustness
-- Research on therapeutic alliance
-
-### Configuration
-
-```yaml
-therapist:
-  key: bad
-  config:
-    model: gpt-4o
-```
-
-## User (Human-in-the-Loop)
-
-The user therapist enables human participation in therapy simulations, useful for:
-
-- Training scenarios
-- Evaluation studies
-- Interactive demonstrations
-
-### Configuration
-
-```yaml
-therapist:
-  key: user
+cfg = OmegaConf.structured(CBTTherapistConfig(model_name="gpt-4o"))
+therapist = get_therapist(cfg, lang="en")
 ```
 
 ## Creating Custom Therapists
 
-You can create custom therapists by extending the base `Therapist` class:
+You can create custom therapists by running the following command:
+
+```bash
+uv run python -m examples.create generator.gen_agent_type=tberapist generator.gen_agent_name=<agent_name>
+```
+
+This creates:
+
+- `patienthub/therapists/<agent_name>.py`
+- `data/prompts/therapist/<agent_name>.yaml`
+
+You can also create custom therapists by extending the base `Therapist` class:
 
 ```python
-from patienthub.therapists.base import Therapist
+from dataclasses import dataclass
+from omegaconf import DictConfig
 
-class MyCustomTherapist(Therapist):
-    def __init__(self, config):
-        super().__init__(config)
-        # Initialize your therapist
+from patienthub.base import ChatAgent
+from patienthub.configs import APIModelConfig
+from patienthub.utils import get_chat_model, load_prompts
 
-    def respond(self, conversation_history):
-        # Generate therapeutic response
-        return response
+
+@dataclass
+class MyCustomTherapistConfig(APIModelConfig):
+    agent_type: str = "my_therapist"
+
+
+class MyCustomTherapist(ChatAgent):
+    def __init__(self, configs: DictConfig):
+        self.name = "My Custom Therapist"
+        self.chat_model = get_chat_model(configs)
+        self.reset()
+
+    def set_client(self, client, prev_sessions=None):
+        self.client = client.get("name", "client")
+
+    def generate_response(self, msg: str):
+        self.messages.append({"role": "user", "content": msg})
+        res = self.chat_model.generate(self.messages).content
+        self.messages.append({"role": "assistant", "content": res})
+        return res
+
+    def reset(self):
+        self.messages = [{"role": "system", "content": "You are a helpful therapist."}]
+        self.client = None
 ```
 
 Then register it:
 
 ```python
-from patienthub.therapists import TherapistRegistry
+from patienthub.therapists import THERAPIST_CONFIG_REGISTRY, THERAPIST_REGISTRY
 
-TherapistRegistry.register("my_therapist", MyCustomTherapist)
+THERAPIST_REGISTRY["my_therapist"] = MyCustomTherapist
+THERAPIST_CONFIG_REGISTRY["my_therapist"] = MyCustomTherapistConfig
 ```
 
 ## See Also

@@ -23,6 +23,19 @@ Client agents simulate patients in therapy conversations.
 | [**RoleplayDoh**](./roleplaydoh.md)   | `roleplayDoh`  | Principle-based simulation (EMNLP 2024)     |
 | [**User**](./user.md)                 | `user`         | Human input client                          |
 
+## Listing Available Clients
+
+```python
+from patienthub.clients import CLIENT_REGISTRY, CLIENT_CONFIG_REGISTRY
+
+# List all client types
+print("Available clients:", list(CLIENT_REGISTRY.keys()))
+
+# Get config class for a client
+config_class = CLIENT_CONFIG_REGISTRY['patientPsi']
+print(config_class)
+```
+
 ## Loading a Client
 
 ```python
@@ -44,49 +57,12 @@ config = OmegaConf.create({
 client = get_client(configs=config, lang='en')
 ```
 
-## Client Interface
+## Data Format
 
-All clients implement the `ChatAgent` abstract base class:
+- Prompt Data is stored in `data/prompts/client`.
+- Character data is stored in files under `data/characters`
+- Each file is a JSON list; `data_idx` selects the entry to be simulated
 
-```python
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Type
-from pydantic import BaseModel
-
-class ChatAgent(ABC):
-    chat_model: Any
-    data: Dict[str, Any]
-    messages: List[str] | List[Dict[str, Any]]
-    lang: str
-
-    @abstractmethod
-    def generate(
-        self,
-        messages: List[str] | List[Dict[str, Any]],
-        response_format: Optional[Type[BaseModel]] = None,
-    ) -> BaseModel | str:
-        """Generate a response based on the input messages."""
-        pass
-
-    @abstractmethod
-    def generate_response(self, msg: str) -> BaseModel:
-        """Generate response to a single therapist message."""
-        pass
-
-    @abstractmethod
-    def set_therapist(
-        self,
-        therapist: Dict[str, Any],
-        prev_sessions: List[Dict[str, str]] | None = None
-    ):
-        """Set the therapist for the session."""
-        pass
-
-    @abstractmethod
-    def reset(self) -> None:
-        """Reset the client to its initial state."""
-        pass
-```
 
 ## Configuration Options
 
@@ -131,6 +107,56 @@ class Response(BaseModel):
     action: str  # Selected action type
 ```
 
+## Create New Clients
+
+You can run the following command to create the necessary files for a new client:
+
+```bash
+uv run python -m examples.create generator.gen_agent_type=client generator.gen_agent_name=<agent_name>
+```
+
+All clients implement the `ChatAgent` abstract base class:
+
+```python
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional, Type
+from pydantic import BaseModel
+
+class ChatAgent(ABC):
+    chat_model: Any
+    data: Dict[str, Any]
+    messages: List[str] | List[Dict[str, Any]]
+    lang: str
+
+    @abstractmethod
+    def generate(
+        self,
+        messages: List[str] | List[Dict[str, Any]],
+        response_format: Optional[Type[BaseModel]] = None,
+    ) -> BaseModel | str:
+        """Generate a response based on the input messages."""
+        pass
+
+    @abstractmethod
+    def generate_response(self, msg: str) -> BaseModel:
+        """Generate response to a single therapist message."""
+        pass
+
+    @abstractmethod
+    def set_therapist(
+        self,
+        therapist: Dict[str, Any],
+        prev_sessions: List[Dict[str, str]] | None = None
+    ):
+        """Set the therapist for the session."""
+        pass
+
+    @abstractmethod
+    def reset(self) -> None:
+        """Reset the client to its initial state."""
+        pass
+```
+
 ## Example: Comparing Clients
 
 ```python
@@ -169,25 +195,6 @@ for agent_type in ['saps', 'talkDep', 'psyche']:
     except Exception as e:
         print(f"\n=== {agent_type} === Error: {e}")
 ```
-
-## Listing Available Clients
-
-```python
-from patienthub.clients import CLIENT_REGISTRY, CLIENT_CONFIG_REGISTRY
-
-# List all client types
-print("Available clients:", list(CLIENT_REGISTRY.keys()))
-
-# Get config class for a client
-config_class = CLIENT_CONFIG_REGISTRY['patientPsi']
-print(config_class)
-```
-
-## Data Format
-
-- Prompt Data is stored in `data/prompts`.
-- Character data is stored in files under `data/characters`
-- Each file is a JSON list; `data_idx` selects the entry to be simulated
 
 ## By Focus Area
 
