@@ -58,6 +58,8 @@ const sidebars = {
             'components/therapists/eliza',
             'components/therapists/bad',
             'components/therapists/user',
+            'components/therapists/psyche',
+            'components/therapists/cami',
           ],
         },
         {

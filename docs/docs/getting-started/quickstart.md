@@ -63,6 +63,8 @@ uv run python -m examples.simulate \
 | `CBT`     | AI CBT therapist             |
 | `eliza`   | Classic Eliza chatbot        |
 | `bad`     | Poor therapist (for testing) |
+| `cami`    | AI Motivational Interviewing therapist |
+| `psyche`  | A therapist conducting a clinical interview |
 
 ## Python API
 
@@ -112,6 +114,28 @@ Session data is saved to `data/sessions/` by default. You can customize this:
 
 ```bash
 uv run python -m examples.simulate event.output_dir=outputs/my_session.json
+```
+
+:::tip TIPS
+Session data is only saved when the event reaches its “end” action (i.e., it writes to `event.output_dir`).
+
+All ways to trigger saving:
+- The therapist’s output is exactly `END` / `end` / `exit` ⇒ session_ended=True ⇒ end and save
+- The conversation reaches `event.max_turns` (num_turns >= max_turns) ⇒ end and save
+:::
+
+## Creating New Agents
+
+You can run the following command to create the necessary files for a new agent:
+
+```bash
+uv run python -m examples.create generator.gen_agent_type=[client|therapist] generator.gen_agent_name=<agent_name>
+```
+
+For example
+
+```bash
+uv run python -m examples.create generator.gen_agent_type=client generator.gen_agent_name=test
 ```
 
 ## What's Next?
