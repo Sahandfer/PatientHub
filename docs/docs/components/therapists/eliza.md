@@ -27,15 +27,18 @@ ELIZA was one of the first chatbots, created by Joseph Weizenbaum at MIT in the 
 
 ```yaml
 therapist:
-  key: eliza
+  agent_type: eliza
 ```
 
 ### Python Usage
 
 ```python
-from patienthub.therapists import TherapistRegistry
+from omegaconf import OmegaConf
 
-therapist = TherapistRegistry.create("eliza")
+from patienthub.therapists import get_therapist
+
+config = OmegaConf.create({"agent_type": "eliza"})
+therapist = get_therapist(configs=config, lang="en")
 ```
 
 ## Parameters

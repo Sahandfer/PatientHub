@@ -7,7 +7,7 @@ Therapist agents in PatientHub provide the therapeutic interventions during simu
 | Therapist                     | Key     | Description                                                                         |
 | ----------------------------- | ------- | ----------------------------------------------------------------------------------- |
 | [**MI Therapist**](./cami.md) | `cami`   | A Counselor Agent Supporting Motivational Interviewing through State Inference and Topic Exploration |
-| [**CBT Therapist**](./psyche.md) | `psyche`   | A psychiatrist agent simulated using a structured prompt with explicit clinical assessment criteria. |
+| [**Psyche (Psychiatrist)**](./psyche.md) | `psyche`   | A psychiatrist agent simulated using a structured prompt with explicit clinical assessment criteria. |
 | [**CBT Therapist**](./cbt.md) | `CBT`   | A Cognitive Behavioral Therapy therapist that employs evidence-based CBT techniques |
 | [**Eliza**](./eliza.md)       | `eliza` | Classic pattern-matching therapist based on the original ELIZA program              |
 | [**Bad Therapist**](./bad.md) | `bad`   | A deliberately poor therapist for training purposes                                 |
@@ -35,14 +35,23 @@ print(config_class)
 ```python
 from omegaconf import OmegaConf
 
-from patienthub.therapists import THERAPIST_REGISTRY, CBTTherapistConfig, get_therapist
+from patienthub.therapists import THERAPIST_REGISTRY, get_therapist
 
 # Get available therapists
 available = list(THERAPIST_REGISTRY.keys())
 
 # Create a therapist
-cfg = OmegaConf.structured(CBTTherapistConfig(model_name="gpt-4o"))
-therapist = get_therapist(cfg, lang="en")
+config = OmegaConf.create(
+    {
+        "agent_type": "CBT",
+        "model_type": "OPENAI",
+        "model_name": "gpt-4o",
+        "temperature": 0.7,
+        "max_tokens": 8192,
+        "max_retries": 3,
+    }
+)
+therapist = get_therapist(configs=config, lang="en")
 ```
 
 ## Creating Custom Therapists

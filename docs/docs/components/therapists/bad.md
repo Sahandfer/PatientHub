@@ -27,26 +27,40 @@ The Bad Therapist agent is deliberately programmed to exhibit poor therapeutic b
 
 ```yaml
 therapist:
-  key: bad
-  config:
-    model: gpt-4o
+  agent_type: bad
+  model_type: OPENAI
+  model_name: gpt-4o
+  data_path: data/characters/therapists.json
+  data_idx: 0
 ```
 
 ### Python Usage
 
 ```python
-from patienthub.therapists import TherapistRegistry
+from omegaconf import OmegaConf
 
-therapist = TherapistRegistry.create("bad", config={
-    "model": "gpt-4o"
-})
+from patienthub.therapists import get_therapist
+
+config = OmegaConf.create(
+    {
+        "agent_type": "bad",
+        "model_type": "OPENAI",
+        "model_name": "gpt-4o",
+        "data_path": "data/characters/therapists.json",
+        "data_idx": 0,
+    }
+)
+therapist = get_therapist(configs=config, lang="en")
 ```
 
 ## Parameters
 
-| Parameter | Type   | Default  | Description          |
-| --------- | ------ | -------- | -------------------- |
-| `model`   | string | `gpt-4o` | The LLM model to use |
+| Parameter    | Type   | Default     | Description                  |
+| ------------ | ------ | ----------- | ---------------------------- |
+| `model_type` | string | `"OPENAI"`  | Model provider key           |
+| `model_name` | string | `"gpt-4o"`  | The LLM model to use         |
+| `data_path`  | string | (varies)    | Therapist profile JSON path  |
+| `data_idx`   | int    | `0`         | Index into the JSON list     |
 
 ## Use Cases
 

@@ -27,15 +27,18 @@ The User therapist is a special agent type that delegates therapeutic responses 
 
 ```yaml
 therapist:
-  key: user
+  agent_type: user
 ```
 
 ### Python Usage
 
 ```python
-from patienthub.therapists import TherapistRegistry
+from omegaconf import OmegaConf
 
-therapist = TherapistRegistry.create("user")
+from patienthub.therapists import get_therapist
+
+config = OmegaConf.create({"agent_type": "user"})
+therapist = get_therapist(configs=config, lang="en")
 ```
 
 ## Parameters

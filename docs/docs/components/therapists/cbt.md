@@ -6,7 +6,7 @@ The CBT (Cognitive Behavioral Therapy) therapist implements evidence-based CBT t
 
 | Property  | Value                        |
 | --------- | ---------------------------- |
-| **Key**   | `cbt`                        |
+| **Key**   | `CBT`                        |
 | **Type**  | LLM-based                    |
 | **Focus** | Cognitive Behavioral Therapy |
 
@@ -27,29 +27,39 @@ The CBT Therapist is an AI-powered therapeutic agent that employs evidence-based
 
 ```yaml
 therapist:
-  key: cbt
-  config:
-    model: gpt-4o
-    temperature: 0.7
+  agent_type: CBT
+  model_type: OPENAI
+  model_name: gpt-4o
+  temperature: 0.7
 ```
 
 ### Python Usage
 
 ```python
-from patienthub.therapists import TherapistRegistry
+from omegaconf import OmegaConf
 
-therapist = TherapistRegistry.create("cbt", config={
-    "model": "gpt-4o",
-    "temperature": 0.7
-})
+from patienthub.therapists import get_therapist
+
+config = OmegaConf.create(
+    {
+        "agent_type": "CBT",
+        "model_type": "OPENAI",
+        "model_name": "gpt-4o",
+        "temperature": 0.7,
+        "max_tokens": 8192,
+        "max_retries": 3,
+    }
+)
+therapist = get_therapist(configs=config, lang="en")
 ```
 
 ## Parameters
 
-| Parameter     | Type   | Default  | Description                  |
-| ------------- | ------ | -------- | ---------------------------- |
-| `model`       | string | `gpt-4o` | The LLM model to use         |
-| `temperature` | float  | `0.7`    | Controls response randomness |
+| Parameter     | Type   | Default    | Description                  |
+| ------------- | ------ | ---------- | ---------------------------- |
+| `model_type`  | string | `"OPENAI"` | Model provider key           |
+| `model_name`  | string | `"gpt-4o"` | The LLM model to use         |
+| `temperature` | float  | `0.7`      | Controls response randomness |
 
 ## Use Cases
 
