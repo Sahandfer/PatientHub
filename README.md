@@ -2,11 +2,11 @@
 
 > A unified hub to create, simulate, and evaluate methods for patient/client simulation.
 
-📚 **[Documentation](https://sahandfer.github.io/PatientHub/)** | 🚀 **[Quick Start](#quick-start)** | 📦 **[Supported Agents](#3-supported-agents)**
+📚 **[Documentation](https://sahandfer.github.io/PatientHub/)** | 🚀 **[Quick Start](#quick-start)** | 📦 **[Supported Agents](#supported-agents)**
 
 ## Quick Start
 
-### 1. Setting up the environment
+### Setting up the environment
 
 Set up and activate the virtual environment (after installing [uv](https://docs.astral.sh/uv/getting-started/installation/))
 
@@ -19,26 +19,52 @@ Create a file named `.env` and fill it with your API credentials:
 
 ```bash
 OPENAI_API_KEY=<your API key>
-OPENAI_BASE_URL=<your API base URL> [Optional]
+OPENAI_BASE_URL=<your API base URL> # Optional
 ```
 
-### 2. Running simulations
+### Running simulations
 
-Run the following script for simulation (with default configs)
+Run the following script for simulation (with default configs):
 
 ```bash
 uv run python -m examples.simulate
 ```
 
-You can also run the following script to run customized simulations.
+You can also override any configuration via the command line:
 
 ```bash
-uv run python -m examples.simulate client=[client] therapist=[therapist] evaluator=evaluator evaluator.eval_type=[eval_type]
+uv run python -m examples.simulate client=patientPsi therapist=basic evaluator=llm_judge
 ```
 
-### 3. Supported Agents
+### Other examples
 
-#### Clients (Patients)
+**Create** scaffolding for a new agent:
+
+```bash
+uv run python -m examples.create agent_type=client agent_name=myClient
+```
+
+**Evaluate** a recorded session:
+
+```bash
+uv run python -m examples.evaluate evaluator=llm_judge input_dir=data/sessions/default/session.json
+```
+
+**Generate** a character profile:
+
+```bash
+uv run python -m examples.generate generator=psyche
+```
+
+**Run the web demo** (requires `dev` dependencies):
+
+```bash
+uv run chainlit run examples/chainlit.py
+```
+
+## Supported Agents
+
+### Clients (Patients)
 
 | Source / Description                                                                                                                                                                     | Venue               | Focus                                  | Agent                                                  |
 | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | -------------------------------------- | ------------------------------------------------------ |
@@ -54,59 +80,69 @@ uv run python -m examples.simulate client=[client] therapist=[therapist] evaluat
 | [PATIENT-Ψ: Using Large Language Models to Simulate Patients for Training Mental Health Professionals](https://aclanthology.org/2024.emnlp-main.711/)                                    | EMNLP 2024 (Main)   | General (CBT)                          | [`patientPsi`](./patienthub/clients/patientPsi.py)     |
 | [Roleplay-doh: Enabling Domain-Experts to Create LLM-simulated Patients via Eliciting and Adhering to Principles](https://aclanthology.org/2024.emnlp-main.591/)                         | EMNLP 2024 (Main)   | General (Counseling)                   | [`roleplayDoh`](./patienthub/clients/roleplayDoh.py)   |
 
-#### Therapists
+### Therapists
 
-| Therapist     | Key     | Description                              |
-| ------------- | ------- | ---------------------------------------- |
-| CBT Therapist | `CBT`   | Cognitive Behavioral Therapy therapist   |
-| Eliza         | `eliza` | Classic pattern-matching therapist       |
-| Bad Therapist | `bad`   | Deliberately poor therapist for training |
-| User          | `user`  | Human-in-the-loop therapist              |
+| Therapist        | Key      | Description                                                             |
+| ---------------- | -------- | ----------------------------------------------------------------------- |
+| Basic (CBT)      | `basic`  | Cognitive Behavioral Therapy therapist (with optional chain-of-thought) |
+| CAMI             | `cami`   | Motivational Interviewing therapist with topic-graph guidance           |
+| PSYCHE Therapist | `psyche` | Therapist from the PSYCHE psychiatric assessment framework              |
+| Eliza            | `eliza`  | Classic pattern-matching Rogerian therapist                             |
+| User             | `user`   | Human-in-the-loop therapist                                             |
 
-#### Evaluators
+### Evaluators
 
 | Evaluator | Key         | Description                              |
 | --------- | ----------- | ---------------------------------------- |
 | LLM Judge | `llm_judge` | LLM-based evaluation of therapy sessions |
 
-### 3. Creating new agents
+### Generators
 
-You can run the following command to create the necessary files for a new agent:
-
-```bash
-uv run python -m examples.create generator.gen_agent_type=[client|therapist] generator.gen_agent_name=<agent_name>
-```
-
-For example
-
-```bash
-uv run python -m examples.create generator.gen_agent_type=client generator.gen_agent_name=test
-```
+| Generator  | Key          | Description                         |
+| ---------- | ------------ | ----------------------------------- |
+| PSYCHE     | `psyche`     | Character generation for PSYCHE     |
+| ClientCast | `clientCast` | Character generation for ClientCast |
+| AnnaAgent  | `annaAgent`  | Character generation for AnnaAgent  |
 
 ## Project Structure
 
 ```
 patienthub/
-├── base/           # Base classes (ChatAgent, etc.)
-├── clients/        # Client agent implementations + configs
-├── therapists/     # Therapist agent implementations + configs
+├── clients/        # Client (patient) agent implementations
+├── therapists/     # Therapist agent implementations
 ├── evaluators/     # Evaluation modules
-├── generators/     # Character/file/event generators
+├── generators/     # Character profile generators
+├── events/         # Session orchestration (Burr-based)
 ├── npcs/           # Non-player character agents
-├── configs/        # Shared config utilities
-├── events/         # Session management
-└── utils/          # Helpers
+├── configs/        # Hydra config utilities
+└── utils/          # File I/O, model helpers
 
-examples/           # CLI entry points
+examples/           # CLI entry points (simulate, evaluate, generate, create, interview)
 data/
 ├── characters/     # Character profiles (JSON)
-├── prompts/        # Prompt templates (YAML)
-├── sessions/       # Session logs
-└── resources/      # Source datasets
+├── prompts/        # Prompt templates (YAML, per agent)
+├── sessions/       # Saved session logs
+└── resources/      # Source datasets and auxiliary files
 
-docs/               # Documentation (Docusaurus)
+docs/               # Documentation site (Docusaurus)
 ```
 
 ## License
 
 See [LICENSE](./LICENSE) for details.
+
+## Citation
+
+If you find our work useful for your research, please kindly cite our paper as follows:
+
+```
+@misc{sabour2026patienthub,
+      title={PatientHub: A Unified Framework for Patient Simulation},
+      author={Sahand Sabour and TszYam NG and Minlie Huang},
+      year={2026},
+      eprint={2602.11684},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2602.11684},
+}
+```
