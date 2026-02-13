@@ -67,7 +67,7 @@ The User client integrates with PatientHub's interactive interfaces:
 
 ```python
 from patienthub.clients import get_client
-from patienthub.therapists import TherapistRegistry
+from patienthub.therapists import get_therapist
 from omegaconf import OmegaConf
 
 # Create human client
@@ -75,7 +75,17 @@ client_config = OmegaConf.create({'agent_type': 'user'})
 client = get_client(configs=client_config, lang='en')
 
 # Create AI therapist
-therapist = TherapistRegistry.create("cbt", config={"model": "gpt-4o"})
+therapist_config = OmegaConf.create(
+    {
+        "agent_type": "CBT",
+        "model_type": "OPENAI",
+        "model_name": "gpt-4o",
+        "temperature": 0.7,
+        "max_tokens": 8192,
+        "max_retries": 3,
+    }
+)
+therapist = get_therapist(configs=therapist_config, lang="en")
 
 # Run interactive session
 # Human provides client responses, AI provides therapist responses

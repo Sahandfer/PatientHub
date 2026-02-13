@@ -23,46 +23,73 @@ NPCs enable more realistic and complex therapy scenarios by introducing addition
 
 ```yaml
 npc:
-  type: interviewer
-  config:
-    model: gpt-4o
-    interview_type: intake
+  agent_type: interviewer
+  data: data/evaluations/surveys/default_survey.json
 ```
 
 ### In Code
 
 ```python
-from patienthub.npcs import NPCRegistry
+from omegaconf import OmegaConf
 
-# Create an NPC
-interviewer = NPCRegistry.create("interviewer", config={
-    "model": "gpt-4o",
-    "interview_type": "intake"
-})
+from patienthub.npcs.interviewer import InterviewerNPC
 
-# Use the NPC in a simulation
-response = interviewer.respond(conversation_history)
+config = OmegaConf.create({"data": "data/evaluations/surveys/default_survey.json"})
+interviewer = InterviewerNPC(configs=config)
+
+next_question = interviewer.generate_response("start")
+print(next_question)
 ```
 
 ## Use Cases
 
-### Family Therapy Simulation
+### Intake Interview (Before Therapy)
 
 ```python
-from patienthub.npcs import NPCRegistry
-from patienthub.clients import ClientRegistry
-from patienthub.therapists import TherapistRegistry
+from omegaconf import OmegaConf
 
-# Create agents
-client = ClientRegistry.create("saps", config={...})
-parent = NPCRegistry.create("family_member", config={
-    "relationship": "parent",
-    "personality": "concerned"
-})
-therapist = TherapistRegistry.create("cbt", config={...})
+from patienthub.clients import get_client
+from patienthub.therapists import get_therapist
+from patienthub.npcs.interviewer import InterviewerNPC
 
-# Run family therapy simulation
-# ...
+# Create interviewer NPC (question script)
+interviewer = InterviewerNPC(
+    configs=OmegaConf.create({"data": "data/evaluations/surveys/default_survey.json"})
+)
+
+# Create client
+client_config = OmegaConf.create(
+    {
+        "agent_type": "saps",
+        "model_type": "OPENAI",
+        "model_name": "gpt-4o",
+        "temperature": 0.7,
+        "max_tokens": 8192,
+        "max_retries": 3,
+        "data_path": "data/characters/SAPS.json",
+        "data_idx": 0,
+    }
+)
+client = get_client(configs=client_config, lang="en")
+
+# Create therapist
+therapist_config = OmegaConf.create(
+    {
+        "agent_type": "CBT",
+        "model_type": "OPENAI",
+        "model_name": "gpt-4o",
+        "temperature": 0.7,
+        "max_tokens": 8192,
+        "max_retries": 3,
+    }
+)
+therapist = get_therapist(configs=therapist_config, lang="en")
+
+# Run a quick intake, then start therapy
+question = interviewer.generate_response("start")
+print("Interviewer:", question)
+answer = client.generate_response(question)
+print("Client:", answer.content if hasattr(answer, "content") else answer)
 ```
 
 ### Social Skills Training
@@ -76,28 +103,25 @@ NPCs can role-play different social scenarios to help clients practice:
 
 ## Creating Custom NPCs
 
-You can create custom NPCs to add new characters to your simulations:
+To add a new NPC, create a new `ChatAgent` implementation under `patienthub/npcs/`
+(similar to `InterviewerNPC`) and instantiate it directly.
 
 ```python
-from patienthub.npcs.base import NPC
+from omegaconf import DictConfig
 
-class FamilyMember(NPC):
-    def __init__(self, config):
-        super().__init__(config)
-        self.relationship = config.get("relationship", "parent")
-        self.personality = config.get("personality", "supportive")
+from patienthub.base import ChatAgent
 
-    def respond(self, conversation_history):
-        # Generate response based on relationship and personality
-        return response
-```
+class FamilyMemberNPC(ChatAgent):
+    def __init__(self, configs: DictConfig):
+        self.configs = configs
+        self.name = "Family Member"
+        self.reset()
 
-Then register it:
+    def generate_response(self, msg: str):
+        return "I'm here to support them."
 
-```python
-from patienthub.npcs import NPCRegistry
-
-NPCRegistry.register("family_member", FamilyMember)
+    def reset(self):
+        self.messages = []
 ```
 
 ## See Also
