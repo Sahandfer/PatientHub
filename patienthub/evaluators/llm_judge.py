@@ -3,11 +3,10 @@ from dataclasses import dataclass
 from pydantic import Field, create_model
 from typing import Any, Dict, List, Literal
 
-from patienthub.base import EvaluatorAgent
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_instructions, get_chat_model
+from patienthub.utils import load_prompts, get_chat_model
 
-PARADIGMS = {"binary", "scalar", "extraction", "classification"}
+PARADIGMS = {"binary", "scalar", "categorical", "extraction"}
 
 
 @dataclass
@@ -15,20 +14,20 @@ class LLMJudgeEvaluatorConfig(APIModelConfig):
     """Configuration for LLM as a Judge Evaluator."""
 
     agent_type: str = "llm_judge"
+    prompt_path: str = "data/prompts/evaluator/client/classification.yaml"
     target: str = "client"
-    eval_type: str = "classification"
-    instruction_dir: str = "data/prompts/evaluator/client/classification.yaml"
+    eval_type: str = "categorical"
     granularity: str = "session"  # "turn", "turn_by_turn" or "session"
     use_reasoning: bool = False
 
 
-class LLMJudgeEvaluator(EvaluatorAgent):
+class LLMJudgeEvaluator:
     """Evaluates conversations using an LLM as a judge."""
 
     def __init__(self, configs: DictConfig):
         self.configs = configs
         self.chat_model = get_chat_model(configs)
-        self.instructions = load_instructions(configs.instruction_dir)
+        self.instructions = load_prompts(path=configs.prompt_path, lang=configs.lang)
         if configs.eval_type not in PARADIGMS:
             raise ValueError(
                 f"Unsupported eval_type: {configs.eval_type}. Must be one of {PARADIGMS}"
@@ -50,15 +49,15 @@ class LLMJudgeEvaluator(EvaluatorAgent):
         }
         return {name: (ftype, Field(..., **kwargs))}
 
-    def _build_extraction_field(self, data: Dict) -> Dict[str, Any]:
-        name, ftype = "extracted_passages", List[str]
-        kwargs = {"description": data.get("description", "Relevant passages")}
-        return {name: (ftype, Field(..., **kwargs))}
-
-    def _build_classification_field(self, data: Dict) -> Dict[str, Any]:
+    def _build_categorical_field(self, data: Dict) -> Dict[str, Any]:
         labels = tuple(data.get("labels", ["good", "average", "bad"]))
         name, ftype = "label", Literal[labels]
         kwargs = {"description": data.get("description", "Assigned label")}
+        return {name: (ftype, Field(..., **kwargs))}
+
+    def _build_extraction_field(self, data: Dict) -> Dict[str, Any]:
+        name, ftype = "extracted_passages", List[str]
+        kwargs = {"description": data.get("description", "Relevant passages")}
         return {name: (ftype, Field(..., **kwargs))}
 
     def _build_field(self, data: Dict) -> Dict[str, Any]:

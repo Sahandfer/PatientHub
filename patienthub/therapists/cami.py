@@ -3,7 +3,7 @@ from omegaconf import DictConfig
 from pydantic import BaseModel, ConfigDict, Field
 from dataclasses import dataclass
 
-from patienthub.base import ChatAgent
+from .base import BaseTherapist
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, load_json, get_chat_model
 
@@ -13,6 +13,7 @@ class CamiTherapistConfig(APIModelConfig):
     """Configuration for the CamiTherapist agent."""
 
     agent_type: str = "cami"
+    prompt_path: str = "data/prompts/therapist/cami.yaml"
     topic_graph: str = "data/resources/CAMI/topic_graph.json"
     goal: str = "reducing drug use"  # client aimed at achieving
     behavior: str = "drug use"  # client's behavior (usually negative)
@@ -106,7 +107,7 @@ class ResponseSelectPromptOutput(_CamiBaseModel):
     response_id: int = Field(ge=1, description="Chosen response ID (1-indexed).")
 
 
-class CamiTherapist(ChatAgent):
+class CamiTherapist(BaseTherapist):
     def __init__(self, configs: DictConfig):
         self.configs = configs
 
@@ -116,12 +117,10 @@ class CamiTherapist(ChatAgent):
         self._has_greeted: bool = False
 
         self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(
-            role="therapist", agent_type="cami", lang=configs.lang
-        )
-        self.topic_graph: Dict[str, Dict[str, List[str]]] = load_json(configs.topic_graph)[
-            "topic_graph"
-        ]
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
+        self.topic_graph: Dict[str, Dict[str, List[str]]] = load_json(
+            configs.topic_graph
+        )["topic_graph"]
 
         self.initialized: bool = False
         self.topic_stack: List[str] = []
@@ -246,7 +245,9 @@ class CamiTherapist(ChatAgent):
             return step_in_topics, switch_topics, step_out_topics
 
         if len(self.topic_stack) == 1:
-            step_in_topics = list(self.topic_graph.get(self.topic_stack[0], {}).get("Children", []))
+            step_in_topics = list(
+                self.topic_graph.get(self.topic_stack[0], {}).get("Children", [])
+            )
             switch_topics = [
                 "Health",
                 "Interpersonal Relationships",
@@ -257,8 +258,12 @@ class CamiTherapist(ChatAgent):
             return step_in_topics, switch_topics, step_out_topics
 
         if len(self.topic_stack) == 2:
-            step_in_topics = list(self.topic_graph.get(self.topic_stack[1], {}).get("Children", []))
-            switch_topics = list(self.topic_graph.get(self.topic_stack[0], {}).get("Children", []))
+            step_in_topics = list(
+                self.topic_graph.get(self.topic_stack[1], {}).get("Children", [])
+            )
+            switch_topics = list(
+                self.topic_graph.get(self.topic_stack[0], {}).get("Children", [])
+            )
             step_out_topics = [
                 "Health",
                 "Interpersonal Relationships",
@@ -269,8 +274,12 @@ class CamiTherapist(ChatAgent):
             return step_in_topics, switch_topics, step_out_topics
 
         if len(self.topic_stack) >= 3:
-            switch_topics = list(self.topic_graph.get(self.topic_stack[1], {}).get("Children", []))
-            step_out_topics = list(self.topic_graph.get(self.topic_stack[0], {}).get("Children", []))
+            switch_topics = list(
+                self.topic_graph.get(self.topic_stack[1], {}).get("Children", [])
+            )
+            step_out_topics = list(
+                self.topic_graph.get(self.topic_stack[0], {}).get("Children", [])
+            )
             return step_in_topics, switch_topics, step_out_topics
 
         return step_in_topics, switch_topics, step_out_topics
@@ -287,9 +296,13 @@ class CamiTherapist(ChatAgent):
         options_prompt = self.prompts["topic_stack_prompt"].render(
             topic_stack_len=topic_stack_len,
             has_step_out_topics=has_step_out_topics,
-            step_in_topics="\n        - ".join(step_in_topics) if step_in_topics else "",
+            step_in_topics=(
+                "\n        - ".join(step_in_topics) if step_in_topics else ""
+            ),
             switch_topics="\n        - ".join(switch_topics) if switch_topics else "",
-            step_out_topics="\n        - ".join(step_out_topics) if step_out_topics else "",
+            step_out_topics=(
+                "\n        - ".join(step_out_topics) if step_out_topics else ""
+            ),
         )
 
         base_prompt = self.prompts["explore_prompt"].render(
@@ -327,7 +340,9 @@ class CamiTherapist(ChatAgent):
             else:
                 self.topic_stack = self.topic_stack[:1] + [topic]
 
-        return TopicStackPromptOutput(analysis=res.analysis, action=res.action, topic=topic)
+        return TopicStackPromptOutput(
+            analysis=res.analysis, action=res.action, topic=topic
+        )
 
     def _feedback_to_text(self, fb: FeedbackPromptOutput) -> str:
         parts = [
@@ -417,7 +432,9 @@ class CamiTherapist(ChatAgent):
         return [c for c in candidates if c]
 
     def _select_response(self, candidates: List[str]) -> int:
-        conversation = "\n".join(f"- {l}" for l in self._conv_context(max_turns=14).splitlines())
+        conversation = "\n".join(
+            f"- {l}" for l in self._conv_context(max_turns=14).splitlines()
+        )
         responses = "\n".join(f"{i+1}. {r}" for i, r in enumerate(candidates))
         prompt = self.prompts["response_select_prompt"].render(
             goal=self.goal,
@@ -455,7 +472,9 @@ class CamiTherapist(ChatAgent):
         selected_strategies = strategy_res.strategies
 
         last_utterance = (self.messages[-1].get("content") or "").strip()
-        candidates = self._generate_candidates(last_utterance, topic, stage, selected_strategies)
+        candidates = self._generate_candidates(
+            last_utterance, topic, stage, selected_strategies
+        )
         if not candidates:
             res = self.chat_model.generate(self.messages).content
             final_text = self._postprocess_counselor_text(res)

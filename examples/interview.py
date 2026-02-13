@@ -12,8 +12,8 @@ from patienthub.configs import register_configs
 DEFAULTS = [
     "_self_",
     {"client": "patientPsi"},
-    {"evaluator": "survey"},
-    {"event": "interview"},
+    {"evaluator": "llm_judge"},
+    {"event": "therapySession"},
 ]
 
 

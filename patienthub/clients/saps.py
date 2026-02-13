@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from pydantic import BaseModel, Field
 from typing import Any, Dict, List, Literal
 
-from patienthub.base import ChatAgent
+from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, load_json, get_chat_model
 
@@ -13,6 +13,7 @@ class SAPSClientConfig(APIModelConfig):
     """Configuration for the SAPSClient agent."""
 
     agent_type: str = "saps"
+    prompt_path: str = "data/prompts/client/saps.yaml"
     data_path: str = "data/characters/SAPS.json"
     data_idx: int = 0
 
@@ -44,7 +45,7 @@ class StageIIIResponse(BaseModel):
     )
 
 
-class SAPSClient(ChatAgent):
+class SAPSClient(BaseClient):
     """State-Aware Patient Simulator Client.
 
     Implement three-stage state detection process:
@@ -62,16 +63,11 @@ class SAPSClient(ChatAgent):
         self.name = self.data.get("name", "SAPSClient")
 
         self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(role="client", agent_type="saps", lang=configs.lang)
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
+        self.build_sys_prompt()
 
+    def build_sys_prompt(self):
         self.messages = []
-
-    def set_therapist(
-        self,
-        therapist: Dict[str, Any],
-        prev_sessions: List[Dict[str, str]] | None = None,
-    ):
-        self.therapist = therapist.get("name", "Therapist")
 
     def perform_stage_I(self, question: str) -> StageIResponse:
         prompt = self.prompts["state_detection"]["stage_I"].render(question=question)

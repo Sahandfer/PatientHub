@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pydantic import BaseModel, Field
 from typing import Any, Dict, List, Optional
 
-from patienthub.base import ChatAgent
+from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import get_reranker, get_chat_model, load_json, load_prompts
 
@@ -14,12 +14,11 @@ class ConsistentMIClientConfig(APIModelConfig):
     """Configuration for ConsistentMI client agent."""
 
     agent_type: str = "consistentMI"
+    prompt_path: str = "data/prompts/client/consistentMI.yaml"
     data_path: str = "data/characters/ConsistentMI.json"
     topics_path: str = "data/resources/ConsistentMI/topics.json"
     topic_graph_path: str = "data/resources/ConsistentMI/topic_graph.json"
     data_idx: int = 0
-    chat_model: Any = None
-    model_retriever: Any = None
 
 
 class BinaryAnswer(BaseModel):
@@ -256,20 +255,15 @@ class TopicMatcher:
         return float("inf")
 
 
-class ConsistentMIClient(ChatAgent):
+class ConsistentMIClient(BaseClient):
     """ConsistentMI client agent for motivational interviewing simulation."""
 
     def __init__(self, configs: DictConfig):
         self.configs = configs
         self.data = load_json(configs.data_path)[configs.data_idx]
-        self.prompts = load_prompts(
-            role="client", agent_type="consistentMI", lang=configs.lang
-        )
-        # ConsistentMIClientConfig extends APIModelConfig, so model settings live on
-        # `configs` directly (model_type/model_name/temperature/max_tokens/...).
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
         self.chat_model = get_chat_model(configs)
 
-        # Additional components
         self.load_profile()
         self.build_sys_prompt()
         self.state = self.load_state()
@@ -321,9 +315,6 @@ class ConsistentMIClient(ChatAgent):
                 for msg in self.messages[max(1, len(self.messages) - 5) :]
             ]
         )
-
-    def set_therapist(self, therapist: Dict) -> None:
-        self.therapist = therapist.get("name", "Therapist")
 
     def verify_motivation(self) -> str:
         """Check if therapist has addressed client's motivation."""

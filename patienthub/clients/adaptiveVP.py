@@ -1,9 +1,9 @@
+from typing import Literal
 from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
-from typing import Dict, List, Literal
 
-from patienthub.base import ChatAgent
+from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, load_json, get_chat_model
 
@@ -15,8 +15,9 @@ class AdaptiveVPClientConfig(APIModelConfig):
     """
 
     agent_type: str = "adaptiveVP"
+    prompt_path: str = "data/prompts/client/adaptiveVP.yaml"
     data_path: str = "data/characters/AdaptiveVP.json"
-    dir_path: str = "data/resources/AdaptiveVP_stage_direction.json"  # Stage directions
+    directions_path: str = "data/resources/AdaptiveVP_stage_direction.json"
     data_idx: int = 0
 
 
@@ -106,7 +107,7 @@ class Evaluation(BaseModel):
         description="Whether the response aligns with the patient's profile"
     )
     direction_adherence: EvaluationAspect = Field(
-        description="Whether the rsponse adheres to the provided direction"
+        description="Whether the response adheres to the provided direction"
     )
     dialogue_effectiveness: EvaluationAspect = Field(
         description="Whether the response is effective for training the nurse"
@@ -116,19 +117,17 @@ class Evaluation(BaseModel):
     )
 
 
-class AdaptiveVPClient(ChatAgent):
+class AdaptiveVPClient(BaseClient):
     def __init__(self, configs: DictConfig):
         self.configs = configs
 
         self.data = load_json(configs.data_path)[configs.data_idx]
         self.profile = self.get_profile_str()
-        self.directions = load_json(configs.dir_path)
+        self.directions = load_json(configs.directions_path)
         self.name = self.data.get("name", "client")
 
         self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(
-            role="client", agent_type="adaptiveVP", lang=configs.lang
-        )
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
         self.messages = []
 
     def get_profile_str(self) -> str:
@@ -146,9 +145,6 @@ class AdaptiveVPClient(ChatAgent):
             for msg in self.messages
             if msg["role"] != "system"
         )
-
-    def set_therapist(self, therapist, prev_sessions: List[Dict[str, str] | None] = []):
-        self.therapist = therapist.get("name", "therapist")
 
     # For brevity, we only include one agent's evaluation (the original paper uses multi-agent evaluation and their consensus as the final result)
     def calc_eval_score(self, eval_res: Analysis) -> int:

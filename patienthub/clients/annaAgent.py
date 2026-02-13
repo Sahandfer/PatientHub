@@ -4,7 +4,7 @@ from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
 
-from patienthub.base import ChatAgent
+from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, load_json, get_chat_model
 
@@ -16,6 +16,7 @@ class AnnaAgentClientConfig(APIModelConfig):
     """
 
     agent_type: str = "annaAgent"
+    prompt_path: str = "data/prompts/client/annaAgent.yaml"
     data_path: str = "data/characters/AnnaAgent.json"
     data_idx: int = 0
 
@@ -96,10 +97,6 @@ CATEGORY_DISTANCES = {
 DISTANCE_WEIGHTS = {0: 10, 1: 5, 2: 2, 3: 1}
 
 
-class Response(BaseModel):
-    content: str = Field(description="The content of your generated response")
-
-
 class EmotionResponse(BaseModel):
     emotion: EMOTION_TYPES = Field(
         description="The inferred emotion category, must be one of the 28 emotions defined by GoEmotions"
@@ -130,7 +127,7 @@ class KnowledgeResponse(BaseModel):
     )
 
 
-class AnnaAgentClient(ChatAgent):
+class AnnaAgentClient(BaseClient):
     def __init__(self, configs: DictConfig):
         self.configs = configs
 
@@ -138,9 +135,7 @@ class AnnaAgentClient(ChatAgent):
         self.name = self.data.get("name", "client")
 
         self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(
-            role="client", agent_type="annaAgent", lang=configs.lang
-        )
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
 
         self.load_data()
         self.build_sys_prompt()
@@ -163,9 +158,6 @@ class AnnaAgentClient(ChatAgent):
             lang=self.configs.lang,
         )
         self.messages = [{"role": "system", "content": sys_prompt}]
-
-    def set_therapist(self, therapist):
-        self.therapist = therapist.get("name", "therapist")
 
     def infer_emotion(self):
         prompt = self.prompts["emotion_inference"].render(
@@ -283,7 +275,7 @@ class AnnaAgentClient(ChatAgent):
         self.conv_history += f"\ntherapist: {msg}\nclient: "
 
         # 4) Generate final response
-        res = self.chat_model.generate(self.messages, response_format=Response)
+        res = self.chat_model.generate(self.messages)
         self.messages.append({"role": "assistant", "content": res.content})
         self.conv_history += res.content
 

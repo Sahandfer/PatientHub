@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pydantic import BaseModel, Field
 from typing import Any, Dict, Optional, Literal, List
 
-from patienthub.base import InferenceAgent
+from .base import BaseGenerator
 from patienthub.configs import APIModelConfig
 from patienthub.utils import (
     load_prompts,
@@ -20,6 +20,7 @@ class AnnaAgentGeneratorConfig(APIModelConfig):
     """Configuration for AnnaAgent generator."""
 
     agent_type: str = "annaAgent"
+    prompt_path: str = "data/prompts/generator/annaAgent.yaml"
     input_dir: str = "data/resources/AnnaAgent"
     output_dir: str = "data/characters/AnnaAgent.json"
 
@@ -107,13 +108,11 @@ class AnnaAgentCharacter(BaseModel):
     )
 
 
-class AnnaAgentGenerator(InferenceAgent):
+class AnnaAgentGenerator(BaseGenerator):
     def __init__(self, configs: DictConfig):
         self.configs = configs
         self.chat_model = get_chat_model(self.configs)
-        self.prompts = load_prompts(
-            role="generator", agent_type="annaAgent", lang=configs.lang
-        )
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
 
         input_dir = self.configs.input_dir
         self.data = load_json(f"{input_dir}/case.json")

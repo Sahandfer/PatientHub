@@ -2,7 +2,7 @@ from omegaconf import DictConfig
 from dataclasses import dataclass
 from typing import Any, Dict, List
 
-from patienthub.base import ChatAgent
+from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_json, load_prompts, get_chat_model
 
@@ -12,13 +12,14 @@ class EeyoreClientConfig(APIModelConfig):
     """Configuration for Eeyore client agent (local model)."""
 
     agent_type: str = "eeyore"
+    prompt_path: str = "data/prompts/client/eeyore.yaml"
     data_path: str = "data/characters/Eeyore.json"
     model_type: str = "LOCAL"
     model_name: str = "hosted_vllm//<path_to_weights>/Eeyore_llama3.1_8B"
     data_idx: int = 0
 
 
-class EeyoreClient(ChatAgent):
+class EeyoreClient(BaseClient):
     def __init__(self, configs: DictConfig):
         self.configs = configs
 
@@ -28,21 +29,12 @@ class EeyoreClient(ChatAgent):
 
         self.chat_model = get_chat_model(configs)
 
-        self.prompts = load_prompts(
-            role="client", agent_type="eeyore", lang=configs.lang
-        )
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
         self.build_sys_prompt()
 
-    def build_sys_prompt(self) -> str:
+    def build_sys_prompt(self):
         sys_prompt = self.prompts["system_prompt"].render(profile=self.profile)
         self.messages = [{"role": "system", "content": sys_prompt}]
-
-    def set_therapist(
-        self,
-        therapist: Dict[str, Any],
-        prev_sessions: List[Dict[str, str]] | None = None,
-    ):
-        self.therapist = therapist.get("name", "Therapist")
 
     def generate_response(self, msg: str):
         self.messages.append({"role": "user", "content": msg})

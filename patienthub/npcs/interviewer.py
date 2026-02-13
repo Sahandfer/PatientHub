@@ -1,7 +1,6 @@
 from omegaconf import DictConfig
 from dataclasses import dataclass
 
-from patienthub.base import ChatAgent
 from patienthub.utils import load_json
 
 
@@ -13,7 +12,7 @@ class InterviewerEvaluatorConfig:
     data: str = "data/evaluations/surveys/default_survey.json"
 
 
-class InterviewerNPC(ChatAgent):
+class InterviewerNPC:
     def __init__(self, configs: DictConfig):
         self.configs = configs
         self.data = load_json(configs.data)

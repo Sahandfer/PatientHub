@@ -1,31 +1,27 @@
+from .base import BaseTherapist
+from .basic import BasicTherapist, BasicTherapistConfig
 from .eliza import ElizaTherapist, ElizaTherapistConfig
 from .user import UserTherapist, UserTherapistConfig
-from .CBT import CBTTherapist, CBTTherapistConfig
-from .bad import BadTherapist, BadTherapistConfig
 from .psyche import PsycheTherapist, PsycheTherapistConfig
 from .cami import CamiTherapist, CamiTherapistConfig
-
-
 
 
 from omegaconf import DictConfig
 
 # Registry of therapist implementations
 THERAPIST_REGISTRY = {
+    "basic": BasicTherapist,
     "eliza": ElizaTherapist,
     "user": UserTherapist,
-    "CBT": CBTTherapist,
-    "bad": BadTherapist,
     "psyche": PsycheTherapist,
     "cami": CamiTherapist,
 }
 
 # Registry of therapist configs (for Hydra registration)
 THERAPIST_CONFIG_REGISTRY = {
+    "basic": BasicTherapistConfig,
     "eliza": ElizaTherapistConfig,
     "user": UserTherapistConfig,
-    "CBT": CBTTherapistConfig,
-    "bad": BadTherapistConfig,
     "psyche": PsycheTherapistConfig,
     "cami": CamiTherapistConfig,
 }
@@ -47,6 +43,7 @@ def register_therapist_configs(cs):
 
 
 __all__ = [
+    "BaseTherapist",
     "get_therapist",
     "register_therapist_configs",
 ]

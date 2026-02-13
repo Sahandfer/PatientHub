@@ -1,11 +1,10 @@
-import json
 import random
+from typing import List
 from omegaconf import DictConfig
 from dataclasses import dataclass
-from typing import Any, Dict, List
 from pydantic import BaseModel, Field
 
-from patienthub.base import ChatAgent
+from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_json, load_prompts, get_chat_model
 
@@ -15,6 +14,7 @@ class RoleplayDohClientConfig(APIModelConfig):
     """Configuration for RoleplayDoh client agent."""
 
     agent_type: str = "roleplayDoh"
+    prompt_path: str = "data/prompts/client/roleplayDoh.yaml"
     data_path: str = "data/characters/PatientPsi.json"
     principles: str = "data/resources/roleplayDohPrinciple.json"
     data_idx: int = 0
@@ -51,7 +51,7 @@ class AssessmentResult(BaseModel):
     )
 
 
-class RoleplayDohClient(ChatAgent):
+class RoleplayDohClient(BaseClient):
     def __init__(self, configs: DictConfig):
         self.configs = configs
 
@@ -59,12 +59,12 @@ class RoleplayDohClient(ChatAgent):
         self.name = self.data.get("name", "Client")
 
         self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(
-            role="client", agent_type="roleplayDoh", lang=configs.lang
-        )
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
 
-        self.profile = json.dumps(self.data, ensure_ascii=False, indent=2)
+        self.profile = self.data.get("description", "")
         self.principles = self.load_principles()
+
+    def build_sys_prompt(self):
         self.messages = []
 
     def load_principles(self):
@@ -77,13 +77,6 @@ class RoleplayDohClient(ChatAgent):
                 "Ensure the response is authentic, relevant, and aligned with the client's persona."
             )
         return principles
-
-    def set_therapist(
-        self,
-        therapist: Dict[str, Any],
-        prev_sessions: List[Dict[str, str]] | None = None,
-    ):
-        self.therapist = therapist.get("name", "Therapist")
 
     def generate_questions(
         self, principle: str, therapist_message: str, client_response: str

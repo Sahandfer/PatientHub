@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from pydantic import BaseModel, Field
 from typing import Any, Dict, Optional, Literal
 
-from patienthub.base import InferenceAgent
+from .base import BaseGenerator
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, get_chat_model, load_json, save_json
 
@@ -13,6 +13,7 @@ class ClientCastGeneratorConfig(APIModelConfig):
     """Configuration for ClientCast generator."""
 
     agent_type: str = "clientCast"
+    prompt_path: str = "data/prompts/generator/clientCast.yaml"
     input_dir: str = "data/resources/ClientCast/human_data.json"
     symptoms_dir: str = "data/resources/ClientCast/symptoms.json"
     output_dir: str = "data/characters/ClientCast.json"
@@ -263,15 +264,13 @@ class ClientCastCharacter(BaseModel):
     symptoms: Symptoms = Field(..., description="Client's symptom estimates.")
 
 
-class ClientCastGenerator(InferenceAgent):
+class ClientCastGenerator(BaseGenerator):
     def __init__(self, configs: DictConfig):
         self.configs = configs
         self.chat_model = get_chat_model(self.configs)
         self.conv_history = self.load_data()
         self.symptoms = load_json(self.configs.symptoms_dir)
-        self.prompts = load_prompts(
-            role="generator", agent_type="clientCast", lang=configs.lang
-        )
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
 
     def load_data(self):
         data = load_json(self.configs.input_dir)[self.configs.data_idx]

@@ -1,4 +1,4 @@
-from .agent_files import AgentFilesGenerator, AgentFilesGeneratorConfig
+from .base import BaseGenerator
 from .psyche import PsycheGenerator, PsycheGeneratorConfig
 from .clientCast import ClientCastGenerator, ClientCastGeneratorConfig
 from .annaAgent import AnnaAgentGenerator, AnnaAgentGeneratorConfig
@@ -8,7 +8,6 @@ from omegaconf import DictConfig
 
 # Registry of generator implementations
 GENERATORS = {
-    "agent_files": AgentFilesGenerator,
     "psyche": PsycheGenerator,
     "clientCast": ClientCastGenerator,
     "annaAgent": AnnaAgentGenerator,
@@ -16,7 +15,6 @@ GENERATORS = {
 
 # Registry of generator configs (for Hydra registration)
 GENERATOR_CONFIG_REGISTRY = {
-    "agent_files": AgentFilesGeneratorConfig,
     "psyche": PsycheGeneratorConfig,
     "clientCast": ClientCastGeneratorConfig,
     "annaAgent": AnnaAgentGeneratorConfig,
@@ -40,6 +38,7 @@ def register_generator_configs(cs):
 
 
 __all__ = [
+    "BaseGenerator",
     "get_generator",
     "register_generator_configs",
 ]

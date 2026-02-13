@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, List
 from pydantic import BaseModel, Field
 
-from patienthub.base import ChatAgent
+from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import get_chat_model, load_json, load_prompts
 
@@ -14,10 +14,11 @@ class SimPatientClientConfig(APIModelConfig):
     """Configuration for SimPatient client agent."""
 
     agent_type: str = "simPatient"
+    prompt_path: str = "data/prompts/client/simPatient.yaml"
     data_path: str = "data/characters/SimPatient.json"
+    conv_history_path: str = "data/sessions/SimPatient/session_1.json"
     data_idx: int = 0
     continue_last_session: bool = False
-    conv_history_path: str = "data/sessions/SimPatient/session_1.json"
 
 
 class InternalStateResponse(BaseModel):
@@ -46,7 +47,7 @@ class InternalStateResponse(BaseModel):
     )
 
 
-class SimPatientClient(ChatAgent):
+class SimPatientClient(BaseClient):
     def __init__(self, configs: DictConfig):
         self.configs = configs
 
@@ -57,16 +58,16 @@ class SimPatientClient(ChatAgent):
         self.conv_history_path = configs.conv_history_path
 
         self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(
-            role="client", agent_type="simPatient", lang=configs.lang
-        )
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
 
         self.messages: List[Any] = []
         self.init_session_state()
 
     def load_profile(self):
         profile_data = self.data.get("persona", {})
-        self.profile = self.prompts["profile"].render(persona=profile_data, data=profile_data)
+        self.profile = self.prompts["profile"].render(
+            persona=profile_data, data=profile_data
+        )
 
     def load_cognitive_model(self, prev_cognitive_model: Dict[str, int] | None = None):
         cognitive_model = self.data.get("cognitive_model", {})
@@ -109,13 +110,15 @@ class SimPatientClient(ChatAgent):
                 )
                 self.past_session_history = self.prev_session_history
                 self.generate_between_session_event(self.prev_session_history)
+                cognitive_model = session_data.get("data", {}).get(
+                    "cognitive_model", {}
+                )
+                self.load_cognitive_model(prev_cognitive_model=cognitive_model)
             except Exception:
                 self.prev_session_history = ""
                 self.past_session_history = ""
                 self.between_session_event = None
-
-            cognitive_model = session_data.get("data", {}).get("cognitive_model", {})
-            self.load_cognitive_model(prev_cognitive_model=cognitive_model)
+                self.load_cognitive_model()
         else:
             self.load_cognitive_model()
             self.between_session_event = None

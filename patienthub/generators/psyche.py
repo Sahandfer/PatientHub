@@ -3,7 +3,7 @@ from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field, ConfigDict
 
-from patienthub.base import ChatAgent
+from .base import BaseGenerator
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_json, load_prompts, get_chat_model, save_json
 
@@ -13,6 +13,7 @@ class PsycheGeneratorConfig(APIModelConfig):
     """Configuration for Psyche generator."""
 
     agent_type: str = "psyche"
+    prompt_path: str = "data/prompts/generator/psyche.yaml"
     input_dir: str = "data/resources/psyche_character.json"
     output_dir: str = "data/characters/Psyche MFC.json"
 
@@ -407,14 +408,12 @@ class MFC(BaseModel):
     MFC_Behavior: MFCBehavior = Field(alias="MFC-Behavior")
 
 
-class PsycheGenerator(ChatAgent):
+class PsycheGenerator(BaseGenerator):
     def __init__(self, configs: DictConfig):
         self.configs = configs
         self.chat_model = get_chat_model(configs)
         self.data = load_json(configs.generator.input_dir)
-        self.prompts = load_prompts(
-            role="generator", agent_type="psyche", lang=configs.lang
-        )
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
         self.mfc_profile = None
         self.mfc_history = None
         self.mfc_behavior = None

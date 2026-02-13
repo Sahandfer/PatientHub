@@ -10,7 +10,8 @@ def load_csv(path: str):
 
 
 def load_json(path: str):
-    return json.load(open(path, "r", encoding="utf-8"))
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
 def parse_json_response(res):
@@ -25,8 +26,9 @@ def parse_json_response(res):
 
 def save_json(data, output_dir: str, overwrite: bool = False):
     # Check if the directory exists, if not create it
-    if not os.path.exists(os.path.dirname(output_dir)):
-        os.makedirs(os.path.dirname(output_dir))
+    parent_dir = os.path.dirname(output_dir)
+    if parent_dir and not os.path.exists(parent_dir):
+        os.makedirs(parent_dir)
 
     if overwrite or not os.path.exists(output_dir):
         with open(output_dir, "w", encoding="utf-8") as f:
@@ -50,7 +52,7 @@ def save_json(data, output_dir: str, overwrite: bool = False):
 
 def load_yaml(path: str):
     try:
-        with open(path, "r") as file:
+        with open(path, "r", encoding="utf-8") as file:
             return yaml.safe_load(file)
     except Exception as e:
         print("Error loading YAML file:", e)
@@ -64,20 +66,18 @@ def process_prompts(data):
         return {k: process_prompts(v) for k, v in data.items()}
     elif isinstance(data, list):
         return [process_prompts(item) for item in data]
+    else:
+        print(f"Unsupported data type in prompts: {type(data)}")
+        return None
 
 
-def load_prompts(role: str, agent_type: str, lang: str = "en"):
-    path = f"data/prompts/{role}/{agent_type}.yaml"
-    data = load_yaml(path)[lang]
-    prompts = process_prompts(data)
+def load_prompts(path: str, lang: str = "en"):
+    try:
+        data = load_yaml(path)
+        if lang in data:
+            data = data[lang]
 
-    return prompts
-
-
-def load_instructions(path: str):
-    instructions = load_yaml(path)
-    instructions["sys_prompt"] = Template(
-        instructions.get("sys_prompt", "You are a helpful assistant.")
-    )
-
-    return instructions
+        return process_prompts(data)
+    except Exception as e:
+        print(f"Error loading prompts from {path}: {e}")
+        return {}

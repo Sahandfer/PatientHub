@@ -1,3 +1,4 @@
+from .base import BaseClient
 from .patientPsi import PatientPsiClient, PatientPsiClientConfig
 from .roleplayDoh import RoleplayDohClient, RoleplayDohClientConfig
 from .eeyore import EeyoreClient, EeyoreClientConfig
@@ -63,6 +64,7 @@ def register_client_configs(cs):
 
 
 __all__ = [
+    "BaseClient",
     "get_client",
     "register_client_configs",
 ]

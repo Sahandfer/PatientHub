@@ -18,19 +18,6 @@ def get_config_value(configs, name, default=None):
     return getattr(configs, name, default)
 
 
-def get_device(device_index: int):
-    import torch
-
-    try:
-        device_index = int(device_index)
-    except Exception:
-        device_index = 0
-
-    if torch.cuda.is_available() and device_index >= 0:
-        return torch.device(f"cuda:{device_index}")
-    return torch.device("cpu")
-
-
 class ChatModel:
     def __init__(self, model_name, **kwargs):
         self.model_name = model_name
@@ -102,17 +89,6 @@ def get_chat_model(configs):
     )
 
 
-def load_reranker_model(model_name: str, device: Any):
-    """Load tokenizer and model for reranking."""
-    from transformers import AutoModelForSequenceClassification, AutoTokenizer
-
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name)
-    model.to(device)
-    model.eval()
-    return tokenizer, model
-
-
 @dataclass
 class Reranker:
     def __init__(self, tokenizer: Any, model: Any, device: Any):
@@ -150,6 +126,30 @@ class Reranker:
             outputs = self.model(**inputs, return_dict=True)
             logits = outputs.logits.view(-1).float()
             return torch.sigmoid(logits).tolist()
+
+
+def get_device(device_index: int):
+    import torch
+
+    try:
+        device_index = int(device_index)
+    except Exception:
+        device_index = 0
+
+    if torch.cuda.is_available() and device_index >= 0:
+        return torch.device(f"cuda:{device_index}")
+    return torch.device("cpu")
+
+
+def load_reranker_model(model_name: str, device: Any):
+    """Load tokenizer and model for reranking."""
+    from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForSequenceClassification.from_pretrained(model_name)
+    model.to(device)
+    model.eval()
+    return tokenizer, model
 
 
 def get_reranker(configs: Any) -> Optional[Reranker]:

@@ -1,6 +1,7 @@
 from omegaconf import DictConfig
 from dataclasses import dataclass
-from patienthub.base import ChatAgent
+
+from .base import BaseTherapist
 
 
 @dataclass
@@ -11,12 +12,12 @@ class UserTherapistConfig:
     lang: str = "en"
 
 
-class UserTherapist(ChatAgent):
+class UserTherapist(BaseTherapist):
     def __init__(self, configs: DictConfig):
         self.name = "Human Therapist"
 
-    def set_client(self, client):
-        self.client = client.get("name", "client")
+    def build_sys_prompt(self):
+        pass
 
     def generate_response(self, msg: str):
         res = input("Your response: ")

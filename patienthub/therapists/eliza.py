@@ -1,8 +1,9 @@
 import re
 import random
 from dataclasses import dataclass
-from patienthub.base import ChatAgent
 from typing import Any, List, Tuple, Dict, Optional
+
+from .base import BaseTherapist
 
 
 @dataclass
@@ -13,7 +14,7 @@ class ElizaTherapistConfig:
     lang: str = "en"
 
 
-class ElizaTherapist(ChatAgent):
+class ElizaTherapist(BaseTherapist):
     """
     A simple implementation of the ELIZA chatbot therapist.
 
@@ -174,9 +175,8 @@ class ElizaTherapist(ChatAgent):
         self.client_name: Optional[str] = None
         self.is_first_message = True
 
-    def set_client(self, client: Dict) -> None:
-        """Set the client information."""
-        self.client_name = client.get("name", "Client")
+    def build_sys_prompt(self) -> None:
+        pass
 
     def preprocess(self, text: str) -> str:
         """Normalize input text by removing extra whitespace and client name."""

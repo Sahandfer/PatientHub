@@ -2,7 +2,7 @@ from typing import Dict, List
 from omegaconf import DictConfig
 from dataclasses import dataclass
 
-from patienthub.base import ChatAgent
+from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_prompts, load_json, get_chat_model
 
@@ -14,11 +14,12 @@ class TalkDepClientConfig(APIModelConfig):
     """
 
     agent_type: str = "talkDep"
+    prompt_path: str = "data/prompts/client/talkDep.yaml"
     data_path: str = "data/characters/talkDep.json"
     data_idx: int = 0
 
 
-class TalkDepClient(ChatAgent):
+class TalkDepClient(BaseClient):
     def __init__(self, configs: DictConfig):
         self.configs = configs
 
@@ -26,18 +27,16 @@ class TalkDepClient(ChatAgent):
         self.name = self.data.get("name", "client")
 
         self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(
-            role="client", agent_type="talkDep", lang=configs.lang
-        )
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
+        self.build_sys_prompt()
+
+    def build_sys_prompt(self):
         self.messages = [
             {
                 "role": "system",
                 "content": self.prompts["sys_prompt"].render(data=self.data),
             }
         ]
-
-    def set_therapist(self, therapist, prev_sessions: List[Dict[str, str] | None] = []):
-        self.therapist = therapist.get("name", "therapist")
 
     def generate_response(self, msg: str):
         self.messages.append({"role": "user", "content": msg})
@@ -47,5 +46,5 @@ class TalkDepClient(ChatAgent):
         return res
 
     def reset(self):
-        self.messages = []
+        self.build_sys_prompt()
         self.therapist = None
