@@ -56,11 +56,12 @@ results = evaluator.evaluate(conversation_history)
 
 ## Parameters
 
-| Parameter     | Type   | Default  | Description                                            |
-| ------------- | ------ | -------- | ------------------------------------------------------ |
-| `model`       | string | `gpt-4o` | The LLM model to use for evaluation                    |
-| `temperature` | float  | `0.3`    | Controls response randomness (lower = more consistent) |
-| `criteria`    | list   | all      | Which criteria to evaluate                             |
+| Parameter     | Type   | Default                                             | Description                                            |
+| ------------- | ------ | --------------------------------------------------- | ------------------------------------------------------ |
+| `prompt_path` | string | `data/prompts/evaluator/client/classification.yaml` | Path to prompt file                                    |
+| `model`       | string | `gpt-4o`                                            | The LLM model to use for evaluation                    |
+| `temperature` | float  | `0.3`                                               | Controls response randomness (lower = more consistent) |
+| `criteria`    | list   | all                                                 | Which criteria to evaluate                             |
 
 ## Output Format
 

@@ -4,10 +4,10 @@ Psyche is an LLM-based psychiatrist interview therapist driven by a single syste
 
 ## Overview
 
-| Property  | Value                           |
-| --------- | ------------------------------- |
-| **Key**   | `psyche`                        |
-| **Type**  | LLM-based                        |
+| Property  | Value                             |
+| --------- | --------------------------------- |
+| **Key**   | `psyche`                          |
+| **Type**  | LLM-based                         |
 | **Focus** | Structured intake-style interview |
 
 ## How It Works
@@ -51,15 +51,16 @@ therapist = get_therapist(configs=config, lang="en")
 
 ## Parameters
 
-| Parameter     | Type   | Default    | Description |
-| ------------- | ------ | ---------- | ----------- |
-| `agent_type`  | string | `"psyche"` | Therapist identifier |
-| `model_type`  | string | `"OPENAI"` | Model provider key |
-| `model_name`  | string | `"gpt-4o"` | Model identifier |
-| `temperature` | float  | `0.7`      | Sampling temperature |
-| `max_tokens`  | int    | `8192`     | Max response tokens |
-| `max_retries` | int    | `3`        | API retry attempts |
-| `lang`        | string | `"en"`     | Language key for prompt loading |
+| Parameter     | Type   | Default                              | Description                     |
+| ------------- | ------ | ------------------------------------ | ------------------------------- |
+| `agent_type`  | string | `"psyche"`                           | Therapist identifier            |
+| `prompt_path` | string | `data/prompts/therapist/psyche.yaml` | Path to prompt file             |
+| `model_type`  | string | `"OPENAI"`                           | Model provider key              |
+| `model_name`  | string | `"gpt-4o"`                           | Model identifier                |
+| `temperature` | float  | `0.7`                                | Sampling temperature            |
+| `max_tokens`  | int    | `8192`                               | Max response tokens             |
+| `max_retries` | int    | `3`                                  | API retry attempts              |
+| `lang`        | string | `"en"`                               | Language key for prompt loading |
 
 ## Use Cases
 

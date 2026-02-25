@@ -72,10 +72,11 @@ print(response)
 
 ## Configuration
 
-| Option      | Description            | Default                       |
-| ----------- | ---------------------- | ----------------------------- |
-| `data_path` | Path to character file | `data/characters/Psyche.json` |
-| `data_idx`  | Character index        | `0`                           |
+| Option        | Description            | Default                           |
+| ------------- | ---------------------- | --------------------------------- |
+| `prompt_path` | Path to prompt file    | `data/prompts/client/psyche.yaml` |
+| `data_path`   | Path to character file | `data/characters/Psyche.json`     |
+| `data_idx`    | Character index        | `0`                               |
 
 ## Character Data Format
 

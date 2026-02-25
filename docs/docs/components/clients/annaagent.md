@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# AnnaAgent 
+# AnnaAgent
 
 > Dynamic Evolution Agent System with Multi-Session Memory for Realistic Seeker Simulation
 
@@ -76,10 +76,11 @@ The original implementation described in this paper are based on Qwen2.5-7B-Inst
 
 ## Configuration
 
-| Option      | Description            | Default                          |
-| ----------- | ---------------------- | -------------------------------- |
-| `data_path` | Path to character file | `data/characters/AnnaAgent.json` |
-| `data_idx`  | Character index        | `0`                              |
+| Option        | Description            | Default                              |
+| ------------- | ---------------------- | ------------------------------------ |
+| `prompt_path` | Path to prompt file    | `data/prompts/client/annaAgent.yaml` |
+| `data_path`   | Path to character file | `data/characters/AnnaAgent.json`     |
+| `data_idx`    | Character index        | `0`                                  |
 
 ## Character Data Format
 
@@ -121,4 +122,3 @@ The original implementation described in this paper are based on Qwen2.5-7B-Inst
 `data/resources/AnnaAgent/adult_events.csv`: Psychological distress events regarding adults
 `data/resources/AnnaAgent/teen_events.json`: Psychological distress events regarding teenagers
 `data/resources/AnnaAgent/scales.json`: Scales of GHQ, SASS and BDI
-

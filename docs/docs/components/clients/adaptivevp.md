@@ -30,12 +30,12 @@ AdaptiveVP creates virtual patients for nurse communication training that adapt 
 
 ## Patient Types
 
-| Type          | Description                                  | Typical Behaviors                        |
-| ------------- | -------------------------------------------- | ---------------------------------------- |
-| Dependent     | Requires constant attention and reassurance  | Frequent calls, anxiety, seeking comfort |
-| Authoritarian | Emphasizes status, demands special treatment | Complaints, threats, dismissive of staff |
-| Aggressive    | Responds with hostility when demands not met | Loud voice, threatening, confrontational |
-|Uncooperative	| Passive-aggressive or refuses to engage in care	| Ignoring staff, feigning sleep, delaying treatment |
+| Type          | Description                                     | Typical Behaviors                                  |
+| ------------- | ----------------------------------------------- | -------------------------------------------------- |
+| Dependent     | Requires constant attention and reassurance     | Frequent calls, anxiety, seeking comfort           |
+| Authoritarian | Emphasizes status, demands special treatment    | Complaints, threats, dismissive of staff           |
+| Aggressive    | Responds with hostility when demands not met    | Loud voice, threatening, confrontational           |
+| Uncooperative | Passive-aggressive or refuses to engage in care | Ignoring staff, feigning sleep, delaying treatment |
 
 The original study validated these profiles within a South Korean nursing context, but the framework is adaptable to other cultural settings.
 
@@ -101,11 +101,12 @@ print(f"Non-verbal: {response.non_verbal}")
 
 ## Configuration
 
-| Option      | Description              | Default                                          |
-| ----------- | ------------------------ | ------------------------------------------------ |
-| `data_path` | Path to character file   | `data/characters/AdaptiveVP.json`                |
-| `dir_path`  | Path to stage directions | `data/resources/AdaptiveVP_stage_direction.json` |
-| `data_idx`  | Character index          | `0`                                              |
+| Option        | Description              | Default                                          |
+| ------------- | ------------------------ | ------------------------------------------------ |
+| `prompt_path` | Path to prompt file      | `data/prompts/client/adaptiveVP.yaml`            |
+| `data_path`   | Path to character file   | `data/characters/AdaptiveVP.json`                |
+| `dir_path`    | Path to stage directions | `data/resources/AdaptiveVP_stage_direction.json` |
+| `data_idx`    | Character index          | `0`                                              |
 
 ## Character Data Format
 
@@ -146,4 +147,3 @@ class Response(BaseModel):
     content: str          # Verbal response to the nurse
     non_verbal: str       # Non-verbal communication/actions
 ```
-

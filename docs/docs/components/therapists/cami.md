@@ -4,10 +4,10 @@ The CAMI therapist is an LLM-based counselor agent that follows a Motivational I
 
 ## Overview
 
-| Property  | Value                                 |
-| --------- | ------------------------------------- |
-| **Key**   | `cami`                                |
-| **Type**  | LLM-based                             |
+| Property  | Value                                   |
+| --------- | --------------------------------------- |
+| **Key**   | `cami`                                  |
+| **Type**  | LLM-based                               |
 | **Focus** | Motivational Interviewing (MI) + topics |
 
 ## How It Works (High Level)
@@ -59,18 +59,19 @@ therapist = get_therapist(configs=config, lang="en")
 
 ## Parameters
 
-| Parameter     | Type   | Default                              | Description |
-| ------------- | ------ | ------------------------------------ | ----------- |
-| `agent_type`  | string | `"cami"`                             | Therapist identifier |
-| `model_type`  | string | `"OPENAI"`                           | Model provider key |
-| `model_name`  | string | `"gpt-4o"`                           | Model identifier |
-| `topic_graph` | string | `data/resources/CAMI/topic_graph.json` | Topic graph JSON path |
-| `goal`        | string | `"reducing drug use"`                | Target goal used in prompts |
-| `behavior`    | string | `"drug use"`                         | Target behavior used in prompts |
-| `temperature` | float  | `0.7`                                | Sampling temperature |
-| `max_tokens`  | int    | `8192`                               | Max response tokens |
-| `max_retries` | int    | `3`                                  | API retry attempts |
-| `lang`        | string | `"en"`                               | Language key for prompt loading |
+| Parameter     | Type   | Default                                | Description                     |
+| ------------- | ------ | -------------------------------------- | ------------------------------- |
+| `agent_type`  | string | `"cami"`                               | Therapist identifier            |
+| `prompt_path` | string | `data/prompts/therapist/cami.yaml`     | Path to prompt file             |
+| `model_type`  | string | `"OPENAI"`                             | Model provider key              |
+| `model_name`  | string | `"gpt-4o"`                             | Model identifier                |
+| `topic_graph` | string | `data/resources/CAMI/topic_graph.json` | Topic graph JSON path           |
+| `goal`        | string | `"reducing drug use"`                  | Target goal used in prompts     |
+| `behavior`    | string | `"drug use"`                           | Target behavior used in prompts |
+| `temperature` | float  | `0.7`                                  | Sampling temperature            |
+| `max_tokens`  | int    | `8192`                                 | Max response tokens             |
+| `max_retries` | int    | `3`                                    | API retry attempts              |
+| `lang`        | string | `"en"`                                 | Language key for prompt loading |
 
 ## Notes
 

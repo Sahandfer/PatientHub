@@ -52,11 +52,12 @@ character = generator.generate({
 
 ## Parameters
 
-| Parameter        | Type   | Default  | Description                                 |
-| ---------------- | ------ | -------- | ------------------------------------------- |
-| `model`          | string | `gpt-4o` | The LLM model to use                        |
-| `temperature`    | float  | `0.7`    | Controls generation randomness              |
-| `clinical_depth` | string | `high`   | Level of clinical detail: low, medium, high |
+| Parameter        | Type   | Default                              | Description                                 |
+| ---------------- | ------ | ------------------------------------ | ------------------------------------------- |
+| `prompt_path`    | string | `data/prompts/generator/psyche.yaml` | Path to prompt file                         |
+| `model`          | string | `gpt-4o`                             | The LLM model to use                        |
+| `temperature`    | float  | `0.7`                                | Controls generation randomness              |
+| `clinical_depth` | string | `high`                               | Level of clinical detail: low, medium, high |
 
 ## Output Format
 

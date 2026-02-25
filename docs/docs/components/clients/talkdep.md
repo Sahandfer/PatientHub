@@ -71,10 +71,11 @@ print(response)
 
 ## Configuration
 
-| Option      | Description            | Default                        |
-| ----------- | ---------------------- | ------------------------------ |
-| `data_path` | Path to character file | `data/characters/talkDep.json` |
-| `data_idx`  | Character index        | `0`                            |
+| Option        | Description            | Default                            |
+| ------------- | ---------------------- | ---------------------------------- |
+| `prompt_path` | Path to prompt file    | `data/prompts/client/talkDep.yaml` |
+| `data_path`   | Path to character file | `data/characters/talkDep.json`     |
+| `data_idx`    | Character index        | `0`                                |
 
 ## Character Data Format
 

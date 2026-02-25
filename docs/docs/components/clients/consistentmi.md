@@ -31,6 +31,7 @@ ConsistentMI simulates clients in motivational interviewing (MI) sessions with c
 7. **Generate Reply**: Renders a structured instruction (state + action + engagement + selected info) and calls the chat model to produce the final client utterance.
 
 **Action space in the current implementation:**
+
 - `Precontemplation`: `Deny`, `Downplay`, `Blame`, `Inform`, `Engage` (or `Terminate` after repeated off-topic turns)
 - `Contemplation`: `Inform`, `Engage`, `Hesitate`, `Doubt`, `Acknowledge`
 - `Preparation`: `Inform`, `Engage`, `Reject`, `Accept`, `Plan`
@@ -76,51 +77,46 @@ print(response)
 
 ## Configuration
 
-| Option      | Description            | Default                             |
-| ----------- | ---------------------- | ----------------------------------- |
-| `data_path` | Path to character file | `data/characters/ConsistentMI.json` |
-| `data_idx`  | Character index        | `0`                                 |
-| `topics_path`  | Topics from Wiki        | `data/resources/ConsistentMI/topics.json`          |
-| `topic_graph_path` | Correlation between topics    | `data/resources/ConsistentMI/topic_graph.json`    |
-| `model_retriever`  | retrieve the most relevant topic | None |  
+| Option             | Description                      | Default                                        |
+| ------------------ | -------------------------------- | ---------------------------------------------- |
+| `prompt_path`      | Path to prompt file              | `data/prompts/client/consistentMI.yaml`        |
+| `data_path`        | Path to character file           | `data/characters/ConsistentMI.json`            |
+| `data_idx`         | Character index                  | `0`                                            |
+| `topics_path`      | Topics from Wiki                 | `data/resources/ConsistentMI/topics.json`      |
+| `topic_graph_path` | Correlation between topics       | `data/resources/ConsistentMI/topic_graph.json` |
+| `model_retriever`  | retrieve the most relevant topic | None                                           |
 
 ## Character Data Format
 
 ```json
 {
-    "idx": 25,
-    "topic": "reducing drug use",
-    "initial_stage": "Precontemplation",
-    "suggestibilities": [
-        3,
-        3,
-        3,
-        2,
-        3
-    ],
-    "Personas": [
-        "You smoke weed to relax after a long day.",
-        "Your wife is concerned about your smoking habits",
-        "Your wife has pushed you to seek help.",
-        "You have failed a UA at work.",
-        "Your boss may fire you for failing the UA."
-    ],
-    "Acceptable Plans": [
-        "You consider talking to his boss and taking steps to address his substance use to prevent losing his job."
-    ],
-    "Beliefs": [
-        "You believe weed helps you unwind.",
-        "You don't perceive smoking weed as a problem.",
-        "You view smoking weed as a way to manage stress from working, paying the bills and house."
-    ],
-    "quality": "high",
-    "Motivation": [
-        "Career Break",
-        "Employment",
-        "Economy",
-        "You are motivated because of the risk of smoking weed in career break for yourself, as you may lose your job."
-    ],
-    "Behavior": "drug use"
+  "idx": 25,
+  "topic": "reducing drug use",
+  "initial_stage": "Precontemplation",
+  "suggestibilities": [3, 3, 3, 2, 3],
+  "Personas": [
+    "You smoke weed to relax after a long day.",
+    "Your wife is concerned about your smoking habits",
+    "Your wife has pushed you to seek help.",
+    "You have failed a UA at work.",
+    "Your boss may fire you for failing the UA."
+  ],
+  "Acceptable Plans": [
+    "You consider talking to his boss and taking steps to address his substance use to prevent losing his job."
+  ],
+  "Beliefs": [
+    "You believe weed helps you unwind.",
+    "You don't perceive smoking weed as a problem.",
+    "You view smoking weed as a way to manage stress from working, paying the bills and house."
+  ],
+  "quality": "high",
+  "Motivation": [
+    "Career Break",
+    "Employment",
+    "Economy",
+    "You are motivated because of the risk of smoking weed in career break for yourself, as you may lose your job."
+  ],
+  "Behavior": "drug use"
 }
 ```
 
@@ -133,7 +129,6 @@ print(response)
 | Preparation      | Planning to change     | Seeking information, small steps      |
 | Action           | Actively changing      | Implementing changes, seeking support |
 | Maintenance      | Sustaining change      | Preventing relapse, building habits   |
-
 
 ## Example Conversation
 

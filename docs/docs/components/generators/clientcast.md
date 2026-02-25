@@ -52,11 +52,12 @@ character = generator.generate({
 
 ## Parameters
 
-| Parameter     | Type   | Default  | Description                        |
-| ------------- | ------ | -------- | ---------------------------------- |
-| `model`       | string | `gpt-4o` | The LLM model to use               |
-| `temperature` | float  | `0.9`    | Higher values increase diversity   |
-| `diversity`   | string | `high`   | Diversity level: low, medium, high |
+| Parameter     | Type   | Default                                  | Description                        |
+| ------------- | ------ | ---------------------------------------- | ---------------------------------- |
+| `prompt_path` | string | `data/prompts/generator/clientCast.yaml` | Path to prompt file                |
+| `model`       | string | `gpt-4o`                                 | The LLM model to use               |
+| `temperature` | float  | `0.9`                                    | Higher values increase diversity   |
+| `diversity`   | string | `high`                                   | Diversity level: low, medium, high |
 
 ## Batch Generation
 

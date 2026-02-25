@@ -55,11 +55,12 @@ therapist = get_therapist(configs=config, lang="en")
 
 ## Parameters
 
-| Parameter     | Type   | Default    | Description                  |
-| ------------- | ------ | ---------- | ---------------------------- |
-| `model_type`  | string | `"OPENAI"` | Model provider key           |
-| `model_name`  | string | `"gpt-4o"` | The LLM model to use         |
-| `temperature` | float  | `0.7`      | Controls response randomness |
+| Parameter     | Type   | Default                           | Description                  |
+| ------------- | ------ | --------------------------------- | ---------------------------- |
+| `prompt_path` | string | `data/prompts/therapist/CBT.yaml` | Path to prompt file          |
+| `model_type`  | string | `"OPENAI"`                        | Model provider key           |
+| `model_name`  | string | `"gpt-4o"`                        | The LLM model to use         |
+| `temperature` | float  | `0.7`                             | Controls response randomness |
 
 ## Use Cases
 

@@ -53,11 +53,12 @@ character = generator.generate({
 
 ## Parameters
 
-| Parameter                  | Type   | Default  | Description                           |
-| -------------------------- | ------ | -------- | ------------------------------------- |
-| `model`                    | string | `gpt-4o` | The LLM model to use                  |
-| `temperature`              | float  | `0.8`    | Controls creativity in generation     |
-| `include_memory_structure` | bool   | `true`   | Include dynamic memory initialization |
+| Parameter                  | Type   | Default                                 | Description                           |
+| -------------------------- | ------ | --------------------------------------- | ------------------------------------- |
+| `prompt_path`              | string | `data/prompts/generator/annaAgent.yaml` | Path to prompt file                   |
+| `model`                    | string | `gpt-4o`                                | The LLM model to use                  |
+| `temperature`              | float  | `0.8`                                   | Controls creativity in generation     |
+| `include_memory_structure` | bool   | `true`                                  | Include dynamic memory initialization |
 
 ## Output Format
 
