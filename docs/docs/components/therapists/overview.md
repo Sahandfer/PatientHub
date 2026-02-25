@@ -8,7 +8,7 @@ Therapist agents in PatientHub provide the therapeutic interventions during simu
 | ------------------------- | -------- | ---------------------------------------------------------------------------------------------------- |
 | [**Cami**](./cami.md)     | `cami`   | A Counselor Agent Supporting Motivational Interviewing through State Inference and Topic Exploration |
 | [**Psyche**](./psyche.md) | `psyche` | A psychiatrist agent simulated using a structured prompt with explicit clinical assessment criteria. |
-| [**Basic**](./cbt.md)     | `basic`  | A prompt-deriven therapist for specific needs                                                        |
+| [**Basic**](./basic.md)   | `basic`  | A prompt-deriven therapist for specific needs                                                        |
 | [**Eliza**](./eliza.md)   | `eliza`  | Classic pattern-matching therapist based on the original ELIZA program                               |
 | [**User**](./user.md)     | `user`   | Human-in-the-loop therapist for interactive sessions                                                 |
 
