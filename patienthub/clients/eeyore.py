@@ -1,6 +1,23 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""Eeyore Client - Realistic depression simulation via expert-optimized model.
+
+Paper: "Eeyore: Realistic Depression Simulation via Expert-in-the-Loop Supervised
+       and Preference Optimization" (ACL 2025 Findings)
+       https://aclanthology.org/2025.findings-acl.707/
+
+Eeyore uses a fine-tuned model (instruction tuning + DPO) to simulate individuals
+experiencing depression.
+
+Key features:
+- Real-world depression data (Reddit, counseling transcripts)
+- DSM-V standards and Beck's cognitive theory profiles
+- Expert-in-the-loop preference optimization
+"""
+
 from omegaconf import DictConfig
 from dataclasses import dataclass
-from typing import Any, Dict, List
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig

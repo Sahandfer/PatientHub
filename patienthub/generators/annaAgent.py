@@ -1,3 +1,19 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""AnnaAgent Generator - Creates multi-session client profiles with memory structures.
+
+Generates character files for the AnnaAgent client method, supporting longitudinal
+therapy simulations.
+
+Key Features:
+- Multi-session support with evolving memory states
+- Risk level assessment (depression/suicide)
+- Complaint chain progression through cognitive change stages
+- GoEmotions-based emotional profile generation
+- Scale-based assessments (PHQ-9, GAD-7, etc.)
+"""
+
 import random
 from omegaconf import DictConfig
 from dataclasses import dataclass

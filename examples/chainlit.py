@@ -13,7 +13,6 @@ from omegaconf import OmegaConf
 from patienthub.clients import get_client, CLIENT_REGISTRY, CLIENT_CONFIG_REGISTRY
 
 # Ensure the project root is on sys.path so patienthub is importable
-# even when Chainlit spawns its own process.
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 
@@ -69,7 +68,6 @@ async def setup_client(settings: dict):
     try:
         configs = build_config(agent_type, {"temperature": temperature})
         client = get_client(configs=configs, lang="en")
-        client.set_therapist({"name": "Therapist"})
     except Exception as e:
         await cl.Message(
             content=f"Failed to load **{agent_type}** client: `{e}`"

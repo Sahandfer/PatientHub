@@ -1,3 +1,6 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
 from .base import BaseClient
 from omegaconf import DictConfig
 from dataclasses import dataclass

@@ -1,3 +1,21 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""CAMI Therapist - Motivational Interviewing counselor with state inference.
+
+Paper: "A Counselor Agent Supporting Motivational Interviewing through State
+       Inference and Topic Exploration"
+
+CAMI implements a structured MI workflow with topic graph navigation.
+
+1. Infer client stage (Precontemplation/Contemplation/Preparation)
+2. Select up to 2 MI strategies (Affirm, Reflect, Open Question, etc.)
+3. Choose next topic using topic stack and graph
+4. Generate candidate responses, select best, and optionally refine
+
+Strategies: Advise, Affirm, Direct, Facilitate, Reflect (Simple/Complex), Reframe...
+"""
+
 from typing import Dict, List, Literal, Optional
 from omegaconf import DictConfig
 from pydantic import BaseModel, ConfigDict, Field
@@ -133,9 +151,6 @@ class CamiTherapist(BaseTherapist):
             behavior=self.behavior,
         )
         self.messages = [{"role": "system", "content": sys_prompt}]
-
-    def set_client(self, client, prev_sessions: List[Dict[str, str] | None] = []):
-        self.client = client.get("name", "client")
 
     def _conv_context(self, max_turns: int = 10) -> str:
         turns = [m for m in self.messages if m.get("role") != "system"]

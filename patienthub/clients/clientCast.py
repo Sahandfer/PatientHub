@@ -1,4 +1,19 @@
-from typing import Dict, List
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""ClientCast Client - Psychological profile-based client for therapist assessment.
+
+Paper: "Towards a Client-Centered Assessment of LLM Therapists by Client Simulation"
+       https://arxiv.org/pdf/2406.12266
+
+ClientCast creates client simulations with detailed psychological profiles for
+assessing LLM-based therapists. Features:
+
+- Big Five personality traits (Openness, Conscientiousness, Extraversion, etc.)
+- Validated symptom scales (PHQ-9, GAD-7, OQ-45)
+- Real therapy conversation excerpts for grounding
+"""
+
 from omegaconf import DictConfig
 from dataclasses import dataclass
 
@@ -25,21 +40,22 @@ class ClientCastClient(BaseClient):
         self.configs = configs
 
         self.data = load_json(configs.data_path)[configs.data_idx]
+        self.profile = self.data.get("basic_profile", {})
+        self.name = self.profile.get("name", "client")
+
         self.conv = load_json(configs.conv_path)[configs.conv_id]["messages"]
         self.symptoms = load_json(configs.symptoms_path)
-        self.name = self.data.get("name", "client")
 
         self.chat_model = get_chat_model(configs)
         self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
         self.build_sys_prompt()
 
     def get_case_synopsis(self):
-        profile = self.data.get("basic_profile", {})
         case_synopsis = ""
-        for key, value in profile.items():
+        for key, value in self.profile.items():
             if key != "reasons":
                 case_synopsis += f"- {key}: {value}\n"
-        return case_synopsis, profile.get("reasons", "")
+        return case_synopsis, self.profile.get("reasons", "")
 
     def get_symptoms(self):
         client_symptoms = self.data.get("symptoms", {})

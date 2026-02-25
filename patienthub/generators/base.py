@@ -1,8 +1,8 @@
-from abc import abstractmethod
-from typing import Any, Dict, List
+from abc import ABC, abstractmethod
+from typing import Any, Dict
 
 
-class BaseGenerator:
+class BaseGenerator(ABC):
     r"""Base class for all generator agents."""
 
     configs: Dict[str, Any]

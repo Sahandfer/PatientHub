@@ -1,3 +1,6 @@
+# coding=utf-8
+# Copyright 2025 PatientHub Authors.
+
 from omegaconf import DictConfig
 from dataclasses import dataclass
 

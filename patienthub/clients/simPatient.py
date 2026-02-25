@@ -1,7 +1,26 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""SimPatient Client - Cognitive model-based patient with dynamic state updates.
+
+Paper: "Scaffolding Empathy: Training Counselors with Simulated Patients and
+       Utterance-level Performance Visualizations" (CHI 2025)
+       https://dl.acm.org/doi/full/10.1145/3706598.3714014
+
+SimPatient models patients dealing with alcohol misuse using an evolving cognitive
+model.
+
+Key Features:
+- 4 internal states (1-10 scale): control, efficacy, awareness, reward
+- Dynamic state updates based on therapist interactions
+- Between-session event generation for multi-session continuity
+- Designed for Motivational Interviewing training
+"""
+
 import random
+from typing import Dict
 from omegaconf import DictConfig
 from dataclasses import dataclass
-from typing import Any, Dict, List
 from pydantic import BaseModel, Field
 
 from .base import BaseClient
@@ -50,27 +69,14 @@ class InternalStateResponse(BaseModel):
 class SimPatientClient(BaseClient):
     def __init__(self, configs: DictConfig):
         self.configs = configs
-
         self.data = load_json(configs.data_path)
-        self.name = "SimPatient"
-        self.persona = self.data.get("persona", {})
-        self.past_session_history = ""
-        self.conv_history_path = configs.conv_history_path
-
         self.chat_model = get_chat_model(configs)
         self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
 
-        self.messages: List[Any] = []
-        self.init_session_state()
-
-    def load_profile(self):
-        profile_data = self.data.get("persona", {})
-        self.profile = self.prompts["profile"].render(
-            persona=profile_data, data=profile_data
-        )
+        self.build_sys_prompt()
 
     def load_cognitive_model(self, prev_cognitive_model: Dict[str, int] | None = None):
-        cognitive_model = self.data.get("cognitive_model", {})
+        cognitive_model = prev_cognitive_model or self.data.get("cognitive_model", {})
         if not cognitive_model:
             cognitive_model = {
                 "patient_control": random.randint(1, 10),
@@ -97,13 +103,14 @@ class SimPatientClient(BaseClient):
         self.between_session_event = res.content.strip()
         self.data["between_session_event"] = self.between_session_event
 
-    def init_session_state(self):
+    def build_sys_prompt(self):
         """Initialize session state, optionally continuing from a previous session."""
-        self.load_profile()
+        profile_data = self.data.get("persona", {})
+        self.profile = self.prompts["profile"].render(persona=profile_data)
         # Load from a previous conversation
         if self.configs.continue_last_session:
             try:
-                session_data = load_json(self.conv_history_path)
+                session_data = load_json(self.configs.conv_history_path)
                 messages = session_data.get("messages", [])
                 self.prev_session_history = "\n".join(
                     f"{m.get('role', '')}: {m.get('content', '')}" for m in messages
@@ -122,13 +129,7 @@ class SimPatientClient(BaseClient):
         else:
             self.load_cognitive_model()
             self.between_session_event = None
-
-    def set_therapist(
-        self,
-        therapist: Dict[str, Any],
-        prev_sessions: List[Dict[str, str]] | None = None,
-    ):
-        self.therapist = therapist.get("name", "Therapist")
+        self.messages = []
 
     def update_internal_state(self, therapist_message: str, patient_response: str):
         """Update internal cognitive model based on the latest interaction."""
@@ -160,13 +161,13 @@ class SimPatientClient(BaseClient):
         self.messages.append({"role": "user", "content": msg})
 
         current_session_history = "\n".join(
-            f"{'Client' if m['role'] == 'user' else 'Therapist'}: {m['content']}"
+            f"{'Therapist' if m['role'] == 'user' else 'Client'}: {m['content']}"
             for m in self.messages
             if m["role"] in ["user", "assistant"]
         )
 
         prompt = self.prompts["response"].render(
-            persona=self.persona,
+            persona=self.profile,
             cognitive_model=self.cognitive_model,
             past_session_history=self.past_session_history,
             between_session_event=self.between_session_event or "",
@@ -188,13 +189,5 @@ class SimPatientClient(BaseClient):
         return res
 
     def reset(self):
-        self.data = load_json(self.configs.data_path)
-        self.persona = self.data.get("persona", {})
-        self.cognitive_model = self.data.get("cognitive_model", {})
-        self.between_session_event = None
-
-        self.messages = []
-        self.past_session_history = ""
+        self.build_sys_prompt()
         self.therapist = None
-
-        self.init_session_state()

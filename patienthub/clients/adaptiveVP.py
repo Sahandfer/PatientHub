@@ -1,3 +1,23 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""AdaptiveVP Client - Virtual patient for nurse communication training.
+
+Paper: "A Framework for LLM-Based Virtual Patients that Adapts to Trainees'
+       Dialogue to Facilitate Nurse Communication Training" (ACL 2025 Findings)
+       https://aclanthology.org/2025.findings-acl.118/
+
+AdaptiveVP creates virtual patients that adapt their responses based on the
+trainee's communication quality. The workflow:
+
+1. Analyze nurse input on tone (calm/clear), empathy (0-6), and de-escalation
+2. Select stage direction based on analysis results
+3. Generate response with inner monologue, verbal content, and non-verbal cues
+4. Safety monitoring to ensure responses stay within professional boundaries (if necessary)
+
+Patient types: Dependent, Authoritarian, Aggressive, Uncooperative
+"""
+
 from typing import Literal
 from omegaconf import DictConfig
 from dataclasses import dataclass
@@ -122,26 +142,24 @@ class AdaptiveVPClient(BaseClient):
         self.configs = configs
 
         self.data = load_json(configs.data_path)[configs.data_idx]
-        self.profile = self.get_profile_str()
         self.directions = load_json(configs.directions_path)
         self.name = self.data.get("name", "client")
 
         self.chat_model = get_chat_model(configs)
         self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-        self.messages = []
 
-    def get_profile_str(self) -> str:
-        """Convert patient profile to string"""
-        return "\n".join(
+    def build_sys_prompt(self):
+        self.profile = "\n".join(
             f"{k}: {v}"
             for k, v in self.data.items()
             if k not in {"id", "type", "first_statement"}
         )
+        self.messages = []
 
     def get_conv_str(self) -> str:
         """Get conversation history as string"""
         return "\n".join(
-            f"{msg['role']}: {msg['content']}"
+            f"{'Client' if msg['role'] == 'assistant' else 'Nurse'}: {msg['content']}"
             for msg in self.messages
             if msg["role"] != "system"
         )
@@ -205,5 +223,5 @@ class AdaptiveVPClient(BaseClient):
         return res
 
     def reset(self):
-        self.messages = []
+        self.build_sys_prompt()
         self.therapist = None

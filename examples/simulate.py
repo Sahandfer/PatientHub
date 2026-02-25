@@ -12,7 +12,7 @@ Usage:
     uv run python -m examples.simulate
 
     # Override client/therapist
-    uv run python -m examples.simulate client=patientPsi therapist=CBT
+    uv run python -m examples.simulate client=patientPsi therapist=basic
 
     # Override specific config values
     uv run python -m examples.simulate client.temperature=0.5 session.max_turns=50
@@ -33,7 +33,7 @@ from patienthub.configs import register_configs
 DEFAULTS = [
     "_self_",
     {"client": "patientPsi"},
-    {"therapist": "user"},
+    {"therapist": "basic"},
     # {"evaluator": "inspect"},
     {"event": "therapySession"},
 ]

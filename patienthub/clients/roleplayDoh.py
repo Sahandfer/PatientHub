@@ -1,3 +1,23 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""RoleplayDoh Client - Principle-based patient simulation with self-refinement.
+
+Paper: "Enabling Domain-Experts to Create LLM-simulated Patients via Eliciting
+       and Adhering to Principles" (EMNLP 2024 Main)
+       https://aclanthology.org/2024.emnlp-main.591/
+
+RoleplayDoh uses expert-generated principles to refine responses.
+Principles address common issues when AI roleplays as patients.
+
+1. Load persona and 123 expert-authored principles
+2. Generate draft reply based on persona and context
+3. Select principle and convert to Yes/No checklist questions
+4. Self-assess draft against checklist
+5. Revise response if violations detected
+
+"""
+
 import random
 from typing import List
 from omegaconf import DictConfig
@@ -116,7 +136,7 @@ class RoleplayDohClient(BaseClient):
         return res
 
     def generate_response(self, msg: str):
-        self.messages.append({"role": "therapist", "content": msg})
+        self.messages.append({"role": "Therapist", "content": msg})
 
         # 1) Generate initial response
         response_pt = self.prompts["response"].render(
@@ -155,5 +175,5 @@ class RoleplayDohClient(BaseClient):
         return response
 
     def reset(self):
-        self.messages = []
+        self.build_sys_prompt()
         self.therapist = None

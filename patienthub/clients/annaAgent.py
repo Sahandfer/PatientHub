@@ -1,3 +1,21 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""AnnaAgent Client - Multi-session client with dynamic emotional evolution.
+
+Paper: "Dynamic Evolution Agent System with Multi-Session Memory for Realistic
+       Seeker Simulation" (ACL 2025 Findings)
+       https://aclanthology.org/2025.findings-acl.1192/
+
+AnnaAgent simulates clients with evolving emotions and multi-session memory.
+
+1. Load profile with risk levels and complaint chains
+2. Infer emotional state (28 GoEmotions categories) from therapist input
+3. Check if historical context is needed for the response
+4. Track progress through cognitive change chain stages
+5. Generate emotionally consistent responses
+"""
+
 import random
 from typing import Literal, Dict
 from omegaconf import DictConfig
@@ -137,7 +155,6 @@ class AnnaAgentClient(BaseClient):
         self.chat_model = get_chat_model(configs)
         self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
 
-        self.load_data()
         self.build_sys_prompt()
 
     def load_data(self):
@@ -149,6 +166,7 @@ class AnnaAgentClient(BaseClient):
         self.chain_idx = 1
 
     def build_sys_prompt(self):
+        self.load_data()
         sys_prompt = self.prompts["system_prompt"].render(
             profile=self.profile_str,
             situation=self.data.get("situation", ""),
@@ -282,6 +300,5 @@ class AnnaAgentClient(BaseClient):
         return res
 
     def reset(self):
-        self.load_data()
         self.build_sys_prompt()
         self.therapist = None

@@ -1,3 +1,20 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""ClientCast Generator - Creates diverse psychological profiles from conversations.
+
+Paper: "Towards a Client-Centered Assessment of LLM Therapists by Client Simulation"
+       https://arxiv.org/pdf/2406.12266
+
+Generates ClientCast character files with detailed psychological assessments.
+
+Key Features:
+- Big Five personality trait extraction from conversation excerpts
+- Symptom identification using PHQ-9, GAD-7, OQ-45 scales
+- Demographic and clinical profile inference
+- Diversity-focused batch generation capabilities
+"""
+
 from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field

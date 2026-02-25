@@ -1,3 +1,18 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""ELIZA Therapist - Classic pattern-matching Rogerian psychotherapist.
+
+ELIZA was one of the first chatbots, created by Joseph Weizenbaum at MIT
+(1964-1966). This implementation simulates a Rogerian psychotherapist using
+pattern matching.
+
+Key Features:
+- No LLM required - pure rule-based pattern matching
+- Reflection and rephrasing of user statements
+- Useful as a baseline for comparison with LLM-based therapists
+"""
+
 import re
 import random
 from dataclasses import dataclass

@@ -1,8 +1,8 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import Any, Dict, List
 
 
-class BaseClient:
+class BaseClient(ABC):
     r"""Base class for all client agents."""
 
     name: str

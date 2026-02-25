@@ -1,3 +1,23 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""ConsistentMI Client - Stage-consistent client for Motivational Interviewing.
+
+Paper: "Consistent Client Simulation for Motivational Interviewing-based Counseling"
+       (ACL 2025 Main) https://aclanthology.org/2025.acl-long.1021/
+
+ConsistentMI simulates clients with behavior consistent to the Transtheoretical
+Model (Stages of Change).
+
+1. Load profile with personas, beliefs, and motivation topics
+2. Track topic engagement using topic graph distance
+3. Verify if therapist addresses core motivation
+4. Sample stage-consistent action (Deny/Inform/Engage/Plan...)
+5. Generate reply grounded in selected persona/belief/plan
+
+Stages: Precontemplation -> Contemplation -> Preparation -> Action -> Maintenance
+"""
+
 import random
 from omegaconf import DictConfig
 from dataclasses import dataclass
@@ -59,15 +79,19 @@ class ClientState:
         engagement: float = 3.0,
         receptivity: float = 3.0,
         error_topic_count: int = 0,
+        engaged_topics: List[str] = None,
     ):
 
         self.stage = stage
         self.engagement = engagement
         self.receptivity = receptivity
         self.error_topic_count = error_topic_count
+        self.engaged_topics = engaged_topics or []
 
-    def update(self, new_stage: str = None, beliefs: List[str] = []):
+    def update(self, new_stage: str = None, beliefs: List[str] = None):
         """Update client state based on conversation."""
+        if beliefs is None:
+            beliefs = []
         if new_stage:
             self.stage = new_stage
         else:
@@ -282,7 +306,6 @@ class ConsistentMIClient(BaseClient):
 
         motivation_list = self.data.get("Motivation", [])
         self.motivation_text = motivation_list[-1] if motivation_list else ""
-        self.engaged_topics = motivation_list[:-1] if len(motivation_list) > 1 else []
 
     def build_sys_prompt(self):
         self.personas: List[str] = self.data.get("Personas", [])
@@ -302,16 +325,19 @@ class ConsistentMIClient(BaseClient):
         initial_receptivity = (
             sum(suggestibilities) / len(suggestibilities) if suggestibilities else 3
         )
+        motivation_list = self.data.get("Motivation", [])
+        engaged_topics = motivation_list[:-1] if len(motivation_list) > 1 else []
         return ClientState(
             stage=self.data.get("initial_stage", "Precontemplation"),
             receptivity=initial_receptivity,
             engagement=initial_receptivity,
+            engaged_topics=engaged_topics,
         )
 
     def get_conv_str(self):
         return "\n".join(
             [
-                f"{'Client' if msg['role']=='user' else 'Therapist'}: {msg['content']}"
+                f"{'Therapist' if msg['role']=='user' else 'Client'}: {msg['content']}"
                 for msg in self.messages[max(1, len(self.messages) - 5) :]
             ]
         )
@@ -334,17 +360,20 @@ class ConsistentMIClient(BaseClient):
 
     def evaluate_topic_engagement(self) -> Optional[str]:
         """Evaluate how well therapist is engaging with client's topics."""
+        if not self.state.engaged_topics:
+            return None
+
         last_utterance = self.messages[-1]["content"] if self.messages else ""
         top_topics = self.topic_matcher.find_related_topics(last_utterance)
-        predicted_topic = top_topics[0] if top_topics else self.engaged_topics[0]
+        predicted_topic = top_topics[0] if top_topics else self.state.engaged_topics[0]
 
-        if predicted_topic == self.engaged_topics[0]:
+        if predicted_topic == self.state.engaged_topics[0]:
             self.state.engagement = 4
             self.state.error_topic_count = 0
             return self.verify_motivation()
 
         distance = self.topic_matcher.compute_distance(
-            self.engaged_topics[0], predicted_topic
+            self.state.engaged_topics[0], predicted_topic
         )
 
         if distance <= 3:
@@ -449,13 +478,6 @@ class ConsistentMIClient(BaseClient):
         else:
             distribution = self.get_precontemplation_distribution(context)
 
-        if stage == "Contemplation":
-            distribution = self.get_contemplation_distribution(context)
-        elif stage == "Preparation":
-            distribution = self.get_preparation_distribution(context)
-        else:
-            distribution = self.get_precontemplation_distribution(context)
-
         items_dict = {
             "personas": bool(self.personas),
             "beliefs": bool(self.beliefs),
@@ -489,7 +511,7 @@ class ConsistentMIClient(BaseClient):
 
     def select_information(self, action: str) -> Optional[str]:
         """Select relevant information for the action."""
-        last_therapist = self.messages[-1].content
+        last_therapist = self.messages[-1]["content"] if self.messages else ""
         if not last_therapist or "?" not in last_therapist:
             return None
 
@@ -514,7 +536,7 @@ class ConsistentMIClient(BaseClient):
 
         chosen = random.choice(source_list)
         if consume:
-            source_list.remove(item)
+            source_list.remove(chosen)
         return chosen
 
     def gather_information(self, stage: str, action: str) -> Optional[str]:
@@ -530,12 +552,12 @@ class ConsistentMIClient(BaseClient):
     ) -> str:
         """Build instruction for reply generation."""
         engage_instruction = ""
-        if self.engaged_topics or len(self.engaged_topics) >= 3:
+        if len(self.state.engaged_topics) >= 3:
             engage_instruction = (
                 self.prompts["engage_instruction_prompt"]
                 .render(
                     engagement_level=int(self.state.engagement),
-                    engagemented_topics=self.engaged_topics,
+                    engagemented_topics=self.state.engaged_topics,
                     motivation=self.motivation_text,
                 )
                 .strip()
@@ -561,7 +583,7 @@ class ConsistentMIClient(BaseClient):
         )
 
         if stage == "Motivation":
-            self.state.transition_to("Contemplation")
+            self.state.update(new_stage="Contemplation")
 
         return instruction
 
@@ -569,7 +591,7 @@ class ConsistentMIClient(BaseClient):
         self.messages.append({"role": "user", "content": msg})
 
         # self.update_state()
-        self.state.update(self.beliefs)
+        self.state.update(beliefs=self.beliefs)
         self.evaluate_topic_engagement()
 
         stage = self.state.stage
@@ -589,6 +611,6 @@ class ConsistentMIClient(BaseClient):
         self.load_profile()
         self.build_sys_prompt()
         self.state = self.load_state()
-        self.topic_matcher = TopicMatcher(self.configs, self.reranker)
+        self.topic_matcher = TopicMatcher(self.configs)
         self.topic_matcher.init_passages(self.prompts, self.behavior, self.goal, [])
         self.therapist = None

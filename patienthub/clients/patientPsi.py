@@ -1,3 +1,20 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""PatientPsi Client - CBT-grounded patient simulation.
+
+Paper: "PATIENT-Ψ: Using Large Language Models to Simulate Patients for Training
+       Mental Health Professionals" (EMNLP 2024 Main)
+       https://aclanthology.org/2024.emnlp-main.711/
+
+PatientPsi simulates patients with CBT cognitive models including core beliefs,
+intermediate beliefs, and automatic thoughts.
+
+Key Features:
+- CBT cognitive conceptualization (history, beliefs, coping strategies)
+- 6 conversational styles: plain, upset, verbose, reserved, tangent, pleasing
+"""
+
 from omegaconf import DictConfig
 from dataclasses import dataclass
 

@@ -1,3 +1,20 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""PSYCHE Generator - Creates multi-faceted psychiatric character profiles.
+
+Paper: "A Multi-faceted Patient Simulation Framework for Evaluation of Psychiatric
+       Assessment Conversational Agents" https://arxiv.org/pdf/2501.01594
+
+Generates comprehensive psychiatric profiles (MFC) for assessment training.
+
+Profile components:
+- MFC-Profile: Identifying data, chief complaint, medical/social history
+- MFC-History: Narrative life history with triggering events
+- MFC-Behavior: Mental Status Examination (mood, affect, thought process)
+- Risk assessments: Suicidal ideation, self-harm, homicide risk ratings
+"""
+
 from typing import Literal
 from omegaconf import DictConfig
 from dataclasses import dataclass

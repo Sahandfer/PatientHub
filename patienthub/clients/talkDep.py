@@ -1,4 +1,21 @@
-from typing import Dict, List
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""TalkDep Client - BDI-grounded personas for depression screening.
+
+Paper: "Clinically Grounded LLM Personas for Conversation-Centric Depression
+       Screening" (CIKM 2025) https://dl.acm.org/doi/10.1145/3746252.3761617
+
+TalkDep creates clinically grounded personas based on Beck Depression Inventory-II
+(BDI-II).
+
+Key Features:
+- BDI scores as ground truth for simulation evaluation
+- 12 validated personas across 4 severity levels
+- Severity levels: Minimal (0-9), Mild (10-18), Moderate (19-29), Severe (30-63)
+- Detailed symptom profiles with linguistic/behavioral patterns
+"""
+
 from omegaconf import DictConfig
 from dataclasses import dataclass
 
@@ -9,9 +26,7 @@ from patienthub.utils import load_prompts, load_json, get_chat_model
 
 @dataclass
 class TalkDepClientConfig(APIModelConfig):
-    """
-    Configuration for the TalkDepClient agent.
-    """
+    """Configuration for the TalkDepClient agent."""
 
     agent_type: str = "talkDep"
     prompt_path: str = "data/prompts/client/talkDep.yaml"

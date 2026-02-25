@@ -1,5 +1,22 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""PSYCHE Client - Multi-faceted character for psychiatric assessment.
+
+Paper: "A Multi-faceted Patient Simulation Framework for Evaluation of Psychiatric
+       Assessment Conversational Agents" https://arxiv.org/pdf/2501.01594
+
+PSYCHE provides comprehensive psychiatric profiles following standard assessment
+formats. Profile components:
+
+- MFC-Profile: Clinical info (identifying data, chief complaint, medical history)
+- MFC-History: Narrative life history for context
+- MFC-Behavior: Mental Status Examination (mood, affect, thought process)
+
+Includes risk assessments for suicidal ideation, self-harm, and homicide.
+"""
+
 import json
-from typing import Dict, List
 from omegaconf import DictConfig
 from dataclasses import dataclass
 

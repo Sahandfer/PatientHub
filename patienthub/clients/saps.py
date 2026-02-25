@@ -1,7 +1,25 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""SAPS Client - State-aware patient for clinical consultation assessment.
+
+Paper: "Automatic Interactive Evaluation for Large Language Models with State
+       Aware Patient Simulator" https://arxiv.org/pdf/2403.08495
+
+SAPS uses state tracking to control information disclosure based on doctor
+performance. The 3-stage workflow:
+
+1. Stage I: Classify doctor question (Inquiry/Advice/Demand/Other/End)
+2. Stage II: Determine if question is Specific or Broad
+3. Stage III: Extract relevant info from medical record (Memory Bank)
+
+Based on final state, selects appropriate response policy to avoid over-disclosure.
+"""
+
+from typing import Literal
 from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
-from typing import Any, Dict, List, Literal
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig

@@ -1,3 +1,16 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
+"""Psyche Therapist - Structured psychiatric interview agent.
+
+A prompt-driven psychiatrist that conducts intake-style clinical interviews.
+
+Key Features:
+- Structured interview format following psychiatric assessment standards
+- System prompt with explicit clinical assessment criteria
+- Suitable for psychiatric evaluation training simulations
+"""
+
 from omegaconf import DictConfig
 from dataclasses import dataclass
 
