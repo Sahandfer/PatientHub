@@ -43,7 +43,7 @@ ClientCast integrates multiple validated assessment instruments:
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=clientCast therapist=CBT
+uv run python -m examples.simulate client=clientCast
 ```
 
 ### Python
@@ -67,7 +67,6 @@ config = OmegaConf.create({
 })
 
 client = get_client(configs=config, lang='en')
-client.set_therapist({'name': 'Therapist'})
 
 response = client.generate_response("What brings you in today?")
 print(response)

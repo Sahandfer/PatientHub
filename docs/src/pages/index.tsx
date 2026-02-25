@@ -59,7 +59,7 @@ source .venv/bin/activate
 # Run a simulation
 uv run python -m examples.simulate \\
   client=patientPsi \\
-  therapist=CBT`}
+  therapist=basic`}
               </code>
             </pre>
           </div>
@@ -83,7 +83,7 @@ function SupportedMethods() {
     <section className={styles.methods}>
       <div className="container">
         <Heading as="h2" className="text--center margin-bottom--lg">
-          11 Research-Backed Methods
+          Peer-reviewed Client Simulation Methods
         </Heading>
         <div className="row">
           {methods.map((method, idx) => (
@@ -118,7 +118,7 @@ export default function Home(): ReactNode {
       <main>
         <HomepageFeatures />
         <QuickStart />
-        <SupportedMethods />
+        {/* <SupportedMethods /> */}
       </main>
     </Layout>
   );

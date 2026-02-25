@@ -27,44 +27,8 @@ uv run python -m examples.simulate client=patientPsi
 ### Use an AI Therapist
 
 ```bash
-uv run python -m examples.simulate client=patientPsi therapist=CBT
+uv run python -m examples.simulate client=patientPsi therapist=basic
 ```
-
-### Full Example
-
-```bash
-uv run python -m examples.simulate \
-  client=consistentMI \
-  therapist=CBT \
-  event.max_turns=20
-```
-
-## Available Clients
-
-| Client         | Description                                      |
-| -------------- | ------------------------------------------------ |
-| `patientPsi`   | CBT-focused patient simulation                   |
-| `consistentMI` | Motivational Interviewing with stage transitions |
-| `eeyore`       | Depression simulation                            |
-| `annaAgent`    | Multi-session with memory                        |
-| `adaptiveVP`   | Nurse communication training                     |
-| `simPatient`   | Cognitive model updates                          |
-| `talkDep`      | Depression screening                             |
-| `saps`         | State-aware medical patient                      |
-| `clientCast`   | Psychotherapy assessment                         |
-| `psyche`       | Psychiatric assessment                           |
-| `roleplayDoh`  | Principle-based simulation                       |
-
-## Available Therapists
-
-| Therapist | Description                  |
-| --------- | ---------------------------- |
-| `user`    | Human input (default)        |
-| `CBT`     | AI CBT therapist             |
-| `eliza`   | Classic Eliza chatbot        |
-| `bad`     | Poor therapist (for testing) |
-| `cami`    | AI Motivational Interviewing therapist |
-| `psyche`  | A therapist conducting a clinical interview |
 
 ## Python API
 
@@ -82,19 +46,16 @@ config = OmegaConf.create({
     'temperature': 0.7,
     'max_tokens': 1024,
     'max_retries': 3,
+    'prompt_path': 'data/prompts/client/patientPsi.yaml',
     'data_path': 'data/characters/PatientPsi.json',
     'data_idx': 0,
 })
 
 # Load the client
 client = get_client(configs=config, lang='en')
-client.set_therapist({'name': 'Dr. Smith'})
 
 # Generate responses
 response = client.generate_response("Hello, how are you feeling today?")
-print(response)
-
-response = client.generate_response("Can you tell me more about that?")
 print(response)
 ```
 
@@ -120,9 +81,10 @@ uv run python -m examples.simulate event.output_dir=outputs/my_session.json
 Session data is only saved when the event reaches its “end” action (i.e., it writes to `event.output_dir`).
 
 All ways to trigger saving:
+
 - The therapist’s output is exactly `END` / `end` / `exit` ⇒ session_ended=True ⇒ end and save
 - The conversation reaches `event.max_turns` (num_turns >= max_turns) ⇒ end and save
-:::
+  :::
 
 ## Creating New Agents
 

@@ -87,10 +87,6 @@ Maintain consistency with the character description.
 
         return prompt
 
-    def set_therapist(self, therapist_info: dict):
-        """Set information about the therapist (optional)."""
-        self.therapist_info = therapist_info
-
     def generate_response(
         self,
         message: str,

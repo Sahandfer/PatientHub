@@ -14,7 +14,7 @@ PatientHub is a comprehensive framework that brings together **11 patient simula
 ### Key Features
 
 - 🧠 **Multiple Patient Agents** - PatientPsi, ConsistentMI, Eeyore, and more
-- 🧑‍⚕️ **Therapist Agents** - CBT, MI, Eliza, or human-in-the-loop
+- 🧑‍⚕️ **Therapist Agents** - CBT, MI, or human-in-the-loop
 - 📊 **Automatic Evaluation** - Customizable LLM-as-a-judge
 
 ## Quick Example
@@ -31,6 +31,7 @@ config = OmegaConf.create({
     'max_tokens': 1024,
     'max_retries': 3,
     'patient_type': 'upset',
+    'prompt_path': 'data/prompts/client/patientPsi.yaml',
     'data_path': 'data/characters/PatientPsi.json',
     'data_idx': 0,
 })

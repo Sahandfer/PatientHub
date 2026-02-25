@@ -31,6 +31,7 @@ uv run python -m examples.generate
 uv run python -m examples.generate generator=psyche
 ```
 
+<!--
 ### In Code
 
 ```python
@@ -78,18 +79,6 @@ character = generator.generate_character({
     "profile": profile,
     "format": "json",
     "include_dialogue_examples": True
-})
-```
-
-### Scenario Generation
-
-Create therapy scenarios:
-
-```python
-scenario = generator.generate_scenario({
-    "type": "initial_session",
-    "client_profile": profile,
-    "therapeutic_approach": "CBT"
 })
 ```
 
@@ -165,8 +154,4 @@ GeneratorRegistry.register("my_generator", MyCustomGenerator)
 1. **Diversity** - Ensure generated profiles represent diverse populations
 2. **Realism** - Validate generated content against clinical knowledge
 3. **Ethics** - Review generated content for appropriateness
-4. **Versioning** - Track generated content versions for reproducibility
-
-## See Also
-
-- [Creating Custom Agents](../../contributing/new-agents.md)
+4. **Versioning** - Track generated content versions for reproducibility -->

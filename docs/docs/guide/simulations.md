@@ -18,10 +18,10 @@ uv run python -m examples.simulate client=user therapist=eliza
 
 ```bash
 # Specify client and therapist
-uv run python -m examples.simulate client=patientPsi therapist=CBT
+uv run python -m examples.simulate client=patientPsi therapist=basic
 
 # Attach an evaluator (note: TherapySession does not execute it; see Evaluation guide)
-uv run python -m examples.simulate client=patientPsi therapist=CBT +evaluator=llm_judge
+uv run python -m examples.simulate client=patientPsi therapist=basic +evaluator=llm_judge
 
 # Adjust session parameters
 uv run python -m examples.simulate event.max_turns=25 event.reminder_turn_num=5
@@ -46,15 +46,17 @@ client_config = OmegaConf.create({
     'temperature': 0.7,
     'max_tokens': 1024,
     'max_retries': 3,
+    'prompt_path': 'data/prompts/client/patientPsi.yaml',
     'data_path': 'data/characters/PatientPsi.json',
     'data_idx': 0,
 })
 
 # Configure therapist
 therapist_config = OmegaConf.create({
-    'agent_type': 'CBT',
+    'agent_type': 'basic',
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
+    'prompt_path': 'data/prompts/therapist/CBT.yaml',
     'temperature': 0.7,
     'max_tokens': 1024,
     'max_retries': 3,

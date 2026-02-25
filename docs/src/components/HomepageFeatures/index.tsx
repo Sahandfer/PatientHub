@@ -11,17 +11,17 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: '12 Simulation Methods',
+    title: '12 Client Simulation Methods',
     emoji: '🧠',
     description: (
       <>
-        Implements patient simulation methods from top venues including ACL,
-        EMNLP, CHI, and CIKM. Each method is validated for research quality.
+        We've reproduced patient simulation methods from publications in top venues including ACL,
+        EMNLP, and CHI.
       </>
     ),
   },
   {
-    title: 'Easy to Use',
+    title: 'Fast and Easy to Use',
     emoji: '⚡',
     description: (
       <>
@@ -36,7 +36,7 @@ const FeatureList: FeatureItem[] = [
     emoji: '🔧',
     description: (
       <>
-        Add new patient agents, therapist types, and evaluators with a clean
+        Add new agents (Clients, Therapists, etc.) with a clean
         plugin architecture. Full documentation for contributors.
       </>
     ),

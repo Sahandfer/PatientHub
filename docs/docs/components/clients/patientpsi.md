@@ -31,7 +31,7 @@ PatientPsi creates realistic patient simulations based on **cognitive behavioral
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=patientPsi therapist=CBT
+uv run python -m examples.simulate client=patientPsi
 ```
 
 ### Python
@@ -53,7 +53,6 @@ config = OmegaConf.create({
 })
 
 client = get_client(configs=config, lang='en')
-client.set_therapist({'name': 'Dr. Smith'})
 
 response = client.generate_response("How have you been feeling lately?")
 print(response)

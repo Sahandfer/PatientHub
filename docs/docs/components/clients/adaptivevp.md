@@ -91,7 +91,6 @@ config = OmegaConf.create({
 })
 
 client = get_client(configs=config, lang='en')
-client.set_therapist({'name': 'Nurse'})
 
 response = client.generate_response("I understand you're feeling anxious. Would you like to talk about what's on your mind?")
 print(f"Response: {response.content}")

@@ -45,7 +45,7 @@ AnnaAgent uses the GoEmotions taxonomy with weighted emotion transitions:
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=annaAgent therapist=CBT
+uv run python -m examples.simulate client=annaAgent
 ```
 
 ### Python
@@ -66,7 +66,6 @@ config = OmegaConf.create({
 })
 
 client = get_client(configs=config, lang='en')
-client.set_therapist({'name': 'Dr. Kim'})
 
 response = client.generate_response("How have you been since our last session?")
 print(response)

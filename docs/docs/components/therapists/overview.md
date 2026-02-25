@@ -4,14 +4,13 @@ Therapist agents in PatientHub provide the therapeutic interventions during simu
 
 ## Available Therapists
 
-| Therapist                     | Key     | Description                                                                         |
-| ----------------------------- | ------- | ----------------------------------------------------------------------------------- |
-| [**MI Therapist**](./cami.md) | `cami`   | A Counselor Agent Supporting Motivational Interviewing through State Inference and Topic Exploration |
-| [**Psyche (Psychiatrist)**](./psyche.md) | `psyche`   | A psychiatrist agent simulated using a structured prompt with explicit clinical assessment criteria. |
-| [**CBT Therapist**](./cbt.md) | `CBT`   | A Cognitive Behavioral Therapy therapist that employs evidence-based CBT techniques |
-| [**Eliza**](./eliza.md)       | `eliza` | Classic pattern-matching therapist based on the original ELIZA program              |
-| [**Bad Therapist**](./bad.md) | `bad`   | A deliberately poor therapist for training purposes                                 |
-| [**User**](./user.md)         | `user`  | Human-in-the-loop therapist for interactive sessions |      
+| Therapist                 | Key      | Description                                                                                          |
+| ------------------------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| [**Cami**](./cami.md)     | `cami`   | A Counselor Agent Supporting Motivational Interviewing through State Inference and Topic Exploration |
+| [**Psyche**](./psyche.md) | `psyche` | A psychiatrist agent simulated using a structured prompt with explicit clinical assessment criteria. |
+| [**Basic**](./cbt.md)     | `basic`  | A prompt-deriven therapist for specific needs                                                        |
+| [**Eliza**](./eliza.md)   | `eliza`  | Classic pattern-matching therapist based on the original ELIZA program                               |
+| [**User**](./user.md)     | `user`   | Human-in-the-loop therapist for interactive sessions                                                 |
 
 - Prompt Data is stored in `data/prompts/therapist`.
 
@@ -43,9 +42,10 @@ available = list(THERAPIST_REGISTRY.keys())
 # Create a therapist
 config = OmegaConf.create(
     {
-        "agent_type": "CBT",
+        "agent_type": "basic",
         "model_type": "OPENAI",
         "model_name": "gpt-4o",
+        "prompt_path": "data/prompts/therapist/CBT.yaml",
         "temperature": 0.7,
         "max_tokens": 8192,
         "max_retries": 3,
@@ -59,58 +59,13 @@ therapist = get_therapist(configs=config, lang="en")
 You can create custom therapists by running the following command:
 
 ```bash
-uv run python -m examples.create generator.gen_agent_type=tberapist generator.gen_agent_name=<agent_name>
+uv run python -m examples.create generator.gen_agent_type=therapist generator.gen_agent_name=<agent_name>
 ```
 
-This creates:
+This creates the following two files and registers the therapist in `__init__.py`:
 
 - `patienthub/therapists/<agent_name>.py`
 - `data/prompts/therapist/<agent_name>.yaml`
-
-You can also create custom therapists by extending the base `Therapist` class:
-
-```python
-from dataclasses import dataclass
-from omegaconf import DictConfig
-
-from patienthub.base import ChatAgent
-from patienthub.configs import APIModelConfig
-from patienthub.utils import get_chat_model, load_prompts
-
-
-@dataclass
-class MyCustomTherapistConfig(APIModelConfig):
-    agent_type: str = "my_therapist"
-
-
-class MyCustomTherapist(ChatAgent):
-    def __init__(self, configs: DictConfig):
-        self.name = "My Custom Therapist"
-        self.chat_model = get_chat_model(configs)
-        self.reset()
-
-    def set_client(self, client, prev_sessions=None):
-        self.client = client.get("name", "client")
-
-    def generate_response(self, msg: str):
-        self.messages.append({"role": "user", "content": msg})
-        res = self.chat_model.generate(self.messages).content
-        self.messages.append({"role": "assistant", "content": res})
-        return res
-
-    def reset(self):
-        self.messages = [{"role": "system", "content": "You are a helpful therapist."}]
-        self.client = None
-```
-
-Then register it:
-
-```python
-from patienthub.therapists import THERAPIST_CONFIG_REGISTRY, THERAPIST_REGISTRY
-
-THERAPIST_REGISTRY["my_therapist"] = MyCustomTherapist
-THERAPIST_CONFIG_REGISTRY["my_therapist"] = MyCustomTherapistConfig
-```
 
 ## See Also
 

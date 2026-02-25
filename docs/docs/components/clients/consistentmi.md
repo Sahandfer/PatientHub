@@ -42,7 +42,7 @@ ConsistentMI simulates clients in motivational interviewing (MI) sessions with c
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=consistentMI therapist=CBT
+uv run python -m examples.simulate client=consistentMI
 ```
 
 ### Python
@@ -66,7 +66,6 @@ config = OmegaConf.create({
 })
 
 client = get_client(configs=config, lang='en')
-client.set_therapist({'name': 'Counselor'})
 
 # Client starts in precontemplation
 response = client.generate_response(

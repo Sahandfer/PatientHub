@@ -49,6 +49,7 @@ config = OmegaConf.create({
     'temperature': 0.7,
     'max_tokens': 8192,
     'max_retries': 3,
+    'prompt_path': 'data/prompts/client/patientPsi.yaml',
     'data_path': 'data/characters/PatientPsi.json',
     'data_idx': 0,
     'patient_type': 'upset',
@@ -63,7 +64,6 @@ client = get_client(configs=config, lang='en')
 - Character data is stored in files under `data/characters`
 - Each file is a JSON list; `data_idx` selects the entry to be simulated
 
-
 ## Configuration Options
 
 ### Common Options
@@ -76,6 +76,7 @@ client = get_client(configs=config, lang='en')
 | `temperature` | float | `0.7`      | Sampling temperature (0-1)                                                           |
 | `max_tokens`  | int   | `8192`     | Max response tokens                                                                  |
 | `max_retries` | int   | `3`        | API retry attempts                                                                   |
+| `prompt_path` | str   | varies     | Path to method prompts                                                               |
 | `data_path`   | str   | varies     | Path to character JSON file                                                          |
 | `data_idx`    | int   | `0`        | Index of character in file                                                           |
 | `lang`        | str   | `"en"`     | Language code                                                                        |
@@ -107,95 +108,6 @@ class Response(BaseModel):
     action: str  # Selected action type
 ```
 
-## Create New Clients
-
-You can run the following command to create the necessary files for a new client:
-
-```bash
-uv run python -m examples.create generator.gen_agent_type=client generator.gen_agent_name=<agent_name>
-```
-
-All clients implement the `ChatAgent` abstract base class:
-
-```python
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Type
-from pydantic import BaseModel
-
-class ChatAgent(ABC):
-    chat_model: Any
-    data: Dict[str, Any]
-    messages: List[str] | List[Dict[str, Any]]
-    lang: str
-
-    @abstractmethod
-    def generate(
-        self,
-        messages: List[str] | List[Dict[str, Any]],
-        response_format: Optional[Type[BaseModel]] = None,
-    ) -> BaseModel | str:
-        """Generate a response based on the input messages."""
-        pass
-
-    @abstractmethod
-    def generate_response(self, msg: str) -> BaseModel:
-        """Generate response to a single therapist message."""
-        pass
-
-    @abstractmethod
-    def set_therapist(
-        self,
-        therapist: Dict[str, Any],
-        prev_sessions: List[Dict[str, str]] | None = None
-    ):
-        """Set the therapist for the session."""
-        pass
-
-    @abstractmethod
-    def reset(self) -> None:
-        """Reset the client to its initial state."""
-        pass
-```
-
-## Example: Comparing Clients
-
-```python
-from patienthub.clients import get_client, CLIENT_REGISTRY
-from omegaconf import OmegaConf
-
-base_config = {
-    'model_type': 'OPENAI',
-    'model_name': 'gpt-4o',
-    'temperature': 0.7,
-    'max_tokens': 8192,
-    'max_retries': 3,
-}
-
-test_message = "How have you been feeling lately?"
-
-data_paths = {
-    'saps': 'data/characters/SAPS.json',
-    'talkDep': 'data/characters/talkDep.json',
-    'psyche': 'data/characters/Psyche.json',
-}
-
-for agent_type in ['saps', 'talkDep', 'psyche']:
-    config = OmegaConf.create({
-        **base_config,
-        'agent_type': agent_type,
-        'data_path': data_paths[agent_type],
-        'data_idx': 0,
-    })
-    try:
-        client = get_client(configs=config, lang='en')
-        client.set_therapist({'name': 'Therapist'})
-        response = client.generate_response(test_message)
-        print(f"\n=== {agent_type} ===")
-        print(response.content[:200] + "..." if len(response.content) > 200 else response.content)
-    except Exception as e:
-        print(f"\n=== {agent_type} === Error: {e}")
-```
-
 ## By Focus Area
 
 ### Depression & Mood Disorders
@@ -219,3 +131,22 @@ for agent_type in ['saps', 'talkDep', 'psyche']:
 - **AdaptiveVP**: Nurse communication training
 - **SAPS**: Medical diagnosis training
 - **Psyche**: Psychiatric assessment training
+
+## Create New Clients
+
+You can run the following command to create the necessary files for a new client:
+
+```bash
+uv run python -m examples.create generator.gen_agent_type=client generator.gen_agent_name=<agent_name>
+```
+
+This creates the following two files and registers the client in `__init__.py`:
+
+- `patienthub/clients/<agent_name>.py`
+- `data/prompts/client/<agent_name>.yaml`
+
+All clients implement the `BaseClient` abstract base class (see `patienthub/clients/base.py`).
+
+## See Also
+
+- [Creating Custom Therapists](../../contributing/new-agents.md)

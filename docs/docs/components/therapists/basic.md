@@ -2,14 +2,6 @@
 
 The CBT (Cognitive Behavioral Therapy) therapist implements evidence-based CBT techniques for therapeutic interventions.
 
-## Overview
-
-| Property  | Value                        |
-| --------- | ---------------------------- |
-| **Key**   | `CBT`                        |
-| **Type**  | LLM-based                    |
-| **Focus** | Cognitive Behavioral Therapy |
-
 ## Description
 
 The CBT Therapist is an AI-powered therapeutic agent that employs evidence-based Cognitive Behavioral Therapy techniques. It is designed to help clients identify and challenge negative thought patterns, develop coping strategies, and understand the connection between thoughts, feelings, and behaviors.

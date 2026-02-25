@@ -54,9 +54,8 @@ const sidebars = {
             id: 'components/therapists/overview',
           },
           items: [
-            'components/therapists/cbt',
+            'components/therapists/basic',
             'components/therapists/eliza',
-            'components/therapists/bad',
             'components/therapists/user',
             'components/therapists/psyche',
             'components/therapists/cami',

@@ -53,6 +53,7 @@ config = {
 | `temperature` | float | `0.7`      | Sampling temperature    |
 | `max_tokens`  | int   | `1024`     | Max response tokens     |
 | `max_retries` | int   | `3`        | API retry attempts      |
+| `prompt_path` | str   | varies     | Path to method Prompt   |
 | `data_path`   | str   | varies     | Path to character JSON  |
 | `data_idx`    | int   | `0`        | Index in character file |
 | `lang`        | str   | `"en"`     | Language                |
@@ -110,7 +111,7 @@ uv run python -m examples.simulate client.temperature=0.5
 uv run python -m examples.simulate \
   client=patientPsi \
   client.temperature=0.5 \
-  therapist=CBT \
+  therapist=basic \
   event.max_turns=50
 
 # Override nested values
@@ -123,14 +124,15 @@ Create custom config files in the appropriate directories:
 
 ### Custom Client Config
 
-Create `configs/client/myclient.yaml`:
+Create `configs/client/myClient.yaml`:
 
 ```yaml
-agent_type: patientPsi
+agent_type: myClient
 model_type: OPENAI
 model_name: gpt-4o
 temperature: 0.5
 max_tokens: 2048
+prompt_path: data/prompts/client/patientPsi.yaml
 data_path: data/characters/PatientPsi.json
 data_idx: 0
 ```
@@ -138,17 +140,5 @@ data_idx: 0
 Use it:
 
 ```bash
-uv run python -m examples.simulate client=myclient
-```
-
-## Debugging
-
-Enable debug output:
-
-```bash
-# Show full config
-uv run python -m examples.simulate --cfg job
-
-# Show config sources
-uv run python -m examples.simulate --info
+uv run python -m examples.simulate client=myClient
 ```

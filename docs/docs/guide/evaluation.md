@@ -237,7 +237,7 @@ Run a simulation to generate a session JSON, then evaluate it:
 ```bash
 uv run python -m examples.simulate \
   client=patientPsi \
-  therapist=CBT
+  therapist=basic
 ```
 
 ```bash

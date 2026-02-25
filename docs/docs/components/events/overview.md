@@ -52,7 +52,7 @@ event = get_event(configs=config)
 ```bash
 uv run python -m examples.simulate \
     client=patientPsi \
-    therapist=cbt \
+    therapist=basic \
     event.max_turns=30
 ```
 

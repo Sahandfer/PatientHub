@@ -77,7 +77,7 @@ client = get_client(configs=client_config, lang='en')
 # Create AI therapist
 therapist_config = OmegaConf.create(
     {
-        "agent_type": "CBT",
+        "agent_type": "basic",
         "model_type": "OPENAI",
         "model_name": "gpt-4o",
         "temperature": 0.7,

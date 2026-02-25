@@ -103,15 +103,12 @@ NPCs can role-play different social scenarios to help clients practice:
 
 ## Creating Custom NPCs
 
-To add a new NPC, create a new `ChatAgent` implementation under `patienthub/npcs/`
-(similar to `InterviewerNPC`) and instantiate it directly.
+To add a new NPC, create a new NPC class under `patienthub/npcs/` (similar to `InterviewerNPC`) and instantiate it directly. NPCs are lightweight and do not need to inherit from a framework base class — simply implement `generate_response()` and `reset()`.
 
 ```python
 from omegaconf import DictConfig
 
-from patienthub.base import ChatAgent
-
-class FamilyMemberNPC(ChatAgent):
+class FamilyMemberNPC:
     def __init__(self, configs: DictConfig):
         self.configs = configs
         self.name = "Family Member"
