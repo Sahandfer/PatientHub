@@ -1,20 +1,23 @@
-from .llm_judge import LLMJudgeEvaluator, LLMJudgeEvaluatorConfig
+from .base import LLMJudge, LLMJudgeConfig
+from .conv import ConvJudge, ConvJudgeConfig
+from .profile import ProfileJudge, ProfileJudgeConfig
 
 from omegaconf import DictConfig
 
 EVALUATOR_REGISTRY = {
-    "llm_judge": LLMJudgeEvaluator,
+    "conv_judge": ConvJudge,
+    "profile_judge": ProfileJudge,
 }
 EVALUATOR_CONFIG_REGISTRY = {
-    "llm_judge": LLMJudgeEvaluatorConfig,
+    "conv_judge": ConvJudgeConfig,
+    "profile_judge": ProfileJudgeConfig,
 }
 
 
 def get_evaluator(configs: DictConfig, lang: str = "en"):
     configs.lang = lang
     agent_type = configs.agent_type
-    eval_type = configs.eval_type
-    print(f"Loading {agent_type} agent for {eval_type} evaluation...")
+    print(f"Loading {agent_type} agent for evaluation...")
     if agent_type in EVALUATOR_REGISTRY:
         return EVALUATOR_REGISTRY[agent_type](configs=configs)
     else:
@@ -29,4 +32,6 @@ def register_evaluator_configs(cs):
 __all__ = [
     "get_evaluator",
     "register_evaluator_configs",
+    "LLMJudge",
+    "LLMJudgeConfig",
 ]

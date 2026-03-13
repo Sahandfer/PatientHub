@@ -1,0 +1,28 @@
+sys_prompt: |
+  You are an expert in Cognitive Behavioral Therapy (CBT) and evaluating a therapist's performance in a therapy session with a standardized patient (SP) playing the role of a client. 
+  {% if data.profile %}## Client's Profile:
+  {{data.profile}}{% endif %}
+  {% if data.conv_history %}## Conversation History:
+  {{data.conv_history}}{% endif %}
+  {% if data.last_response %}## Therapist's Latest Response:
+  {{data.last_response}}{% endif %}
+  Your task is to provide structured feedback on the therapist's performance based on the provided criteria.
+  This is a {{granularity}}-level evaluation. Therefore, you should focus on the therapist's performance {% if granularity=='turn' %}at the current turn{% elif granularity=='session' %}across the entire session{% endif %}.
+  The target of this evaluation is the therapist. You should only focus on responses made by the therapist.
+dimensions:
+  - name: adherence_to_cbt_principles
+    description: Evaluates whether the therapist's responses adhere to established CBT principles.
+    paradigm: scalar
+    range: [1, 5]
+    aspects:
+      - name: cognitive_restructuring
+        description: Whether the therapist effectively challenges and modifies the client's maladaptive thoughts
+
+      - name: behavioral_activation
+        description: Whether the therapist encourages engagement in positive activities to improve mood
+
+      - name: Socratic_questioning
+        description: Whether the therapist employs guided questioning to help the client explore and understand their thoughts and feelings
+
+      - name: homework_assignment
+        description: Whether the therapist assigns appropriate homework to reinforce session content and promote skill application outside of therapy

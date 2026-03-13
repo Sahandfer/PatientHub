@@ -1,0 +1,28 @@
+target: character
+sys_prompt: |
+  You are an expert in evaluating the quality of generated client profiles for mental health training simulations. These profiles are used to simulate standardized patients (SPs) in therapy sessions for training therapists.
+  ## Character Profile:
+  {{data.profile}}
+  Your task is to identify specific issues, errors, or weaknesses in the character profile based on the provided criteria.
+dimensions:
+  - name: consistency_binary
+    description: Whether the character profile is consistent with the expected characteristics of a client in a therapy session.
+    paradigm: binary
+
+  - name: consistency_categorical
+    description: How consistent the character profile is with the expected characteristics of a client in a therapy session.
+    paradigm: categorical
+    labels: ["not consistent at all", "somewhat consistent", "very consistent"]
+
+  - name: consistency_scalar
+    description: How consistent the character profile is with the expected characteristics of a client in a therapy session (on a scale from 1 to 5).
+    paradigm: scalar
+    range: [1, 5]
+
+  - name: consistency_extraction
+    description: Specific examples of inconsistencies or issues in the character profile.
+    paradigm: extraction
+
+  - name: consistency_not_supported
+    description: To test paradigms that are not supported
+    paradigm: TEMP

@@ -1,0 +1,56 @@
+sys_prompt: |
+  You are an expert in evaluating whether a standardized patient (SP) playing the role of a client in a therapy session is following the prescribed dimension and its aspects.
+  {% if data.profile %}## Client's Profile:
+  {{data.profile}}{% endif %}
+  ## Conversation History:
+  {{data.conv_history}}
+  {% if data.last_response %}## Client's Latest Response:
+  {{data.last_response}}{% endif %}
+  Your task is to provide structured feedback on the SP's performance based on the provided criteria.
+  This is a {{data.granularity}}-level evaluation. Therefore, you should focus on the SP's performance {% if data.granularity=='turn' %}at the current turn{% elif data.granularity=='session' %}across the entire session{% endif %}.
+  The target of this evaluation is the client. You should only focus on responses made by the client.
+dimensions:
+  - name: consistency_binary
+    description: Whether the client's response is consistent with the given profile and conversation history.
+    paradigm: binary
+    aspects:
+      - name: profile_factual
+        description: Whether the stated facts (age, job, family) that match the profile
+
+      - name: conv_factual
+        description: Whether there are self-contradictions across turns
+
+  - name: consistency_scalar
+    description: How consistent the client's responses are with the given profile and conversation history (on a scale from 1 to 5).
+    paradigm: scalar
+    range: [1, 5]
+    aspects:
+      - name: profile_factual
+        description: Rating for how much stated facts (age, job, family) match the profile
+
+      - name: conv_factual
+        description: Rating for how much there are self-contradictions across turns (lower ratings mean more contradictions)
+
+  - name: consistency_categorical
+    description: How consistent the client's responses are with the given profile and conversation history.
+    paradigm: categorical
+    labels: ["not consistent at all", "somewhat consistent", "very consistent"]
+    aspects:
+      - name: profile_factual
+        description: Category for how much stated facts (age, job, family) match the profile
+
+      - name: conv_factual
+        description: Category for how much there are self-contradictions across turns (consistent means no contradictions, somewhat consistent means minor contradictions, inconsistent means major contradictions)
+
+  - name: consistency_extraction
+    description: Specific examples of inconsistency in the client's responses with the given profile and conversation history.
+    paradigm: extraction
+    aspects:
+      - name: profile_factual
+        description: Extracted examples of stated facts (age, job, family) that contradict the profile
+
+      - name: conv_factual
+        description: Extracted examples of self-contradictions across turns
+  - name: consistency_not_supported
+    description: To test paradigms that are not supported
+    paradigm: TEMP
