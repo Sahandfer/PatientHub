@@ -71,13 +71,16 @@ def process_prompts(data):
         return None
 
 
-def load_prompts(path: str, lang: str = "en"):
+def load_prompts(path: str, lang: str = "en", process: bool = True):
     try:
         data = load_yaml(path)
         if lang in data:
             data = data[lang]
 
-        return process_prompts(data)
+        if process:
+            return process_prompts(data)
+        else:
+            return data
     except Exception as e:
         print(f"Error loading prompts from {path}: {e}")
         return {}
