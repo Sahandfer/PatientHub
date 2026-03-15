@@ -29,3 +29,7 @@ dev = [
 [tool.setuptools.packages.find]
 include = ["patienthub*"] 
 exclude = ["data*"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
