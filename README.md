@@ -33,7 +33,7 @@ uv run python -m examples.simulate
 You can also override any configuration via the command line:
 
 ```bash
-uv run python -m examples.simulate client=patientPsi therapist=basic evaluator=llm_judge
+uv run python -m examples.simulate client=patientPsi therapist=basic evaluator=conv_judge evaluator.prompt_path=data/prompts/evaluator/client_conv.yaml
 ```
 
 ### Other examples
@@ -47,7 +47,7 @@ uv run python -m examples.create agent_type=client agent_name=myClient
 **Evaluate** a recorded session:
 
 ```bash
-uv run python -m examples.evaluate evaluator=llm_judge input_dir=data/sessions/default/session.json
+uv run python -m examples.evaluate evaluator=conv_judge evaluator.prompt_path=data/prompts/evaluator/client_conv.yaml input_dir=data/sessions/default/badtherapist.json
 ```
 
 **Generate** a character profile:
@@ -92,9 +92,10 @@ uv run chainlit run examples/chainlit.py
 
 ### Evaluators
 
-| Evaluator | Key         | Description                              |
-| --------- | ----------- | ---------------------------------------- |
-| LLM Judge | `llm_judge` | LLM-based evaluation of therapy sessions |
+| Evaluator                   | Key             | Description                                        |
+| --------------------------- | --------------- | -------------------------------------------------- |
+| LLM Judge (Conversation)    | `conv_judge`    | LLM-based evaluation of therapy conversations      |
+| LLM Judge (Profile)         | `profile_judge` | LLM-based evaluation of generated client profiles  |
 
 ### Generators
 

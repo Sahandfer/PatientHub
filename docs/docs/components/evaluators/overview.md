@@ -4,40 +4,48 @@ Evaluators in PatientHub assess the quality of therapy simulations, providing au
 
 ## Available Evaluators
 
-| Evaluator                       | Key         | Description                                             |
-| ------------------------------- | ----------- | ------------------------------------------------------- |
-| [**LLM Judge**](./llm-judge.md) | `llm_judge` | Uses large language models to evaluate therapy sessions |
+| Evaluator                                      | Key             | Description                                                      |
+| ---------------------------------------------- | --------------- | ---------------------------------------------------------------- |
+| [**LLM Judge (Conversation)**](./conv_judge.md) | `conv_judge`    | Uses large language models to evaluate therapy conversations     |
+| [**LLM Judge (Profile)**](./profile_judge.md)      | `profile_judge` | Uses large language models to evaluate generated client profiles |
 
 ## Usage
 
 ### In Configuration
 
 ```yaml
+defaults:
+  - _self_
+  - evaluator: conv_judge
+
 evaluator:
-  key: llm_judge
-  config:
-    model: gpt-4o
-    criteria:
-      - empathy
-      - adherence
-      - effectiveness
+  prompt_path: data/prompts/evaluator/client_conv.yaml
+  granularity: session
+  model_type: OPENAI
+  model_name: gpt-4o
+  use_reasoning: false
 ```
 
 ### In Code
 
 ```python
-from patienthub.evaluators import EvaluatorRegistry
+from omegaconf import OmegaConf
+from patienthub.evaluators import get_evaluator
+from patienthub.utils import load_json
 
-# List available evaluators
-available = EvaluatorRegistry.list()
+session = load_json("data/sessions/default/badtherapist.json")
 
-# Create an evaluator
-evaluator = EvaluatorRegistry.create("llm_judge", config={
-    "model": "gpt-4o"
+configs = OmegaConf.create({
+    "agent_type": "conv_judge",
+    "prompt_path": "data/prompts/evaluator/client_conv.yaml",
+    "granularity": "session",
+    "model_type": "OPENAI",
+    "model_name": "gpt-4o",
+    "use_reasoning": False,
 })
 
-# Evaluate a conversation
-results = evaluator.evaluate(conversation_history)
+evaluator = get_evaluator(configs=configs, lang="en")
+results = evaluator.evaluate(session)
 ```
 
 ## Running Evaluations
@@ -45,56 +53,65 @@ results = evaluator.evaluate(conversation_history)
 ### Command Line
 
 ```bash
-# Evaluate with defaults
-uv run python -m examples.evaluate
-
-# Override evaluator and paths
 uv run python -m examples.evaluate \
-    evaluator=llm_judge \
-    input_dir=data/sessions/session.json
+    evaluator=conv_judge \
+    evaluator.prompt_path=data/prompts/evaluator/client_conv.yaml \
+    evaluator.granularity=session \
+    evaluator.model_type=OPENAI \
+    evaluator.model_name=gpt-4o \
+    input_dir=data/sessions/default/badtherapist.json
 ```
 
 ### Batch Evaluation
 
 ```python
-from patienthub.evaluators import EvaluatorRegistry
+from pathlib import Path
+from omegaconf import OmegaConf
+from patienthub.evaluators import get_evaluator
+from patienthub.utils import load_json
 
-evaluator = EvaluatorRegistry.create("llm_judge")
+configs = OmegaConf.create({
+    "agent_type": "conv_judge",
+    "prompt_path": "data/prompts/evaluator/client_conv.yaml",
+    "granularity": "session",
+    "model_type": "OPENAI",
+    "model_name": "gpt-4o",
+})
 
-sessions = load_sessions("outputs/")
+evaluator = get_evaluator(configs=configs, lang="en")
 results = []
 
-for session in sessions:
+for session_path in Path("outputs/").rglob("*.json"):
+    session = load_json(str(session_path))
     result = evaluator.evaluate(session)
     results.append(result)
 ```
 
 ## Creating Custom Evaluators
 
-You can create custom evaluators by extending the base class:
+You can create custom evaluators by extending the base judge class:
 
 ```python
-from patienthub.evaluators.base import Evaluator
+from patienthub.evaluators.base import LLMJudge
 
-class MyCustomEvaluator(Evaluator):
-    def __init__(self, config):
-        super().__init__(config)
+class MyCustomEvaluator(LLMJudge):
+    def __init__(self, configs):
+        super().__init__(configs)
         # Initialize your evaluator
 
-    def evaluate(self, conversation_history):
+    def evaluate(self, data):
         # Perform evaluation
-        return {
-            "score": score,
-            "feedback": feedback
-        }
+        return self.evaluate_dimensions(data)
 ```
 
 Then register it:
 
 ```python
-from patienthub.evaluators import EvaluatorRegistry
+# patienthub/evaluators/__init__.py
+from .my_evaluator import MyCustomEvaluator, MyCustomEvaluatorConfig
 
-EvaluatorRegistry.register("my_evaluator", MyCustomEvaluator)
+EVALUATOR_REGISTRY["my_evaluator"] = MyCustomEvaluator
+EVALUATOR_CONFIG_REGISTRY["my_evaluator"] = MyCustomEvaluatorConfig
 ```
 
 ## See Also

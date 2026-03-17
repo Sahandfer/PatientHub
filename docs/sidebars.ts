@@ -69,7 +69,8 @@ const sidebars = {
             id: 'components/evaluators/overview',
           },
           items: [
-            'components/evaluators/llm-judge',
+            'components/evaluators/conv_judge',
+            'components/evaluators/profile_judge',
           ],
         },
 
