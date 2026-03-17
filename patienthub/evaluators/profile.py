@@ -14,7 +14,7 @@ class ProfileJudge(LLMJudge):
     def __init__(self, configs: DictConfig):
         super().__init__(configs)
 
-    def evaluate(self, data: Any, *args) -> Dict[str, Any]:
+    def evaluate(self, data: Dict[str, Any], *args) -> Dict[str, Any]:
         profile = data.get("profile", {})
         if not profile:
             print("No profile data provided for evaluation.")

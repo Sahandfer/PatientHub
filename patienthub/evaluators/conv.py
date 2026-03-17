@@ -17,7 +17,9 @@ class ConvJudge(LLMJudge):
         super().__init__(configs)
         self.granularity = configs.granularity
 
-    def evaluate(self, data: Any, *args) -> Dict[str, Any]:
+    def evaluate(
+        self, data: Dict[str, Any], target: str = "client", *args
+    ) -> Dict[str, Any]:
         conv_history = data.get("messages", [])
         if not conv_history:
             print("No conversation history provided for evaluation.")
@@ -43,7 +45,7 @@ class ConvJudge(LLMJudge):
             data["granularity"] = "turn"
             results = {}
             for i, turn in enumerate(conv_history):
-                if turn.get("role", "").lower() == self.target.lower():
+                if turn.get("role", "").lower() == target.lower():
                     data["conv_history"] = self.flatten_conv(conv_history[:i])
                     data["last_response"] = turn.get("content", "")
                     res = self.evaluate_dimensions(data)
