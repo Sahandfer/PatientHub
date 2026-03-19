@@ -30,7 +30,7 @@ from patienthub.utils import load_prompts, load_json, get_chat_model
 class CamiTherapistConfig(APIModelConfig):
     """Configuration for the CamiTherapist agent."""
 
-    agent_type: str = "cami"
+    agent_name: str = "cami"
     prompt_path: str = "data/prompts/therapist/cami.yaml"
     topic_graph: str = "data/resources/CAMI/topic_graph.json"
     goal: str = "reducing drug use"  # client aimed at achieving

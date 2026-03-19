@@ -27,7 +27,7 @@ from patienthub.utils import load_prompts, load_json, get_chat_model
 class PatientPsiClientConfig(APIModelConfig):
     """Configuration for PatientPsi client agent."""
 
-    agent_type: str = "patientPsi"
+    agent_name: str = "patientPsi"
     prompt_path: str = "data/prompts/client/patientPsi.yaml"
     data_path: str = "data/characters/PatientPsi.json"
     data_idx: int = 0

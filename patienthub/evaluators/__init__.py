@@ -14,14 +14,22 @@ EVALUATOR_CONFIG_REGISTRY = {
 }
 
 
-def get_evaluator(configs: DictConfig, lang: str = "en"):
-    configs.lang = lang
-    agent_type = configs.agent_type
-    print(f"Loading {agent_type} agent for evaluation...")
-    if agent_type in EVALUATOR_REGISTRY:
-        return EVALUATOR_REGISTRY[agent_type](configs=configs)
+def get_evaluator(agent_name: str, configs: DictConfig = None, lang: str = "en"):
+    print(f"Loading {agent_name} agent for evaluation...")
+    if agent_name in EVALUATOR_REGISTRY:
+        if configs is None:
+            configs = get_evaluator_config(agent_name)
+        configs.lang = lang
+        return EVALUATOR_REGISTRY[agent_name](configs=configs)
     else:
-        raise ValueError(f"Evaluator agent {agent_type} not found in registry.")
+        raise ValueError(f"Evaluator agent {agent_name} not found in registry.")
+
+
+def get_evaluator_config(agent_name: str):
+    if agent_name in EVALUATOR_CONFIG_REGISTRY:
+        return EVALUATOR_CONFIG_REGISTRY[agent_name]()
+    else:
+        raise ValueError(f"Evaluator config for {agent_name} not found in registry.")
 
 
 def register_evaluator_configs(cs):
@@ -31,6 +39,7 @@ def register_evaluator_configs(cs):
 
 __all__ = [
     "get_evaluator",
+    "get_evaluator_config",
     "register_evaluator_configs",
     "LLMJudge",
     "LLMJudgeConfig",

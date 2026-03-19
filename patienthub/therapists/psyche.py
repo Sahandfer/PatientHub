@@ -25,7 +25,7 @@ class PsycheTherapistConfig(APIModelConfig):
     Configuration for the PsycheTherapist agent.
     """
 
-    agent_type: str = "psyche"
+    agent_name: str = "psyche"
     prompt_path: str = "data/prompts/therapist/psyche.yaml"
 
 

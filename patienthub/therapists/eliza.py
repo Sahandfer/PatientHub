@@ -25,7 +25,7 @@ from .base import BaseTherapist
 class ElizaTherapistConfig:
     """Configuration for Eliza Therapist agent."""
 
-    agent_type: str = "eliza"
+    agent_name: str = "eliza"
     lang: str = "en"
 
 

@@ -12,7 +12,7 @@ init(autoreset=True)
 class TherapySessionConfig:
     """Configuration for a therapy session."""
 
-    event_type: str = "therapySession"
+    event_type: str = "therapy_session"
     reminder_turn_num: int = 2
     max_turns: int = 15
     output_dir: str = "data/sessions/default/session_1.json"
@@ -21,8 +21,8 @@ class TherapySessionConfig:
 @action(reads=[], writes=["messages", "msg", "initialized"])
 def init_session(state: State, therapist, client) -> State:
     """Initialize the therapy session."""
-    therapist.set_client({"name": client.name})
-    client.set_therapist({"name": therapist.name})
+    therapist.set_client(client)
+    client.set_therapist(therapist)
 
     print("=" * 50)
     return state.update(
@@ -35,7 +35,7 @@ def init_session(state: State, therapist, client) -> State:
 @action(reads=["msg", "messages", "num_turns"], writes=["msg", "messages"])
 def generate_therapist_response(state: State, therapist, max_turns) -> State:
     """Generate therapist's response."""
-    name = therapist.name
+    name = "Therapist"
     res = therapist.generate_response(state["msg"])
     res = res.content if not isinstance(res, str) else res
 
@@ -55,7 +55,7 @@ def generate_therapist_response(state: State, therapist, max_turns) -> State:
 def generate_client_response(state: State, therapist, client) -> State:
     """Generate client's response."""
     # Check if therapist ended the session
-    therapist_msg = state["msg"].replace(f"{therapist.name}: ", "")
+    therapist_msg = state["msg"].replace("Therapist: ", "")
     if therapist_msg in ["END", "end", "exit"]:
         return state.update(
             msg="The therapist has ended the session.",
@@ -63,13 +63,12 @@ def generate_client_response(state: State, therapist, client) -> State:
             session_ended=True,
         )
 
-    name = client.name
     res = client.generate_response(state["msg"])
     res = res.content if not isinstance(res, str) else res
-    print(f"{Fore.RED}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res}")
+    print(f"{Fore.RED}{Style.BRIGHT}{"Client"}{Style.RESET_ALL}: {res}")
 
     return state.update(
-        msg=f"{name}: {res}",
+        msg=f"Client: {res}",
         messages=state["messages"] + [{"role": "client", "content": res}],
         num_turns=state["num_turns"] + 1,
         session_ended=False,

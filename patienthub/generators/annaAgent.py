@@ -35,7 +35,7 @@ from patienthub.utils import (
 class AnnaAgentGeneratorConfig(APIModelConfig):
     """Configuration for AnnaAgent generator."""
 
-    agent_type: str = "annaAgent"
+    agent_name: str = "annaAgent"
     prompt_path: str = "data/prompts/generator/annaAgent.yaml"
     input_dir: str = "data/resources/AnnaAgent"
     output_dir: str = "data/characters/AnnaAgent.json"

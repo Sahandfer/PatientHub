@@ -33,7 +33,7 @@ from patienthub.utils import load_json, load_prompts, get_chat_model
 class RoleplayDohClientConfig(APIModelConfig):
     """Configuration for RoleplayDoh client agent."""
 
-    agent_type: str = "roleplayDoh"
+    agent_name: str = "roleplayDoh"
     prompt_path: str = "data/prompts/client/roleplayDoh.yaml"
     data_path: str = "data/characters/PatientPsi.json"
     principles: str = "data/resources/roleplayDohPrinciple.json"

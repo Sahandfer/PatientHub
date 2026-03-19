@@ -11,7 +11,7 @@ from .base import BaseTherapist
 class UserTherapistConfig:
     """Configuration for UserTherapist (human user as therapist)."""
 
-    agent_type: str = "user"
+    agent_name: str = "user"
     lang: str = "en"
 
 

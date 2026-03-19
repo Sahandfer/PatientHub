@@ -48,14 +48,22 @@ CLIENT_CONFIG_REGISTRY = {
 }
 
 
-def get_client(configs: DictConfig, lang: str = "en"):
-    configs.lang = lang
-    agent_type = configs.agent_type
-    print(f"Loading {agent_type} client agent...")
-    if agent_type in CLIENT_REGISTRY:
-        return CLIENT_REGISTRY[agent_type](configs=configs)
+def get_client(agent_name: str, configs: DictConfig = None, lang: str = "en"):
+    print(f"Loading {agent_name} client agent...")
+    if agent_name in CLIENT_REGISTRY:
+        if configs is None:
+            configs = get_client_config(agent_name)
+        configs.lang = lang
+        return CLIENT_REGISTRY[agent_name](configs=configs)
     else:
-        raise ValueError(f"Unknown client agent type: {agent_type}")
+        raise ValueError(f"Unknown client agent type: {agent_name}")
+
+
+def get_client_config(agent_name: str):
+    if agent_name in CLIENT_CONFIG_REGISTRY:
+        return CLIENT_CONFIG_REGISTRY[agent_name]()
+    else:
+        raise ValueError(f"Client config for {agent_name} not found in registry.")
 
 
 def register_client_configs(cs):
@@ -63,8 +71,4 @@ def register_client_configs(cs):
         cs.store(group="client", name=name, node=config_cls)
 
 
-__all__ = [
-    "BaseClient",
-    "get_client",
-    "register_client_configs",
-]
+__all__ = ["BaseClient", "get_client", "register_client_configs", "get_client_config"]

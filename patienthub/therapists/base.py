@@ -13,11 +13,11 @@ class BaseTherapist(ABC):
 
     def set_client(
         self,
-        client: Dict[str, Any],
+        client: Any,
         prev_sessions: List[Dict[str, str]] | None = None,
     ) -> None:
         r"""Sets the client information for the therapist."""
-        self.client = client.get("name", "Client")
+        self.client = getattr(client, "name", None) or "Client"
 
     @abstractmethod
     def build_sys_prompt(self) -> None:

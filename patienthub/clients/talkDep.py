@@ -28,7 +28,7 @@ from patienthub.utils import load_prompts, load_json, get_chat_model
 class TalkDepClientConfig(APIModelConfig):
     """Configuration for the TalkDepClient agent."""
 
-    agent_type: str = "talkDep"
+    agent_name: str = "talkDep"
     prompt_path: str = "data/prompts/client/talkDep.yaml"
     data_path: str = "data/characters/talkDep.json"
     data_idx: int = 0

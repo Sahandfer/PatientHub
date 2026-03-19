@@ -29,7 +29,7 @@ from patienthub.utils import load_prompts, load_json, get_chat_model
 class PsycheClientConfig(APIModelConfig):
     """Configuration for Psyche client agent."""
 
-    agent_type: str = "psyche"
+    agent_name: str = "psyche"
     prompt_path: str = "data/prompts/client/psyche.yaml"
     data_path: str = "data/characters/Psyche.json"
     data_idx: int = 0

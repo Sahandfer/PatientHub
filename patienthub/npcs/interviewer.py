@@ -8,7 +8,7 @@ from patienthub.utils import load_json
 class InterviewerEvaluatorConfig:
     """Configuration for Interview Evaluator."""
 
-    agent_type: str = "Interviewer"
+    agent_name: str = "Interviewer"
     data: str = "data/evaluations/surveys/default_survey.json"
 
 

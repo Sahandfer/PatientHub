@@ -50,10 +50,10 @@ ALL_CLIENTS = [name for name in CLIENT_REGISTRY if name != "user"]
 # ---------------------------------------------------------------------------
 @pytest.fixture(params=ALL_CLIENTS)
 def client(request):
-    agent_type = request.param
+    agent_name = request.param
     with patch(MOCK_CHAT_MODEL_PATH, side_effect=_mock_chat_model):
-        cfg = OmegaConf.structured(CLIENT_CONFIG_REGISTRY[agent_type])
-        yield CLIENT_REGISTRY[agent_type](configs=cfg)
+        cfg = OmegaConf.structured(CLIENT_CONFIG_REGISTRY[agent_name])
+        yield CLIENT_REGISTRY[agent_name](configs=cfg)
 
 
 # ===========================================================================
@@ -112,13 +112,13 @@ def test_reset(client):
 # ===========================================================================
 
 
-@pytest.mark.parametrize("agent_type", ALL_CLIENTS)
-def test_registry_has_both_entries(agent_type):
+@pytest.mark.parametrize("agent_name", ALL_CLIENTS)
+def test_registry_has_both_entries(agent_name):
     """Every client has entries in both CLIENT_REGISTRY and CLIENT_CONFIG_REGISTRY."""
-    assert agent_type in CLIENT_REGISTRY, f"{agent_type} missing from CLIENT_REGISTRY"
+    assert agent_name in CLIENT_REGISTRY, f"{agent_name} missing from CLIENT_REGISTRY"
     assert (
-        agent_type in CLIENT_CONFIG_REGISTRY
-    ), f"{agent_type} missing from CLIENT_CONFIG_REGISTRY"
+        agent_name in CLIENT_CONFIG_REGISTRY
+    ), f"{agent_name} missing from CLIENT_CONFIG_REGISTRY"
 
 
 # ===========================================================================

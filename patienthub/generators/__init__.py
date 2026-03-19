@@ -21,15 +21,22 @@ GENERATOR_CONFIG_REGISTRY = {
 }
 
 
-def get_generator(configs: DictConfig, lang: str = "en"):
-    if hasattr(configs, "lang"):
+def get_generator(agent_name: str, configs: DictConfig = None, lang: str = "en"):
+    print(f"Loading {agent_name} generator...")
+    if agent_name in GENERATORS:
+        if configs is None:
+            configs = get_generator_config(agent_name)
         configs.lang = lang
-    agent_type = configs.agent_type
-    print(f"Loading {agent_type} generator...")
-    if agent_type in GENERATORS:
-        return GENERATORS[agent_type](configs=configs)
+        return GENERATORS[agent_name](configs=configs)
     else:
-        raise ValueError(f"Unknown generator type: {agent_type}")
+        raise ValueError(f"Unknown generator type: {agent_name}")
+
+
+def get_generator_config(agent_name: str):
+    if agent_name in GENERATOR_CONFIG_REGISTRY:
+        return GENERATOR_CONFIG_REGISTRY[agent_name]()
+    else:
+        raise ValueError(f"Generator config for {agent_name} not found in registry.")
 
 
 def register_generator_configs(cs):
@@ -40,5 +47,6 @@ def register_generator_configs(cs):
 __all__ = [
     "BaseGenerator",
     "get_generator",
+    "get_generator_config",
     "register_generator_configs",
 ]

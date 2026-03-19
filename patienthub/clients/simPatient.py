@@ -32,7 +32,7 @@ from patienthub.utils import get_chat_model, load_json, load_prompts
 class SimPatientClientConfig(APIModelConfig):
     """Configuration for SimPatient client agent."""
 
-    agent_type: str = "simPatient"
+    agent_name: str = "simPatient"
     prompt_path: str = "data/prompts/client/simPatient.yaml"
     data_path: str = "data/characters/SimPatient.json"
     conv_history_path: str = "data/sessions/SimPatient/session_1.json"

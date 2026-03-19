@@ -8,7 +8,7 @@ from .base import LLMJudge, LLMJudgeConfig
 
 @dataclass
 class ConvJudgeConfig(LLMJudgeConfig):
-    agent_type: str = "conv_judge"
+    agent_name: str = "conv_judge"
     granularity: str = "session"  # session, turn, turn_by_turn
 
 

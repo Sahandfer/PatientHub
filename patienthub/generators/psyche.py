@@ -29,7 +29,7 @@ from patienthub.utils import load_json, load_prompts, get_chat_model, save_json
 class PsycheGeneratorConfig(APIModelConfig):
     """Configuration for Psyche generator."""
 
-    agent_type: str = "psyche"
+    agent_name: str = "psyche"
     prompt_path: str = "data/prompts/generator/psyche.yaml"
     input_dir: str = "data/resources/psyche_character.json"
     output_dir: str = "data/characters/Psyche MFC.json"

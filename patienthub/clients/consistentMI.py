@@ -33,7 +33,7 @@ from patienthub.utils import get_reranker, get_chat_model, load_json, load_promp
 class ConsistentMIClientConfig(APIModelConfig):
     """Configuration for ConsistentMI client agent."""
 
-    agent_type: str = "consistentMI"
+    agent_name: str = "consistentMI"
     prompt_path: str = "data/prompts/client/consistentMI.yaml"
     data_path: str = "data/characters/ConsistentMI.json"
     topics_path: str = "data/resources/ConsistentMI/topics.json"

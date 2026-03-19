@@ -7,7 +7,7 @@ from .base import LLMJudge, LLMJudgeConfig
 
 @dataclass
 class ProfileJudgeConfig(LLMJudgeConfig):
-    agent_type: str = "profile_judge"
+    agent_name: str = "profile_judge"
 
 
 class ProfileJudge(LLMJudge):

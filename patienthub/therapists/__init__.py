@@ -27,14 +27,22 @@ THERAPIST_CONFIG_REGISTRY = {
 }
 
 
-def get_therapist(configs: DictConfig, lang: str = "en"):
-    configs.lang = lang
-    agent_type = configs.agent_type
-    print(f"Loading {agent_type} therapist agent...")
-    if agent_type in THERAPIST_REGISTRY:
-        return THERAPIST_REGISTRY[agent_type](configs=configs)
+def get_therapist(agent_name: str, configs: DictConfig = None, lang: str = "en"):
+    print(f"Loading {agent_name} therapist agent...")
+    if agent_name in THERAPIST_REGISTRY:
+        if configs is None:
+            configs = get_therapist_config(agent_name)
+        configs.lang = lang
+        return THERAPIST_REGISTRY[agent_name](configs=configs)
     else:
-        raise ValueError(f"Unknown therapist agent type: {agent_type}")
+        raise ValueError(f"Unknown therapist agent type: {agent_name}")
+
+
+def get_therapist_config(agent_name: str):
+    if agent_name in THERAPIST_CONFIG_REGISTRY:
+        return THERAPIST_CONFIG_REGISTRY[agent_name]()
+    else:
+        raise ValueError(f"Therapist config for {agent_name} not found in registry.")
 
 
 def register_therapist_configs(cs):
@@ -45,5 +53,6 @@ def register_therapist_configs(cs):
 __all__ = [
     "BaseTherapist",
     "get_therapist",
+    "get_therapist_config",
     "register_therapist_configs",
 ]

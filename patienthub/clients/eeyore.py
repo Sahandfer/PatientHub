@@ -28,7 +28,7 @@ from patienthub.utils import load_json, load_prompts, get_chat_model
 class EeyoreClientConfig(APIModelConfig):
     """Configuration for Eeyore client agent (local model)."""
 
-    agent_type: str = "eeyore"
+    agent_name: str = "eeyore"
     prompt_path: str = "data/prompts/client/eeyore.yaml"
     data_path: str = "data/characters/Eeyore.json"
     model_type: str = "LOCAL"

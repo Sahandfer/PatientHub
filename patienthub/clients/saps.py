@@ -30,7 +30,7 @@ from patienthub.utils import load_prompts, load_json, get_chat_model
 class SAPSClientConfig(APIModelConfig):
     """Configuration for the SAPSClient agent."""
 
-    agent_type: str = "saps"
+    agent_name: str = "saps"
     prompt_path: str = "data/prompts/client/saps.yaml"
     data_path: str = "data/characters/SAPS.json"
     data_idx: int = 0

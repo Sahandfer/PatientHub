@@ -10,7 +10,7 @@ from dataclasses import dataclass
 class UserClientConfig:
     """Configuration for UserClient (human user as client)."""
 
-    agent_type: str = "user"
+    agent_name: str = "user"
     lang: str = "en"
 
 

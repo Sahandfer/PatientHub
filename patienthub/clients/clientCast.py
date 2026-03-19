@@ -26,7 +26,7 @@ from patienthub.utils import load_prompts, load_json, get_chat_model
 class ClientCastClientConfig(APIModelConfig):
     """Configuration for ClientCast client agent."""
 
-    agent_type: str = "clientCast"
+    agent_name: str = "clientCast"
     prompt_path: str = "data/prompts/client/clientCast.yaml"
     data_path: str = "data/characters/ClientCast.json"
     conv_path: str = "data/resources/ClientCast/human_data.json"

@@ -34,7 +34,7 @@ class AdaptiveVPClientConfig(APIModelConfig):
     Configuration for the AdaptiveVPClient agent.
     """
 
-    agent_type: str = "adaptiveVP"
+    agent_name: str = "adaptiveVP"
     prompt_path: str = "data/prompts/client/adaptiveVP.yaml"
     data_path: str = "data/characters/AdaptiveVP.json"
     directions_path: str = "data/resources/AdaptiveVP_stage_direction.json"

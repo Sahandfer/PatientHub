@@ -38,7 +38,7 @@ class ResponseWithCOT(BaseModel):
 class BasicTherapistConfig(APIModelConfig):
     """Configuration for Basic Therapist agent."""
 
-    agent_type: str = "basic"
+    agent_name: str = "basic"
     prompt_path: str = "data/prompts/therapist/CBT.yaml"
     use_cot: bool = False
 

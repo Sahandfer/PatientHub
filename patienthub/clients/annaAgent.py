@@ -33,7 +33,7 @@ class AnnaAgentClientConfig(APIModelConfig):
     Configuration for the AnnaAgentClient agent.
     """
 
-    agent_type: str = "annaAgent"
+    agent_name: str = "annaAgent"
     prompt_path: str = "data/prompts/client/annaAgent.yaml"
     data_path: str = "data/characters/AnnaAgent.json"
     data_idx: int = 0
