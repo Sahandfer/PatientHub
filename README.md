@@ -2,7 +2,7 @@
 
 > A unified hub to create, simulate, and evaluate methods for patient/client simulation.
 
-📚 **[Documentation](https://sahandfer.github.io/PatientHub/)** | 🚀 **[Quick Start](#quick-start)** | 📦 **[Supported Agents](#supported-agents)**
+📚 **[Documentation](https://sahandfer.github.io/PatientHub/)** | 🚀 **[Quick Start](#quick-start)** | 📄 **[Paper](https://arxiv.org/abs/2602.11684)**
 
 ## Quick Start
 
@@ -92,10 +92,10 @@ uv run chainlit run examples/chainlit.py
 
 ### Evaluators
 
-| Evaluator                   | Key             | Description                                        |
-| --------------------------- | --------------- | -------------------------------------------------- |
-| LLM Judge (Conversation)    | `conv_judge`    | LLM-based evaluation of therapy conversations      |
-| LLM Judge (Profile)         | `profile_judge` | LLM-based evaluation of generated client profiles  |
+| Evaluator                | Key             | Description                                       |
+| ------------------------ | --------------- | ------------------------------------------------- |
+| LLM Judge (Conversation) | `conv_judge`    | LLM-based evaluation of therapy conversations     |
+| LLM Judge (Profile)      | `profile_judge` | LLM-based evaluation of generated client profiles |
 
 ### Generators
 
