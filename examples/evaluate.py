@@ -13,38 +13,36 @@ Usage:
 """
 
 import hydra
-from typing import Any, List
-from dataclasses import dataclass, field
-from omegaconf import DictConfig, MISSING
+from omegaconf import DictConfig
+from dataclasses import dataclass
+from hydra.core.config_store import ConfigStore
 
-from patienthub.configs import register_configs
 from patienthub.utils import load_json, save_json
-from patienthub.evaluators import get_evaluator
-
-DEFAULTS = [
-    "_self_",
-    {"evaluator": "llm_judge"},
-]
+from patienthub.evaluators import get_evaluator, get_evaluator_config
 
 
 @dataclass
 class EvaluateConfig:
     """Configuration for evaluation."""
 
-    defaults: List[Any] = field(default_factory=lambda: DEFAULTS)
-    evaluator: Any = MISSING
+    evaluator: str = "conv_judge"
     input_dir: str = "data/sessions/default/badtherapist.json"
     output_dir: str = "data/evaluations/default/temp_cot.json"
+    prompt_path: str = "data/prompts/evaluator/client_conv.yaml"
     lang: str = "en"
 
 
-register_configs("evaluate", EvaluateConfig)
+cs = ConfigStore.instance()
+cs.store(name="evaluate", node=EvaluateConfig)
 
 
 @hydra.main(version_base=None, config_name="evaluate")
 def evaluate(configs: DictConfig):
-    configs.evaluator.lang = configs.lang
-    evaluator = get_evaluator(configs=configs.evaluator)
+    eval_configs = get_evaluator_config(configs.evaluator)
+    eval_configs.prompt_path = configs.prompt_path
+    evaluator = get_evaluator(
+        agent_name=configs.evaluator, configs=eval_configs, lang=configs.lang
+    )
 
     data = load_json(configs.input_dir)
     res = evaluator.evaluate(data=data)

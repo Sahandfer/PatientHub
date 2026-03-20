@@ -13,44 +13,29 @@ Usage:
 """
 
 import hydra
-from typing import Any, List
-from dataclasses import dataclass, field
-from omegaconf import DictConfig, MISSING
+from omegaconf import DictConfig
+from dataclasses import dataclass
+from hydra.core.config_store import ConfigStore
 
-from patienthub.configs import register_configs
 from patienthub.generators import get_generator
-
-DEFAULTS = [
-    "_self_",
-    {"generator": "annaAgent"},
-]
 
 
 @dataclass
 class GenerateConfig:
     """Configuration for generating data."""
 
-    defaults: List[Any] = field(default_factory=lambda: DEFAULTS)
-    generator: Any = MISSING
-    gen_type: str = "client"
+    generator: str = "annaAgent"
     lang: str = "en"
 
 
-register_configs("generate", GenerateConfig)
-
-
-def generate_client(configs: DictConfig):
-    configs.generator.lang = configs.lang
-    generator = get_generator(configs=configs.generator)
-    generator.generate_character()
+cs = ConfigStore.instance()
+cs.store(name="generate", node=GenerateConfig)
 
 
 @hydra.main(version_base=None, config_name="generate")
 def generate(configs: DictConfig):
-    if configs.gen_type == "client":
-        generate_client(configs)
-    else:
-        print("Generation type is not supported.")
+    generator = get_generator(agent_name=configs.generator, lang=configs.lang)
+    generator.generate_character()
 
 
 if __name__ == "__main__":

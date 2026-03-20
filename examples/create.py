@@ -20,9 +20,8 @@ import os
 import re
 import hydra
 from jinja2 import Template
-from typing import Any, List
 from omegaconf import DictConfig
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from hydra.core.config_store import ConfigStore
 
 AGENT_TEMPLATE = Template(
@@ -39,9 +38,9 @@ class {{class_name}}Config(APIModelConfig):
     """
     Configuration for the {{class_name}} agent.
     """
-    agent_type: str = "{{agent_name}}"
+    agent_name: str = "{{agent_name}}"
     prompt_path: str = "data/prompts/{{agent_type}}/{{agent_name}}.yaml"
-    data_path: str = "data/characters/{{agent_type}}s.json"
+    data_path: str = ""
     data_idx: int = 0
 
 class {{class_name}}({% if agent_type == "client" %}BaseClient{% else %}BaseTherapist{% endif %}):
@@ -84,25 +83,12 @@ zh:
 )
 
 
-@dataclass
-class CreateConfig:
-    """Configuration for creating new agents."""
-
-    defaults: List[Any] = field(default_factory=lambda: ["_self_"])
-    agent_type: str = "client"
-    agent_name: str = "myClient"
-
-
-cs = ConfigStore.instance()
-cs.store(name="create", node=CreateConfig)
-
-
 class Generator:
     def __init__(self, configs: DictConfig):
         self.configs = configs
 
-        self.agent_type = configs.agent_type
         self.agent_name = configs.agent_name
+        self.agent_type = configs.agent_type
         self.agent_class_name = self.get_class_name()
         self.prompts = {"agent": AGENT_TEMPLATE, "prompt": PROMPT_TEMPLATE}
         self.paths = {
@@ -189,6 +175,18 @@ class Generator:
             self.update_init()
             self.create_prompt()
             print("> File creation process completed.")
+
+
+@dataclass
+class CreateConfig:
+    """Configuration for creating new agents."""
+
+    agent_type: str = "client"
+    agent_name: str = "myClient"
+
+
+cs = ConfigStore.instance()
+cs.store(name="create", node=CreateConfig)
 
 
 @hydra.main(version_base=None, config_name="create")

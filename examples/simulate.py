@@ -20,39 +20,32 @@ Usage:
 
 import hydra
 
-from typing import Any, List, Optional
-from dataclasses import dataclass, field
-from omegaconf import DictConfig, MISSING
+from typing import Optional
+from omegaconf import DictConfig
+from dataclasses import dataclass
+from hydra.core.config_store import ConfigStore
 
 from patienthub.events import get_event
 from patienthub.clients import get_client
 from patienthub.therapists import get_therapist
 from patienthub.evaluators import get_evaluator
-from patienthub.configs import register_configs
-
-DEFAULTS = [
-    "_self_",
-    {"client": "patientPsi"},
-    {"therapist": "basic"},
-    # {"evaluator": "inspect"},
-    {"event": "therapySession"},
-]
 
 
 @dataclass
 class SimulateConfig:
     """Main configuration for simulation."""
 
-    defaults: List[Any] = field(default_factory=lambda: DEFAULTS)
-    client: Any = MISSING
-    therapist: Any = MISSING
-    evaluator: Optional[Any] = None
-    event: Any = MISSING
+    client: str = "patientPsi"
+    therapist: str = "basic"
+    evaluator: Optional[str] = ""
+    event: str = "therapy_session"
     lang: str = "en"
 
 
 # Register all dataclass configs with Hydra before main
-register_configs("simulate", SimulateConfig)
+
+cs = ConfigStore.instance()
+cs.store(name="simulate", node=SimulateConfig)
 
 
 @hydra.main(version_base=None, config_name="simulate")
@@ -60,18 +53,20 @@ def simulate(configs: DictConfig) -> None:
     lang = configs.lang
 
     # Load client
-    client = get_client(configs=configs.client, lang=lang)
+    client = get_client(agent_name=configs.client, lang=lang)
 
     # Load therapist
-    therapist = get_therapist(configs=configs.therapist, lang=lang)
+    therapist = get_therapist(agent_name=configs.therapist, lang=lang)
 
     # Load evaluator (if any)
-    evaluator = None
-    if configs.evaluator:
-        evaluator = get_evaluator(configs=configs.evaluator, lang=lang)
+    evaluator = (
+        get_evaluator(agent_name=configs.evaluator, lang=lang)
+        if configs.evaluator
+        else None
+    )
 
-    # Create therapy session
-    event = get_event(configs=configs.event)
+    # # Create therapy session
+    event = get_event(event_name=configs.event)
     event.set_characters(
         {
             "client": client,
