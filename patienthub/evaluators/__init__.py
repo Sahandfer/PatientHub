@@ -34,7 +34,7 @@ def get_evaluator_config(agent_name: str):
 
 def register_evaluator_configs(cs):
     for name, config_cls in EVALUATOR_CONFIG_REGISTRY.items():
-        cs.store(group="evaluator", name=name, node=config_cls)
+        cs.store(group="evaluator_configs", name=name, node=config_cls)
 
 
 __all__ = [

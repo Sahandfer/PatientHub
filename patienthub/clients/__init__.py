@@ -68,7 +68,7 @@ def get_client_config(agent_name: str):
 
 def register_client_configs(cs):
     for name, config_cls in CLIENT_CONFIG_REGISTRY.items():
-        cs.store(group="client", name=name, node=config_cls)
+        cs.store(group="client_configs", name=name, node=config_cls)
 
 
 __all__ = ["BaseClient", "get_client", "register_client_configs", "get_client_config"]

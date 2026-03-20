@@ -29,7 +29,7 @@ def get_event_config(event_name: str):
 
 def register_event_configs(cs):
     for name, config_cls in EVENT_CONFIG_REGISTRY.items():
-        cs.store(group="event", name=name, node=config_cls)
+        cs.store(group="event_configs", name=name, node=config_cls)
 
 
 __all__ = ["TherapySession", "get_event", "get_event_config"]
