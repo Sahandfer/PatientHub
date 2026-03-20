@@ -1,6 +1,6 @@
 # AnnaAgent Generator
 
-The AnnaAgent Generator creates character files specifically designed for the AnnaAgent client method, which supports multi-session counseling with dynamic memory evolution.
+Creates character files for the AnnaAgent client, supporting multi-session counseling simulations with dynamic memory and clinical scale tracking.
 
 ## Overview
 
@@ -10,75 +10,86 @@ The AnnaAgent Generator creates character files specifically designed for the An
 | **Type**   | LLM-based                 |
 | **Output** | AnnaAgent character files |
 
-## Description
-
-The AnnaAgent Generator produces detailed character specifications that are compatible with the AnnaAgent client method. It creates profiles with rich backstories, presenting problems, and memory structures that can evolve across multiple therapy sessions.
-
 ## Key Features
 
-- **Multi-session Support** - Generates characters designed for longitudinal therapy
-- **Memory Evolution** - Creates initial memory states that can dynamically update
-- **Rich Backstories** - Detailed personal histories and context
-- **Session Goals** - Defines therapeutic objectives for each character
+- **Scale-based profiling**: Fills BDI, GHQ, and SASS scales for both previous and current treatment states
+- **Age-appropriate event triggering**: Selects triggering life events from curated adult/teen event databases
+- **Complaint chain generation**: Produces a 3–7 stage cognitive change chain from the triggering event
+- **Speaking style inference**: Extracts the patient's speaking style from prior conversation history
+- **Status summarization**: Analyzes scale changes across sessions to produce a current psychological status summary
+
+## How It Works
+
+`generate_character()` runs the following pipeline:
+
+1. Fill previous-session BDI, GHQ, and SASS scales from the input case report
+2. Select a triggering life event (age-matched from `adult_events.csv` / `teen_events.json`)
+3. Generate a complaint cognitive change chain (3–7 stages)
+4. Generate current situation, speaking style, and representative statements
+5. Fill current-session BDI, GHQ, and SASS scales
+6. Analyze scale changes and summarize the patient's current status
+7. Save the resulting character JSON to `output_dir`
+
+## Usage
+
+```python
+from patienthub.generators import get_generator
+
+generator = get_generator(agent_name="annaAgent", lang="en")
+generator.generate_character()
+```
 
 ## Configuration
 
-### YAML Configuration
+| Parameter     | Type   | Default                                 | Description                                   |
+| ------------- | ------ | --------------------------------------- | --------------------------------------------- |
+| `prompt_path` | string | `data/prompts/generator/annaAgent.yaml` | Path to prompt file                           |
+| `input_dir`   | string | `data/resources/AnnaAgent`              | Directory with `case.json`, event files, etc. |
+| `output_dir`  | string | `data/characters/AnnaAgent.json`        | Path where the generated character is saved   |
+| `model_type`  | string | `"OPENAI"`                              | Model provider key                            |
+| `model_name`  | string | `"gpt-4o"`                              | Model identifier                              |
+| `temperature` | float  | `0.7`                                   | Sampling temperature                          |
+| `max_tokens`  | int    | `8192`                                  | Max response tokens                           |
+| `max_retries` | int    | `3`                                     | API retry attempts                            |
 
-```yaml
-generator:
-  type: annaAgent
-  config:
-    model: gpt-4o
-    temperature: 0.8
-    include_memory_structure: true
+## Input Data Format
+
+The generator reads from `input_dir/case.json`:
+
+```json
+{
+  "profile": {
+    "name": "...",
+    "age": 30,
+    "gender": "Female"
+  },
+  "report": "...",
+  "previous_conversations": [
+    {"role": "Therapist", "content": "..."},
+    {"role": "Client", "content": "..."}
+  ]
+}
 ```
-
-### Python Usage
-
-```python
-from patienthub.generators import GeneratorRegistry
-
-generator = GeneratorRegistry.create("annaAgent", config={
-    "model": "gpt-4o",
-    "temperature": 0.8
-})
-
-character = generator.generate({
-    "disorder": "depression",
-    "severity": "moderate",
-    "session_count": 5
-})
-```
-
-## Parameters
-
-| Parameter                  | Type   | Default                                 | Description                           |
-| -------------------------- | ------ | --------------------------------------- | ------------------------------------- |
-| `prompt_path`              | string | `data/prompts/generator/annaAgent.yaml` | Path to prompt file                   |
-| `model`                    | string | `gpt-4o`                                | The LLM model to use                  |
-| `temperature`              | float  | `0.8`                                   | Controls creativity in generation     |
-| `include_memory_structure` | bool   | `true`                                  | Include dynamic memory initialization |
 
 ## Output Format
 
 ```json
 {
-  "name": "Sarah",
-  "age": 28,
-  "background": "Software engineer dealing with work-related stress...",
-  "presenting_problem": "Difficulty sleeping, persistent sadness...",
-  "memory": {
-    "core_beliefs": ["I'm not good enough"],
-    "recent_events": [...],
-    "therapeutic_progress": []
-  },
-  "session_goals": [...]
+  "profile": { "name": "...", "age": 30 },
+  "situation": "Second-person description of current situation",
+  "statement": ["Representative utterance 1", "Representative utterance 2"],
+  "style": ["Speaking style trait 1", "Speaking style trait 2"],
+  "complaint_chain": [
+    {"stage": 1, "content": "..."},
+    {"stage": 2, "content": "..."}
+  ],
+  "status": "Summary of current psychological status",
+  "report": "Previous session psychological report",
+  "previous_conversations": [...]
 }
 ```
 
 ## Use Cases
 
-- Creating diverse client pools for multi-session research
-- Generating training data for AnnaAgent clients
-- Building character libraries for educational purposes
+- Creating character files for AnnaAgent multi-session simulations
+- Building longitudinal therapy research datasets

@@ -69,30 +69,18 @@ Assesses the depth of emotional understanding and validation
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=adaptiveVP therapist=user
+uv run python -m examples.simulate client=adaptiveVP
 ```
 
 ### Python
 
 ```python
-from omegaconf import OmegaConf
 from patienthub.clients import get_client
 
-config = OmegaConf.create({
-    'agent_type': 'adaptiveVP',
-    'model_type': 'OPENAI',
-    'model_name': 'gpt-4o',
-    'temperature': 0.7,
-    'max_tokens': 1024,
-    'max_retries': 3,
-    'data_path': 'data/characters/AdaptiveVP.json',
-    'dir_path': 'data/resources/AdaptiveVP_stage_direction.json',
-    'data_idx': 0,
-})
-
-client = get_client(configs=config, lang='en')
+client = get_client(agent_name="adaptiveVP", lang='en')
 
 response = client.generate_response("I understand you're feeling anxious. Would you like to talk about what's on your mind?")
+
 print(f"Response: {response.content}")
 print(f"Inner thoughts: {response.inner_monologue}")
 print(f"Non-verbal: {response.non_verbal}")
@@ -100,12 +88,12 @@ print(f"Non-verbal: {response.non_verbal}")
 
 ## Configuration
 
-| Option        | Description              | Default                                          |
-| ------------- | ------------------------ | ------------------------------------------------ |
-| `prompt_path` | Path to prompt file      | `data/prompts/client/adaptiveVP.yaml`            |
-| `data_path`   | Path to character file   | `data/characters/AdaptiveVP.json`                |
-| `dir_path`    | Path to stage directions | `data/resources/AdaptiveVP_stage_direction.json` |
-| `data_idx`    | Character index          | `0`                                              |
+| Option            | Description              | Default                                          |
+| ----------------- | ------------------------ | ------------------------------------------------ |
+| `prompt_path`     | Path to prompt file      | `data/prompts/client/adaptiveVP.yaml`            |
+| `data_path`       | Path to character file   | `data/characters/AdaptiveVP.json`                |
+| `directions_path` | Path to stage directions | `data/resources/AdaptiveVP_stage_direction.json` |
+| `data_idx`        | Character index          | `0`                                              |
 
 ## Character Data Format
 

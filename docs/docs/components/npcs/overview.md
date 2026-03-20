@@ -1,44 +1,26 @@
 # NPCs (Non-Player Characters)
 
-NPCs in PatientHub are supporting agents that can participate in therapy simulations beyond the primary client-therapist dyad. These agents can represent family members, friends, or other individuals relevant to the client's situation.
-
-## Overview
-
-NPCs enable more realistic and complex therapy scenarios by introducing additional perspectives and dynamics. They can be used to:
-
-- Simulate family therapy sessions
-- Role-play social situations the client finds challenging
-- Practice communication skills with different personality types
-- Create more immersive therapeutic environments
+NPCs in PatientHub are supporting agents that can participate in therapy simulations beyond the primary client-therapist dyad.
 
 ## Available NPCs
 
 | NPC                                 | Key           | Description                                 |
 | ----------------------------------- | ------------- | ------------------------------------------- |
-| [**Interviewer**](./interviewer.md) | `interviewer` | Conducts structured interviews with clients |
+| [**Interviewer**](./interviewer.md) | `interviewer` | Conducts structured scripted interviews     |
 
 ## Usage
-
-### In Configuration
-
-```yaml
-npc:
-  agent_type: interviewer
-  data: data/evaluations/surveys/default_survey.json
-```
 
 ### In Code
 
 ```python
 from omegaconf import OmegaConf
-
 from patienthub.npcs.interviewer import InterviewerNPC
 
 config = OmegaConf.create({"data": "data/evaluations/surveys/default_survey.json"})
 interviewer = InterviewerNPC(configs=config)
 
-next_question = interviewer.generate_response("start")
-print(next_question)
+question = interviewer.generate_response("start")
+print(question)
 ```
 
 ## Use Cases
@@ -47,7 +29,6 @@ print(next_question)
 
 ```python
 from omegaconf import OmegaConf
-
 from patienthub.clients import get_client
 from patienthub.therapists import get_therapist
 from patienthub.npcs.interviewer import InterviewerNPC
@@ -58,32 +39,10 @@ interviewer = InterviewerNPC(
 )
 
 # Create client
-client_config = OmegaConf.create(
-    {
-        "agent_type": "saps",
-        "model_type": "OPENAI",
-        "model_name": "gpt-4o",
-        "temperature": 0.7,
-        "max_tokens": 8192,
-        "max_retries": 3,
-        "data_path": "data/characters/SAPS.json",
-        "data_idx": 0,
-    }
-)
-client = get_client(configs=client_config, lang="en")
+client = get_client(agent_name="patientPsi", lang="en")
 
 # Create therapist
-therapist_config = OmegaConf.create(
-    {
-        "agent_type": "CBT",
-        "model_type": "OPENAI",
-        "model_name": "gpt-4o",
-        "temperature": 0.7,
-        "max_tokens": 8192,
-        "max_retries": 3,
-    }
-)
-therapist = get_therapist(configs=therapist_config, lang="en")
+therapist = get_therapist(agent_name="basic", lang="en")
 
 # Run a quick intake, then start therapy
 question = interviewer.generate_response("start")
@@ -92,18 +51,9 @@ answer = client.generate_response(question)
 print("Client:", answer.content if hasattr(answer, "content") else answer)
 ```
 
-### Social Skills Training
-
-NPCs can role-play different social scenarios to help clients practice:
-
-- Job interviews
-- Difficult conversations
-- Assertiveness training
-- Conflict resolution
-
 ## Creating Custom NPCs
 
-To add a new NPC, create a new NPC class under `patienthub/npcs/` (similar to `InterviewerNPC`) and instantiate it directly. NPCs are lightweight and do not need to inherit from a framework base class — simply implement `generate_response()` and `reset()`.
+To add a new NPC, create a new class under `patienthub/npcs/` and instantiate it directly. NPCs are lightweight — simply implement `generate_response()` and `reset()`.
 
 ```python
 from omegaconf import DictConfig

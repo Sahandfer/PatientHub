@@ -1,157 +1,82 @@
-# Generators
+# Generator Agents API
 
-Generators in PatientHub create synthetic client profiles, therapy scenarios, and conversation data for training and research purposes.
-
-## Overview
-
-Generators enable the automatic creation of:
-
-- **Client Profiles** - Synthetic patient backgrounds and presenting problems
-- **Therapy Scenarios** - Structured situations for simulation
-- **Conversation Data** - Training data for AI models
-- **Character Files** - Complete character specifications for client agents
+Generators create synthetic character files (profiles) for use with client agents.
 
 ## Available Generators
 
-| Generator                                   | Key          | Description                                   |
-| ------------------------------------------- | ------------ | --------------------------------------------- |
-| [**AnnaAgent Generator**](./annaagent.md)   | `annaAgent`  | Creates character files for AnnaAgent clients |
-| [**ClientCast Generator**](./clientcast.md) | `clientCast` | Generates diverse client characters           |
-| [**Psyche Generator**](./psyche.md)         | `psyche`     | Creates psychologically rich client profiles  |
+| Generator                                   | Key          | Description                                                        |
+| ------------------------------------------- | ------------ | ------------------------------------------------------------------ |
+| [**AnnaAgent Generator**](./annaagent.md)   | `annaAgent`  | Multi-session profiles with scales and memory states               |
+| [**ClientCast Generator**](./clientcast.md) | `clientCast` | Profiles from conversation excerpts via Big Five + clinical scales |
+| [**Psyche Generator**](./psyche.md)         | `psyche`     | MFC psychiatric profiles for assessment training                   |
 
-## Usage
-
-### Command Line
-
-```bash
-# Generate with defaults
-uv run python -m examples.generate
-
-# Override generator type
-uv run python -m examples.generate generator=psyche
-```
-
-<!--
-### In Code
+## Listing Available Generators
 
 ```python
-from patienthub.generators import GeneratorRegistry
+from patienthub.generators import GENERATORS, GENERATOR_CONFIG_REGISTRY
 
-# Create a generator
-generator = GeneratorRegistry.create("annaAgent", config={
-    "model": "gpt-4o"
+# List all generator types
+print("Available generators:", list(GENERATORS.keys()))
+
+# Get config class for a generator
+config_class = GENERATOR_CONFIG_REGISTRY['psyche']
+print(config_class)
+```
+
+## Loading a Generator
+
+```python
+from patienthub.generators import get_generator
+
+generator = get_generator(agent_name='psyche', lang='en')
+```
+
+## Loading a Generator with Custom Configuration
+
+```python
+from omegaconf import OmegaConf
+from patienthub.generators import get_generator
+
+config = OmegaConf.create({
+    'agent_name': 'psyche',
+    'model_type': 'OPENAI',
+    'model_name': 'gpt-4o',
+    'temperature': 0.7,
+    'max_tokens': 8192,
+    'max_retries': 3,
+    'prompt_path': 'data/prompts/generator/psyche.yaml',
+    'input_dir': 'data/resources/psyche_character.json',
+    'output_dir': 'data/characters/Psyche MFC.json',
 })
 
-# Generate a client profile
-profile = generator.generate({
-    "disorder": "depression",
-    "severity": "moderate"
-})
+generator = get_generator(agent_name='psyche', configs=config, lang='en')
 ```
 
-## Generation Types
+## Generating a Character
 
-### Client Profile Generation
-
-Create detailed client backgrounds including:
-
-- Demographics
-- Presenting problems
-- History and background
-- Personality traits
-- Communication style
+All generators expose a single `generate_character()` method that runs the full pipeline and saves the result to `output_dir`:
 
 ```python
-profile = generator.generate_profile({
-    "disorder": "anxiety",
-    "age_range": "25-35",
-    "gender": "any",
-    "background": "professional"
-})
+generator.generate_character()
 ```
 
-### Character File Generation
+## Configuration Options
 
-Generate complete character specification files:
+### Common Options
 
-```python
-character = generator.generate_character({
-    "profile": profile,
-    "format": "json",
-    "include_dialogue_examples": True
-})
-```
+| Option        | Type  | Default    | Description                                                                          |
+| ------------- | ----- | ---------- | ------------------------------------------------------------------------------------ |
+| `agent_name`  | str   | required   | Generator identifier                                                                 |
+| `model_type`  | str   | `"OPENAI"` | Model provider key (used to read `${MODEL_TYPE}_API_KEY` / `${MODEL_TYPE}_BASE_URL`) |
+| `model_name`  | str   | `"gpt-4o"` | Model identifier                                                                     |
+| `temperature` | float | `0.7`      | Sampling temperature (0-1)                                                           |
+| `max_tokens`  | int   | `8192`     | Max response tokens                                                                  |
+| `max_retries` | int   | `3`        | API retry attempts                                                                   |
+| `prompt_path` | str   | varies     | Path to generator prompts                                                            |
+| `input_dir`   | str   | varies     | Path to input data / seed file                                                       |
+| `output_dir`  | str   | varies     | Path where the generated character JSON is saved                                     |
+| `lang`        | str   | `"en"`     | Language code                                                                        |
 
-## Configuration
+## See Also
 
-### Generator Settings
-
-```yaml
-generator:
-  type: annaAgent
-  config:
-    model: gpt-4o
-    temperature: 0.8
-    diversity: high
-    output_format: json
-```
-
-### Output Formats
-
-Generators support multiple output formats:
-
-- **JSON** - Structured data for programmatic use
-- **YAML** - Human-readable configuration files
-- **Markdown** - Documentation-friendly format
-
-## Batch Generation
-
-Generate multiple profiles at once:
-
-```python
-from patienthub.generators import GeneratorRegistry
-
-generator = GeneratorRegistry.create("clientCast")
-
-# Generate 10 diverse profiles
-profiles = generator.batch_generate(
-    count=10,
-    diversity_constraints={
-        "disorders": ["depression", "anxiety", "ptsd"],
-        "age_range": [18, 65],
-        "balance_gender": True
-    }
-)
-```
-
-## Creating Custom Generators
-
-You can create custom generators:
-
-```python
-from patienthub.generators.base import Generator
-
-class MyCustomGenerator(Generator):
-    def __init__(self, config):
-        super().__init__(config)
-        # Initialize your generator
-
-    def generate(self, params):
-        # Generate content
-        return generated_content
-```
-
-Then register it:
-
-```python
-from patienthub.generators import GeneratorRegistry
-
-GeneratorRegistry.register("my_generator", MyCustomGenerator)
-```
-
-## Best Practices
-
-1. **Diversity** - Ensure generated profiles represent diverse populations
-2. **Realism** - Validate generated content against clinical knowledge
-3. **Ethics** - Review generated content for appropriateness
-4. **Versioning** - Track generated content versions for reproducibility -->
+- [Creating Custom Agents](../../contributing/new-agents.md)

@@ -37,29 +37,15 @@ Based on the final state obtained by the State Tracker, SAPS selects the corresp
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=saps therapist=user
+uv run python -m examples.simulate client=saps
 ```
 
 ### Python
 
 ```python
-from omegaconf import OmegaConf
 from patienthub.clients import get_client
 
-config = OmegaConf.create(
-    {
-        "agent_type": "saps",
-        "model_type": "OPENAI",
-        "model_name": "gpt-4o",
-        "temperature": 0.7,
-        "max_tokens": 1024,
-        "max_retries": 3,
-        "data_path": "data/characters/SAPS.json",
-        "data_idx": 0,
-    }
-)
-
-client = get_client(configs=config, lang="en")
+client = get_client(agent_name="saps", lang="en")
 
 response = client.generate_response(
     "Could you describe your main symptoms and when they started?"

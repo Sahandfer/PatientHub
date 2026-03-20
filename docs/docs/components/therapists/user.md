@@ -12,36 +12,32 @@ The User therapist enables human participation in therapy simulations, allowing 
 
 ## Description
 
-The User therapist is a special agent type that delegates therapeutic responses to a human operator. This enables interactive training scenarios, human evaluation studies, and live demonstrations where a real person provides the therapeutic interventions while interacting with simulated clients.
+The User therapist delegates therapeutic responses to a human operator. This enables interactive training scenarios, human evaluation studies, and live demonstrations where a real person provides the therapeutic interventions while interacting with simulated client agents.
 
 ## Key Features
 
-- **Real-time interaction** - Human provides responses in real-time
-- **Full control** - Complete flexibility in therapeutic approach
-- **Training mode** - Ideal for student therapist practice
-- **Evaluation studies** - Enables human evaluation of client agents
+- **Real-time interaction**: Human provides responses in real-time
+- **Full control**: Complete flexibility in therapeutic approach
+- **Training mode**: Ideal for student therapist practice
+- **Evaluation studies**: Enables human evaluation of client agents
 
-## Configuration
+## Usage
 
-### YAML Configuration
+### CLI
 
-```yaml
-therapist:
-  agent_type: user
+```bash
+uv run python -m examples.simulate therapist=user
 ```
 
-### Python Usage
+### Python
 
 ```python
-from omegaconf import OmegaConf
-
 from patienthub.therapists import get_therapist
 
-config = OmegaConf.create({"agent_type": "user"})
-therapist = get_therapist(configs=config, lang="en")
+therapist = get_therapist(agent_name="user", lang='en')
 ```
 
-## Parameters
+## Configuration
 
 The User therapist does not require additional configuration parameters as it relies on human input.
 
@@ -57,6 +53,6 @@ The User therapist does not require additional configuration parameters as it re
 
 The User therapist integrates with PatientHub's interactive interfaces:
 
-- **Chainlit Web Demo** - Provides a chat interface for human interaction
-- **Command Line** - Text-based interaction through the terminal
-- **Custom Interfaces** - Can be integrated with custom UIs
+- **Chainlit Web Demo**: Provides a chat interface for human interaction
+- **Command Line**: Text-based interaction through the terminal
+- **Custom Interfaces**: Can be integrated with custom UIs

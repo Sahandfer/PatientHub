@@ -1,13 +1,14 @@
 # Evaluators
 
 Evaluators in PatientHub assess the quality of therapy simulations, providing automated metrics and analysis of conversations between client and therapist agents.
+Currently, we only support `LLM as Judge` style evaluators, which use large language models to evaluate conversations or generated profiles based on specific criteria.
 
 ## Available Evaluators
 
-| Evaluator                                      | Key             | Description                                                      |
-| ---------------------------------------------- | --------------- | ---------------------------------------------------------------- |
-| [**LLM Judge (Conversation)**](./conv_judge.md) | `conv_judge`    | Uses large language models to evaluate therapy conversations     |
-| [**LLM Judge (Profile)**](./profile_judge.md)      | `profile_judge` | Uses large language models to evaluate generated client profiles |
+| Evaluator                                       | Key             | Description            |
+| ----------------------------------------------- | --------------- | ---------------------- |
+| [**LLM Judge (Conversation)**](./conv_judge.md) | `conv_judge`    | Conversation Evaluator |
+| [**LLM Judge (Profile)**](./profile_judge.md)   | `profile_judge` | Profile Evaluator      |
 
 ## Usage
 

@@ -1,6 +1,6 @@
-# CAMI
+# Cami
 
-The CAMI therapist is an LLM-based counselor agent that follows a Motivational Interviewing (MI) workflow, using prompt templates and a topic graph to steer the conversation.
+> A Counselor Agent for Motivational Interviewing through State Inference and Topic Exploration
 
 ## Overview
 
@@ -10,64 +10,53 @@ The CAMI therapist is an LLM-based counselor agent that follows a Motivational I
 | **Type**  | LLM-based                               |
 | **Focus** | Motivational Interviewing (MI) + topics |
 
-## How It Works (High Level)
+## Key Features
 
-- Loads prompts from `data/prompts/therapist/cami.yaml`
-- Loads a topic graph from `data/resources/CAMI/topic_graph.json` (configurable)
-- On each turn, uses the LLM to:
-  - infer the client stage (`Precontemplation`, `Contemplation`, `Preparation`)
-  - choose up to 2 MI strategies
-  - choose the next topic (using a topic stack and the topic graph)
-  - generate candidate counselor responses, select one, and optionally refine it
+- **Stage inference**: Infers the client's readiness stage (`Precontemplation`, `Contemplation`, `Preparation`) each turn
+- **MI strategies**: Selects up to 2 MI-aligned strategies per response
+- **Topic graph navigation**: Explores counseling topics using a configurable topic graph and topic stack
+- **Multi-candidate generation**: Generates several candidate responses and selects the best one
 
-Note: the first `generate_response(...)` call returns a greeting (from the `greeting` prompt).
+## How It Works
+
+1. **Init**: Loads prompts from `data/prompts/therapist/cami.yaml` and a topic graph from JSON.
+2. **Greeting**: The first `generate_response()` call returns a greeting (from the `greeting` prompt key).
+3. **Each turn**:
+   - Infers client stage from conversation history
+   - Selects MI strategies
+   - Picks the next topic using the topic stack and graph
+   - Generates candidate responses, selects and optionally refines one
+
+## Usage
+
+### CLI
+
+```bash
+uv run python -m examples.simulate therapist=cami
+```
+
+### Python
+
+```python
+from patienthub.therapists import get_therapist
+
+therapist = get_therapist(agent_name="cami", lang='en')
+
+response = therapist.generate_response("I don't really want to talk about this.")
+print(response.content)
+```
 
 ## Configuration
 
-### YAML Configuration
-
-```yaml
-therapist:
-  agent_type: cami
-  model_type: OPENAI
-  model_name: gpt-4o
-  topic_graph: data/resources/CAMI/topic_graph.json
-  goal: reducing drug use
-  behavior: drug use
-```
-
-### Python Usage
-
-```python
-from omegaconf import OmegaConf
-
-from patienthub.therapists import get_therapist
-
-config = OmegaConf.create(
-    {
-        "agent_type": "cami",
-        "model_type": "OPENAI",
-        "model_name": "gpt-4o",
-        "topic_graph": "data/resources/CAMI/topic_graph.json",
-        "goal": "reducing drug use",
-        "behavior": "drug use",
-    }
-)
-
-therapist = get_therapist(configs=config, lang="en")
-```
-
-## Parameters
-
 | Parameter     | Type   | Default                                | Description                     |
 | ------------- | ------ | -------------------------------------- | ------------------------------- |
-| `agent_type`  | string | `"cami"`                               | Therapist identifier            |
+| `agent_name`  | string | `"cami"`                               | Therapist identifier            |
 | `prompt_path` | string | `data/prompts/therapist/cami.yaml`     | Path to prompt file             |
-| `model_type`  | string | `"OPENAI"`                             | Model provider key              |
-| `model_name`  | string | `"gpt-4o"`                             | Model identifier                |
 | `topic_graph` | string | `data/resources/CAMI/topic_graph.json` | Topic graph JSON path           |
 | `goal`        | string | `"reducing drug use"`                  | Target goal used in prompts     |
 | `behavior`    | string | `"drug use"`                           | Target behavior used in prompts |
+| `model_type`  | string | `"OPENAI"`                             | Model provider key              |
+| `model_name`  | string | `"gpt-4o"`                             | Model identifier                |
 | `temperature` | float  | `0.7`                                  | Sampling temperature            |
 | `max_tokens`  | int    | `8192`                                 | Max response tokens             |
 | `max_retries` | int    | `3`                                    | API retry attempts              |
@@ -75,9 +64,10 @@ therapist = get_therapist(configs=config, lang="en")
 
 ## Notes
 
-- The CAMI therapist relies on the prompt templates and topic graph; it does not load character/persona JSON files.
+- Cami relies on prompt templates and a topic graph; it does not load character/persona JSON files.
+- The topic graph defines the counseling topics and their relationships.
 
 ## Use Cases
 
 - MI-style counseling simulations with topic guidance
-- Training/evaluation where topic coverage and strategy adherence matter
+- Training/evaluation where topic coverage and MI strategy adherence matter

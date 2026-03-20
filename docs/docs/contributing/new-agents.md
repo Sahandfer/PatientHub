@@ -2,280 +2,242 @@
 sidebar_position: 1
 ---
 
-# Adding New Patient Agents
+# Adding New Agents
 
-This guide explains how to add new patient/client simulation methods to PatientHub.
+This guide explains how to add new client or therapist agents to PatientHub.
 
-## Overview
+## Quickstart: Auto-generate Boilerplate
 
-Patient agents implement different simulation approaches. Each method typically comes from a research paper and has unique characteristics for modeling patient behavior.
+The `examples.create` script scaffolds the agent file, prompt template, and `__init__.py` registration in one command:
 
-## Architecture
+```bash
+# Create a new client agent
+uv run python -m examples.create agent_type=client agent_name=myClient
 
-```
-patienthub/clients/
-├── __init__.py          # Agent registry
-├── basic.py             # Base class
-├── patientPsi.py        # Example implementation
-├── consistentMI.py      # Another example
-└── your_new_agent.py    # Your new agent
+# Create a new therapist agent
+uv run python -m examples.create agent_type=therapist agent_name=myTherapist
 ```
 
-## Step 1: Create Agent File
+This generates:
 
-Create a new file in `patienthub/clients/`:
+- `patienthub/clients/myClient.py` (or `patienthub/therapists/myTherapist.py`)
+- `data/prompts/client/myClient.yaml` (or `data/prompts/therapist/myTherapist.yaml`)
+- Adds the import, registry entry, and config registry entry to the corresponding `__init__.py`
+
+The sections below explain each part in detail.
+
+---
+
+## Step 1: Implement the Agent
+
+### Client Agent
 
 ```python
-# patienthub/clients/myAgent.py
+# patienthub/clients/myClient.py
 
-from typing import Any, Optional
-from langchain_core.messages import AIMessage, HumanMessage
+from omegaconf import DictConfig
+from dataclasses import dataclass
 
-from patienthub.base.agents import BaseAgent
-from patienthub.brain.profile import PatientProfile
+from .base import BaseClient
+from patienthub.configs import APIModelConfig
+from patienthub.utils import load_prompts, load_json, get_chat_model
 
 
-class MyAgent(BaseAgent):
-    """
-    Implement your patient simulation method.
+@dataclass
+class MyClientConfig(APIModelConfig):
+    """Configuration for MyClient agent."""
 
-    Paper: Your Paper Title
-    Venue: Conference Year
-    """
+    agent_name: str = "myClient"
+    prompt_path: str = "data/prompts/client/myClient.yaml"
+    data_path: str = "data/characters/MyClient.json"
+    data_idx: int = 0
 
-    def __init__(
-        self,
-        configs: Any,
-        lang: str = "en",
-        **kwargs
-    ):
-        super().__init__(configs=configs, lang=lang, **kwargs)
 
-        # Load your character data
-        self._load_character()
+class MyClient(BaseClient):
+    def __init__(self, configs: DictConfig):
+        self.configs = configs
 
-        # Initialize any method-specific state
-        self.internal_state = {}
+        self.data = load_json(configs.data_path)[configs.data_idx]
+        self.name = self.data.get("name", "Client")
 
-    def _load_character(self):
-        """Load character from data file."""
-        import json
-        with open(self.configs.data_path, 'r') as f:
-            characters = json.load(f)
+        self.chat_model = get_chat_model(configs)
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
+        self.build_sys_prompt()
 
-        self.character = characters[self.configs.data_idx]
-
-        # Parse into profile if needed
-        self.profile = PatientProfile.from_dict(self.character)
-
-    def _build_system_prompt(self) -> str:
-        """Construct the system prompt for your method."""
-        prompt = f"""You are simulating a patient named {self.character['name']}.
-
-Background:
-{self.character.get('background', 'No background provided.')}
-
-Presenting Problem:
-{self.character.get('presenting_problem', 'No presenting problem specified.')}
-
-Your role is to respond as this patient would in a therapy session.
-Maintain consistency with the character description.
-"""
-        # Add method-specific instructions
-        if 'special_instructions' in self.character:
-            prompt += f"\n\nSpecial Instructions:\n{self.character['special_instructions']}"
-
-        return prompt
-
-    def generate_response(
-        self,
-        message: str,
-        **kwargs
-    ) -> AIMessage:
-        """
-        Generate a patient response to therapist input.
-
-        Args:
-            message: The therapist's message
-            **kwargs: Additional parameters
-
-        Returns:
-            AIMessage containing the patient's response
-        """
-        # Build messages for LLM
-        messages = [
-            {"role": "system", "content": self._build_system_prompt()},
+    def build_sys_prompt(self):
+        self.messages = [
+            {"role": "system", "content": self.prompts["sys_prompt"].render(data=self.data)}
         ]
 
-        # Add conversation history
-        for msg in self.conversation_history:
-            messages.append({
-                "role": "assistant" if isinstance(msg, AIMessage) else "user",
-                "content": msg.content
-            })
-
-        # Add current message
-        messages.append({"role": "user", "content": message})
-
-        # Call LLM
-        response = self.llm.invoke(messages)
-
-        # Update internal state (method-specific)
-        self._update_state(message, response.content)
-
-        # Store in history
-        self.conversation_history.append(HumanMessage(content=message))
-        self.conversation_history.append(AIMessage(content=response.content))
-
-        return AIMessage(content=response.content)
-
-    def _update_state(self, therapist_msg: str, patient_response: str):
-        """Update internal state based on interaction."""
-        # Implement your method's state update logic
-        pass
-
-    def get_state(self) -> dict:
-        """Return current internal state for evaluation."""
-        return {
-            "profile": self.profile.to_dict() if self.profile else {},
-            "internal_state": self.internal_state,
-            "turn_count": len(self.conversation_history) // 2,
-        }
+    def generate_response(self, msg: str):
+        self.messages.append({"role": "user", "content": msg})
+        res = self.chat_model.generate(self.messages)
+        self.messages.append({"role": "assistant", "content": res.content})
+        return res
 
     def reset(self):
-        """Reset agent state for new session."""
-        self.conversation_history = []
-        self.internal_state = {}
+        self.build_sys_prompt()
+        self.therapist = None
 ```
+
+### Therapist Agent
+
+The pattern is identical — inherit from `BaseTherapist` instead:
+
+```python
+# patienthub/therapists/myTherapist.py
+
+from omegaconf import DictConfig
+from dataclasses import dataclass
+
+from .base import BaseTherapist
+from patienthub.configs import APIModelConfig
+from patienthub.utils import load_prompts, get_chat_model
+
+
+@dataclass
+class MyTherapistConfig(APIModelConfig):
+    """Configuration for MyTherapist agent."""
+
+    agent_name: str = "myTherapist"
+    prompt_path: str = "data/prompts/therapist/myTherapist.yaml"
+
+
+class MyTherapist(BaseTherapist):
+    def __init__(self, configs: DictConfig):
+        self.configs = configs
+
+        self.chat_model = get_chat_model(configs)
+        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
+        self.build_sys_prompt()
+
+    def build_sys_prompt(self):
+        self.messages = [
+            {"role": "system", "content": self.prompts["sys_prompt"].render()}
+        ]
+
+    def generate_response(self, msg: str):
+        self.messages.append({"role": "user", "content": msg})
+        res = self.chat_model.generate(self.messages)
+        self.messages.append({"role": "assistant", "content": res.content})
+        return res
+
+    def reset(self):
+        self.build_sys_prompt()
+        self.client = None
+```
+
+---
 
 ## Step 2: Register the Agent
 
-Add your agent to the registry in `patienthub/clients/__init__.py`:
+If you used `examples.create`, this is done automatically. Otherwise, edit `patienthub/clients/__init__.py` (or `therapists/__init__.py`):
 
 ```python
-from patienthub.clients.myAgent import MyAgent
+from .myClient import MyClient, MyClientConfig
 
 CLIENT_REGISTRY = {
     # ... existing agents ...
-    'myAgent': MyAgent,
+    "myClient": MyClient,
 }
 
-def get_client(configs, lang: str = "en", **kwargs):
-    agent_type = configs.agent_type
-    if agent_type not in CLIENT_REGISTRY:
-        raise ValueError(f"Unknown client type: {agent_type}")
-    return CLIENT_REGISTRY[agent_type](configs=configs, lang=lang, **kwargs)
+CLIENT_CONFIG_REGISTRY = {
+    # ... existing configs ...
+    "myClient": MyClientConfig,
+}
 ```
 
-## Step 3: Create Character Data
+---
 
-Add character data in `data/characters/`:
+## Step 3: Create the Prompt Template
+
+```yaml
+# data/prompts/client/myClient.yaml
+en:
+  sys_prompt: |
+    You are simulating a patient named {{ data.name }}.
+
+    Background: {{ data.background }}
+
+    Respond as this patient would in a therapy session.
+zh:
+  sys_prompt: |
+    <在这里输入提示文本>
+```
+
+---
+
+## Step 4: Create Character Data
 
 ```json
-// data/characters/MyAgent.json
 [
   {
     "name": "Taylor",
     "age": 29,
-    "gender": "non-binary",
-    "occupation": "graphic designer",
-    "background": "Recently moved to a new city for work...",
-    "presenting_problem": "Experiencing social anxiety...",
-    "personality": {
-      "traits": ["introverted", "creative", "sensitive"],
-      "communication_style": "thoughtful, sometimes hesitant"
-    },
-    "special_instructions": "Tends to pause before answering difficult questions"
+    "background": "Recently moved to a new city for work and is experiencing social anxiety.",
+    "presenting_problem": "Difficulty meeting new people and persistent worry about social judgment."
   }
 ]
 ```
 
-## Step 4: Create Configuration
-
-Add a Hydra config in `data/characters/` or reference via CLI:
-
-```yaml
-# Can be used as: client=myAgent
-agent_type: myAgent
-model_type: OPENAI
-model_name: gpt-4o
-temperature: 0.7
-max_tokens: 1024
-max_retries: 3
-data_path: data/characters/MyAgent.json
-data_idx: 0
-```
+---
 
 ## Step 5: Add Tests
 
-Create tests in `patienthub/tests/`:
+The existing smoke tests in `patienthub/tests/clients.py` automatically pick up any client registered in `CLIENT_REGISTRY`. Run them with:
+
+```bash
+uv run python -m pytest patienthub/tests/clients.py -v
+```
+
+For agent-specific tests:
 
 ```python
-# patienthub/tests/test_myAgent.py
-
 import pytest
+from unittest.mock import patch, MagicMock
 from omegaconf import OmegaConf
-from patienthub.clients import get_client
+from patienthub.clients import CLIENT_CONFIG_REGISTRY, CLIENT_REGISTRY
 
 
 @pytest.fixture
-def agent_config():
-    return OmegaConf.create({
-        'agent_type': 'myAgent',
-        'model_type': 'OPENAI',
-        'model_name': 'gpt-4o-mini',
-        'temperature': 0.0,  # Deterministic for tests
-        'max_tokens': 256,
-        'max_retries': 3,
-        'data_path': 'data/characters/MyAgent.json',
-        'data_idx': 0,
-    })
+def client():
+    mock_model = MagicMock()
+    mock_model.generate.return_value = MagicMock(content="mock response")
+
+    with patch("patienthub.utils.models.get_chat_model", return_value=mock_model):
+        cfg = OmegaConf.structured(CLIENT_CONFIG_REGISTRY["myClient"])
+        return CLIENT_REGISTRY["myClient"](configs=cfg)
 
 
-def test_agent_initialization(agent_config):
-    """Test that agent initializes correctly."""
-    agent = get_client(configs=agent_config, lang='en')
-    assert agent is not None
-    assert agent.character['name'] == 'Taylor'
+def test_instantiation(client):
+    assert client is not None
 
 
-def test_agent_response(agent_config):
-    """Test that agent generates valid responses."""
-    agent = get_client(configs=agent_config, lang='en')
-    response = agent.generate_response("Hello, how are you today?")
-    assert response is not None
-    assert len(response.content) > 0
+def test_name_is_set(client):
+    assert client.name == "Taylor"
 
 
-def test_agent_conversation(agent_config):
-    """Test multi-turn conversation."""
-    agent = get_client(configs=agent_config, lang='en')
-
-    r1 = agent.generate_response("What brings you in today?")
-    r2 = agent.generate_response("Tell me more about that.")
-
-    # Should maintain conversation history
-    assert len(agent.conversation_history) == 4  # 2 turns x 2 messages
+def test_generate_response(client):
+    response = client.generate_response("How have you been feeling?")
+    assert response.content == "mock response"
 ```
+
+---
 
 ## Step 6: Add Documentation
 
-Create a doc page in `docs/docs/components/`:
+Create a doc page at `docs/docs/components/clients/myagent.md` following the style of existing client docs:
 
 ```markdown
----
-sidebar_position: N
----
+# MyClient
 
-# MyAgent
+> Paper Title (if applicable)
 
-> Paper Title Here
-
-**Venue**: Conference Year
+**Venue**: Conference Year (if applicable)
 
 ## Overview
 
-Brief description of your method.
+Brief description of the method.
 
 ## Key Features
 
@@ -284,60 +246,42 @@ Brief description of your method.
 
 ## Usage
 
+### CLI
+
 \`\`\`bash
-uv run python -m examples.simulate client=myAgent
+uv run python -m examples.simulate client=myClient
 \`\`\`
 
-...
+### Python
+
+\`\`\`python
+from patienthub.clients import get_client
+
+client = get_client(agent_name="myClient", lang="en")
+response = client.generate_response("How have you been feeling?")
+print(response.content)
+\`\`\`
+
+## Configuration
+
+| Option       | Type   | Default                             | Description        |
+| ------------ | ------ | ----------------------------------- | ------------------ |
+| `prompt_path`| string | `data/prompts/client/myClient.yaml` | Path to prompt file |
+| `data_path`  | string | `data/characters/MyClient.json`     | Path to character file |
+| `data_idx`   | int    | `0`                                 | Character index    |
 ```
 
-## Advanced Features
-
-### Implementing State Transitions
-
-```python
-class StatefulAgent(BaseAgent):
-    STATES = ['initial', 'engaged', 'resistant', 'resolved']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.current_state = 'initial'
-
-    def _update_state(self, therapist_msg: str, patient_response: str):
-        # Analyze interaction and potentially transition
-        if self._detect_engagement(therapist_msg):
-            self.current_state = 'engaged'
-        # ... more logic
-```
-
-### Adding Memory/Multi-session Support
-
-```python
-class MemoryAgent(BaseAgent):
-    def save_session(self, path: str):
-        """Save session for multi-session support."""
-        import json
-        with open(path, 'w') as f:
-            json.dump({
-                'history': [m.content for m in self.conversation_history],
-                'state': self.internal_state,
-            }, f)
-
-    def load_session(self, path: str):
-        """Load previous session."""
-        import json
-        with open(path, 'r') as f:
-            data = json.load(f)
-        # Restore state...
-```
+---
 
 ## Checklist
 
 Before submitting your new agent:
 
-- [ ] Agent class in `patienthub/clients/`
-- [ ] Registered in `__init__.py`
-- [ ] Character data file created
-- [ ] Unit tests passing
+- [ ] Agent class in `patienthub/clients/` (or `therapists/`)
+- [ ] Config dataclass with `agent_name`, `prompt_path`, and any extra fields
+- [ ] Registered in `CLIENT_REGISTRY` and `CLIENT_CONFIG_REGISTRY` in `__init__.py`
+- [ ] Prompt YAML created at `data/prompts/client/<agent_name>.yaml`
+- [ ] Character data file created (if applicable)
+- [ ] Smoke tests pass: `uv run python -m pytest patienthub/tests/clients.py -v`
 - [ ] Documentation page added
-- [ ] Example usage works: `python -m examples.simulate client=yourAgent`
+- [ ] Works end-to-end: `uv run python -m examples.simulate client=myClient`

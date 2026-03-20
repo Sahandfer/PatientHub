@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Client Agents API
 
-Client agents simulate patients in therapy conversations.
+Client agents simulate patients/clients in therapy interactions.
 
 ## Available Clients
 
@@ -39,11 +39,19 @@ print(config_class)
 ## Loading a Client
 
 ```python
+from patienthub.clients import get_client
+
+client = get_client(agent_name='patientPsi', lang='en')
+```
+
+## Loading a Client with Custom Configurations
+
+```python
 from omegaconf import OmegaConf
 from patienthub.clients import get_client
 
 config = OmegaConf.create({
-    'agent_type': 'patientPsi',
+    'agent_name': 'patientPsi',
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
     'temperature': 0.7,
@@ -55,13 +63,20 @@ config = OmegaConf.create({
     'patient_type': 'upset',
 })
 
-client = get_client(configs=config, lang='en')
+client = get_client(agent_name='patientPsi', configs=config, lang='en')
+```
+
+## Response Generation
+
+```python
+response = client.generate_response("How have you been feeling lately?")
+print(f"Response: {response.content}")
 ```
 
 ## Data Format
 
 - Prompt Data is stored in `data/prompts/client`.
-- Character data is stored in files under `data/characters`
+- Character data (profiles) is stored in files under `data/characters`
 - Each file is a JSON list; `data_idx` selects the entry to be simulated
 
 ## Configuration Options
@@ -70,7 +85,7 @@ client = get_client(configs=config, lang='en')
 
 | Option        | Type  | Default    | Description                                                                          |
 | ------------- | ----- | ---------- | ------------------------------------------------------------------------------------ |
-| `agent_type`  | str   | required   | Client type identifier                                                               |
+| `agent_name`  | str   | required   | Client identifier                                                                    |
 | `model_type`  | str   | `"OPENAI"` | Model provider key (used to read `${MODEL_TYPE}_API_KEY` / `${MODEL_TYPE}_BASE_URL`) |
 | `model_name`  | str   | `"gpt-4o"` | Model identifier                                                                     |
 | `temperature` | float | `0.7`      | Sampling temperature (0-1)                                                           |
@@ -137,7 +152,7 @@ class Response(BaseModel):
 You can run the following command to create the necessary files for a new client:
 
 ```bash
-uv run python -m examples.create generator.gen_agent_type=client generator.gen_agent_name=<agent_name>
+uv run python -m examples.create generator.gen_agent_name=client generator.gen_agent_name=<agent_name>
 ```
 
 This creates the following two files and registers the client in `__init__.py`:

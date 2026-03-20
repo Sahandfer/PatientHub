@@ -1,145 +1,77 @@
 # Interviewer
 
-The Interviewer NPC conducts structured clinical interviews with clients, useful for intake assessments, diagnostic interviews, and research data collection.
+The Interviewer NPC conducts structured scripted interviews with clients by sequentially delivering questions from a JSON file.
 
 ## Overview
 
 | Property  | Value                 |
 | --------- | --------------------- |
 | **Key**   | `interviewer`         |
-| **Type**  | LLM-based             |
+| **Type**  | Rule-based            |
 | **Focus** | Structured Interviews |
 
-## Description
+## How It Works
 
-The Interviewer NPC is designed to conduct systematic, structured interviews following predefined protocols. It can be configured for various interview types including clinical intake, diagnostic assessment, and research data collection. The interviewer maintains a professional, neutral stance while gathering comprehensive information.
+1. **Data Loading**: Loads a list of questions from a JSON file at `configs.data`.
+2. **Sequential Delivery**: Each `generate_response()` call records the incoming message and returns the next question in the list.
+3. **Completion**: Returns `"[No more questions]"` when the question list is exhausted.
 
-## Key Features
+## Usage
 
-- **Structured Protocols** - Follows predefined interview scripts
-- **Adaptive Follow-ups** - Asks clarifying questions based on responses
-- **Multiple Interview Types** - Supports intake, diagnostic, and custom formats
-- **Data Collection** - Captures structured responses for analysis
+### Python
+
+```python
+from omegaconf import OmegaConf
+from patienthub.npcs.interviewer import InterviewerNPC
+
+config = OmegaConf.create({"data": "data/evaluations/surveys/default_survey.json"})
+interviewer = InterviewerNPC(configs=config)
+
+question = interviewer.generate_response("start")
+print(question)
+```
 
 ## Configuration
 
-### YAML Configuration
+| Parameter | Type   | Default                                        | Description                        |
+| --------- | ------ | ---------------------------------------------- | ---------------------------------- |
+| `data`    | string | `data/evaluations/surveys/default_survey.json` | Path to the questions JSON file    |
 
-```yaml
-npc:
-  type: interviewer
-  config:
-    model: gpt-4o
-    interview_type: intake
-    questions:
-      - "What brings you here today?"
-      - "Can you tell me about your current symptoms?"
-```
+## Data Format
 
-### Python Usage
+The questions file is a JSON array of strings:
 
-```python
-from patienthub.npcs import NPCRegistry
-
-interviewer = NPCRegistry.create("interviewer", config={
-    "model": "gpt-4o",
-    "interview_type": "intake"
-})
-
-response = interviewer.respond(conversation_history)
-```
-
-## Parameters
-
-| Parameter        | Type   | Default  | Description                                   |
-| ---------------- | ------ | -------- | --------------------------------------------- |
-| `model`          | string | `gpt-4o` | The LLM model to use                          |
-| `interview_type` | string | `intake` | Type of interview: intake, diagnostic, custom |
-| `questions`      | list   | -        | Custom questions for the interview            |
-| `follow_up`      | bool   | `true`   | Enable adaptive follow-up questions           |
-
-## Interview Types
-
-### Intake Interview
-
-Standard clinical intake assessment covering:
-
-- Presenting problems
-- Symptom history
-- Personal background
-- Treatment goals
-
-```yaml
-npc:
-  type: interviewer
-  config:
-    interview_type: intake
-```
-
-### Diagnostic Interview
-
-Structured diagnostic assessment aligned with clinical criteria:
-
-```yaml
-npc:
-  type: interviewer
-  config:
-    interview_type: diagnostic
-    focus: ["depression", "anxiety"]
-```
-
-### Custom Interview
-
-Define your own interview protocol:
-
-```yaml
-npc:
-  type: interviewer
-  config:
-    interview_type: custom
-    questions:
-      - "How would you describe your sleep patterns?"
-      - "What coping strategies have you tried?"
-      - "Who do you turn to for support?"
+```json
+[
+  "How have you been feeling this week?",
+  "Have you experienced any changes in sleep or appetite?",
+  "How would you rate your mood on a scale of 1–10?"
+]
 ```
 
 ## Use Cases
 
-- **Intake assessments** - Gather initial client information
-- **Diagnostic interviews** - Structured diagnostic evaluations
-- **Follow-up evaluations** - Track progress over time
-- **Research data collection** - Standardized data gathering
-- **Training simulations** - Practice interview skills
+- **Pre-session intake**: Administer a standardized questionnaire before therapy begins
+- **Post-session evaluation**: Collect structured feedback from client agents
+- **Research data collection**: Gather consistent responses across simulated sessions
+- **Training simulations**: Practice interview skills with simulated clients
 
-## Example
+## Example: Intake Before Therapy
 
 ```python
-from patienthub.npcs import NPCRegistry
-from patienthub.clients import get_client
 from omegaconf import OmegaConf
+from patienthub.clients import get_client
+from patienthub.npcs.interviewer import InterviewerNPC
 
-# Create interviewer
-interviewer = NPCRegistry.create("interviewer", config={
-    "model": "gpt-4o",
-    "interview_type": "intake"
-})
+interviewer = InterviewerNPC(
+    configs=OmegaConf.create({"data": "data/evaluations/surveys/default_survey.json"})
+)
+client = get_client(agent_name="patientPsi", lang="en")
 
-# Create client
-client_config = OmegaConf.create({
-    'agent_type': 'patientPsi',
-    'model_name': 'gpt-4o',
-    'data_path': 'data/characters/PatientPsi.json',
-    'data_idx': 0,
-})
-client = get_client(configs=client_config, lang='en')
-
-# Run interview
-conversation = []
-interviewer_question = interviewer.start_interview()
-conversation.append({"role": "interviewer", "content": interviewer_question})
-
-client_response = client.generate_response(interviewer_question)
-conversation.append({"role": "client", "content": client_response})
-
-# Continue interview...
+question = interviewer.generate_response("start")
+while question != "[No more questions]":
+    print("Interviewer:", question)
+    answer = client.generate_response(question)
+    print("Client:", answer.content if hasattr(answer, "content") else answer)
+    question = interviewer.generate_response(answer.content)
 ```

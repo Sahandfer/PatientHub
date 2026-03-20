@@ -60,7 +60,7 @@ Therapist dimensions are also instruction-driven (e.g. `data/prompts/evaluator/t
 
 ```python
 eval_config = {
-    'agent_type': 'llm_judge',
+    'agent_name': 'llm_judge',
     'eval_type': 'scalar',  # 'binary' | 'scalar' | 'extraction' | 'classification'
     'target': 'client',  # or 'therapist'
     'instruction_dir': 'data/prompts/evaluator/client/scalar.yaml',
@@ -92,7 +92,7 @@ session = load_json('data/sessions/default/badtherapist.json')
 
 # Configure evaluator
 eval_config = OmegaConf.create({
-    'agent_type': 'llm_judge',
+    'agent_name': 'llm_judge',
     'eval_type': 'scalar',
     'target': 'client',
     'instruction_dir': 'data/prompts/evaluator/client/scalar.yaml',
@@ -177,7 +177,7 @@ from patienthub.evaluators import get_evaluator
 from omegaconf import OmegaConf
 
 eval_config = OmegaConf.create({
-    'agent_type': 'llm_judge',
+    'agent_name': 'llm_judge',
     'eval_type': 'scalar',
     'target': 'client',
     'instruction_dir': 'data/prompts/evaluator/client/scalar.yaml',

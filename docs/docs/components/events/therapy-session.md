@@ -6,7 +6,7 @@ The Therapy Session event manages standard therapy conversations between a clien
 
 | Property  | Value                 |
 | --------- | --------------------- |
-| **Key**   | `therapySession`      |
+| **Key**   | `therapy_session`     |
 | **Type**  | Conversation Event    |
 | **Focus** | Client-Therapist Dyad |
 
@@ -24,40 +24,22 @@ The Therapy Session is the primary event type in PatientHub, orchestrating conve
 
 ## Configuration
 
-### YAML Configuration
-
-```yaml
-event:
-  event_type: therapySession
-  max_turns: 30
-  reminder_turn_num: 5
-  output_dir: outputs/session.json
-```
-
 ### Python Usage
 
 ```python
-from omegaconf import OmegaConf
 from patienthub.events import get_event
 
-config = OmegaConf.create({
-    'event_type': 'therapySession',
-    'max_turns': 30,
-    'reminder_turn_num': 5,
-    'output_dir': 'outputs/session.json',
-})
-
-event = get_event(configs=config)
+event = get_event(name="therapy_session")
 ```
 
 ## Parameters
 
-| Parameter           | Type   | Default          | Description                       |
-| ------------------- | ------ | ---------------- | --------------------------------- |
-| `event_type`        | string | `therapySession` | Event type identifier             |
-| `max_turns`         | int    | `30`             | Maximum conversation turns        |
-| `reminder_turn_num` | int    | `5`              | Turns before end to show reminder |
-| `output_dir`        | string | varies           | Output file path for session data |
+| Parameter           | Type   | Default           | Description                       |
+| ------------------- | ------ | ----------------- | --------------------------------- |
+| `event_type`        | string | `therapy_session` | Event type identifier             |
+| `max_turns`         | int    | `30`              | Maximum conversation turns        |
+| `reminder_turn_num` | int    | `5`               | Turns before end to show reminder |
+| `output_dir`        | string | varies            | Output file path for session data |
 
 ## Session Flow
 
@@ -139,52 +121,6 @@ Sessions are saved as JSON:
   ],
   "num_turns": 15
 }
-```
-
-## Complete Example
-
-```python
-from omegaconf import OmegaConf
-from patienthub.clients import get_client
-from patienthub.events import get_event
-from patienthub.therapists import get_therapist
-from patienthub.clients.patientPsi import PatientPsiClientConfig
-from patienthub.therapists.eliza import ElizaTherapistConfig
-
-# Create event
-event_config = OmegaConf.create({
-    'event_type': 'therapySession',
-    'max_turns': 10,
-    'reminder_turn_num': 2,
-    'output_dir': 'outputs/my_session.json',
-})
-event = get_event(configs=event_config)
-
-# Load agents
-client_config = OmegaConf.structured(PatientPsiClientConfig())
-therapist_config = OmegaConf.structured(ElizaTherapistConfig())
-client = get_client(configs=client_config, lang='en')
-therapist = get_therapist(configs=therapist_config, lang='en')
-
-# Set up characters
-event.set_characters({
-    'client': client,
-    'therapist': therapist,
-    'evaluator': None,
-})
-
-# Run session
-event.start()
-```
-
-## CLI Usage
-
-```bash
-uv run python -m examples.simulate \
-    client=patientPsi \
-    therapist=eliza \
-    event.max_turns=10 \
-    event.output_dir=outputs/my_session.json
 ```
 
 ## Use Cases

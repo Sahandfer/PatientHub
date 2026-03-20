@@ -1,6 +1,6 @@
 # Eliza
 
-ELIZA is a classic pattern-matching conversational agent originally developed at MIT, providing a nostalgic but functional therapist implementation.
+ELIZA is a classic rule-based conversational agent originally developed at MIT in the 1960s, providing a pattern-matching Rogerian therapist baseline.
 
 ## Overview
 
@@ -10,44 +10,43 @@ ELIZA is a classic pattern-matching conversational agent originally developed at
 | **Type**  | Rule-based       |
 | **Focus** | Rogerian Therapy |
 
-## Description
-
-ELIZA was one of the first chatbots, created by Joseph Weizenbaum at MIT in the 1960s. This implementation recreates the classic DOCTOR script, which simulates a Rogerian psychotherapist. Despite its simplicity, ELIZA demonstrates how pattern matching can create surprisingly engaging conversations.
-
 ## Key Features
 
-- **Pattern matching** - Uses regex patterns to generate contextual responses
-- **Reflection** - Reflects statements back to the client
-- **Open-ended questions** - Asks questions that encourage elaboration
-- **Unconditional positive regard** - Maintains a supportive, non-judgmental tone
+- **Pattern matching**: Uses regex patterns to generate contextual responses
+- **Reflection**: Reflects client statements back as questions
+- **Open-ended questions**: Encourages elaboration without leading
+- **No LLM required**: Fully deterministic, no API key needed
+
+## How It Works
+
+ELIZA implements the classic DOCTOR script. On each turn it scans the input for matching patterns (e.g. "I feel X" → "Why do you feel X?"), applies a reflection transform, and falls back to generic prompts when no pattern matches.
+
+## Usage
+
+### CLI
+
+```bash
+uv run python -m examples.simulate therapist=eliza
+```
+
+### Python
+
+```python
+from patienthub.therapists import get_therapist
+
+therapist = get_therapist(agent_name="eliza", lang='en')
+
+response = therapist.generate_response("I feel very anxious.")
+print(response)
+```
 
 ## Configuration
 
-### YAML Configuration
-
-```yaml
-therapist:
-  agent_type: eliza
-```
-
-### Python Usage
-
-```python
-from omegaconf import OmegaConf
-
-from patienthub.therapists import get_therapist
-
-config = OmegaConf.create({"agent_type": "eliza"})
-therapist = get_therapist(configs=config, lang="en")
-```
-
-## Parameters
-
-ELIZA uses a fixed rule-based system and does not require additional configuration parameters.
+ELIZA uses a fixed rule-based system and does not require any configuration parameters.
 
 ## Use Cases
 
 - Baseline comparisons with LLM-based therapists
-- Historical/educational demonstrations
+- Historical/educational demonstrations of early conversational AI
 - Low-resource environments where LLM access is unavailable
-- Research on human-computer interaction
+- Research on rule-based vs. LLM therapeutic interaction

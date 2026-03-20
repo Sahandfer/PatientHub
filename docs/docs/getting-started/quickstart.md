@@ -40,7 +40,7 @@ from patienthub.clients import get_client
 
 # Configure the client
 config = OmegaConf.create({
-    'agent_type': 'patientPsi',
+    'agent_name': 'patientPsi',
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
     'temperature': 0.7,
@@ -91,13 +91,13 @@ All ways to trigger saving:
 You can run the following command to create the necessary files for a new agent:
 
 ```bash
-uv run python -m examples.create generator.gen_agent_type=[client|therapist] generator.gen_agent_name=<agent_name>
+uv run python -m examples.create generator.gen_agent_name=[client|therapist] generator.gen_agent_name=<agent_name>
 ```
 
 For example
 
 ```bash
-uv run python -m examples.create generator.gen_agent_type=client generator.gen_agent_name=test
+uv run python -m examples.create generator.gen_agent_name=client generator.gen_agent_name=test
 ```
 
 ## What's Next?

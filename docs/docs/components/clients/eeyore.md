@@ -25,28 +25,15 @@ Eeyore introduce a Structured Alignment Framework that incorporates human expert
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=eeyore therapist=user
+uv run python -m examples.simulate client=eeyore
 ```
 
 ### Python
 
 ```python
-from omegaconf import OmegaConf
 from patienthub.clients import get_client
 
-config = OmegaConf.create({
-    'agent_type': 'eeyore',
-    'model_type': 'LOCAL',
-    'model_name': 'hosted_vllm//data3/public_checkpoints/huggingface_models/Eeyore_llama3.1_8B',
-    'temperature': 0.7,
-    'max_tokens': 1024,
-    'max_retries': 3,
-    'data_path': 'data/characters/Eeyore.json',
-    'data_idx': 0,
-})
-
-client = get_client(configs=config, lang='en')
-
+client = get_client(agent_name='eeyore', lang='en')
 response = client.generate_response("How have you been sleeping lately?")
 print(response)
 ```

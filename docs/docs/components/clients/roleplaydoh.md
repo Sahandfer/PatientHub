@@ -35,30 +35,15 @@ In subsequent generations, the AI simulated patient utilizes these **expert-gene
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=saps therapist=user
+uv run python -m examples.simulate client=saps
 ```
 
 ### Python
 
 ```python
-from omegaconf import OmegaConf
 from patienthub.clients import get_client
 
-config = OmegaConf.create(
-    {
-        "agent_type": "roleplayDoh",
-        "model_type": "OPENAI",
-        "model_name": "gpt-4o",
-        "temperature": 0.7,
-        "max_tokens": 1024,
-        "max_retries": 3,
-        "data_path": "data/characters/PatientPsi.json",
-        "principles": "data/resources/roleplayDohPrinciple.json",
-        "data_idx": 0,
-    }
-)
-
-client = get_client(configs=config, lang="en")
+client = get_client(name="roleplayDoh", lang="en")
 
 response = client.generate_response("What brings you in today?")
 print(response)

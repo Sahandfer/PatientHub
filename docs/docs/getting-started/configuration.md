@@ -47,7 +47,7 @@ config = {
 
 | Option        | Type  | Default    | Description             |
 | ------------- | ----- | ---------- | ----------------------- |
-| `agent_type`  | str   | required   | Agent type identifier   |
+| `agent_name`  | str   | required   | Agent type identifier   |
 | `model_type`  | str   | `"OPENAI"` | Model provider          |
 | `model_name`  | str   | `"gpt-4o"` | Model identifier        |
 | `temperature` | float | `0.7`      | Sampling temperature    |
@@ -64,7 +64,7 @@ config = {
 
 ```yaml
 client:
-  agent_type: consistentMI
+  agent_name: consistentMI
   initial_stage: precontemplation # precontemplation, contemplation, preparation, action
 ```
 
@@ -72,7 +72,7 @@ client:
 
 ```yaml
 client:
-  agent_type: simPatient
+  agent_name: simPatient
   continue_last_session: false
   conv_history_path: data/sessions/SimPatient/session_1.json
 ```
@@ -91,7 +91,7 @@ event:
 
 ```yaml
 evaluator:
-  agent_type: llm_judge
+  agent_name: llm_judge
   eval_type: scalar # classification | scalar | binary | extraction
   target: client # client or therapist
   instruction_dir: data/prompts/evaluator/client/scalar.yaml
@@ -127,7 +127,7 @@ Create custom config files in the appropriate directories:
 Create `configs/client/myClient.yaml`:
 
 ```yaml
-agent_type: myClient
+agent_name: myClient
 model_type: OPENAI
 model_name: gpt-4o
 temperature: 0.5

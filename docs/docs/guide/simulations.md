@@ -39,7 +39,7 @@ from omegaconf import OmegaConf
 
 # Configure client
 client_config = OmegaConf.create({
-    'agent_type': 'patientPsi',
+    'agent_name': 'patientPsi',
     'patient_type': 'upset',
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
@@ -53,7 +53,7 @@ client_config = OmegaConf.create({
 
 # Configure therapist
 therapist_config = OmegaConf.create({
-    'agent_type': 'basic',
+    'agent_name': 'basic',
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
     'prompt_path': 'data/prompts/therapist/CBT.yaml',
@@ -94,7 +94,7 @@ from patienthub.clients import get_client
 from omegaconf import OmegaConf
 
 config = OmegaConf.create({
-    'agent_type': 'patientPsi',
+    'agent_name': 'patientPsi',
     'patient_type': 'upset',
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
@@ -144,7 +144,7 @@ from omegaconf import OmegaConf
 from patienthub.clients import get_client
 
 config = OmegaConf.create({
-    'agent_type': 'eeyore',
+    'agent_name': 'eeyore',
     'model_type': 'LOCAL',
     'model_name': 'hosted_vllm//data3/public_checkpoints/huggingface_models/Eeyore_llama3.1_8B',
     'temperature': 0.7,

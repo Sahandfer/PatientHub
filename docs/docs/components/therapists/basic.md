@@ -1,61 +1,72 @@
-# CBT Therapist
+# Basic
 
-The CBT (Cognitive Behavioral Therapy) therapist implements evidence-based CBT techniques for therapeutic interventions.
+A prompt-driven therapist with optional chain-of-thought reasoning, configurable for different therapeutic approaches.
 
-## Description
+## Overview
 
-The CBT Therapist is an AI-powered therapeutic agent that employs evidence-based Cognitive Behavioral Therapy techniques. It is designed to help clients identify and challenge negative thought patterns, develop coping strategies, and understand the connection between thoughts, feelings, and behaviors.
+| Property  | Value                            |
+| --------- | -------------------------------- |
+| **Key**   | `basic`                          |
+| **Type**  | LLM-based                        |
+| **Focus** | Configurable via prompt template |
 
-## Key Techniques
+## Key Features
 
-- **Cognitive restructuring** - Identifying and challenging negative thought patterns
-- **Behavioral activation** - Encouraging engagement in positive activities
-- **Problem-solving** - Helping clients develop coping strategies
-- **Psychoeducation** - Explaining the connection between thoughts, feelings, and behaviors
+- **Prompt-driven**: Therapeutic approach is defined entirely by the prompt template
+- **Chain-of-thought (CoT)**: Optional reasoning step before generating a response
+- **Configurable**: Swap prompt files to target different therapeutic modalities (CBT, MI, etc.)
+
+## How It Works
+
+1. **Prompt Loading**: Loads a system prompt from the configured `prompt_path`.
+2. **Session Init**: Builds the conversation with the system prompt as the first message.
+3. **Response Generation**: On each turn, appends the user message, calls the LLM, and appends the assistant reply to history.
+4. **CoT Mode** (optional): When `use_cot=True`, the model returns structured reasoning alongside the response content.
+
+## Usage
+
+### CLI
+
+```bash
+uv run python -m examples.simulate therapist=basic
+```
+
+### Python
+
+```python
+from patienthub.therapists import get_therapist
+
+therapist = get_therapist(agent_name="basic", lang='en')
+
+response = therapist.generate_response("Hello, I've been feeling anxious lately.")
+print(response.content)
+```
 
 ## Configuration
 
-### YAML Configuration
+| Option        | Type   | Default                           | Description                               |
+| ------------- | ------ | --------------------------------- | ----------------------------------------- |
+| `prompt_path` | string | `data/prompts/therapist/CBT.yaml` | Path to prompt file                       |
+| `use_cot`     | bool   | `False`                           | Enable chain-of-thought structured output |
+| `model_type`  | string | `"OPENAI"`                        | Model provider key                        |
+| `model_name`  | string | `"gpt-4o"`                        | The LLM model to use                      |
+| `temperature` | float  | `0.7`                             | Controls response randomness              |
+| `max_tokens`  | int    | `8192`                            | Max response tokens                       |
+| `max_retries` | int    | `3`                               | API retry attempts                        |
 
-```yaml
-therapist:
-  agent_type: CBT
-  model_type: OPENAI
-  model_name: gpt-4o
-  temperature: 0.7
-```
+## Response Format
 
-### Python Usage
+Without CoT, returns a plain string response. With `use_cot=True`, returns a structured object:
 
 ```python
-from omegaconf import OmegaConf
-
-from patienthub.therapists import get_therapist
-
-config = OmegaConf.create(
-    {
-        "agent_type": "CBT",
-        "model_type": "OPENAI",
-        "model_name": "gpt-4o",
-        "temperature": 0.7,
-        "max_tokens": 8192,
-        "max_retries": 3,
-    }
-)
-therapist = get_therapist(configs=config, lang="en")
+class ResponseWithCOT(BaseModel):
+    reasoning: str  # Internal chain-of-thought (not shown to client)
+    content: str    # Therapist's actual response
 ```
-
-## Parameters
-
-| Parameter     | Type   | Default                           | Description                  |
-| ------------- | ------ | --------------------------------- | ---------------------------- |
-| `prompt_path` | string | `data/prompts/therapist/CBT.yaml` | Path to prompt file          |
-| `model_type`  | string | `"OPENAI"`                        | Model provider key           |
-| `model_name`  | string | `"gpt-4o"`                        | The LLM model to use         |
-| `temperature` | float  | `0.7`                             | Controls response randomness |
 
 ## Use Cases
 
-- CBT training simulations
-- Research on therapeutic techniques
-- Educational demonstrations of CBT principles
+- General-purpose therapist baseline
+- CBT training simulations (default prompt)
+- Research on different therapeutic prompt designs
+- Educational demonstrations

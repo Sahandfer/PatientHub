@@ -23,23 +23,10 @@ PatientHub is a comprehensive framework that brings together **11 patient simula
 from omegaconf import OmegaConf
 from patienthub.clients import get_client
 
-config = OmegaConf.create({
-    'agent_type': 'patientPsi',
-    'model_type': 'OPENAI',
-    'model_name': 'gpt-4o',
-    'temperature': 0.7,
-    'max_tokens': 1024,
-    'max_retries': 3,
-    'patient_type': 'upset',
-    'prompt_path': 'data/prompts/client/patientPsi.yaml',
-    'data_path': 'data/characters/PatientPsi.json',
-    'data_idx': 0,
-})
-
-client = get_client(configs=config, lang='en')
-
+# Load the client
+client = get_client(agent_name="patientPsi", lang='en')
+# Generate a response
 response = client.generate_response("How are you feeling today?")
-print(response)
 ```
 
 ## Getting Started

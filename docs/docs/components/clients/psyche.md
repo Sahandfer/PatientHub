@@ -43,27 +43,15 @@ PSYCHE profiles include three main sections:
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=psyche therapist=user
+uv run python -m examples.simulate client=psyche
 ```
 
 ### Python
 
 ```python
-from omegaconf import OmegaConf
 from patienthub.clients import get_client
 
-config = OmegaConf.create({
-    'agent_type': 'psyche',
-    'model_type': 'OPENAI',
-    'model_name': 'gpt-4o',
-    'temperature': 0.7,
-    'max_tokens': 1024,
-    'max_retries': 3,
-    'data_path': 'data/characters/Psyche.json',
-    'data_idx': 0,
-})
-
-client = get_client(configs=config, lang='en')
+client = get_client(agent_name="psyche", lang='en')
 
 response = client.generate_response("Can you tell me what brings you here today?")
 print(response)

@@ -51,21 +51,9 @@ uv run python -m examples.simulate client=annaAgent
 ### Python
 
 ```python
-from omegaconf import OmegaConf
 from patienthub.clients import get_client
 
-config = OmegaConf.create({
-    'agent_type': 'annaAgent',
-    'model_type': 'OPENAI',
-    'model_name': 'gpt-4o',
-    'temperature': 0.7,
-    'max_tokens': 1024,
-    'max_retries': 3,
-    'data_path': 'data/characters/AnnaAgent.json',
-    'data_idx': 0,
-})
-
-client = get_client(configs=config, lang='en')
+client = get_client(agent_name="annaAgent", lang='en')
 
 response = client.generate_response("How have you been since our last session?")
 print(response)

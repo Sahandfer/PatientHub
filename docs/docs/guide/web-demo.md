@@ -41,7 +41,7 @@ from omegaconf import OmegaConf
 from patienthub.clients import get_client, CLIENT_REGISTRY
 
 DEFAULT_CONFIG = {
-    "agent_type": "patientPsi",
+    "agent_name": "patientPsi",
     "model_type": "OPENAI",
     "model_name": "gpt-4o",
     "temperature": 0.7,
@@ -85,7 +85,7 @@ async def start():
 
 async def setup_client(settings):
     config = DEFAULT_CONFIG.copy()
-    config["agent_type"] = settings["client_type"]
+    config["agent_name"] = settings["client_type"]
     config["temperature"] = settings["temperature"]
     config["data_idx"] = int(settings["data_idx"])
 
@@ -175,7 +175,7 @@ async def export_session(action):
 
     if client and hasattr(client, 'messages'):
         session_data = {
-            "client_type": client.configs.agent_type,
+            "client_type": client.configs.agent_name,
             "messages": [
                 {"role": "user" if i % 2 == 0 else "assistant",
                  "content": str(msg.content)}
