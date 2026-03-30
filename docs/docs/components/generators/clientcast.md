@@ -90,9 +90,9 @@ The input file is a JSON array of conversation objects:
     "Conscientiousness": {"score_percent": 55, "explanation": "..."}
   },
   "symptoms": {
-    "PHQ9": {"1": {"identified": true, "severity_level": 2, "severity_label": "More than half the days", "explanation": "..."}},
-    "GAD7": {"1": {"identified": true, "severity_level": 1, "explanation": "..."}},
-    "OQ45": {"1": {"identified": false, "explanation": "..."}}
+    "PHQ-9": {"1": {"identified": true, "severity_level": 2, "severity_label": "More than half the days", "explanation": "..."}},
+    "GAD-7": {"1": {"identified": true, "severity_level": 1, "explanation": "..."}},
+    "OQ-45": {"1": {"identified": false, "explanation": "..."}}
   }
 }
 ```

@@ -64,8 +64,16 @@ class ClientCastClient(BaseClient):
             disorder_qs = self.symptoms.get(disorder, [])
             for q_id, details in questions.items():
                 if details.get("identified", False):
-                    disorder_q = disorder_qs[int(q_id)]
-                    symptom_res += f"- {disorder_q['question']}: {details.get('severity_label', '')}\n"
+                    try:
+                        disorder_q = disorder_qs[int(q_id) - 1]
+                    except (ValueError, IndexError):
+                        continue
+                    question = str(disorder_q)
+                    if not question:
+                        continue
+                    symptom_res += (
+                        f"- {question}: {details.get('severity_label', '')}\n"
+                    )
         return symptom_res
 
     def get_appreance(self):

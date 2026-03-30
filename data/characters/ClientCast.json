@@ -39,7 +39,7 @@
             }
         },
         "symptoms": {
-            "PHQ9": {
+            "PHQ-9": {
                 "1": {
                     "identified": false,
                     "severity_level": null,
@@ -47,7 +47,7 @@
                     "explanation": "The client indicates they watch movies, read books, and take baths to relax, suggesting they still find interest and pleasure in these activities. They use wine to enhance these experiences, rather than because they lack interest in them."
                 }
             },
-            "GAD7": {
+            "GAD-7": {
                 "1": {
                     "identified": false,
                     "severity_level": null,
@@ -55,7 +55,7 @@
                     "explanation": "The client did not mention feeling nervous, anxious, or on edge. The conversation focused on alcohol use and its relation to depression, but no symptoms of anxiety were discussed."
                 }
             },
-            "OQ45": {
+            "OQ-45": {
                 "1": {
                     "identified": false,
                     "severity_level": null,

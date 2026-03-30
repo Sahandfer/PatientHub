@@ -109,20 +109,20 @@ print(response.content)
     }
   },
   "symptoms": {
-    "PHQ9": {
+    "PHQ-9": {
       "1": {
         "identified": false,
         "severity_level": null,
         "explanation": "Still finds interest in activities..."
       }
     },
-    "GAD7": {
+    "GAD-7": {
       "1": {
         "identified": false,
         "explanation": "No mentioned anxiety symptoms..."
       }
     },
-    "OQ45": {
+    "OQ-45": {
       "1": {
         "identified": false,
         "explanation": "Unable to assess social interactions..."

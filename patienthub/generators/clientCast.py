@@ -17,7 +17,7 @@ Key Features:
 
 from omegaconf import DictConfig
 from dataclasses import dataclass
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, Dict, Optional, Literal
 
 from .base import BaseGenerator
@@ -261,16 +261,21 @@ class OQ45Estimate(SymptomEstimate):
 
 
 class Symptoms(BaseModel):
-    PHQ9: Dict[str, SymptomEstimate] = Field(
+    model_config = ConfigDict(populate_by_name=True)
+
+    PHQ_9: Dict[str, SymptomEstimate] = Field(
         ...,
+        alias="PHQ-9",
         description="PHQ-9 item estimates keyed by item number as string.",
     )
-    GAD7: Dict[str, SymptomEstimate] = Field(
+    GAD_7: Dict[str, SymptomEstimate] = Field(
         ...,
+        alias="GAD-7",
         description="GAD-7 item estimates keyed by item number as string.",
     )
-    OQ45: Dict[str, OQ45Estimate] = Field(
+    OQ_45: Dict[str, OQ45Estimate] = Field(
         ...,
+        alias="OQ-45",
         description="OQ-45 item estimates keyed by item number as string.",
     )
 
@@ -328,12 +333,14 @@ class ClientCastGenerator(BaseGenerator):
                         [{"role": "system", "content": prompt}],
                         response_format=SymptomEstimate,
                     )
-                full_res[disorder.replace("-", "")] = {f"{i+1}": res}
+                full_res[disorder] = {f"{i+1}": res}
                 # For the sake of API cost, we only do this for one symptom from each disorder
                 break
 
         return Symptoms(
-            PHQ9=full_res["PHQ9"], GAD7=full_res["GAD7"], OQ45=full_res["OQ45"]
+            PHQ_9=full_res["PHQ-9"],
+            GAD_7=full_res["GAD-7"],
+            OQ_45=full_res["OQ-45"],
         )
 
     def generate_character(self) -> Dict[str, Any]:
@@ -348,6 +355,9 @@ class ClientCastGenerator(BaseGenerator):
         )
 
         save_json(
-            data=character.model_dump(),
+            data={
+                **character.model_dump(),
+                "symptoms": character.symptoms.model_dump(by_alias=True),
+            },
             output_dir=self.configs.output_dir,
         )
