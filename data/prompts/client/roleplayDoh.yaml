@@ -44,7 +44,7 @@ en:
     Generate a suitable completion to the conversation as the patient, following the instructions below.
 
     ### Instructions for the patient
-    {{ client_profile }}
+    {{ profile }}
 
     ### Conversation History
     {{ conv_history }}
@@ -86,7 +86,7 @@ en:
     1. Is the patient's response consisttent with the given conversation history?
     {{ criteria }}
     ### Patient Persona
-    {{ client_profile }}
+    {{ profile }}
     ### Conversation History
     {{ conv_history }}
     ### Therapist Message
@@ -133,7 +133,7 @@ zh:
     根据以下指令生成适合患者的对话完成。
 
     ### 来访者角色卡
-    {{ client_profile }}
+    {{ profile }}
 
     ### 对话历史
     {{ conv_history }}
@@ -177,7 +177,7 @@ zh:
     1. 来访者的回应是否与给定的对话历史一致？
     {{ criteria }}
     ### 来访者角色卡
-    {{ client_profile }}
+    {{ profile }}
     ### 对话历史
     {{ conv_history }}
     ### 咨询师消息

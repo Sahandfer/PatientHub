@@ -9,7 +9,10 @@ en:
     Patient History: {{data.history}}
     
     Cognitive Conceptualization Diagram:
-    Core Beliefs: {{data.core_belief}}
+    Core Beliefs:
+    helpless_belief: {{ data.helpless_belief }}
+    unlovable_belief: {{ data.unlovable_belief }}
+    worthless_belief: {{ data.worthless_belief }}
     Intermediate Beliefs: {{data.intermediate_belief}}
     Intermediate Beliefs during Depression: {{data.intermediate_belief_depression}}
     Coping Strategies: {{data.coping_strategies}}
@@ -19,7 +22,7 @@ en:
     Instead, allow your responses to be informed by the diagram, enabling the therapist to infer your thought processes.
     
     Situation: {{data.situation}}
-    Automatic Thoughts: {{data.auto_thoughts}}
+    Automatic Thoughts: {{data.auto_thought}}
     Emotions: {{data.emotion}}
     Behavior: {{data.behavior}}
   patientType: |
@@ -45,7 +48,10 @@ zh:
     患者历史：{{data.history}}
     
     认知概念图：
-    核心信念：{{data.core_belief}}
+    核心信念：
+    无助的信念: {{ data.helpless_belief }}
+    不被爱的信念: {{ data.unlovable_belief }}
+    自己毫无价值的信念: {{ data.worthless_belief }}
     中级信念：{{data.intermediate_belief}}
     抑郁期间的中级信念：{{data.intermediate_belief_depression}}
     应对策略：{{data.coping_strategies}}
@@ -53,7 +59,7 @@ zh:
     你将被询问过去一周的经历。与咨询师就以下情况和行为进行对话。使用提供的情绪和自动思维作为参考，但不要直接透露认知概念图。相反，让你的回答受到该图的启发，使咨询师能够推断出你的思维过程。
     
     情况：{{data.situation}}
-    自动思维：{{data.auto_thoughts}}
+    自动思维：{{data.auto_thought}}
     情绪：{{data.emotion}}
     行为：{{data.behavior}}
   patientType: |
