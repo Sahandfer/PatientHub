@@ -4,7 +4,7 @@ import instructor
 from dotenv import load_dotenv
 from dataclasses import dataclass
 from typing import Any, List, Optional, Dict
-from litellm import completion, supports_response_schema, completion_cost
+from litellm import completion, supports_response_schema, completion_cost, rerank
 
 logging.getLogger("LiteLLM").setLevel(logging.WARNING)
 
@@ -91,82 +91,80 @@ def get_chat_model(configs):
 
 @dataclass
 class Reranker:
-    def __init__(self, tokenizer: Any, model: Any, device: Any):
-        self.tokenizer = tokenizer
-        self.model = model
-        self.device = device
+    """Reranker backed by LiteLLM's hosted_vllm provider."""
 
-    def score(
-        self, query: str, passages: List[str], max_length: int = 512
-    ) -> Optional[List[float]]:
-        """Score (query, passage) pairs. Higher = more relevant."""
+    model_name: str
+    api_base: Optional[str] = None
+    api_key: Optional[str] = None
+
+    @staticmethod
+    def read_field(obj: Any, name: str, default: Any = None) -> Any:
+        if isinstance(obj, dict):
+            return obj.get(name, default)
+        return getattr(obj, name, default)
+
+    @classmethod
+    def extract_scores(cls, response: Any, total_docs: int) -> Optional[List[float]]:
+        scores = [0.0] * total_docs
+        results = cls.read_field(response, "results", []) or []
+        valid_count = 0
+
+        for item in results:
+            index = cls.read_field(item, "index")
+            relevance_score = cls.read_field(item, "relevance_score")
+            if relevance_score is None:
+                relevance_score = cls.read_field(item, "score")
+
+            try:
+                index = int(index)
+                relevance_score = float(relevance_score)
+            except (TypeError, ValueError):
+                continue
+
+            if 0 <= index < total_docs:
+                scores[index] = relevance_score
+                valid_count += 1
+
+        if valid_count == 0:
+            return None
+
+        return scores
+
+    def score(self, query: str, passages: List[str]) -> Optional[List[float]]:
+        """Score passages through LiteLLM's rerank endpoint."""
         if not passages:
             return None
 
-        pairs = [(query, passage) for passage in passages]
-
         try:
-            return self.compute_scores(pairs, max_length)
+            response = rerank(
+                model=self.model_name,
+                query=query,
+                documents=passages,
+                top_n=len(passages),
+                return_documents=False,
+                api_base=self.api_base,
+                api_key=self.api_key,
+            )
         except Exception:
             return None
 
-    def compute_scores(self, pairs: List[tuple], max_length: int) -> List[float]:
-        """Compute relevance scores for query-passage pairs."""
-        import torch
-
-        with torch.no_grad():
-            inputs = self.tokenizer(
-                pairs,
-                padding=True,
-                truncation=True,
-                return_tensors="pt",
-                max_length=max_length,
-            )
-            inputs = {k: v.to(self.device) for k, v in inputs.items()}
-            outputs = self.model(**inputs, return_dict=True)
-            logits = outputs.logits.view(-1).float()
-            return torch.sigmoid(logits).tolist()
-
-
-def get_device(device_index: int):
-    import torch
-
-    try:
-        device_index = int(device_index)
-    except Exception:
-        device_index = 0
-
-    if torch.cuda.is_available() and device_index >= 0:
-        return torch.device(f"cuda:{device_index}")
-    return torch.device("cpu")
-
-
-def load_reranker_model(model_name: str, device: Any):
-    """Load tokenizer and model for reranking."""
-    from transformers import AutoModelForSequenceClassification, AutoTokenizer
-
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name)
-    model.to(device)
-    model.eval()
-    return tokenizer, model
+        return self.extract_scores(response, len(passages))
 
 
 def get_reranker(configs: Any) -> Optional[Reranker]:
-    """Get a Reranker instance from config, or None if unavailable."""
+    """Get a LOCAL reranker backed by LiteLLM's hosted_vllm provider."""
 
     def get(name, default=None):
         return get_config_value(configs, name, default)
 
-    model_type = get("model_type")
-    model_name = get("model_name")
+    model_type = get("reranker_model_type")
+    model_name = get("reranker_model_name")
 
-    if model_type not in ("huggingface", "local") or not model_name:
+    if model_type != "LOCAL" or not model_name:
         return None
 
-    try:
-        device = get_device(get("device", 0))
-        tokenizer, model = load_reranker_model(model_name, device)
-        return Reranker(tokenizer=tokenizer, model=model, device=device)
-    except Exception:
-        return None
+    return Reranker(
+        model_name=model_name,
+        api_base=os.environ.get("LOCAL_BASE_URL"),
+        api_key=os.environ.get("LOCAL_API_KEY"),
+    )
