@@ -90,16 +90,35 @@ class Generator:
         self.agent_name = configs.agent_name
         self.agent_type = configs.agent_type
         self.agent_class_name = self.get_class_name()
+        self.schema_class_name = self.get_schema_class_name()
         self.prompts = {"agent": AGENT_TEMPLATE, "prompt": PROMPT_TEMPLATE}
         self.paths = {
             "init": f"patienthub/{self.agent_type}s/__init__.py",
             "agent": f"patienthub/{self.agent_type}s/{self.agent_name}.py",
             "prompt": f"data/prompts/{self.agent_type}/{self.agent_name}.yaml",
+            "adapter_init": "patienthub/adapters/__init__.py",
+            "adapter_schema": f"patienthub/adapters/{self.agent_name}.py",
         }
 
     def get_class_name(self) -> str:
         name = self.agent_name + self.agent_type.capitalize()
         return name[0].upper() + name[1:]
+
+    def get_schema_class_name(self) -> str:
+        return self.agent_name[0].upper() + self.agent_name[1:] + "Character"
+
+    def build_schema_content(self) -> str:
+        return "\n".join(
+            [
+                "from .base import CharacterModel",
+                "",
+                "",
+                f"class {self.schema_class_name}(CharacterModel):",
+                "    # TODO: Define fields based on your character JSON structure.",
+                "    pass",
+                "",
+            ]
+        )
 
     def create_agent(self) -> None:
         agent_content = self.prompts["agent"].render(
@@ -156,10 +175,59 @@ class Generator:
 
     def create_prompt(self) -> None:
         prompt_path = self.paths["prompt"]
+        if os.path.exists(prompt_path):
+            print(f"> Prompt file already exists at: {prompt_path}")
+            return
         prompt_content = self.prompts["prompt"].render()
         with open(prompt_path, "w", encoding="utf-8") as f:
             f.write(prompt_content)
         print(f"> Created prompt template at: {prompt_path}")
+
+    def create_adapter_schema(self) -> None:
+        if self.agent_type != "client":
+            return
+
+        schema_path = self.paths["adapter_schema"]
+        if os.path.exists(schema_path):
+            print(f"> Adapter schema file already exists at: {schema_path}")
+            return
+
+        with open(schema_path, "w", encoding="utf-8") as f:
+            f.write(self.build_schema_content())
+
+        print(f"> Created adapter schema file at: {schema_path}")
+
+    def update_adapter_schemas(self) -> None:
+        if self.agent_type != "client":
+            return
+
+        init_path = self.paths["adapter_init"]
+        import_line = f"from .{self.agent_name} import {self.schema_class_name}"
+        registry_entry = f'    "{self.agent_name}": {self.schema_class_name},'
+
+        with open(init_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        if import_line not in content:
+            content = re.sub(
+                r"(from \.\w+ import [^\n]+\n)(?!\s*from \.)",
+                rf"\1{import_line}\n",
+                content,
+                count=1,
+            )
+
+        if registry_entry not in content:
+            content = re.sub(
+                r"(CHARACTER_MODEL_REGISTRY(?:\s*:\s*[^=]+)?\s*=\s*\{[^}]*)(})",
+                rf"\1{registry_entry}\n\2",
+                content,
+                count=1,
+            )
+
+        with open(init_path, "w", encoding="utf-8") as f:
+            f.write(content)
+
+        print(f"> Updated {init_path} to include {self.schema_class_name}.")
 
     def generate_files(self) -> None:
         if self.agent_type not in ("client", "therapist"):
@@ -172,9 +240,12 @@ class Generator:
             print(f"> Agent file already exists at: {agent_path}")
         else:
             self.create_agent()
-            self.update_init()
-            self.create_prompt()
-            print("> File creation process completed.")
+
+        self.update_init()
+        self.create_prompt()
+        self.create_adapter_schema()
+        self.update_adapter_schemas()
+        print("> File creation process completed.")
 
 
 @dataclass
