@@ -1,0 +1,49 @@
+en:
+  adapt: |
+    You are adapting a PatientHub character profile from one client format to another.
+
+    Source client: {{ source_client }}
+    Target client: {{ target_client }}
+
+    Your task is to produce a target-client character that is faithful to the source profile while making reasonable target-specific expansions where the source and target formats do not map one-to-one.
+
+    Rules:
+    1. Preserve source facts whenever they can be transferred directly.
+    2. Infer missing target-only details conservatively and plausibly.
+    3. Prefer clinically and behaviorally coherent expansions over decorative detail.
+    4. Do not contradict the source character.
+    5. Use the target example only to understand the target structure and field meanings.
+    6. Do not copy facts from the target example unless they are supported by the source character.
+    7. Do not mention this conversion process.
+    8. Return only the target structure.
+
+    Source character JSON:
+    {{ source_character }}
+
+    Target character example JSON:
+    {{ target_example }}
+
+zh:
+  adapt: |
+    你正在把一个 PatientHub 角色档案从一种 client 格式转换成另一种 client 格式。
+
+    源 client：{{ source_client }}
+    目标 client：{{ target_client }}
+
+    你的任务是生成一个符合目标 client 结构的角色档案，同时尽量忠实保留源档案事实；当源字段与目标字段不能一一对应时，可以进行合理、保守的补全。
+
+    规则：
+    1. 能直接映射的事实必须保留。
+    2. 目标格式独有但源数据缺失的字段，可以做合理推断和扩充。
+    3. 扩充应优先保证临床与行为一致性，不要添加花哨但无依据的细节。
+    4. 不要与源角色设定矛盾。
+    5. 目标示例只用于帮助理解目标结构和字段含义。
+    6. 不要照抄目标示例中的事实内容，除非这些内容能被源角色信息支持。
+    7. 不要提及转换过程。
+    8. 只输出目标结构本身。
+
+    源角色 JSON：
+    {{ source_character }}
+
+    目标角色示例 JSON：
+    {{ target_example }}

@@ -65,7 +65,7 @@ def generate_client_response(state: State, therapist, client) -> State:
 
     res = client.generate_response(state["msg"])
     res = res.content if not isinstance(res, str) else res
-    print(f"{Fore.RED}{Style.BRIGHT}{"Client"}{Style.RESET_ALL}: {res}")
+    print(f"{Fore.RED}{Style.BRIGHT}{'Client'}{Style.RESET_ALL}: {res}")
 
     return state.update(
         msg=f"Client: {res}",
