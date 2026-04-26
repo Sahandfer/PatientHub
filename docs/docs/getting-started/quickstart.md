@@ -91,14 +91,16 @@ All ways to trigger saving:
 You can run the following command to create the necessary files for a new agent:
 
 ```bash
-uv run python -m examples.create generator.gen_agent_name=[client|therapist] generator.gen_agent_name=<agent_name>
+uv run python -m examples.create agent_type=[client|therapist] agent_name=<agent_name>
 ```
 
 For example
 
 ```bash
-uv run python -m examples.create generator.gen_agent_name=client generator.gen_agent_name=test
+uv run python -m examples.create agent_type=client agent_name=test
 ```
+
+For new clients, this also creates `patienthub/adapters/<agent_name>.py`, which is the Pydantic schema module used by the Adapter framework for character conversion.
 
 ## What's Next?
 

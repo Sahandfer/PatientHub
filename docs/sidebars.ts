@@ -76,6 +76,17 @@ const sidebars = {
 
         {
           type: 'category',
+          label: 'Adapters',
+          link: {
+            type: 'doc',
+            id: 'components/adapters/overview',
+          },
+          items: [
+            'components/adapters/overview',
+          ],
+        },
+        {
+          type: 'category',
           label: 'Generators',
           link: {
             type: 'doc',
