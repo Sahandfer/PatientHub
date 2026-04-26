@@ -1,15 +1,15 @@
 from typing import Dict, Any
-from datetime import datetime
 from dataclasses import dataclass
 from colorama import Fore, Style, init
 from patienthub.utils import save_json
+from patienthub.events.base import EventTraceConfig, TraceableEvent
 from burr.core import ApplicationBuilder, State, action, when, expr
 
 init(autoreset=True)
 
 
 @dataclass
-class TherapySessionConfig:
+class TherapySessionConfig(EventTraceConfig):
     """Configuration for a therapy session."""
 
     event_type: str = "therapy_session"
@@ -93,7 +93,14 @@ def check_and_remind(state: State, max_turns, reminder_turn_num) -> State:
 
 
 @action(reads=["messages", "num_turns"], writes=["msg"])
-def end_session(state: State, client, therapist, output_dir) -> State:
+def end_session(
+    state: State,
+    client,
+    therapist,
+    output_dir,
+    trace_logger=None,
+    trace_log_path="",
+) -> State:
     """End the session and save results."""
     # Collect usage from both agents
     usage = {"client": {}, "therapist": {}}
@@ -113,8 +120,17 @@ def end_session(state: State, client, therapist, output_dir) -> State:
         "messages": state["messages"],
         "num_turns": state["num_turns"],
         "usage": usage,
+        "trace_log_path": trace_log_path,
     }
     save_json(session_state, output_dir)
+    if trace_logger:
+        trace_logger.log_event(
+            "run_end",
+            {
+                "num_turns": state["num_turns"],
+                "usage": usage,
+            },
+        )
 
     print("=" * 50)
     if total_cost > 0:
@@ -122,8 +138,9 @@ def end_session(state: State, client, therapist, output_dir) -> State:
     return state.update(msg="[Moderator] Session has ended.")
 
 
-class TherapySession:
+class TherapySession(TraceableEvent):
     def __init__(self, configs: TherapySessionConfig):
+        super().__init__(configs)
         self.configs = configs
         self.client = None
         self.therapist = None
@@ -140,7 +157,14 @@ class TherapySession:
 
     def build_app(self):
         """Build the Burr application."""
-        run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.ensure_run_id()
+        self.setup_trace_logger(
+            output_dir=self.configs.output_dir,
+            agents={
+                "client": self.client,
+                "therapist": self.therapist,
+            },
+        )
         app = (
             ApplicationBuilder()
             .with_actions(
@@ -161,6 +185,8 @@ class TherapySession:
                     client=self.client,
                     therapist=self.therapist,
                     output_dir=self.configs.output_dir,
+                    trace_logger=self.trace_logger,
+                    trace_log_path=self.trace_log_path,
                 ),
             )
             .with_transitions(
@@ -189,7 +215,7 @@ class TherapySession:
                 needs_reminder=False,
             )
             .with_tracker(project="patienthub")  # Enables local tracking
-            .with_identifiers(app_id=f"therapy_session_{run_id}")
+            .with_identifiers(app_id=f"therapy_session_{self.run_id}")
             .build()
         )
         return app

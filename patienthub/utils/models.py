@@ -1,4 +1,5 @@
 import os
+import time
 import logging
 import instructor
 from dotenv import load_dotenv
@@ -27,8 +28,12 @@ class ChatModel:
         self.total_tokens = 0
         self.prompt_tokens = 0
         self.completion_tokens = 0
+        self.trace_logger = None
         if not self.res_format_support:
             print("> Model does not support response format")
+
+    def attach_trace_logger(self, trace_logger):
+        self.trace_logger = trace_logger
 
     def track_usage(self, response):
         """Track token usage and cost from API response using LiteLLM."""
@@ -42,21 +47,48 @@ class ChatModel:
             pass  # Cost calculation not available for this model
 
     def generate(self, messages, response_format=None):
-        if not self.res_format_support or response_format is None:
-            res = completion(model=self.model_name, messages=messages, **self.kwargs)
-            self.track_usage(res)
-            return res.choices[0].message
-        else:
-            client = instructor.from_litellm(completion)
-            res = client.chat.completions.create(
-                model=self.model_name,
-                messages=messages,
-                response_model=response_format,
-                **self.kwargs,
-            )
-            if hasattr(res, "_raw_response"):
-                self.track_usage(res._raw_response)
-            return res
+        started_at = time.perf_counter()
+        raw_response = None
+
+        try:
+            if not self.res_format_support or response_format is None:
+                raw_response = completion(
+                    model=self.model_name, messages=messages, **self.kwargs
+                )
+                self.track_usage(raw_response)
+                result = raw_response.choices[0].message
+            else:
+                client = instructor.from_litellm(completion)
+                result = client.chat.completions.create(
+                    model=self.model_name,
+                    messages=messages,
+                    response_model=response_format,
+                    **self.kwargs,
+                )
+                raw_response = getattr(result, "_raw_response", None)
+                if raw_response is not None:
+                    self.track_usage(raw_response)
+
+            if self.trace_logger:
+                self.trace_logger.log_llm_call(
+                    model_name=self.model_name,
+                    messages=messages,
+                    response_format=response_format,
+                    response=result,
+                    raw_response=raw_response,
+                    latency_ms=(time.perf_counter() - started_at) * 1000,
+                )
+            return result
+        except Exception as e:
+            if self.trace_logger:
+                self.trace_logger.log_llm_error(
+                    model_name=self.model_name,
+                    messages=messages,
+                    response_format=response_format,
+                    error=e,
+                    latency_ms=(time.perf_counter() - started_at) * 1000,
+                )
+            raise
 
     def get_usage(self) -> Dict:
         """Get usage summary."""
