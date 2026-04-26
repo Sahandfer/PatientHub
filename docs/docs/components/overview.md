@@ -11,6 +11,7 @@ PatientHub implements various agent types for comprehensive therapy simulation r
 - **[Clients](./clients/overview.md)** - Patient simulation agents with various disorders and behaviors
 - **[Therapists](./therapists/overview.md)** - Therapeutic intervention agents
 - **[Evaluators](./evaluators/overview.md)** - Assessment agents for measuring therapy quality
+- **[Adapters](./adapters/overview.md)** - Schema-aware character conversion between different clients
 - **[Generators](./generators/overview.md)** - Tools for creating synthetic client profiles
 - **[Events](./events/overview.md)** - Session management and interaction flow
 - **[NPCs](./npcs/overview.md)** - Supporting characters for complex scenarios

@@ -6,6 +6,31 @@ sidebar_position: 1
 
 PatientHub provides multiple ways to run therapy session simulations.
 
+## Prepare Character Files with Adapter
+
+If you want to run a character profile with a different client implementation, convert it first with the adapter.
+
+For example, convert a `patientPsi` character into `annaAgent` format:
+
+```bash
+python -m examples.adapter \
+  source_client=patientPsi \
+  target_client=annaAgent
+```
+
+You can also override paths and choose a specific source entry:
+
+```bash
+python -m examples.adapter \
+  source_client=patientPsi \
+  target_client=annaAgent \
+  input_path=data/characters/PatientPsi.json \
+  output_path=data/characters/AnnaAgent_from_patientPsi.json \
+  source_idx=0
+```
+
+The adapter validates the source profile, uses a target-client example as one-shot guidance, and constrains the generated output with the target client's Pydantic schema.
+
 ## CLI Simulation
 
 The simplest approach uses the command-line interface:
@@ -213,3 +238,4 @@ Sessions are saved as JSON:
 
 - [Evaluation](/docs/guide/evaluation) - Assess conversation quality
 - [Web Demo](/docs/guide/web-demo) - Interactive interface
+- [Adapter API](/docs/components/adapters/overview) - Convert character files across clients

@@ -56,6 +56,12 @@ uv run python -m examples.evaluate evaluator=conv_judge evaluator.prompt_path=da
 uv run python -m examples.generate generator=psyche
 ```
 
+**Adapt** a character profile across clients:
+
+```bash
+uv run python -m examples.adapter source_client=patientPsi target_client=annaAgent
+```
+
 **Run the web demo** (requires `dev` dependencies):
 
 ```bash
@@ -104,6 +110,12 @@ uv run chainlit run examples/chainlit.py
 | PSYCHE     | `psyche`     | Character generation for PSYCHE     |
 | ClientCast | `clientCast` | Character generation for ClientCast |
 | AnnaAgent  | `annaAgent`  | Character generation for AnnaAgent  |
+
+### Adapters
+
+| Description                         |
+| ----------------------------------- |
+| All currently registered non-`user` clients |
 
 ## Project Structure
 

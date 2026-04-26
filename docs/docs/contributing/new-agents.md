@@ -8,7 +8,7 @@ This guide explains how to add new client or therapist agents to PatientHub.
 
 ## Quickstart: Auto-generate Boilerplate
 
-The `examples.create` script scaffolds the agent file, prompt template, and `__init__.py` registration in one command:
+The `examples.create` script scaffolds the agent file, prompt template, and registration in one command:
 
 ```bash
 # Create a new client agent
@@ -23,6 +23,9 @@ This generates:
 - `patienthub/clients/myClient.py` (or `patienthub/therapists/myTherapist.py`)
 - `data/prompts/client/myClient.yaml` (or `data/prompts/therapist/myTherapist.yaml`)
 - Adds the import, registry entry, and config registry entry to the corresponding `__init__.py`
+- For new clients only: `patienthub/adapters/myClient.py`
+
+The adapter schema file is a blank Pydantic skeleton with a `TODO`, so the new client can participate in cross-client character conversion once you fill in its schema.
 
 The sections below explain each part in detail.
 
@@ -147,6 +150,8 @@ CLIENT_CONFIG_REGISTRY = {
 }
 ```
 
+For client agents, also register an adapter schema in `patienthub/adapters/__init__.py` and define it in `patienthub/adapters/myClient.py`.
+
 ---
 
 ## Step 3: Create the Prompt Template
@@ -180,14 +185,33 @@ zh:
 ]
 ```
 
+## Step 5: Define the Adapter Schema for New Clients
+
+If you created a client with `examples.create`, PatientHub already created `patienthub/adapters/myClient.py` for you. Fill in the character schema there:
+
+```python
+from .base import CharacterModel
+
+
+class MyClientCharacter(CharacterModel):
+    # TODO: replace this with the real schema expected by your client
+    pass
+```
+
+This schema is used by the adapter framework to:
+
+- validate incoming source profiles
+- constrain generated target profiles for your client
+- keep cross-client conversion compatible with your runtime expectations
+
 ---
 
-## Step 5: Add Tests
+## Step 6: Add Tests
 
 The existing smoke tests in `patienthub/tests/clients.py` automatically pick up any client registered in `CLIENT_REGISTRY`. Run them with:
 
 ```bash
-uv run python -m pytest patienthub/tests/clients.py -v
+python -m pytest patienthub/tests/clients.py -v
 ```
 
 For agent-specific tests:

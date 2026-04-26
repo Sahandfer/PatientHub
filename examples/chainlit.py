@@ -8,10 +8,10 @@ import sys
 import chainlit as cl
 from pathlib import Path
 
-from patienthub.clients import get_client, CLIENT_REGISTRY
-
 # Ensure the project root is on sys.path so patienthub is importable
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from patienthub.clients import get_client, CLIENT_REGISTRY
 
 
 def get_client_options() -> list[str]:
