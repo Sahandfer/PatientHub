@@ -76,22 +76,24 @@ print(response)
 ## Character Data Format
 
 ```json
-{
-  "persona": {
-    "age": 34,
-    "gender": "male",
-    "ethnicity": "Asian",
-    "occupation": "software engineer",
-    "mbti": "INTJ-A"
-  },
-  "cognitive_model": {
-    "patient_control": 3,
-    "patient_efficacy": 4,
-    "patient_awareness": 7,
-    "patient_reward": 8
-  },
-  "between_session_event": "After a stressful day at work, the patient received a call from a college friend inviting him to a small get-together..."
-}
+[
+  {
+    "persona": {
+      "age": 34,
+      "gender": "male",
+      "ethnicity": "Asian",
+      "occupation": "software engineer",
+      "mbti": "INTJ-A"
+    },
+    "cognitive_model": {
+      "patient_control": 3,
+      "patient_efficacy": 4,
+      "patient_awareness": 7,
+      "patient_reward": 8
+    },
+    "between_session_event": "After a stressful day at work, the patient received a call from a college friend inviting him to a small get-together..."
+  }
+]
 ```
 
 ## Between-Session Events
