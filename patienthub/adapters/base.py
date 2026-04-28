@@ -3,8 +3,7 @@
 
 """Shared adapter schema primitives."""
 
-from dataclasses import dataclass
-from typing import Literal, Type
+from typing import Type
 
 from pydantic import BaseModel, ConfigDict
 
@@ -16,9 +15,3 @@ class CharacterModel(BaseModel):
 
 
 CharacterModelType = Type[BaseModel]
-
-
-@dataclass(frozen=True)
-class CharacterSchemaSpec:
-    model: CharacterModelType
-    container: Literal["list", "dict"] = "list"

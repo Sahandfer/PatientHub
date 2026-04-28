@@ -69,7 +69,7 @@ class InternalStateResponse(BaseModel):
 class SimPatientClient(BaseClient):
     def __init__(self, configs: DictConfig):
         self.configs = configs
-        self.data = load_json(configs.data_path)
+        self.data = load_json(configs.data_path)[configs.data_idx]
         self.chat_model = get_chat_model(configs)
         self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
 

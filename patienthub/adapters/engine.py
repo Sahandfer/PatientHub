@@ -15,7 +15,7 @@ from patienthub.clients import get_client_config
 from patienthub.configs import APIModelConfig
 from patienthub.utils import get_chat_model, load_json, load_prompts
 
-from . import get_character_container, get_character_model
+from . import get_character_model
 
 
 @dataclass
@@ -127,11 +127,7 @@ class CharacterAdapter:
         if os.path.exists(output_path):
             raise ValueError(f"Output file already exists: {output_path}")
 
-        container = get_character_container(self.configs.target_client)
-        if container == "dict":
-            serialized: Any = payload
-        else:
-            serialized = [payload]
+        serialized: Any = [payload]
 
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(serialized, f, indent=4, ensure_ascii=False)
