@@ -45,7 +45,7 @@ AnnaAgent uses the GoEmotions taxonomy with weighted emotion transitions:
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=annaAgent
+patienthub simulate client=annaAgent
 ```
 
 ### Python

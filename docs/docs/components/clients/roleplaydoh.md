@@ -35,7 +35,7 @@ In subsequent generations, the AI simulated patient utilizes these **expert-gene
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=saps
+patienthub simulate client=saps
 ```
 
 ### Python

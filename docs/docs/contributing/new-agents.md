@@ -12,10 +12,10 @@ The `examples.create` script scaffolds the agent file, prompt template, and `__i
 
 ```bash
 # Create a new client agent
-uv run python -m examples.create agent_type=client agent_name=myClient
+patienthub create agent_type=client agent_name=myClient
 
 # Create a new therapist agent
-uv run python -m examples.create agent_type=therapist agent_name=myTherapist
+patienthub create agent_type=therapist agent_name=myTherapist
 ```
 
 This generates:
@@ -249,7 +249,7 @@ Brief description of the method.
 ### CLI
 
 \`\`\`bash
-uv run python -m examples.simulate client=myClient
+patienthub simulate client=myClient
 \`\`\`
 
 ### Python
@@ -284,4 +284,4 @@ Before submitting your new agent:
 - [ ] Character data file created (if applicable)
 - [ ] Smoke tests pass: `uv run python -m pytest patienthub/tests/clients.py -v`
 - [ ] Documentation page added
-- [ ] Works end-to-end: `uv run python -m examples.simulate client=myClient`
+- [ ] Works end-to-end: `patienthub simulate client=myClient`

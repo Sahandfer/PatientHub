@@ -28,7 +28,7 @@ A prompt-driven therapist with optional chain-of-thought reasoning, configurable
 ### CLI
 
 ```bash
-uv run python -m examples.simulate therapist=basic
+patienthub simulate therapist=basic
 ```
 
 ### Python

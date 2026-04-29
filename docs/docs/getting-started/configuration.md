@@ -112,17 +112,17 @@ Override any config value from the command line:
 
 ```bash
 # Single override
-uv run python -m examples.simulate client.temperature=0.5
+patienthub simulate client.temperature=0.5
 
 # Multiple overrides
-uv run python -m examples.simulate \
+patienthub simulate \
   client=patientPsi \
   client.temperature=0.5 \
   therapist=basic \
   event.max_turns=50
 
 # Override nested values
-uv run python -m examples.simulate client.data_idx=2
+patienthub simulate client.data_idx=2
 ```
 
 ## Config Files
@@ -147,5 +147,5 @@ data_idx: 0
 Use it:
 
 ```bash
-uv run python -m examples.simulate client=myClient
+patienthub simulate client=myClient
 ```

@@ -26,7 +26,7 @@ ELIZA implements the classic DOCTOR script. On each turn it scans the input for 
 ### CLI
 
 ```bash
-uv run python -m examples.simulate therapist=eliza
+patienthub simulate therapist=eliza
 ```
 
 ### Python

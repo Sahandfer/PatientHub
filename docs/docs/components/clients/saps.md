@@ -37,7 +37,7 @@ Based on the final state obtained by the State Tracker, SAPS selects the corresp
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=saps
+patienthub simulate client=saps
 ```
 
 ### Python

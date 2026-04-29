@@ -13,7 +13,7 @@ PatientHub provides multi-dimensional evaluation of simulated conversations.
 Score conversations using LLM-as-a-judge **scalar** evaluation (1–5 by default):
 
 ```bash
-uv run python -m examples.evaluate \
+patienthub evaluate \
   input_dir=data/sessions/default/badtherapist.json \
   output_dir=data/evaluations/session_scalar.json \
   evaluator.eval_type=scalar \
@@ -25,7 +25,7 @@ uv run python -m examples.evaluate \
 Identify issues by extracting relevant passages with **extraction** evaluation:
 
 ```bash
-uv run python -m examples.evaluate \
+patienthub evaluate \
   input_dir=data/sessions/default/badtherapist.json \
   output_dir=data/evaluations/session_inspection.json \
   evaluator.eval_type=extraction \
@@ -235,7 +235,7 @@ print(f"Min: {min(scores)}, Max: {max(scores)}")
 By default only warnings and errors are shown. Pass `verbose=true` to enable INFO/DEBUG output, saved to `logs/evaluate_<timestamp>.log`:
 
 ```bash
-uv run python -m examples.evaluate verbose=true
+patienthub evaluate verbose=true
 ```
 
 ## Integration with Simulations
@@ -243,13 +243,13 @@ uv run python -m examples.evaluate verbose=true
 Run a simulation to generate a session JSON, then evaluate it:
 
 ```bash
-uv run python -m examples.simulate \
+patienthub simulate \
   client=patientPsi \
   therapist=basic
 ```
 
 ```bash
-uv run python -m examples.evaluate \
+patienthub evaluate \
   input_dir=data/sessions/default/session_1.json \
   output_dir=data/evaluations/session_1_scalar.json \
   evaluator.eval_type=scalar \

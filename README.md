@@ -27,13 +27,13 @@ OPENAI_BASE_URL=<your API base URL> # Optional
 Run the following script for simulation (with default configs):
 
 ```bash
-uv run python -m examples.simulate
+patienthub simulate
 ```
 
 You can also override any configuration via the command line:
 
 ```bash
-uv run python -m examples.simulate client=patientPsi therapist=basic evaluator=conv_judge evaluator.prompt_path=data/prompts/evaluator/client_conv.yaml
+patienthub simulate client=patientPsi therapist=basic evaluator=conv_judge evaluator.prompt_path=data/prompts/evaluator/client_conv.yaml
 ```
 
 ### Other examples
@@ -41,25 +41,26 @@ uv run python -m examples.simulate client=patientPsi therapist=basic evaluator=c
 **Create** scaffolding for a new agent:
 
 ```bash
-uv run python -m examples.create agent_type=client agent_name=myClient
+patienthub create agent_type=client agent_name=myClient
 ```
 
 **Evaluate** a recorded session:
 
 ```bash
-uv run python -m examples.evaluate evaluator=conv_judge evaluator.prompt_path=data/prompts/evaluator/client_conv.yaml input_dir=data/sessions/default/badtherapist.json
+patienthub evaluate evaluator=conv_judge evaluator.prompt_path=data/prompts/evaluator/client_conv.yaml input_dir=data/sessions/default/badtherapist.json
 ```
 
 **Generate** a character profile:
 
 ```bash
-uv run python -m examples.generate generator=psyche
+patienthub generate generator=psyche
 ```
 
 **Run the web demo** (requires `dev` dependencies):
 
 ```bash
-uv run chainlit run examples/chainlit.py
+uv sync --extra dev
+uv run python -m chainlit run examples/chainlit.py
 ```
 
 ## Supported Agents
@@ -72,7 +73,7 @@ uv run chainlit run examples/chainlit.py
 | [Consistent Client Simulation for Motivational Interviewing-based Counseling](https://aclanthology.org/2025.acl-long.1021/)                                                              | ACL 2025 (Main)     | General (MI)                           | [`consistentMI`](./patienthub/clients/consistentMI.py) |
 | [Eeyore: Realistic Depression Simulation via Expert-in-the-Loop Supervised and Preference Optimization](https://aclanthology.org/2025.findings-acl.707/)                                 | ACL 2025 (Findings) | Depression (Screening/General)         | [`eeyore`](./patienthub/clients/eeyore.py)             |
 | [AnnaAgent: Dynamic Evolution Agent System with Multi-Session Memory for Realistic Seeker Simulation](https://aclanthology.org/2025.findings-acl.1192/)                                  | ACL 2025 (Findings) | General (Multi-session Counseling)     | [`annaAgent`](./patienthub/clients/annaAgent.py)       |
-| [ Adaptive-VP: A Framework for LLM-Based Virtual Patients that Adapts to Trainees’ Dialogue to Facilitate Nurse Communication Training](https://aclanthology.org/2025.findings-acl.118/) | ACL 2025 (Findings) | General (Nurse Communication Training) | [`adaptiveVP`](./patienthub/clients/adaptiveVP.py)     |
+| [Adaptive-VP: A Framework for LLM-Based Virtual Patients that Adapts to Trainees’ Dialogue to Facilitate Nurse Communication Training](https://aclanthology.org/2025.findings-acl.118/)  | ACL 2025 (Findings) | General (Nurse Communication Training) | [`adaptiveVP`](./patienthub/clients/adaptiveVP.py)     |
 | [Scaffolding Empathy: Training Counselors with Simulated Patients and Utterance-level Performance Visualizations](https://dl.acm.org/doi/full/10.1145/3706598.3714014)                   | CHI 2025            | Alcohol Misuse (MI)                    | [`simPatient`](./patienthub/clients/simPatient.py)     |
 | [TalkDep: Clinically Grounded LLM Personas for Conversation-Centric Depression Screening](https://dl.acm.org/doi/10.1145/3746252.3761617)                                                | CIKM 2025           | Depression (Diagnosis)                 | [`talkDep`](./patienthub/clients/talkDep.py)           |
 | [Towards a Client-Centered Assessment of LLM Therapists by Client Simulation](https://github.com/wangjs9/ClientCAST)                                                                     | Arxiv               | General (Psychotherapy)                | [`clientCast`](./patienthub/clients/clientCast.py)     |
@@ -107,7 +108,15 @@ uv run chainlit run examples/chainlit.py
 
 ## Project Structure
 
-```
+```text
+docs/               # Documentation site (Docusaurus)
+
+data/
+├── characters/     # Character profiles (JSON)
+├── prompts/        # Prompt templates (YAML, per agent)
+├── sessions/       # Saved session logs
+└── resources/      # Source datasets and auxiliary files
+
 patienthub/
 ├── clients/        # Client (patient) agent implementations
 ├── therapists/     # Therapist agent implementations
@@ -116,16 +125,9 @@ patienthub/
 ├── events/         # Session orchestration (Burr-based)
 ├── npcs/           # Non-player character agents
 ├── configs/        # Hydra config utilities
+├── cli/            # CLI entry points (simulate, evaluate, generate, create)
 └── utils/          # File I/O, model helpers
 
-examples/           # CLI entry points (simulate, evaluate, generate, create, interview)
-data/
-├── characters/     # Character profiles (JSON)
-├── prompts/        # Prompt templates (YAML, per agent)
-├── sessions/       # Saved session logs
-└── resources/      # Source datasets and auxiliary files
-
-docs/               # Documentation site (Docusaurus)
 ```
 
 ## License
@@ -136,7 +138,7 @@ See [LICENSE](./LICENSE) for details.
 
 If you find our work useful for your research, please kindly cite our paper as follows:
 
-```
+```bibtex
 @misc{sabour2026patienthub,
       title={PatientHub: A Unified Framework for Patient Simulation},
       author={Sahand Sabour and TszYam NG and Minlie Huang},

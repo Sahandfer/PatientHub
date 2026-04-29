@@ -16,6 +16,7 @@ dependencies = [
     "pandas>=2.3.3",
     "burr[start]>=0.40.2",
     "rich>=14.2.0",
+    "typer>=0.12.0",
 ]
 
 [project.optional-dependencies]
@@ -26,8 +27,11 @@ dev = [
     "chainlit>=2.8.3",
 ]
 
+[project.scripts]
+patienthub = "patienthub.cli.__main__:app"
+
 [tool.setuptools.packages.find]
-include = ["patienthub*"] 
+include = ["patienthub*"]
 exclude = ["data*"]
 
 [build-system]

@@ -43,7 +43,7 @@ PSYCHE profiles include three main sections:
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=psyche
+patienthub simulate client=psyche
 ```
 
 ### Python

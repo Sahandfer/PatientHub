@@ -85,7 +85,7 @@ print(f"Response: {response.content}")
 You can create custom therapists by running the following command:
 
 ```bash
-uv run python -m examples.create generator.gen_agent_name=therapist generator.gen_agent_name=<agent_name>
+patienthub create generator.gen_agent_name=therapist generator.gen_agent_name=<agent_name>
 ```
 
 This creates the following two files and registers the therapist in `__init__.py`:

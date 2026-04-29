@@ -198,10 +198,10 @@ cs.store(name="create", node=CreateConfig)
 
 
 @hydra.main(version_base=None, config_name="create")
-def main(configs: DictConfig) -> None:
+def create(configs: DictConfig) -> None:
     file_creator = Generator(configs)
     file_creator.generate_files()
 
 
 if __name__ == "__main__":
-    main()
+    create()

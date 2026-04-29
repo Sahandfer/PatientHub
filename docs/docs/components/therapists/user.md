@@ -26,7 +26,7 @@ The User therapist delegates therapeutic responses to a human operator. This ena
 ### CLI
 
 ```bash
-uv run python -m examples.simulate therapist=user
+patienthub simulate therapist=user
 ```
 
 ### Python

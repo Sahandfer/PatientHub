@@ -25,7 +25,7 @@ Eeyore introduce a Structured Alignment Framework that incorporates human expert
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=eeyore
+patienthub simulate client=eeyore
 ```
 
 ### Python
@@ -43,7 +43,7 @@ print(response)
 > - Start a local OpenAI-compatible model server (e.g., vLLM) to serve the weights.
 > - Set `LOCAL_BASE_URL`; PatientHub passes them as `api_base/api_key` to LiteLLM.
 > - Use `model_type=LOCAL` and set `model_name` to your served model id/name.
-> - Run: `uv run python -m examples.simulate client=eeyore therapist=user`
+> - Run: `patienthub simulate client=eeyore therapist=user`
 
 ## Configuration
 

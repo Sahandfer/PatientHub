@@ -84,7 +84,7 @@ print(results)
 ### Command Line
 
 ```bash
-uv run python -m examples.evaluate \
+patienthub evaluate \
   evaluator=profile_judge \
   evaluator.prompt_path=data/prompts/evaluator/client_profile.yaml \
   evaluator.model_type=OPENAI \

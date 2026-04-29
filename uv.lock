@@ -3371,6 +3371,7 @@ dependencies = [
     { name = "rich" },
     { name = "torch" },
     { name = "transformers" },
+    { name = "typer" },
 ]
 
 [package.optional-dependencies]
@@ -3398,6 +3399,7 @@ requires-dist = [
     { name = "rich", specifier = ">=14.2.0" },
     { name = "torch" },
     { name = "transformers", specifier = ">=4.57.1" },
+    { name = "typer", specifier = ">=0.12.0" },
 ]
 provides-extras = ["dev"]
 

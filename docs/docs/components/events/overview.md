@@ -22,7 +22,7 @@ Events provide:
 ### CLI
 
 ```bash
-uv run python -m examples.simulate event=therapy_session
+patienthub simulate event=therapy_session
 ```
 
 ### Python

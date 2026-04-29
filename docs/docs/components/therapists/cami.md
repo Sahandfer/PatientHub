@@ -32,7 +32,7 @@
 ### CLI
 
 ```bash
-uv run python -m examples.simulate therapist=cami
+patienthub simulate therapist=cami
 ```
 
 ### Python

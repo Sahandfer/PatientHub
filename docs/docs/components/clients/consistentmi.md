@@ -42,7 +42,7 @@ ConsistentMI simulates clients in motivational interviewing (MI) sessions with c
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=consistentMI
+patienthub simulate client=consistentMI
 ```
 
 ### Python

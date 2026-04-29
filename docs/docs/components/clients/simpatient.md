@@ -46,10 +46,10 @@ SimPatient tracks four dimensions of patient psychology:
 
 ```bash
 # New session
-uv run python -m examples.simulate client=simPatient
+patienthub simulate client=simPatient
 
 # Continue from previous session
-uv run python -m examples.simulate client=simPatient client.continue_last_session=true
+patienthub simulate client=simPatient client.continue_last_session=true
 ```
 
 ### Python
