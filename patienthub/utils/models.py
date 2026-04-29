@@ -6,9 +6,13 @@ from dataclasses import dataclass
 from typing import Any, List, Optional, Dict
 from litellm import completion, supports_response_schema, completion_cost, rerank
 
-logging.getLogger("LiteLLM").setLevel(logging.WARNING)
+logger = logging.getLogger(__name__)
 
-load_dotenv(".env")
+logging.getLogger("LiteLLM").setLevel(logging.WARNING)
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("instructor").setLevel(logging.WARNING)
+
+load_dotenv()
 
 
 def get_config_value(configs, name, default=None):
@@ -28,7 +32,7 @@ class ChatModel:
         self.prompt_tokens = 0
         self.completion_tokens = 0
         if not self.res_format_support:
-            print("> Model does not support response format")
+            logger.warning("Model '%s' does not support response format", model_name)
 
     def track_usage(self, response):
         """Track token usage and cost from API response using LiteLLM."""
@@ -39,13 +43,23 @@ class ChatModel:
         try:
             self.total_cost += completion_cost(completion_response=response)
         except Exception:
-            pass  # Cost calculation not available for this model
+            logger.warning("Cost not available for model '%s'", self.model_name)
 
     def generate(self, messages, response_format=None):
+        logger.debug(
+            "LLM request: model=%s #messages=%d", self.model_name, len(messages)
+        )
         if not self.res_format_support or response_format is None:
             res = completion(model=self.model_name, messages=messages, **self.kwargs)
             self.track_usage(res)
-            return res.choices[0].message
+            result = res.choices[0].message
+            logger.debug(
+                "LLM response: model=%s finish_reason=%s tokens=%s",
+                self.model_name,
+                res.choices[0].finish_reason,
+                res.usage.total_tokens if res.usage else "n/a",
+            )
+            return result
         else:
             client = instructor.from_litellm(completion)
             res = client.chat.completions.create(
@@ -56,6 +70,15 @@ class ChatModel:
             )
             if hasattr(res, "_raw_response"):
                 self.track_usage(res._raw_response)
+                logger.debug(
+                    "LLM response: model=%s tokens=%s",
+                    self.model_name,
+                    (
+                        res._raw_response.usage.total_tokens
+                        if res._raw_response.usage
+                        else "n/a"
+                    ),
+                )
             return res
 
     def get_usage(self) -> Dict:
@@ -135,6 +158,7 @@ class Reranker:
         if not passages:
             return None
 
+        logger.debug("Reranker request: model=%s passages=%d", self.model_name, len(passages))
         try:
             response = rerank(
                 model=self.model_name,
@@ -145,10 +169,13 @@ class Reranker:
                 api_base=self.api_base,
                 api_key=self.api_key,
             )
-        except Exception:
+        except Exception as e:
+            logger.error("Reranker failed: %s", e, exc_info=True)
             return None
 
-        return self.extract_scores(response, len(passages))
+        scores = self.extract_scores(response, len(passages))
+        logger.debug("Reranker response: model=%s scores=%s", self.model_name, scores)
+        return scores
 
 
 def get_reranker(configs: Any) -> Optional[Reranker]:
@@ -163,8 +190,10 @@ def get_reranker(configs: Any) -> Optional[Reranker]:
     if model_type != "LOCAL" or not model_name:
         return None
 
-    return Reranker(
+    reranker = Reranker(
         model_name=model_name,
         api_base=os.environ.get("LOCAL_BASE_URL"),
         api_key=os.environ.get("LOCAL_API_KEY"),
     )
+    logger.info("Loaded reranker '%s'", model_name)
+    return reranker

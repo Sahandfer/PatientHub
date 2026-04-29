@@ -25,7 +25,11 @@ uv run python -m examples.simulate client=patientPsi therapist=basic +evaluator=
 
 # Adjust session parameters
 uv run python -m examples.simulate event.max_turns=25 event.reminder_turn_num=5
+
+uv run python -m examples.simulate verbose=true
 ```
+
+By default only warnings and errors are shown. Setting `verbose=true` enables `DEBUG`-level logging on the console and saves all logs to `logs/simulate_<timestamp>.log`.
 
 ## Python API
 

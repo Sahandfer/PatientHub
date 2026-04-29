@@ -2,7 +2,10 @@ from .base import LLMJudge, LLMJudgeConfig
 from .conv import ConvJudge, ConvJudgeConfig
 from .profile import ProfileJudge, ProfileJudgeConfig
 
+import logging
 from omegaconf import DictConfig
+
+logger = logging.getLogger(__name__)
 
 EVALUATOR_REGISTRY = {
     "conv_judge": ConvJudge,
@@ -15,14 +18,18 @@ EVALUATOR_CONFIG_REGISTRY = {
 
 
 def get_evaluator(agent_name: str, configs: DictConfig = None, lang: str = "en"):
-    print(f"Loading {agent_name} agent for evaluation...")
-    if agent_name in EVALUATOR_REGISTRY:
-        if configs is None:
-            configs = get_evaluator_config(agent_name)
-        configs.lang = lang
-        return EVALUATOR_REGISTRY[agent_name](configs=configs)
-    else:
-        raise ValueError(f"Evaluator agent {agent_name} not found in registry.")
+    if agent_name not in EVALUATOR_REGISTRY:
+        raise ValueError(f"Evaluator agent '{agent_name}' not found in registry.")
+    if configs is None:
+        configs = get_evaluator_config(agent_name)
+    configs.lang = lang
+    try:
+        evaluator = EVALUATOR_REGISTRY[agent_name](configs=configs)
+    except Exception as e:
+        logger.error("Failed to initialize evaluator '%s': %s", agent_name, e, exc_info=True)
+        raise ValueError(f"Error initializing evaluator agent '{agent_name}'") from e
+    logger.info("Loaded evaluator '%s'", agent_name)
+    return evaluator
 
 
 def get_evaluator_config(agent_name: str):

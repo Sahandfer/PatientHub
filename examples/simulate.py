@@ -4,8 +4,7 @@ It requires:
     - A client agent
     - A therapist agent
     - (Optional) An evaluator agent
-It creates a TherapySession object and runs the simulation using LangGraph.
-The configurations for the session and agents are specified in the `configs/simulate.yaml` file.
+It creates a TherapySession object and runs the simulation using Burr.
 
 Usage:
     # Run with defaults
@@ -16,19 +15,27 @@ Usage:
 
     # Override specific config values
     uv run python -m examples.simulate client.temperature=0.5 session.max_turns=50
+
+    # Enable verbose logging (DEBUG level)
+    uv run python -m examples.simulate verbose=true
+
+Logs are saved to logs/simulate_<timestamp>.log.
 """
 
-import hydra
-
 from typing import Optional
-from omegaconf import DictConfig
+
+import hydra
 from dataclasses import dataclass
+from omegaconf import DictConfig
 from hydra.core.config_store import ConfigStore
 
 from patienthub.events import get_event
 from patienthub.clients import get_client
 from patienthub.therapists import get_therapist
 from patienthub.evaluators import get_evaluator
+from patienthub.utils.logger import get_logger, init_logging, LogLevel
+
+logger = get_logger(__name__)
 
 
 @dataclass
@@ -37,9 +44,10 @@ class SimulateConfig:
 
     client: str = "patientPsi"
     therapist: str = "basic"
-    evaluator: Optional[str] = ""
+    evaluator: Optional[str] = None
     event: str = "therapy_session"
     lang: str = "en"
+    verbose: bool = False
 
 
 # Register all dataclass configs with Hydra before main
@@ -50,17 +58,21 @@ cs.store(name="simulate", node=SimulateConfig)
 
 @hydra.main(version_base=None, config_name="simulate")
 def simulate(configs: DictConfig) -> None:
-    lang = configs.lang
+    init_logging("simulate", level=LogLevel.DEBUG if configs.verbose else LogLevel.WARNING)
+
+    logger.info(
+        f"Starting simulation with {", ".join(f"{k}={v}" for k, v in configs.items())}"
+    )
 
     # Load client
-    client = get_client(agent_name=configs.client, lang=lang)
+    client = get_client(agent_name=configs.client, lang=configs.lang)
 
     # Load therapist
-    therapist = get_therapist(agent_name=configs.therapist, lang=lang)
+    therapist = get_therapist(agent_name=configs.therapist, lang=configs.lang)
 
     # Load evaluator (if any)
     evaluator = (
-        get_evaluator(agent_name=configs.evaluator, lang=lang)
+        get_evaluator(agent_name=configs.evaluator, lang=configs.lang)
         if configs.evaluator
         else None
     )
@@ -74,7 +86,10 @@ def simulate(configs: DictConfig) -> None:
             "evaluator": evaluator,
         }
     )
-    event.start()
+    try:
+        event.start()
+    except KeyboardInterrupt:
+        logger.warning("Simulation interrupted by user.")
 
 
 if __name__ == "__main__":

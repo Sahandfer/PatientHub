@@ -14,8 +14,8 @@ dependencies = [
     "python-dotenv>=1.0.0",
     "jinja2>=3.1.6",
     "pandas>=2.3.3",
-    "colorama>=0.4.6",
     "burr[start]>=0.40.2",
+    "rich>=14.2.0",
 ]
 
 [project.optional-dependencies]

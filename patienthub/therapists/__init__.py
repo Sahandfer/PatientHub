@@ -5,7 +5,10 @@ from .user import UserTherapist, UserTherapistConfig
 from .psyche import PsycheTherapist, PsycheTherapistConfig
 from .cami import CamiTherapist, CamiTherapistConfig
 
+import logging
 from omegaconf import DictConfig
+
+logger = logging.getLogger(__name__)
 
 # Registry of therapist implementations
 THERAPIST_REGISTRY = {
@@ -27,14 +30,22 @@ THERAPIST_CONFIG_REGISTRY = {
 
 
 def get_therapist(agent_name: str, configs: DictConfig = None, lang: str = "en"):
-    print(f"Loading {agent_name} therapist agent...")
-    if agent_name in THERAPIST_REGISTRY:
-        if configs is None:
-            configs = get_therapist_config(agent_name)
-        configs.lang = lang
-        return THERAPIST_REGISTRY[agent_name](configs=configs)
-    else:
+    if agent_name not in THERAPIST_REGISTRY:
         raise ValueError(f"Unknown therapist agent type: {agent_name}")
+    if configs is None:
+        configs = get_therapist_config(agent_name)
+    configs.lang = lang
+    try:
+        therapist = THERAPIST_REGISTRY[agent_name](configs=configs)
+    except Exception as e:
+        logger.error("Failed to initialize therapist '%s': %s", agent_name, e, exc_info=True)
+        raise ValueError(f"Error initializing therapist agent '{agent_name}'") from e
+    logger.info(
+        "Loaded therapist '%s' -> %s",
+        agent_name,
+        ", ".join(f"{k}={v}" for k, v in vars(configs).items()),
+    )
+    return therapist
 
 
 def get_therapist_config(agent_name: str):

@@ -4,9 +4,9 @@ It requires:
     - agent_type: either "client" or "therapist"
     - agent_name: the name of the new agent to be created
 It creates:
-- The agent implementation at `patienthub/{agent_type}s/{agent_name}.py`.
-- A prompt template file at `data/prompts/{agent_type}/{agent_name}.yaml`.
-It also adds the new agent to the corresponding `__init__.py` file.
+    - The agent implementation at `patienthub/{agent_type}s/{agent_name}.py`
+    - A prompt template file at `data/prompts/{agent_type}/{agent_name}.yaml`
+It also registers the new agent in the corresponding `__init__.py` file.
 
 Usage:
     # Create a new client agent
@@ -23,6 +23,8 @@ from jinja2 import Template
 from omegaconf import DictConfig
 from dataclasses import dataclass
 from hydra.core.config_store import ConfigStore
+
+from patienthub.utils.logger import console
 
 AGENT_TEMPLATE = Template(
     '''\
@@ -111,7 +113,7 @@ class Generator:
         with open(agent_path, "w", encoding="utf-8") as f:
             f.write(agent_content)
 
-        print(f"> Created new agent at: {agent_path}")
+        console.print(f"> Created new agent at: [cyan]{agent_path}[/cyan]")
 
     def update_init(self) -> None:
         """Add import, registry entry, and config registry entry to the corresponding __init__.py."""
@@ -124,7 +126,9 @@ class Generator:
 
         import_line = f"from .{name} import {class_name}, {class_name}Config"
         if import_line in content:
-            print(f"> {init_path} already contains {class_name}.")
+            console.print(
+                f"[yellow]Warning: {init_path} already contains {class_name}.[/yellow]"
+            )
             return
 
         content = re.sub(
@@ -152,14 +156,16 @@ class Generator:
 
         with open(init_path, "w", encoding="utf-8") as f:
             f.write(content)
-        print(f"> Updated {init_path} to include {class_name}.")
+        console.print(
+            f"> Updated [cyan]{init_path}[/cyan] to include [cyan]{class_name}[/cyan]."
+        )
 
     def create_prompt(self) -> None:
         prompt_path = self.paths["prompt"]
         prompt_content = self.prompts["prompt"].render()
         with open(prompt_path, "w", encoding="utf-8") as f:
             f.write(prompt_content)
-        print(f"> Created prompt template at: {prompt_path}")
+        console.print(f"> Created prompt template at: [cyan]{prompt_path}[/cyan]")
 
     def generate_files(self) -> None:
         if self.agent_type not in ("client", "therapist"):
@@ -169,12 +175,14 @@ class Generator:
 
         agent_path = self.paths["agent"]
         if os.path.exists(agent_path):
-            print(f"> Agent file already exists at: {agent_path}")
+            console.print(
+                f"[yellow]Warning: Agent file already exists at: {agent_path}[/yellow]"
+            )
         else:
             self.create_agent()
             self.update_init()
             self.create_prompt()
-            print("> File creation process completed.")
+            console.print("> File creation completed.")
 
 
 @dataclass

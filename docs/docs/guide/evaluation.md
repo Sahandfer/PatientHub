@@ -230,6 +230,14 @@ print(f"Std: {statistics.stdev(scores):.2f}")
 print(f"Min: {min(scores)}, Max: {max(scores)}")
 ```
 
+## Logging
+
+By default only warnings and errors are shown. Pass `verbose=true` to enable INFO/DEBUG output, saved to `logs/evaluate_<timestamp>.log`:
+
+```bash
+uv run python -m examples.evaluate verbose=true
+```
+
 ## Integration with Simulations
 
 Run a simulation to generate a session JSON, then evaluate it:
