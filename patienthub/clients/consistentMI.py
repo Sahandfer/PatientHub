@@ -37,7 +37,9 @@ class ConsistentMIClientConfig(APIModelConfig):
     prompt_path: str = "data/prompts/client/consistentMI.yaml"
     data_path: str = "data/characters/ConsistentMI.json"
     topics_path: str = "data/resources/ConsistentMI/topics.json"
-    topic_graph_path: str = "data/resources/ConsistentMI/topic_graph.json"
+    topic_graph_path: str = "data/resources/ConsistentMI/topic_graph.json"    
+    reranker_model_type: str = "LOCAL"
+    reranker_model_name: str = "hosted_vllm/BAAI/bge-reranker-v2-m3"
     data_idx: int = 0
 
 
@@ -186,7 +188,7 @@ class TopicMatcher:
     def __init__(self, configs: Dict[str, Any]):
         self.topic_graph = load_json(configs.topic_graph_path)
         self.reranker = (
-            get_reranker(configs.model_retriever) if configs.model_retriever else None
+            get_reranker(configs)
         )
         self.all_topics = self.extract_all_topics()
         self.topic_passages: List[str] = []
@@ -230,6 +232,7 @@ class TopicMatcher:
         top_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[
             :top_k
         ]
+        print(f"Related topics: {[self.all_topics[i] for i in top_indices]}")
         return [self.all_topics[i] for i in top_indices]
 
     def score_passages(self, query: str) -> Optional[List[float]]:
