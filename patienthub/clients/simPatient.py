@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import get_chat_model, load_json, load_prompts
+from patienthub.utils import load_json
 
 
 @dataclass
@@ -68,12 +68,7 @@ class InternalStateResponse(BaseModel):
 
 class SimPatientClient(BaseClient):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-        self.data = load_json(configs.data_path)
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-
-        self.build_sys_prompt()
+        super().__init__(configs)
 
     def load_cognitive_model(self, prev_cognitive_model: Dict[str, int] | None = None):
         cognitive_model = prev_cognitive_model or self.data.get("cognitive_model", {})
@@ -127,6 +122,7 @@ class SimPatientClient(BaseClient):
                 self.between_session_event = None
                 self.load_cognitive_model()
         else:
+            self.past_session_history = ""
             self.load_cognitive_model()
             self.between_session_event = None
         self.messages = []
@@ -187,7 +183,3 @@ class SimPatientClient(BaseClient):
         )
 
         return res
-
-    def reset(self):
-        self.build_sys_prompt()
-        self.therapist = None

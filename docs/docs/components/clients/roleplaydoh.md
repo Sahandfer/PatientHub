@@ -35,7 +35,7 @@ In subsequent generations, the AI simulated patient utilizes these **expert-gene
 ### CLI
 
 ```bash
-patienthub simulate client=saps
+patienthub simulate client=roleplayDoh
 ```
 
 ### Python
@@ -43,7 +43,7 @@ patienthub simulate client=saps
 ```python
 from patienthub.clients import get_client
 
-client = get_client(name="roleplayDoh", lang="en")
+client = get_client(agent_name="roleplayDoh", lang="en")
 
 response = client.generate_response("What brings you in today?")
 print(response)
@@ -55,7 +55,7 @@ print(response)
 | ------------- | --------------------------- | ------------------------------------------ |
 | `prompt_path` | Path to prompt file         | `data/prompts/client/roleplayDoh.yaml`     |
 | `principles`  | The Principles from experts | `data/resources/roleplayDohPrinciple.json` |
-| `data_path`   | Path to character file      | `data/characters/PatientPsi.json`          |
+| `data_path`   | Path to character file      | `data/characters/roleplayDoh.json`         |
 | `data_idx`    | Character index             | `0`                                        |
 
 > the current way in our implement is selecting principles randomly

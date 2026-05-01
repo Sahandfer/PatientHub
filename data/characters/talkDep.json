@@ -117,7 +117,28 @@
     "gender": "Male",
     "bdi_score": 22,
     "depression_level": "Moderate Depression",
-    "key_negative_symptoms": [],
+    "key_negative_symptoms": [
+      {
+        "name": "Exhaustion",
+        "description": "I feel like I'm dragging myself through the day, even after a full night's sleep.",
+        "severity": 3
+      },
+      {
+        "name": "Worthlessness",
+        "description": "I feel like I barely contribute anything meaningful to my family or work.",
+        "severity": 2
+      },
+      {
+        "name": "Social Withdrawal",
+        "description": "I avoid gatherings and retreat to my home office, feeling increasingly isolated.",
+        "severity": 2
+      },
+      {
+        "name": "Decision Paralysis",
+        "description": "Even simple tasks feel hard to prioritize — I just don't know where to start.",
+        "severity": 2
+      }
+    ],
     "life_history": [
       "*\"James has been working in the same role for over 15 years and feels stuck in his career with little room for growth.\"*",
       "*\"He’s married with two teenage children but feels increasingly disconnected from them due to long working hours and emotional exhaustion.\"*"
@@ -162,7 +183,23 @@
     "gender": "Female",
     "bdi_score": 35,
     "depression_level": "Severe Depression",
-    "key_negative_symptoms": [],
+    "key_negative_symptoms": [
+      {
+        "name": "Hopelessness",
+        "description": "I just don't think there's anything that can be done about it anymore.",
+        "severity": 3
+      },
+      {
+        "name": "Isolation",
+        "description": "Social engagement feels overwhelming — even my last close friendship is fading.",
+        "severity": 3
+      },
+      {
+        "name": "Fatigue",
+        "description": "Every day feels the same and I have no energy to change it.",
+        "severity": 3
+      }
+    ],
     "life_history": [
       "Elena has been living alone since her divorce three years ago, struggling to rebuild her sense of self.",
       "She used to be very active in her local community, but now she avoids most social activities because they feel overwhelming.",
@@ -208,7 +245,28 @@
     "gender": "Female",
     "bdi_score": 28,
     "depression_level": "Moderate Depression",
-    "key_negative_symptoms": [],
+    "key_negative_symptoms": [
+      {
+        "name": "Guilt",
+        "description": "I feel like I've disappointed my family by losing my job.",
+        "severity": 2
+      },
+      {
+        "name": "Hopelessness",
+        "description": "I don't see things improving anytime soon.",
+        "severity": 2
+      },
+      {
+        "name": "Decision-Making Difficulties",
+        "description": "Even routine choices feel overwhelming and exhausting.",
+        "severity": 2
+      },
+      {
+        "name": "Fatigue",
+        "description": "I feel physically and emotionally drained most of the time.",
+        "severity": 3
+      }
+    ],
     "life_history": [
       "Linda recently left her job of 20 years after her department was downsized. She’s struggling to adapt to the loss of routine and financial stability.",
       "She has two grown children who live out of state and a spouse who works long hours, leaving her feeling isolated at home."
@@ -253,7 +311,28 @@
     "gender": "Female",
     "bdi_score": 23,
     "depression_level": "Moderate Depression",
-    "key_negative_symptoms": [],
+    "key_negative_symptoms": [
+      {
+        "name": "Persistent Sadness",
+        "description": "I feel sad most of the time, even when there's nothing specific to feel sad about.",
+        "severity": 2
+      },
+      {
+        "name": "Worthlessness",
+        "description": "I often feel like I don't contribute enough to those around me.",
+        "severity": 2
+      },
+      {
+        "name": "Fatigue",
+        "description": "Even minor household tasks feel physically overwhelming.",
+        "severity": 2
+      },
+      {
+        "name": "Concentration Difficulties",
+        "description": "I struggle to organize my thoughts and stay focused on what needs doing.",
+        "severity": 1
+      }
+    ],
     "life_history": [
       "Laura grew up in a supportive family and had a fulfilling career in education before stepping away to focus on her health.",
       "Over the past few years, she has struggled with the loss of her mother and has found it difficult to regain her sense of direction."
@@ -300,23 +379,23 @@
     "key_negative_symptoms": [
       {
         "name": "Sadness",
-        "description": "",
-        "severity": null
+        "description": "I am sad all the time and can't snap out of it.",
+        "severity": 2
       },
       {
-        "name": "Tiredness",
-        "description": "",
-        "severity": null
+        "name": "Fatigue",
+        "description": "I struggle to focus at work due to persistent tiredness and lack of energy.",
+        "severity": 1
       },
       {
-        "name": "Self-criticism",
-        "description": "",
-        "severity": null
+        "name": "Self-Criticism",
+        "description": "I blame myself constantly, especially for the loss of my friend and my inability to move forward.",
+        "severity": 3
       },
       {
         "name": "Loss of Interest",
-        "description": "",
-        "severity": null
+        "description": "I've withdrawn from activities I used to enjoy and rarely find motivation to engage.",
+        "severity": 2
       }
     ],
     "life_history": [
@@ -362,7 +441,28 @@
     "gender": "Male",
     "bdi_score": 13,
     "depression_level": "Mild Depression",
-    "key_negative_symptoms": [],
+    "key_negative_symptoms": [
+      {
+        "name": "Irritability",
+        "description": "I get frustrated easily, even over things that aren't a big deal.",
+        "severity": 2
+      },
+      {
+        "name": "Diminished Sense of Accomplishment",
+        "description": "Even when I achieve something, it doesn't feel like it counts.",
+        "severity": 2
+      },
+      {
+        "name": "Appetite Changes",
+        "description": "I often skip meals without noticing until later in the day.",
+        "severity": 2
+      },
+      {
+        "name": "Social Anxiety",
+        "description": "Group settings make me uncomfortable — I worry about being judged.",
+        "severity": 2
+      }
+    ],
     "life_history": [
       "*\"Gabriel recently moved to a new city for a fresh start after a long-term relationship ended amicably, but he’s finding it hard to build a social circle.\"*",
       "*\"He has always been a bit of a perfectionist, which often makes him overly critical of himself.\"*"
@@ -452,7 +552,28 @@
     "gender": "Male",
     "bdi_score": 12,
     "depression_level": "Mild Depression",
-    "key_negative_symptoms": [],
+    "key_negative_symptoms": [
+      {
+        "name": "Anhedonia",
+        "description": "I don't really feel happy about things, even when I know I should.",
+        "severity": 2
+      },
+      {
+        "name": "Social Withdrawal",
+        "description": "I always feel like I don't have the energy for social interactions.",
+        "severity": 1
+      },
+      {
+        "name": "Sleep Disturbances",
+        "description": "My sleep is disrupted and I often wake feeling unrested.",
+        "severity": 1
+      },
+      {
+        "name": "Difficulty Making Decisions",
+        "description": "Even small decisions take more effort than they should.",
+        "severity": 1
+      }
+    ],
     "life_history": [
       "*\"Ethan grew up in a small town but recently moved to a larger city for a quieter lifestyle after separating from his partner.\"*",
       "*\"He spends a lot of his free time gardening and reading, both of which help him feel calmer.\"*"
@@ -556,7 +677,28 @@
     "gender": "Male",
     "bdi_score": 38,
     "depression_level": "Severe Depression",
-    "key_negative_symptoms": [],
+    "key_negative_symptoms": [
+      {
+        "name": "Rumination",
+        "description": "I can't stop reflecting on past failures — they feel like they've determined everything.",
+        "severity": 3
+      },
+      {
+        "name": "Agitation",
+        "description": "I feel restless all the time, even when I'm exhausted.",
+        "severity": 3
+      },
+      {
+        "name": "Anhedonia",
+        "description": "Nothing I used to enjoy — hobbies, connection — gives me any satisfaction anymore.",
+        "severity": 3
+      },
+      {
+        "name": "Concentration Difficulties",
+        "description": "Negative thoughts persistently intrude and I can't maintain focus on anything.",
+        "severity": 3
+      }
+    ],
     "life_history": [
       "*\"Marco has always been a perfectionist, but recent years have been marked by financial struggles and the breakdown of a long-term relationship, which he blames on himself.\"*",
       "*\"He often dwells on past decisions, feeling like his failures outweigh any of his successes.\"*"

@@ -19,7 +19,7 @@ from dataclasses import dataclass
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, load_json, get_chat_model
+from patienthub.utils import load_json
 
 
 @dataclass
@@ -37,18 +37,10 @@ class ClientCastClientConfig(APIModelConfig):
 
 class ClientCastClient(BaseClient):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-
-        self.data = load_json(configs.data_path)[configs.data_idx]
-        self.profile = self.data.get("basic_profile", {})
-        self.name = self.profile.get("name", "client")
-
+        # Load extra resources before super() so build_sys_prompt() can use them
         self.conv = load_json(configs.conv_path)[configs.conv_id]["messages"]
         self.symptoms = load_json(configs.symptoms_path)
-
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-        self.build_sys_prompt()
+        super().__init__(configs)
 
     def get_case_synopsis(self):
         case_synopsis = ""
@@ -84,6 +76,7 @@ class ClientCastClient(BaseClient):
         return res
 
     def build_sys_prompt(self):
+        self.profile = self.data.get("basic_profile", {})
         case_synopsis, reasons = self.get_case_synopsis()
         symptoms = self.get_symptoms()
         appearance = self.get_appreance()
@@ -108,7 +101,3 @@ class ClientCastClient(BaseClient):
         self.messages.append({"role": "assistant", "content": res.content})
 
         return res
-
-    def reset(self):
-        self.build_sys_prompt()
-        self.therapist = None

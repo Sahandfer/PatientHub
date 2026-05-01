@@ -32,6 +32,8 @@ The sections below explain each part in detail.
 
 ### Client Agent
 
+File ordering convention: **imports → config dataclass → response schemas (if any) → agent class**.
+
 ```python
 # patienthub/clients/myClient.py
 
@@ -40,7 +42,6 @@ from dataclasses import dataclass
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, load_json, get_chat_model
 
 
 @dataclass
@@ -55,14 +56,7 @@ class MyClientConfig(APIModelConfig):
 
 class MyClient(BaseClient):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-
-        self.data = load_json(configs.data_path)[configs.data_idx]
-        self.name = self.data.get("name", "Client")
-
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-        self.build_sys_prompt()
+        super().__init__(configs)  # handles data, prompts, chat_model, build_sys_prompt
 
     def build_sys_prompt(self):
         self.messages = [
@@ -92,7 +86,6 @@ from dataclasses import dataclass
 
 from .base import BaseTherapist
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, get_chat_model
 
 
 @dataclass
@@ -105,11 +98,7 @@ class MyTherapistConfig(APIModelConfig):
 
 class MyTherapist(BaseTherapist):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-        self.build_sys_prompt()
+        super().__init__(configs)  # handles prompts, chat_model, build_sys_prompt
 
     def build_sys_prompt(self):
         self.messages = [
@@ -182,13 +171,58 @@ zh:
 
 ---
 
+## Step 4b: Register a Character Schema
+
+Every client with a character data file must have a Pydantic schema registered in `patienthub/schemas/`. This validates data at load time and ensures all fields required by your prompts are present.
+
+```python
+# patienthub/schemas/myClient.py
+
+from pydantic import Field
+from patienthub.schemas.base import BaseCharacter
+
+
+class MyClientCharacter(BaseCharacter):
+    name: str = Field(...)
+    age: int = Field(...)
+    background: str = Field(...)
+    presenting_problem: str = Field(...)
+```
+
+Then register it in `patienthub/schemas/__init__.py`:
+
+```python
+from .myClient import MyClientCharacter
+
+CLIENT_SCHEMA_REGISTRY = {
+    # ... existing schemas ...
+    "myClient": MyClientCharacter,
+}
+```
+
+:::tip Required fields
+All fields referenced in your prompt templates (e.g. `{{ data.background }}`) must be defined in the schema **without** a default value — use `Field(...)`. This ensures a missing field fails at load time rather than silently producing a broken prompt.
+:::
+
+---
+
 ## Step 5: Add Tests
 
-The existing smoke tests in `patienthub/tests/clients.py` automatically pick up any client registered in `CLIENT_REGISTRY`. Run them with:
+Two test suites run automatically for any registered client:
+
+**Smoke tests** — verify instantiation, prompts, and messages:
 
 ```bash
 uv run python -m pytest patienthub/tests/clients.py -v
 ```
+
+**Schema validation tests** — validate every entry in your character JSON against its registered schema:
+
+```bash
+uv run python -m pytest patienthub/tests/schemas.py -v
+```
+
+Schema tests also run automatically in CI whenever you push changes to `patienthub/clients/`, `patienthub/schemas/`, or `data/characters/`.
 
 For agent-specific tests:
 
@@ -282,6 +316,9 @@ Before submitting your new agent:
 - [ ] Registered in `CLIENT_REGISTRY` and `CLIENT_CONFIG_REGISTRY` in `__init__.py`
 - [ ] Prompt YAML created at `data/prompts/client/<agent_name>.yaml`
 - [ ] Character data file created (if applicable)
+- [ ] Pydantic schema created in `patienthub/schemas/` with all prompt fields required
+- [ ] Schema registered in `CLIENT_SCHEMA_REGISTRY` in `patienthub/schemas/__init__.py`
 - [ ] Smoke tests pass: `uv run python -m pytest patienthub/tests/clients.py -v`
+- [ ] Schema tests pass: `uv run python -m pytest patienthub/tests/schemas.py -v`
 - [ ] Documentation page added
 - [ ] Works end-to-end: `patienthub simulate client=myClient`

@@ -15,20 +15,15 @@ Key Features:
 """
 
 import random
+from typing import Any, Dict, Optional, Literal, List
 from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
-from typing import Any, Dict, Optional, Literal, List
 
 from .base import BaseGenerator
 from patienthub.configs import APIModelConfig
-from patienthub.utils import (
-    load_prompts,
-    get_chat_model,
-    load_json,
-    load_csv,
-    save_json,
-)
+from patienthub.utils import load_json, load_csv, save_json
+from patienthub.schemas.annaAgent import AnnaAgentCharacter, ComplaintNode
 
 
 @dataclass
@@ -42,16 +37,9 @@ class AnnaAgentGeneratorConfig(APIModelConfig):
 
 
 class ScaleAnswer(BaseModel):
-    """Response for scale answers (general)"""
-
     answers: List[Literal["A", "B", "C", "D"]] = Field(
         description="Array of scale answers, each item is A/B/C/D"
     )
-
-
-class ComplaintNode(BaseModel):
-    stage: int = Field(description="Stage number in the complaint change chain")
-    content: str = Field(description="Content of the complaint at this stage")
 
 
 class ComplaintChainResponse(BaseModel):
@@ -63,16 +51,12 @@ class ComplaintChainResponse(BaseModel):
 
 
 class SituationResponse(BaseModel):
-    """Response for situational description"""
-
     situation: str = Field(
         description="Second-person description of the patient's current situation"
     )
 
 
 class StyleResponse(BaseModel):
-    """Response for speaking style analysis"""
-
     style: List[str] = Field(
         description="Patient's speaking style characteristics, 1-5 items",
         min_length=1,
@@ -81,8 +65,6 @@ class StyleResponse(BaseModel):
 
 
 class ChangeItem(BaseModel):
-    """Response for scale change items"""
-
     item: str = Field(description="Content or number of the item")
     change: Literal["Improved", "Worsened", "No Change"] = Field(
         description="Type of change"
@@ -91,8 +73,6 @@ class ChangeItem(BaseModel):
 
 
 class ScaleChangesResponse(BaseModel):
-    """Response for scale change analysis"""
-
     changes: List[ChangeItem] = Field(
         description="Analysis of changes for each item in the scale"
     )
@@ -100,35 +80,14 @@ class ScaleChangesResponse(BaseModel):
 
 
 class StatusResponse(BaseModel):
-    """Response for status summary"""
-
     status: str = Field(
         description="Summary of the patient's current overall psychological state"
     )
 
 
-class AnnaAgentCharacter(BaseModel):
-    profile: Dict[str, Any] = Field(description="Patient profile information")
-    situation: str = Field(description="Current situation description")
-    statement: List[str] = Field(description="Patient's statement")
-    style: List[str] = Field(description="Patient's speaking style characteristics")
-    complaint_chain: List[Dict[Any, Any]] = Field(
-        description="Cognitive change chain of the chief complaint"
-    )
-    status: str = Field(description="Summary of the patient's current status")
-    report: Dict[str, Any] = Field(
-        description="Generated psychological assessment report"
-    )
-    previous_conversations: List[Dict[Any, Any]] = Field(
-        default=None, description="Previous conversation history"
-    )
-
-
 class AnnaAgentGenerator(BaseGenerator):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-        self.chat_model = get_chat_model(self.configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
+        super().__init__(configs)
 
         input_dir = self.configs.input_dir
         self.data = load_json(f"{input_dir}/case.json")
@@ -210,7 +169,7 @@ class AnnaAgentGenerator(BaseGenerator):
             response_format=ComplaintChainResponse,
         )
 
-        return [{"stage": node.stage, "content": node.content} for node in res.chain]
+        return res.chain
 
     def generate_situation(self, event: str) -> str:
         prompt = self.prompts["situation_generation"].render(

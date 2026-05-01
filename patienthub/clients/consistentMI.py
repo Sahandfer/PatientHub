@@ -19,14 +19,14 @@ Stages: Precontemplation -> Contemplation -> Preparation -> Action -> Maintenanc
 """
 
 import random
+from typing import Any, Dict, List, Optional
 from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
-from typing import Any, Dict, List, Optional
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import get_reranker, get_chat_model, load_json, load_prompts
+from patienthub.utils import get_reranker, load_json
 
 
 @dataclass
@@ -37,7 +37,7 @@ class ConsistentMIClientConfig(APIModelConfig):
     prompt_path: str = "data/prompts/client/consistentMI.yaml"
     data_path: str = "data/characters/ConsistentMI.json"
     topics_path: str = "data/resources/ConsistentMI/topics.json"
-    topic_graph_path: str = "data/resources/ConsistentMI/topic_graph.json"    
+    topic_graph_path: str = "data/resources/ConsistentMI/topic_graph.json"
     reranker_model_type: str = "LOCAL"
     reranker_model_name: str = "hosted_vllm/BAAI/bge-reranker-v2-m3"
     data_idx: int = 0
@@ -187,9 +187,7 @@ class TopicMatcher:
 
     def __init__(self, configs: Dict[str, Any]):
         self.topic_graph = load_json(configs.topic_graph_path)
-        self.reranker = (
-            get_reranker(configs)
-        )
+        self.reranker = get_reranker(configs)
         self.all_topics = self.extract_all_topics()
         self.topic_passages: List[str] = []
 
@@ -286,13 +284,8 @@ class ConsistentMIClient(BaseClient):
     """ConsistentMI client agent for motivational interviewing simulation."""
 
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-        self.data = load_json(configs.data_path)[configs.data_idx]
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-        self.chat_model = get_chat_model(configs)
+        super().__init__(configs)
 
-        self.load_profile()
-        self.build_sys_prompt()
         self.state = self.load_state()
         self.topic_matcher = TopicMatcher(configs)
 
@@ -301,16 +294,15 @@ class ConsistentMIClient(BaseClient):
 
     def load_profile(self) -> None:
         """Load client profile from data file."""
-        self.name = self.data.get("name", "ConsistentMI")
         self.goal = self.data.get("topic", "")
         self.behavior = self.data.get("Behavior", "")
-
         self.acceptable_plans: List[str] = self.data.get("Acceptable Plans", []).copy()
 
         motivation_list = self.data.get("Motivation", [])
         self.motivation_text = motivation_list[-1] if motivation_list else ""
 
     def build_sys_prompt(self):
+        self.load_profile()
         self.personas: List[str] = self.data.get("Personas", [])
         self.beliefs: List[str] = self.data.get("Beliefs", [])
         personas_and_beliefs = "\n".join(f"- {t}" for t in self.personas + self.beliefs)
@@ -397,7 +389,8 @@ class ConsistentMIClient(BaseClient):
 
         try:
             res = self.chat_model.generate(
-                [{"role": "system", "content": prompt}], ActionDistribution
+                [{"role": "system", "content": prompt}],
+                ActionDistribution,
             )
             context_dist = {
                 "Deny": res.Deny,
@@ -432,7 +425,8 @@ class ConsistentMIClient(BaseClient):
 
         try:
             res = self.chat_model.generate(
-                [{"role": "system", "content": prompt}], ContemplationActionDistribution
+                [{"role": "system", "content": prompt}],
+                ContemplationActionDistribution,
             )
             return {
                 "Inform": res.Inform,
@@ -458,7 +452,8 @@ class ConsistentMIClient(BaseClient):
 
         try:
             res = self.chat_model.generate(
-                [{"role": "system", "content": prompt}], PreparationActionDistribution
+                [{"role": "system", "content": prompt}],
+                PreparationActionDistribution,
             )
             return {
                 "Inform": res.Inform,
@@ -527,7 +522,8 @@ class ConsistentMIClient(BaseClient):
         for item in source_list:
             prompt = self.prompts[prompt_key].render(persona=item)
             res = self.chat_model.generate(
-                [{"role": "system", "content": prompt}], BinaryAnswer
+                [{"role": "system", "content": prompt}],
+                BinaryAnswer,
             )
             if res.answer:
                 if consume:
@@ -611,9 +607,7 @@ class ConsistentMIClient(BaseClient):
         return res
 
     def reset(self) -> None:
-        self.load_profile()
-        self.build_sys_prompt()
+        super().reset()
         self.state = self.load_state()
         self.topic_matcher = TopicMatcher(self.configs)
         self.topic_matcher.init_passages(self.prompts, self.behavior, self.goal, [])
-        self.therapist = None

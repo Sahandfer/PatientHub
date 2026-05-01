@@ -52,7 +52,7 @@ PatientHub supports cloud and local models. See [Configuration](/docs/getting-st
 :::
 
 ### Local Models via vLLM
-Our recommended setup for local models is to run a vLLM (or OpenAI-compatible) server on a machine/process, then have PatientHub call it over HTTP via `LOCAL_BASE_URL`.
+PatientHub does not bundle `torch` or `transformers` — local inference runs via an **external** vLLM (or any OpenAI-compatible) server that PatientHub calls over HTTP via `LOCAL_BASE_URL`.
 
 1) Install vLLM on the serving machine (GPU recommended):
 

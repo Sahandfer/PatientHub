@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, load_json, get_chat_model
+from patienthub.utils import load_json, flatten_conv
 
 
 @dataclass
@@ -115,38 +115,10 @@ class Response(BaseModel):
     )
 
 
-class EvaluationAspect(BaseModel):
-    judge: bool = Field(description="Whether the response adheres to this aspect.")
-    explanation: str = Field(
-        description="A brief explanation of this assessment in 1-2 sentences."
-    )
-
-
-class Evaluation(BaseModel):
-    profile_alignment: EvaluationAspect = Field(
-        description="Whether the response aligns with the patient's profile"
-    )
-    direction_adherence: EvaluationAspect = Field(
-        description="Whether the response adheres to the provided direction"
-    )
-    dialogue_effectiveness: EvaluationAspect = Field(
-        description="Whether the response is effective for training the nurse"
-    )
-    nurse_safety: EvaluationAspect = Field(
-        description="Whether the response ensures the safety of the nurse"
-    )
-
-
 class AdaptiveVPClient(BaseClient):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-
-        self.data = load_json(configs.data_path)[configs.data_idx]
+        super().__init__(configs)
         self.directions = load_json(configs.directions_path)
-        self.name = self.data.get("name", "client")
-
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
 
     def build_sys_prompt(self):
         self.profile = "\n".join(
@@ -156,16 +128,8 @@ class AdaptiveVPClient(BaseClient):
         )
         self.messages = []
 
-    def get_conv_str(self) -> str:
-        """Get conversation history as string"""
-        return "\n".join(
-            f"{'Client' if msg['role'] == 'assistant' else 'Nurse'}: {msg['content']}"
-            for msg in self.messages
-            if msg["role"] != "system"
-        )
-
     # For brevity, we only include one agent's evaluation (the original paper uses multi-agent evaluation and their consensus as the final result)
-    def calc_eval_score(self, eval_res: Analysis) -> int:
+    def calc_eval_score(self, eval_res) -> int:
 
         tone_score = (
             1 if eval_res.tone.calm == "yes" and eval_res.tone.clear == "yes" else 0
@@ -191,12 +155,17 @@ class AdaptiveVPClient(BaseClient):
     def generate_response(self, msg: str):
         self.messages.append({"role": "user", "content": msg})
 
+        conv_history = flatten_conv(
+            self.messages, roles={"assistant": "Client", "user": "Nurse"}
+        )
+
         # Step 1: Determine the patient's response direction based on the nurse's message
         prompt = self.prompts["evaluate"].render(
-            patient_profile=self.profile, conv_history=self.get_conv_str()
+            patient_profile=self.profile, conv_history=conv_history
         )
         res = self.chat_model.generate(
-            [{"role": "system", "content": prompt}], response_format=Analysis
+            [{"role": "system", "content": prompt}],
+            response_format=Analysis,
         )
         score = self.calc_eval_score(res)
         direction = self.directions[score]
@@ -206,10 +175,11 @@ class AdaptiveVPClient(BaseClient):
         prompt = self.prompts["chat"].render(
             patient_profile=self.profile,
             direction=direction,
-            conv_history=self.get_conv_str(),
+            conv_history=conv_history,
         )
         res = self.chat_model.generate(
-            [{"role": "system", "content": prompt}], response_format=Response
+            [{"role": "system", "content": prompt}],
+            response_format=Response,
         )
         self.messages.append({"role": "assistant", "content": res.content})
 
@@ -217,11 +187,7 @@ class AdaptiveVPClient(BaseClient):
         # prompt = self.prompts["safety"].render(
         #     patient_profile=self.profile,
         #     direction=direction,
-        #     conv_history=self.get_conv_str(),
+        #     conv_history=conv_history,
         # )
 
         return res
-
-    def reset(self):
-        self.build_sys_prompt()
-        self.therapist = None

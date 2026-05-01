@@ -58,38 +58,43 @@ cs.store(name="simulate", node=SimulateConfig)
 
 @hydra.main(version_base=None, config_name="simulate")
 def simulate(configs: DictConfig) -> None:
-    init_logging("simulate", level=LogLevel.DEBUG if configs.verbose else LogLevel.WARNING)
+    init_logging(
+        "simulate", level=LogLevel.DEBUG if configs.verbose else LogLevel.WARNING
+    )
 
     logger.info(
         f"Starting simulation with {", ".join(f"{k}={v}" for k, v in configs.items())}"
     )
 
-    # Load client
-    client = get_client(agent_name=configs.client, lang=configs.lang)
-
-    # Load therapist
-    therapist = get_therapist(agent_name=configs.therapist, lang=configs.lang)
-
-    # Load evaluator (if any)
-    evaluator = (
-        get_evaluator(agent_name=configs.evaluator, lang=configs.lang)
-        if configs.evaluator
-        else None
-    )
-
-    # # Create therapy session
-    event = get_event(event_name=configs.event)
-    event.set_characters(
-        {
-            "client": client,
-            "therapist": therapist,
-            "evaluator": evaluator,
-        }
-    )
     try:
+        # Load client
+        client = get_client(agent_name=configs.client, lang=configs.lang)
+
+        # Load therapist
+        therapist = get_therapist(agent_name=configs.therapist, lang=configs.lang)
+
+        # Load evaluator (if any)
+        evaluator = (
+            get_evaluator(agent_name=configs.evaluator, lang=configs.lang)
+            if configs.evaluator
+            else None
+        )
+
+        # # Create therapy session
+        event = get_event(event_name=configs.event)
+        event.set_characters(
+            {
+                "client": client,
+                "therapist": therapist,
+                "evaluator": evaluator,
+            }
+        )
         event.start()
     except KeyboardInterrupt:
         logger.warning("Simulation interrupted by user.")
+    except ValueError as e:
+        logger.error(f"Simulation error: {e}")
+        return
 
 
 if __name__ == "__main__":

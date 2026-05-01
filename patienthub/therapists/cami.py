@@ -23,7 +23,7 @@ from dataclasses import dataclass
 
 from .base import BaseTherapist
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, load_json, get_chat_model
+from patienthub.utils import load_json, flatten_conv
 
 
 @dataclass
@@ -62,27 +62,27 @@ CamiStrategy = Literal[
 CamiExplorationAction = Literal["Step Into", "Switch", "Step Out", "Stay"]
 
 
-class _CamiBaseModel(BaseModel):
+class CamiBaseModel(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
 
-class InferStatePromptOutput(_CamiBaseModel):
+class InferStatePromptOutput(CamiBaseModel):
     analysis: str = Field(description="Step-by-step analysis for state inference.")
     stage: CamiStage = Field(description="Inferred client stage/state.")
 
 
-class SelectStrategyPromptOutput(_CamiBaseModel):
+class SelectStrategyPromptOutput(CamiBaseModel):
     analysis: str = Field(description="Rationale for selecting strategies.")
     strategies: List[CamiStrategy] = Field(
         description="Selected strategies for next response (no more than 2)."
     )
 
 
-class InitializeTopicAnalysisPromptOutput(_CamiBaseModel):
+class InitializeTopicAnalysisPromptOutput(CamiBaseModel):
     analysis: str = Field(description="Analysis for which topics engage the client.")
 
 
-class InitializeTopicJsonPromptOutput(_CamiBaseModel):
+class InitializeTopicJsonPromptOutput(CamiBaseModel):
     economy: int = Field(ge=0, le=100, alias="Economy")
     interpersonal_relationships: int = Field(
         ge=0, le=100, alias="Interpersonal Relationships"
@@ -92,7 +92,7 @@ class InitializeTopicJsonPromptOutput(_CamiBaseModel):
     education: int = Field(ge=0, le=100, alias="Education")
 
 
-class ExplorePromptOutput(_CamiBaseModel):
+class ExplorePromptOutput(CamiBaseModel):
     analysis: str = Field(description="Natural language analysis of engagement.")
     action: CamiExplorationAction = Field(description="Recommended exploration action.")
     topic: str = Field(description="Recommended next topic/subtopic to explore.")
@@ -102,7 +102,7 @@ class TopicStackPromptOutput(ExplorePromptOutput):
     pass
 
 
-class FeedbackPromptOutput(_CamiBaseModel):
+class FeedbackPromptOutput(CamiBaseModel):
     topic_alignment_score: int = Field(ge=0, le=5, description="0-5 topic alignment.")
     topic_alignment_feedback: str = Field(description="Feedback on topic alignment.")
     strategy_adherence_score: int = Field(
@@ -117,33 +117,28 @@ class FeedbackPromptOutput(_CamiBaseModel):
     )
 
 
-class RefinePromptOutput(_CamiBaseModel):
+class RefinePromptOutput(CamiBaseModel):
     content: str = Field(description="Refined counselor response (<= 50 words).")
 
 
-class ResponseSelectPromptOutput(_CamiBaseModel):
+class ResponseSelectPromptOutput(CamiBaseModel):
     response_id: int = Field(ge=1, description="Chosen response ID (1-indexed).")
 
 
 class CamiTherapist(BaseTherapist):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-
-        self.name = "Cami"
         self.goal: str = configs.goal
         self.behavior: str = configs.behavior
-        self._has_greeted: bool = False
+        self.has_greeted: bool = False
+        super().__init__(configs)
 
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
+        self.name = "Cami"
         self.topic_graph: Dict[str, Dict[str, List[str]]] = load_json(
             configs.topic_graph
         )["topic_graph"]
-
         self.initialized: bool = False
         self.topic_stack: List[str] = []
         self.explored_topics: List[str] = []
-        self.build_sys_prompt()
 
     def build_sys_prompt(self):
         sys_prompt = self.prompts["sys_prompt"].render(
@@ -152,37 +147,30 @@ class CamiTherapist(BaseTherapist):
         )
         self.messages = [{"role": "system", "content": sys_prompt}]
 
-    def _conv_context(self, max_turns: int = 10) -> str:
-        turns = [m for m in self.messages if m.get("role") != "system"]
-        turns = turns[-max_turns:]
-        lines: List[str] = []
-        for t in turns:
-            role = t.get("role")
-            content = (t.get("content") or "").strip()
-            if not content:
-                continue
-            speaker = "Client" if role == "user" else "Counselor"
-            lines.append(f"{speaker}: {content}")
-        return "\n".join(lines)
+    def conv_context(self, max_turns: int = 10) -> str:
+        return flatten_conv(
+            self.messages[-max_turns:],
+            roles={"user": "Client", "assistant": "Therapist"},
+        )
 
-    def _current_topics_str(self) -> str:
+    def current_topics_str(self) -> str:
         return " -> ".join(self.topic_stack) if self.topic_stack else ""
 
-    def _stage_text(self, stage: CamiStage) -> str:
+    def stage_text(self, stage: CamiStage) -> str:
         desc = self.prompts["stage_description_prompt"].render(stage=stage).strip()
         return f"{stage}: {desc}" if desc else stage
 
-    def _topic_desc(self, topic: str) -> str:
+    def topic_desc(self, topic: str) -> str:
         template = self.prompts["topic_description_prompt"].get(topic)
         if not template:
             return ""
         return template.render(goal=self.goal, behavior=self.behavior).strip()
 
-    def _strategy_desc(self, strategy: str) -> str:
+    def strategy_desc(self, strategy: str) -> str:
         template = self.prompts["strategy_description_prompt"].get(strategy)
         return template.render().strip() if template else ""
 
-    def _postprocess_counselor_text(self, text: str) -> str:
+    def postprocess_counselor_text(self, text: str) -> str:
         cleaned = " ".join((text or "").split()).strip()
         if "Client:" in cleaned:
             cleaned = cleaned.split("Client:", 1)[0].strip()
@@ -192,7 +180,7 @@ class CamiTherapist(BaseTherapist):
         return cleaned
 
     def state_infer(self) -> InferStatePromptOutput:
-        prompt = self.prompts["infer_state_prompt"].render(context=self._conv_context())
+        prompt = self.prompts["infer_state_prompt"].render(context=self.conv_context())
         return self.chat_model.generate(
             messages=[{"role": "system", "content": prompt}],
             response_format=InferStatePromptOutput,
@@ -200,8 +188,8 @@ class CamiTherapist(BaseTherapist):
 
     def select_strategy(self, stage: CamiStage) -> SelectStrategyPromptOutput:
         prompt = self.prompts["select_strategy_prompt"].render(
-            context=self._conv_context(max_turns=12),
-            stage=self._stage_text(stage),
+            context=self.conv_context(max_turns=12),
+            stage=self.stage_text(stage),
         )
         res = self.chat_model.generate(
             messages=[{"role": "system", "content": prompt}],
@@ -213,14 +201,14 @@ class CamiTherapist(BaseTherapist):
         return res
 
     def initialize_topic(self) -> tuple[str, str, str]:
-        context = self._conv_context(max_turns=8)
+        context = self.conv_context(max_turns=8)
         response = (self.messages[-1].get("content") or "").strip()
 
         analysis_prompt = self.prompts["initialize_topic_analysis"].render(
             context=context,
             goal=self.goal,
             behavior=self.behavior,
-            topics=self._current_topics_str(),
+            topics=self.current_topics_str(),
             response=response,
         )
         analysis_res = self.chat_model.generate(
@@ -232,7 +220,7 @@ class CamiTherapist(BaseTherapist):
             context=context,
             goal=self.goal,
             behavior=self.behavior,
-            topics=self._current_topics_str(),
+            topics=self.current_topics_str(),
             response=response,
             analysis=analysis_res.analysis,
         )
@@ -251,7 +239,7 @@ class CamiTherapist(BaseTherapist):
 
         return analysis_res.analysis, "Switch", topic
 
-    def _topic_options(self) -> tuple[List[str], List[str], List[str]]:
+    def topic_options(self) -> tuple[List[str], List[str], List[str]]:
         step_in_topics: List[str] = []
         switch_topics: List[str] = []
         step_out_topics: List[str] = []
@@ -304,7 +292,7 @@ class CamiTherapist(BaseTherapist):
             analysis, action, topic = self.initialize_topic()
             return TopicStackPromptOutput(analysis=analysis, action=action, topic=topic)
 
-        step_in_topics, switch_topics, step_out_topics = self._topic_options()
+        step_in_topics, switch_topics, step_out_topics = self.topic_options()
         topic_stack_len = len(self.topic_stack)
         has_step_out_topics = bool(step_out_topics)
 
@@ -321,10 +309,10 @@ class CamiTherapist(BaseTherapist):
         )
 
         base_prompt = self.prompts["explore_prompt"].render(
-            context=self._conv_context(max_turns=8),
+            context=self.conv_context(max_turns=8),
             goal=self.goal,
             behavior=self.behavior,
-            topics=self._current_topics_str(),
+            topics=self.current_topics_str(),
             response=(self.messages[-1].get("content") or "").strip(),
         )
         prompt = f"{base_prompt.rstrip()}\n\n{options_prompt}"
@@ -359,7 +347,7 @@ class CamiTherapist(BaseTherapist):
             analysis=res.analysis, action=res.action, topic=topic
         )
 
-    def _feedback_to_text(self, fb: FeedbackPromptOutput) -> str:
+    def feedback_to_text(self, fb: FeedbackPromptOutput) -> str:
         parts = [
             f"Alignment score: {fb.topic_alignment_score}/5. {fb.topic_alignment_feedback}",
             f"Strategy score: {fb.strategy_adherence_score}/5. {fb.strategy_adherence_feedback}",
@@ -369,10 +357,10 @@ class CamiTherapist(BaseTherapist):
         return "\n".join(parts)
 
     def refine_response(self, response: str, topic: str, strategies: List[str]) -> str:
-        context = self._conv_context(max_turns=8)
-        topic_text = f"{topic}: {self._topic_desc(topic)}".strip()
+        context = self.conv_context(max_turns=8)
+        topic_text = f"{topic}: {self.topic_desc(topic)}".strip()
         strategy_text = "\n".join(
-            f"- {s}: {self._strategy_desc(s)}".strip() for s in strategies
+            f"- {s}: {self.strategy_desc(s)}".strip() for s in strategies
         ).strip()
 
         current = response
@@ -398,25 +386,25 @@ class CamiTherapist(BaseTherapist):
                 response=f"Counselor: {current}",
                 topic=topic_text,
                 strategy=strategy_text,
-                feedback=self._feedback_to_text(fb),
+                feedback=self.feedback_to_text(fb),
             )
             refined = self.chat_model.generate(
                 messages=[{"role": "system", "content": refine_prompt}],
                 response_format=RefinePromptOutput,
             )
-            current = self._postprocess_counselor_text(refined.content)
+            current = self.postprocess_counselor_text(refined.content)
 
         return current
 
-    def _generate_candidates(
+    def generate_candidates(
         self, last_utterance: str, topic: str, stage: CamiStage, strategies: List[str]
     ) -> List[str]:
-        topic_desc = self._topic_desc(topic)
-        stage_text = self._stage_text(stage)
+        topic_desc = self.topic_desc(topic)
+        stage_text = self.stage_text(stage)
 
         candidates: List[str] = []
         for s in strategies:
-            strategy_desc = self._strategy_desc(s)
+            strategy_desc = self.strategy_desc(s)
             prompt = self.prompts["candidate_prompt_single"].render(
                 last_utterance=last_utterance,
                 stage=stage_text,
@@ -427,11 +415,11 @@ class CamiTherapist(BaseTherapist):
             )
             msgs = self.messages[:-1] + [{"role": "user", "content": prompt}]
             res = self.chat_model.generate(msgs).content
-            candidates.append(self._postprocess_counselor_text(res))
+            candidates.append(self.postprocess_counselor_text(res))
 
         if len(strategies) >= 2:
             strategies_with_desc = [
-                {"name": s, "desc": self._strategy_desc(s)} for s in strategies
+                {"name": s, "desc": self.strategy_desc(s)} for s in strategies
             ]
             prompt = self.prompts["candidate_prompt_combine"].render(
                 last_utterance=last_utterance,
@@ -442,13 +430,13 @@ class CamiTherapist(BaseTherapist):
             )
             msgs = self.messages[:-1] + [{"role": "user", "content": prompt}]
             res = self.chat_model.generate(msgs).content
-            candidates.append(self._postprocess_counselor_text(res))
+            candidates.append(self.postprocess_counselor_text(res))
 
         return [c for c in candidates if c]
 
-    def _select_response(self, candidates: List[str]) -> int:
+    def select_response(self, candidates: List[str]) -> int:
         conversation = "\n".join(
-            f"- {l}" for l in self._conv_context(max_turns=14).splitlines()
+            f"- {line}" for line in self.conv_context(max_turns=14).splitlines()
         )
         responses = "\n".join(f"{i+1}. {r}" for i, r in enumerate(candidates))
         prompt = self.prompts["response_select_prompt"].render(
@@ -464,8 +452,8 @@ class CamiTherapist(BaseTherapist):
         return res.response_id
 
     def generate_response(self, msg: str):
-        if not self._has_greeted:
-            self._has_greeted = True
+        if not self.has_greeted:
+            self.has_greeted = True
             greeting = self.prompts["greeting"].render()
             self.messages.append({"role": "assistant", "content": greeting})
             return greeting
@@ -487,14 +475,14 @@ class CamiTherapist(BaseTherapist):
         selected_strategies = strategy_res.strategies
 
         last_utterance = (self.messages[-1].get("content") or "").strip()
-        candidates = self._generate_candidates(
+        candidates = self.generate_candidates(
             last_utterance, topic, stage, selected_strategies
         )
         if not candidates:
             res = self.chat_model.generate(self.messages).content
-            final_text = self._postprocess_counselor_text(res)
+            final_text = self.postprocess_counselor_text(res)
         else:
-            response_id = self._select_response(candidates)
+            response_id = self.select_response(candidates)
             idx = max(0, min(response_id - 1, len(candidates) - 1))
             final_text = candidates[idx]
             final_text = self.refine_response(final_text, topic, selected_strategies)
@@ -503,9 +491,8 @@ class CamiTherapist(BaseTherapist):
         return final_text
 
     def reset(self):
-        self.build_sys_prompt()
-        self.client = None
-        self._has_greeted = False
+        super().reset()
+        self.has_greeted = False
         self.initialized = False
         self.topic_stack = []
         self.explored_topics = []

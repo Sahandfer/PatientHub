@@ -150,7 +150,7 @@ from patienthub.clients import get_client
 config = OmegaConf.create({
     'agent_name': 'eeyore',
     'model_type': 'LOCAL',
-    'model_name': 'hosted_vllm//data3/public_checkpoints/huggingface_models/Eeyore_llama3.1_8B',
+    'model_name': 'hosted_vllm//<MODEL_PATH>/Eeyore_llama3.1_8B',
     'temperature': 0.7,
     'max_tokens': 1024,
     'max_retries': 3,

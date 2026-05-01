@@ -60,9 +60,7 @@ def get_client(agent_name: str, configs: DictConfig = None, lang: str = "en"):
     try:
         client = CLIENT_REGISTRY[agent_name](configs=configs)
     except Exception as e:
-        logger.error(
-            "Failed to initialize client '%s': %s", agent_name, e, exc_info=True
-        )
+        logger.error("Failed to initialize client '%s': %s", agent_name, e)
         raise ValueError(f"Error initializing client agent '{agent_name}'") from e
     logger.info(
         "Loaded client '%s' -> %s",

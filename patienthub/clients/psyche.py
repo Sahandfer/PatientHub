@@ -19,10 +19,8 @@ Includes risk assessments for suicidal ideation, self-harm, and homicide.
 import json
 from omegaconf import DictConfig
 from dataclasses import dataclass
-
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, load_json, get_chat_model
 
 
 @dataclass
@@ -37,14 +35,7 @@ class PsycheClientConfig(APIModelConfig):
 
 class PsycheClient(BaseClient):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-
-        self.data = load_json(configs.data_path)[configs.data_idx]
-        self.name = "PSYCHE-SP"
-
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-        self.build_sys_prompt()
+        super().__init__(configs)
 
     def build_sys_prompt(self):
         sys_prompt = self.prompts["system_prompt"].render(
@@ -58,7 +49,3 @@ class PsycheClient(BaseClient):
         self.messages.append({"role": "assistant", "content": res.content})
 
         return res
-
-    def reset(self):
-        self.build_sys_prompt()
-        self.therapist = None

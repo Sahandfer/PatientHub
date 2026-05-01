@@ -16,14 +16,13 @@ performance. The 3-stage workflow:
 Based on final state, selects appropriate response policy to avoid over-disclosure.
 """
 
-from typing import Literal
+from typing import Any, Literal
 from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, load_json, get_chat_model
 
 
 @dataclass
@@ -36,7 +35,6 @@ class SAPSClientConfig(APIModelConfig):
     data_idx: int = 0
 
 
-# Pydantic models for state detection and response
 class StageIResponse(BaseModel):
     """Stage I: five types of questions classification"""
 
@@ -75,19 +73,12 @@ class SAPSClient(BaseClient):
     """
 
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-
-        self.data = load_json(configs.data_path)[configs.data_idx]
-        self.name = self.data.get("name", "SAPSClient")
-
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-        self.build_sys_prompt()
+        super().__init__(configs)
 
     def build_sys_prompt(self):
         self.messages = []
 
-    def perform_stage_I(self, question: str) -> StageIResponse:
+    def perform_stage_I(self, question: str) -> Any:
         prompt = self.prompts["state_detection"]["stage_I"].render(question=question)
         res = self.chat_model.generate(
             messages=[{"role": "system", "content": prompt}],
@@ -95,7 +86,7 @@ class SAPSClient(BaseClient):
         )
         return res.question_type
 
-    def perform_stage_II(self, question: str, question_type: str) -> StageIIResponse:
+    def perform_stage_II(self, question: str, question_type: str) -> Any:
         if question_type not in ["A", "B"]:
             return ""
 
@@ -113,7 +104,7 @@ class SAPSClient(BaseClient):
         question: str,
         question_type: str,
         specificity: str,
-    ) -> StageIIIResponse:
+    ) -> Any:
         if specificity != "A":
             return "", ""
 
@@ -154,7 +145,3 @@ class SAPSClient(BaseClient):
         self.messages.append({"role": "assistant", "content": res.content})
 
         return res
-
-    def reset(self):
-        self.messages = []
-        self.therapist = None

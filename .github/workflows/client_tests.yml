@@ -1,0 +1,37 @@
+name: Client Smoke Tests
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'patienthub/clients/**'
+      - 'patienthub/configs/**'
+      - 'data/prompts/**'
+      - 'patienthub/tests/clients.py'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'patienthub/clients/**'
+      - 'patienthub/configs/**'
+      - 'data/prompts/**'
+      - 'patienthub/tests/clients.py'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          uv pip install --system -e . --no-deps
+          uv pip install --system pydantic omegaconf hydra-core litellm instructor jinja2 python-dotenv rich pytest
+
+      - name: Run client smoke tests
+        run: pytest patienthub/tests/clients.py -v

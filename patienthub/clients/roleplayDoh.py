@@ -26,7 +26,7 @@ from pydantic import BaseModel, Field
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_json, load_prompts, get_chat_model
+from patienthub.utils import load_json
 
 
 @dataclass
@@ -35,7 +35,7 @@ class RoleplayDohClientConfig(APIModelConfig):
 
     agent_name: str = "roleplayDoh"
     prompt_path: str = "data/prompts/client/roleplayDoh.yaml"
-    data_path: str = "data/characters/PatientPsi.json"
+    data_path: str = "data/characters/roleplayDoh.json"
     principles: str = "data/resources/roleplayDohPrinciple.json"
     data_idx: int = 0
 
@@ -73,13 +73,7 @@ class AssessmentResult(BaseModel):
 
 class RoleplayDohClient(BaseClient):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-
-        self.data = load_json(configs.data_path)[configs.data_idx]
-        self.name = self.data.get("name", "Client")
-
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
+        super().__init__(configs)
 
         self.profile = self.data.get("description", "")
         self.principles = self.load_principles()
@@ -107,7 +101,8 @@ class RoleplayDohClient(BaseClient):
             client_response=client_response,
         )
         res = self.chat_model.generate(
-            [{"role": "system", "content": prompt}], response_format=QuestionSet
+            [{"role": "system", "content": prompt}],
+            response_format=QuestionSet,
         )
         questions = (res.questions or []) + (res.extra_questions or [])
         if not questions:
@@ -131,7 +126,8 @@ class RoleplayDohClient(BaseClient):
             client_response=response,
         )
         res = self.chat_model.generate(
-            [{"role": "system", "content": prompt}], response_format=AssessmentResult
+            [{"role": "system", "content": prompt}],
+            response_format=AssessmentResult,
         )
         return res
 
@@ -173,7 +169,3 @@ class RoleplayDohClient(BaseClient):
         self.messages.append({"role": "client", "content": response})
 
         return response
-
-    def reset(self):
-        self.build_sys_prompt()
-        self.therapist = None

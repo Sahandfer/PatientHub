@@ -31,15 +31,23 @@ def dict_to_str(d: Dict[str, Any], indent: int = 0, prefix: str = "") -> str:
     return "\n".join(lines)
 
 
-def flatten_conv(messages: List[Dict[str, str]], roles: Dict[str, str] = None) -> str:
+def flatten_conv(
+    messages: List[Dict[str, str]], roles: Dict[str, str] = None, max_turns: int = None
+) -> str:
     """Convert conversation history into a single string."""
+    messages = [
+        msg
+        for msg in messages
+        if msg.get("content", "").strip() and msg.get("role") != "system"
+    ]
+    if max_turns is not None:
+        messages = messages[-max_turns * 2 :]
     if roles is None:
         return "\n".join(
-            f"{msg.get('role', 'unknown').capitalize()}: {msg.get('content', '')}"
-            for msg in messages
+            f"{msg['role'].capitalize()}: {msg['content']}" for msg in messages
         )
     else:
         return "\n".join(
-            f"{roles.get(msg.get('role', 'unknown'), msg.get('role', 'unknown')).capitalize()}: {msg.get('content', '')}"
+            f"{roles.get(msg['role'], msg['role']).capitalize()}: {msg['content']}"
             for msg in messages
         )

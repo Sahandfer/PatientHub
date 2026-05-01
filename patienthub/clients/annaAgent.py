@@ -17,14 +17,20 @@ AnnaAgent simulates clients with evolving emotions and multi-session memory.
 """
 
 import random
-from typing import Literal, Dict
+from typing import Dict
 from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, load_json, get_chat_model
+from patienthub.utils import flatten_conv
+from patienthub.schemas.annaAgent import (
+    EMOTION_TYPES,
+    EMOTION_CATEGORIES,
+    CATEGORY_DISTANCES,
+    DISTANCE_WEIGHTS,
+)
 
 
 @dataclass
@@ -39,82 +45,6 @@ class AnnaAgentClientConfig(APIModelConfig):
     data_idx: int = 0
 
 
-# ==================== Constants ====================
-
-EMOTION_TYPES = Literal[
-    "admiration",
-    "amusement",
-    "anger",
-    "annoyance",
-    "approval",
-    "caring",
-    "confusion",
-    "curiosity",
-    "desire",
-    "disappointment",
-    "disapproval",
-    "disgust",
-    "embarrassment",
-    "excitement",
-    "fear",
-    "gratitude",
-    "grief",
-    "joy",
-    "love",
-    "nervousness",
-    "optimism",
-    "pride",
-    "realization",
-    "relief",
-    "remorse",
-    "sadness",
-    "surprise",
-    "neutral",
-]
-
-EMOTION_CATEGORIES = {
-    "Positive": [
-        "admiration",
-        "amusement",
-        "approval",
-        "caring",
-        "curiosity",
-        "desire",
-        "excitement",
-        "gratitude",
-        "joy",
-        "love",
-        "optimism",
-        "pride",
-        "realization",
-        "relief",
-        "surprise",
-    ],
-    "Neutral": ["neutral"],
-    "Ambiguous": ["confusion", "disappointment", "nervousness"],
-    "Negative": [
-        "anger",
-        "annoyance",
-        "disapproval",
-        "disgust",
-        "embarrassment",
-        "fear",
-        "sadness",
-        "remorse",
-        "grief",
-    ],
-}
-
-CATEGORY_DISTANCES = {
-    "Positive": {"Positive": 0, "Neutral": 1, "Ambiguous": 2, "Negative": 3},
-    "Neutral": {"Positive": 1, "Neutral": 0, "Ambiguous": 1, "Negative": 2},
-    "Ambiguous": {"Positive": 2, "Neutral": 1, "Ambiguous": 0, "Negative": 1},
-    "Negative": {"Positive": 3, "Neutral": 2, "Ambiguous": 1, "Negative": 0},
-}
-
-DISTANCE_WEIGHTS = {0: 10, 1: 5, 2: 2, 3: 1}
-
-
 class EmotionResponse(BaseModel):
     emotion: EMOTION_TYPES = Field(
         description="The inferred emotion category, must be one of the 28 emotions defined by GoEmotions"
@@ -122,24 +52,18 @@ class EmotionResponse(BaseModel):
 
 
 class IsRecognizedResponse(BaseModel):
-    """Response indicating whether the chief complaint has been recognized"""
-
     is_recognized: bool = Field(
         description="Based on the dialogue content and the cognitive change chain of the chief complaint, determine whether the patient has well recognized the current stage complaint."
     )
 
 
 class IsNeedPreviousResponse(BaseModel):
-    """Response indicating whether historical information is needed"""
-
     is_need: bool = Field(
         description="Whether the therapist's statement involves content from previous sessions"
     )
 
 
 class KnowledgeResponse(BaseModel):
-    """Response for retrieving historical knowledge"""
-
     knowledge: str = Field(
         description="Relevant information retrieved from historical conversations and scales"
     )
@@ -147,17 +71,9 @@ class KnowledgeResponse(BaseModel):
 
 class AnnaAgentClient(BaseClient):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
+        super().__init__(configs)
 
-        self.data = load_json(configs.data_path)[configs.data_idx]
-        self.name = self.data.get("name", "client")
-
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-
-        self.build_sys_prompt()
-
-    def load_data(self):
+    def init_session_state(self):
         self.profile = self.data.get("profile", {})
         self.profile_str = self.prompts["profile"].render(profile=self.profile)
         self.prev_conv = self.data.get("previous_conversations", [])
@@ -166,7 +82,7 @@ class AnnaAgentClient(BaseClient):
         self.chain_idx = 1
 
     def build_sys_prompt(self):
-        self.load_data()
+        self.init_session_state()
         sys_prompt = self.prompts["system_prompt"].render(
             profile=self.profile_str,
             situation=self.data.get("situation", ""),
@@ -249,9 +165,7 @@ class AnnaAgentClient(BaseClient):
         return res.is_need
 
     def query_knowledge(self, msg: str):
-        past_conv = "\n".join(
-            [f"{conv['role']}: {conv['content']}" for conv in self.prev_conv]
-        )
+        past_conv = flatten_conv(self.prev_conv)
         prompt = self.prompts["query_knowledge"].render(
             utterance=msg, conversations=past_conv, report=self.report
         )
@@ -298,7 +212,3 @@ class AnnaAgentClient(BaseClient):
         self.conv_history += res.content
 
         return res
-
-    def reset(self):
-        self.build_sys_prompt()
-        self.therapist = None
