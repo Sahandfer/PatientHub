@@ -30,8 +30,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install --system -e . --no-deps
-          uv pip install --system pydantic omegaconf hydra-core litellm instructor jinja2 python-dotenv rich pytest
+          uv venv
+          uv pip install -e . --no-deps
+          uv pip install pydantic omegaconf hydra-core litellm instructor jinja2 python-dotenv rich pytest
 
       - name: Run schema validation tests
-        run: pytest patienthub/tests/schemas.py -v
+        run: uv run pytest patienthub/tests/schemas.py -v
