@@ -1,0 +1,43 @@
+{
+    "disease_summary": "Insomnia is characterized by difficulty initiating or maintaining sleep, waking too early, or experiencing nonrestorative sleep, leading to significant daytime impairment. Chronic insomnia occurs when symptoms persist at least three nights per week for over three months.",
+    "key_characteristics": [
+        "Difficulty falling asleep, especially in younger adults",
+        "Frequent nocturnal awakenings or prolonged wakefulness, particularly in older adults",
+        "Early-morning awakening with inability to return to sleep",
+        "Daytime impairment such as fatigue, poor concentration, mood disturbances, or irritability"
+    ],
+    "typical_presentation": {
+        "mild": "Sleep difficulty on several nights with mild daytime fatigue or irritability; routine functioning remains preserved.",
+        "moderate": "Persistent insomnia with impaired concentration, mood changes, or diminished role performance; maladaptive sleep habits or stress-related perpetuating factors are often present.",
+        "severe": "Chronic insomnia with marked daytime impairment, pronounced anxiety or depression, unsafe sleepiness, or signs of potential comorbid conditions like sleep apnea, narcolepsy, or substance-related contributions."
+    },
+    "important_notes": [
+        "Sleep diary evaluation for 1-2 weeks can help identify contributing patterns.",
+        "Risk factors include environmental stressors, irregular sleep routines, hormonal changes in pregnancy or menopause, and lifestyle elements like substance use near bedtime.",
+        "Watch for insomnia occurring alongside major psychiatric or systemic conditions that might explain or worsen symptoms."
+    ],
+    "contraindications": [
+        "Do not attribute insomnia to a standalone psychiatric diagnosis if primary symptoms are fully explained by another disorder.",
+        "Avoid generating chronic insomnia in children or adolescents without contextually plausible factors like severe stressors or environmental disruptions."
+    ],
+    "differential_considerations": [
+        "Circadian rhythm disorders",
+        "Sleep apnea or narcolepsy",
+        "Restless leg syndrome or periodic limb movements",
+        "Psychiatric conditions such as anxiety, depression, or PTSD",
+        "Substance use or medication-induced sleep disturbances",
+        "Chronic pain or thyroid dysfunction"
+    ],
+    "special_populations": [
+        "Older adults are more prone to sleep maintenance issues and early awakenings.",
+        "Pregnancy and menopause may exacerbate insomnia due to hormonal changes.",
+        "Caregivers and shift workers may experience schedule-driven or environmental insomnia."
+    ],
+    "red_flags": [
+        "Loud snoring, gasping, or witnessed apneas indicating possible sleep apnea",
+        "Severe daytime sleepiness posing risks in driving or occupational safety",
+        "New-onset insomnia paired with manic symptoms, psychosis, suicidal ideation, or severe depression",
+        "Substance-related sleep disruptions due to medications, alcohol, or recreational drugs",
+        "Neurological symptoms requiring evaluation, such as potential narcolepsy or circadian rhythm disorders"
+    ]
+}

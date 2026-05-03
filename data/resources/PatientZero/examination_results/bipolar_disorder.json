@@ -1,0 +1,169 @@
+{
+    "metadata": {
+        "disease_name": "Bipolar Disorder",
+        "severity_level": "moderate",
+        "disease_outline_id": "bipolar_disorder.json"
+    },
+    "sampled_attributes": {
+        "disease_name": "Bipolar Disorder",
+        "severity_level": "moderate",
+        "age_strata": "Adult",
+        "age": 56,
+        "biological_sex": "Female",
+        "physiological_status": "Non-pregnant",
+        "ethnicity": "African American",
+        "geography": "Suburban",
+        "specific_region_constraints": "None",
+        "education_level": "College",
+        "occupation_type": "Student",
+        "income_tier": "Middle",
+        "smoking": "Former",
+        "alcohol": "Heavy",
+        "dietary_pattern": "High-salt",
+        "activity_level": "Moderate",
+        "communication_style": "Tangent",
+        "medicine_preference": "Modern"
+    },
+    "patient_profile": {
+        "age": 56,
+        "age_strata": "Adult",
+        "biological_sex": "Female",
+        "physiological_status": "Non-pregnant",
+        "ethnicity": "African American",
+        "geography": "Suburban",
+        "specific_region_constraints": "None",
+        "education_level": "College",
+        "occupation_type": "Student",
+        "income_tier": "Middle",
+        "smoking": "Former",
+        "alcohol": "Heavy",
+        "dietary_pattern": "High-salt",
+        "activity_level": "Moderate",
+        "communication_style": "Tangent",
+        "medicine_preference": "Modern",
+        "name": "Monique Harrison",
+        "lifestyle_summary": "Monique is a middle-income student living in a suburban area who stays moderately active and has a high-salt diet. She is a former smoker but consumes alcohol heavily.",
+        "past_medical_history": "Monique has a history of hypertension and experienced a major depressive episode in her mid-30s. She has no known psychosis, seizures, or hospitalizations for mental health crises.",
+        "family_history": "Her mother had severe depression and her younger brother was diagnosed with Bipolar Disorder Type I. No significant history of mental health conditions in other relatives.",
+        "medication_history": "She previously took sertraline for depression but discontinued it due to feelings of excessive activation. Currently not on psychiatric medication.",
+        "allergy_history": "No known drug or environmental allergies.",
+        "vaccination_history": "Routine vaccinations up-to-date, including influenza and COVID-19 vaccines."
+    },
+    "symptom_trajectory": {
+        "current_severity": "moderate",
+        "chief_complaint": "I’ve been feeling a mix of really high energy and really low moments, and it’s getting harder to keep up with my schoolwork and life.",
+        "onset": "Symptoms gradually worsened over the past 2 months.",
+        "duration": "Current episode has lasted approximately 8 weeks with intermittent fluctuations.",
+        "progression": "Initially noticed mild restlessness and occasional low mood, which evolved into distinct manic and depressive states lasting several days each.",
+        "selected_symptoms": [
+            {
+                "name": "elevated or extremely irritable mood",
+                "duration": "Several days during manic phases",
+                "severity": "moderate",
+                "impact": "Caused social tensions and difficulty focusing on academic tasks."
+            },
+            {
+                "name": "racing thoughts",
+                "duration": "Intermittent during manic phases, lasting hours",
+                "severity": "moderate",
+                "impact": "Interfered with her ability to plan and prioritize schoolwork effectively."
+            },
+            {
+                "name": "low or anxious mood",
+                "duration": "Several days during depressive phases",
+                "severity": "moderate",
+                "impact": "Caused feelings of hopelessness and neglect of personal hygiene."
+            },
+            {
+                "name": "sleep disturbance",
+                "duration": "Present throughout the episode",
+                "severity": "moderate",
+                "impact": "Caught between insomnia during manic phases and oversleeping during depressive phases leading to exhaustion."
+            },
+            {
+                "name": "impaired responsibilities or relationships",
+                "duration": "Over the last two months",
+                "severity": "moderate",
+                "impact": "Struggled to maintain academic deadlines and interpersonal engagements."
+            }
+        ],
+        "associated_symptoms": [
+            "pressured speech during manic phases",
+            "anhedonia during depressive phases",
+            "restlessness during mood transitions"
+        ],
+        "negative_symptoms": [
+            "suicidal ideation",
+            "psychotic symptoms like hallucinations or delusions",
+            "catatonia"
+        ],
+        "triggers": [
+            "Stress regarding school deadlines",
+            "Intake of excess alcohol"
+        ],
+        "relieving_factors": [
+            "Reducing alcohol use"
+        ],
+        "functional_impact": "Her ability to balance academic and personal responsibilities is moderately impaired, but she can perform some tasks intermittently. Social interactions are strained.",
+        "risk_features": [
+            "No urgent risk features such as suicidal ideation or psychosis observed at this time."
+        ]
+    },
+    "examination_results": {
+        "mental_status_exam": {
+            "appearance_behavior": "Appropriately dressed for the season but somewhat disheveled; moderately restless behavior noted during the interview.",
+            "speech": "Pressured speech noted during excited moments, intermittent tangential communication.",
+            "mood_affect": "Mood oscillates between elevated during manic descriptions and dysphoric when discussing depressive states; affect moderately labile.",
+            "thought_process": "Thoughts are generally coherent but exhibit racing qualities during manic moments; occasional tangentiality noted.",
+            "thought_content": "No evidence of delusions, paranoia, or other abnormal thought content.",
+            "perception": "No hallucinations or perceptual disturbances reported or observed.",
+            "cognition": "Alert and oriented to person, place, and time; exhibits moderate difficulty with concentration and memory recall during depressive phases.",
+            "insight_judgment": "Insight is partial; judgment impaired during manic phases, leading to impulsive decisions.",
+            "reliability": "History is reasonably reliable with minor inconsistencies attributable to mood fluctuations."
+        },
+        "scale_assessments": [
+            {
+                "scale_name": "PHQ-9",
+                "score": 12,
+                "severity_interpretation": "moderate depressive symptoms",
+                "rationale": "Reflects sleep disturbance, feelings of hopelessness, and moderate neglect of responsibilities consistent with depressive episodes described."
+            },
+            {
+                "scale_name": "GAD-7",
+                "score": 10,
+                "severity_interpretation": "moderate anxiety symptoms",
+                "rationale": "Accounts for racing thoughts, restlessness, and difficulty concentrating during mood shifts."
+            },
+            {
+                "scale_name": "ISI",
+                "score": 17,
+                "severity_interpretation": "moderate clinical insomnia",
+                "rationale": "Aligns with patient’s alternating insomnia during manic phases and hypersomnia in depressive states, causing functional exhaustion."
+            }
+        ],
+        "risk_assessment": {
+            "suicide_risk": "none",
+            "violence_risk": "none",
+            "self_neglect_risk": "low",
+            "rationale": "No suicidal ideation or psychotic symptoms reported. Self-neglect observed moderately during depressive phases but does not reach critical levels."
+        },
+        "exclusionary_findings": [
+            {
+                "test_name": "TSH",
+                "finding": "2.3 μIU/mL",
+                "interpretation": "Within normal range; thyroid dysfunction unlikely as contributor to mood instability."
+            },
+            {
+                "test_name": "Substance screen",
+                "finding": "Negative for illicit substances",
+                "interpretation": "No evidence of substance-induced mood episodes contributing to current symptoms."
+            },
+            {
+                "test_name": "Medication review",
+                "finding": "No current activating psychiatric medications identified",
+                "interpretation": "Activation from medications does not appear to be relevant."
+            }
+        ],
+        "clinical_summary": "The patient presents moderate bipolar symptomology with manic and depressive phases impacting academic and social performance. Insomnia, racing thoughts, and mood disturbances align with mood cycling. Exclusionary findings rule out thyroid dysfunction and substance-related causes, supporting primary mood disorder consideration without urgent risk features."
+    }
+}

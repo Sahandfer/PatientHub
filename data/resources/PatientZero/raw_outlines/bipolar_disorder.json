@@ -1,0 +1,59 @@
+{
+  "disease_name": "Bipolar Disorder",
+  "stage": "disease_outline_standardization",
+  "retrieval_date": "2026-04-27",
+  "evidence_note": "Summarized from official NIMH bipolar disorder material. This file is a source-grounded raw outline for synthetic case generation, not a diagnostic guideline.",
+  "sources": [
+    {
+      "title": "Bipolar Disorder",
+      "publisher": "National Institute of Mental Health",
+      "url": "https://www.nimh.nih.gov/health/publications/bipolar-disorder"
+    }
+  ],
+  "raw_outline": {
+    "summary": "Bipolar disorder is a chronic or episodic mood disorder involving extreme changes in mood, energy, and activity level. It includes manic, hypomanic, depressive, or mixed episodes and usually requires long-term treatment.",
+    "core_features": [
+      "Manic episodes involve unusually elevated or irritable mood with increased activity or energy.",
+      "Hypomanic episodes resemble mania but are less severe and less impairing.",
+      "Depressive episodes involve sad, indifferent, or hopeless mood with very low activity and impaired functioning.",
+      "Mixed episodes include manic and depressive symptoms at the same time.",
+      "Symptoms most often begin in late adolescence or early adulthood, though children can have symptoms."
+    ],
+    "common_symptoms": [
+      "Manic symptoms: elevated or extremely irritable mood, jumpiness, increased activity, racing thoughts, decreased need for sleep, pressured or rapid speech, increased risky or pleasurable activities, inflated self-importance, and impaired responsibilities or relationships",
+      "Depressive symptoms: low or anxious mood, slowed or restless behavior, poor concentration, sleep disturbance, slowed speech or difficulty speaking, anhedonia, inability to do simple tasks, hopelessness, worthlessness, or suicidal thoughts"
+    ],
+    "course_and_timing": [
+      "Mood episodes can last a week or two or longer and symptoms are present most of the day during an episode.",
+      "Mood may return to baseline between episodes, but inadequate treatment can lead to more frequent episodes.",
+      "Bipolar I requires mania lasting at least 7 days or severe enough to need hospital care; bipolar II involves depressive and hypomanic episodes."
+    ],
+    "risk_factors": [
+      "The exact cause is unknown.",
+      "Heredity contributes; family history increases risk but does not guarantee illness.",
+      "Trauma or stressful life events may contribute among people with genetic risk.",
+      "Brain structure and function differences have been studied."
+    ],
+    "generation_severity_anchors": {
+      "mild": "Hypomanic or depressive symptoms cause noticeable change but limited impairment; no psychosis, dangerous behavior, or severe suicidality.",
+      "moderate": "Clear manic/hypomanic or depressive episode with impaired school/work/relationships, sleep disruption, impulsive behavior, or mixed features.",
+      "severe": "Mania requiring hospitalization, psychosis, suicidal intent, catatonia, extreme agitation, dangerous risk-taking, inability to function, or severe depression."
+    },
+    "differential_and_comorbidity_notes": [
+      "Distinguish bipolar depression from unipolar depression by longitudinal history of mania or hypomania.",
+      "Psychotic symptoms can lead to confusion with schizophrenia unless mood episode course is considered.",
+      "Thyroid disease, substance use, medication effects, ADHD, borderline personality traits, and sleep deprivation can mimic or complicate symptoms."
+    ],
+    "special_populations": [
+      "Children and adolescents may present with mood instability and must be distinguished from disruptive mood dysregulation, ADHD, trauma, and substance-related symptoms.",
+      "Pregnancy and postpartum periods require caution because sleep disruption and medication changes can affect mood stability.",
+      "Older adults with first-onset mania-like symptoms require consideration of medical, neurologic, or medication causes."
+    ],
+    "red_flags": [
+      "Suicidal ideation, suicide attempt, or severe hopelessness",
+      "Psychosis, catatonia, violent agitation, or inability to care for self",
+      "Severe decreased need for sleep with escalating activity and risky behavior",
+      "Manic symptoms requiring urgent hospitalization"
+    ]
+  }
+}

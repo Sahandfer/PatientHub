@@ -1,0 +1,107 @@
+{
+    "metadata": {
+        "disease_name": "PTSD",
+        "severity_level": "moderate",
+        "disease_outline_id": "ptsd.json"
+    },
+    "sampled_attributes": {
+        "disease_name": "PTSD",
+        "severity_level": "moderate",
+        "age_strata": "Adult",
+        "age": 56,
+        "biological_sex": "Female",
+        "physiological_status": "Non-pregnant",
+        "ethnicity": "African American",
+        "geography": "Suburban",
+        "specific_region_constraints": "None",
+        "education_level": "College",
+        "occupation_type": "Student",
+        "income_tier": "Middle",
+        "smoking": "Former",
+        "alcohol": "Heavy",
+        "dietary_pattern": "High-salt",
+        "activity_level": "Moderate",
+        "communication_style": "Tangent",
+        "medicine_preference": "Modern"
+    },
+    "patient_profile": {
+        "age": 56,
+        "age_strata": "Adult",
+        "biological_sex": "Female",
+        "physiological_status": "Non-pregnant",
+        "ethnicity": "African American",
+        "geography": "Suburban",
+        "specific_region_constraints": "None",
+        "education_level": "College",
+        "occupation_type": "Student",
+        "income_tier": "Middle",
+        "smoking": "Former",
+        "alcohol": "Heavy",
+        "dietary_pattern": "High-salt",
+        "activity_level": "Moderate",
+        "communication_style": "Tangent",
+        "medicine_preference": "Modern",
+        "name": "Amara Lewis",
+        "lifestyle_summary": "Moderately active lifestyle with heavy alcohol use and a high-salt diet. Former smoker who is now pursuing further education while managing middle-income challenges.",
+        "past_medical_history": "History of hypertension and an appendectomy at age 37. Experienced severe emotional distress following trauma but no prior psychiatric diagnoses.",
+        "family_history": "Mother had depression; father died of a cardiovascular event at age 68. No family history of PTSD.",
+        "medication_history": "Currently taking lisinopril for blood pressure. Previous short-term use of zolpidem for sleep disturbances.",
+        "allergy_history": "Allergy to penicillin manifesting as rash; no other known allergies.",
+        "vaccination_history": "Up to date on routine adult vaccinations, including influenza and COVID-19."
+    },
+    "symptom_trajectory": {
+        "current_severity": "moderate",
+        "chief_complaint": "I’m having a lot of nightmares and keep remembering the accident. I feel like I can’t relax anymore.",
+        "onset": "Symptoms started approximately nine months ago, within weeks of witnessing a fatal car accident.",
+        "duration": "Symptoms have persisted for nine months without significant improvement.",
+        "progression": "Initially mild symptoms became more frequent and distressing over time, now causing significant effects on daily life.",
+        "selected_symptoms": [
+            {
+                "name": "Flashbacks, recurrent distressing memories or dreams, distressing thoughts, or physical signs of stress when reminded of trauma",
+                "duration": "Nine months",
+                "severity": "moderate",
+                "impact": "Disrupting sleep patterns and causing emotional distress during the day."
+            },
+            {
+                "name": "Avoidance of trauma-related places, events, objects, thoughts, or feelings",
+                "duration": "Seven months",
+                "severity": "moderate",
+                "impact": "Avoids driving on major roads and is hesitant about going near the location of the accident."
+            },
+            {
+                "name": "Startle response, hypervigilance, feeling tense or on guard, concentration problems, irritability, angry or aggressive outbursts, sleep disturbance, or risky behavior",
+                "duration": "Seven months",
+                "severity": "moderate",
+                "impact": "Experiences frequent difficulty concentrating and is more irritable; sleep has been continually restless."
+            },
+            {
+                "name": "Memory gaps for trauma details, negative beliefs about self or world, exaggerated blame, persistent fear, anger, guilt, shame, anhedonia, social isolation, or difficulty feeling positive emotions",
+                "duration": "Eight months",
+                "severity": "moderate",
+                "impact": "Feels guilty and shameful about witnessing the accident without being able to help; struggles with social engagement."
+            }
+        ],
+        "associated_symptoms": [
+            "frequent nightmares",
+            "heightened startle response",
+            "daytime fatigue"
+        ],
+        "negative_symptoms": [
+            "suicidal ideation",
+            "substance misuse",
+            "dissociative episodes"
+        ],
+        "triggers": [
+            "situations resembling the accident",
+            "discussions about car crashes"
+        ],
+        "relieving_factors": [
+            "avoiding reminders of the incident",
+            "occasional relaxation using breathing exercises"
+        ],
+        "functional_impact": "Amara’s PTSD symptoms are moderately impairing her ability to focus on studies and reducing her social interactions, though she retains some capability for daily routines.",
+        "risk_features": [
+            "No immediate risk factors like suicidal ideation or violent impulses are present."
+        ]
+    }
+}

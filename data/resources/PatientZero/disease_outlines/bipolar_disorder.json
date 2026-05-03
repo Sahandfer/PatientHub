@@ -1,0 +1,44 @@
+{
+    "disease_summary": "Bipolar disorder is a chronic mood disorder characterized by episodic shifts between manic, hypomanic, depressive, and mixed states, often beginning in late adolescence or early adulthood and requiring long-term management.",
+    "key_characteristics": [
+        "Episodes include mania, hypomania, depression, or mixed features.",
+        "Mania involves elevated mood, heightened activity, and impulsive behavior.",
+        "Depressive episodes feature low mood, anhedonia, and functional impairment.",
+        "Symptoms often cycle, with periods of recovery between episodes in some cases.",
+        "Mood episode severity and impacts vary across individuals."
+    ],
+    "typical_presentation": {
+        "mild": "Hypomanic or depressive symptoms resulting in mild functional impairment such as decreased efficiency at work or interpersonal sensitivity but without psychosis or dangerous behaviors.",
+        "moderate": "Manic, hypomanic, or depressive episodes with clear and consistent impairment in occupational or relational domains, disturbed sleep patterns, impulsivity, or difficulty maintaining daily responsibilities.",
+        "severe": "Mania with psychosis, need for urgent hospitalization, severe inability to function, catatonia, suicidal ideation, or episodes of extreme depression with high risk behaviors or intentions."
+    },
+    "important_notes": [
+        "Symptoms rarely fit discrete categories perfectly; mixed features may be observed.",
+        "Early diagnosis and treatment are crucial to prevent worsening severity or complications.",
+        "Mood stabilization often involves medication, therapy, or both and requires personalized approaches."
+    ],
+    "contraindications": [
+        "Bipolar disorder in the absence of mood episodes.",
+        "Mania or psychosis without a history of mood symptoms.",
+        "Rapid diagnosis without longitudinal review of symptoms and history.",
+        "Hypomania persisting for less than 4 days in Bipolar II diagnosis."
+    ],
+    "differential_considerations": [
+        "Distinguish from unipolar depression based on absence of mania/hypomania history.",
+        "Rule out schizophrenia in psychotic patients by evaluating mood episode context.",
+        "Consider thyroid dysfunction, substance-induced mood changes, and medication effects.",
+        "Differentiate from ADHD based on symptom timing and episodic mood changes."
+    ],
+    "special_populations": [
+        "In children or adolescents, mood instability and hyperactivity may mimic ADHD or trauma-related disorders; assess with caution.",
+        "Older adults presenting with new-onset manic/mood symptoms should be evaluated for medical or neurologic causes.",
+        "In pregnancy/postpartum, monitor closely for symptom changes due to sleep disruption or hormonal shifts.",
+        "Patients with other medical or neuropsychiatric comorbidities, such as borderline personality disorder, may present with overlapping or confounding features."
+    ],
+    "red_flags": [
+        "Suicidal ideation, intent, or history of attempt.",
+        "Psychotic symptoms, catatonia, or inability to perform basic self-care.",
+        "Severe manic symptoms requiring immediate hospitalization.",
+        "Escalating risky behavior, agitation, or prolonged sleep deprivation."
+    ]
+}

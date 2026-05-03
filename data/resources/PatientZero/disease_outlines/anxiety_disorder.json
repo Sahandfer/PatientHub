@@ -1,0 +1,41 @@
+{
+    "disease_summary": "Anxiety disorders involve excessive and persistent worry or fear that can impair daily functioning and are categorized into generalized anxiety, panic disorder, social anxiety, and specific phobia-related conditions.",
+    "key_characteristics": [
+        "Generalized anxiety characterized by pervasive, uncontrollable worry affecting multiple domains.",
+        "Panic disorder marked by recurrent, unexpected panic attacks with associated anticipatory anxiety.",
+        "Social anxiety driven by fear of scrutiny or negative judgment in social situations.",
+        "Phobia-related conditions defined by intense fear and avoidance of specific triggers."
+    ],
+    "typical_presentation": {
+        "mild": "Excessive worry or fear that may cause discomfort but does not significantly affect daily functioning or lead to marked avoidance behavior.",
+        "moderate": "Recurrent symptoms such as avoidance of feared situations, difficulty concentrating, impaired sleep, or periodic panic-like episodes that interfere with daily responsibilities or roles.",
+        "severe": "Severe functional limitations including inability to leave home, frequent panic attacks, extreme avoidance of routine or necessary activities, and potential co-occurrence of suicidal thoughts or substance misuse."
+    },
+    "important_notes": [
+        "Anxiety symptoms can overlap with physical conditions involving adrenergic hyperactivity.",
+        "Long-lasting, uncontrolled worry is characteristic of anxiety disorders rather than situational stress.",
+        "Avoidance behaviors escalate symptom severity and increase the risk of functional impairment."
+    ],
+    "contraindications": [
+        "Combining anxiety symptoms such as panic attacks with exclusively medical causes like arrhythmia without a psychiatric basis.",
+        "Mistaking generalized anxiety worry for episodic depression or OCD-related intrusive thoughts without differentiation.",
+        "Assigning severe avoidance of essential activities to mild presentation descriptions."
+    ],
+    "differential_considerations": [
+        "Medical conditions presenting with adrenergic symptoms (e.g., thyroid disease, arrhythmia).",
+        "OCD marked by compulsive behaviors versus anxiety-driven avoidance or fear.",
+        "PTSD involving trauma-related triggers versus general worry or non-trauma-related fear."
+    ],
+    "special_populations": [
+        "Children and adolescents may present with school refusal, clinginess, or physical complaints like stomachaches.",
+        "Older adults may exhibit more physical symptoms and less overt emotional worry.",
+        "Pregnancy or postpartum anxiety can manifest with intense worry about harm to the baby.",
+        "Comorbid medical conditions may amplify anxiety-related symptoms or present as exaggerated physical complaints."
+    ],
+    "red_flags": [
+        "Chest pain, syncope, or severe dyspnea requiring medical evaluation to rule out life-threatening causes.",
+        "Suicidal ideation, severe depression, or substance misuse signaling urgent psychiatric assessment.",
+        "Inability to perform essential activities like seeking medical care, attending school or work.",
+        "New-onset panic symptoms that may indicate an emergent medical condition."
+    ]
+}

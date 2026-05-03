@@ -1,0 +1,55 @@
+{
+  "disease_name": "ADHD",
+  "stage": "disease_outline_standardization",
+  "retrieval_date": "2026-04-27",
+  "evidence_note": "Summarized from official NIMH ADHD material. This file is a source-grounded raw outline for synthetic case generation, not a diagnostic guideline.",
+  "sources": [
+    {
+      "title": "Attention-Deficit/Hyperactivity Disorder: What You Need to Know",
+      "publisher": "National Institute of Mental Health",
+      "url": "https://www.nimh.nih.gov/health/publications/attention-deficit-hyperactivity-disorder-what-you-need-to-know"
+    }
+  ],
+  "raw_outline": {
+    "summary": "ADHD is a developmental disorder marked by persistent inattention, hyperactivity, and impulsivity. Symptoms begin in childhood and can impair social relationships, school, and work. ADHD is common in children and teens but can persist into adulthood.",
+    "core_features": [
+      "Presentations can be primarily inattentive, primarily hyperactive-impulsive, or combined.",
+      "Symptoms must begin before age 12, last at least 6 months, occur in at least two settings, and impair functioning.",
+      "Children up to 16 typically require at least six symptoms; older adolescents and adults typically require at least five symptoms."
+    ],
+    "common_symptoms": [
+      "Inattention: careless mistakes, difficulty sustaining attention, seeming not to listen, difficulty following instructions, poor organization, poor time management, avoiding sustained mental effort, losing items, distractibility, and forgetfulness",
+      "Hyperactivity/impulsivity: fidgeting, leaving seat, inappropriate running or climbing, restlessness, being constantly on the go, difficulty playing quietly, excessive talking, blurting answers, difficulty waiting, and interrupting others"
+    ],
+    "course_and_timing": [
+      "Symptoms begin in childhood and may continue through adolescence and adulthood.",
+      "Adults may have gone undiagnosed because symptoms were mild, unrecognized, or compensated until adult demands increased.",
+      "Symptoms can affect academic performance, employment, relationships, and daily organization."
+    ],
+    "risk_factors": [
+      "Genes appear to play a large role.",
+      "Research also examines brain development, neurobiology, brain injuries, nutrition, and social environments."
+    ],
+    "generation_severity_anchors": {
+      "mild": "Several inattentive or hyperactive symptoms with mild impairment and preserved basic school/work performance through compensatory strategies.",
+      "moderate": "Clear impairment across school/work and home or social settings, missed deadlines, relationship friction, or frequent disruptive behavior.",
+      "severe": "Pervasive impairment across settings, major academic/work failure, unsafe impulsivity, severe emotional dysregulation, or significant comorbid anxiety, depression, sleep, or substance-use concerns."
+    },
+    "differential_and_comorbidity_notes": [
+      "Stress, sleep disorders, anxiety, depression, and physical illnesses can cause ADHD-like symptoms and need differential consideration.",
+      "Distinguish from bipolar disorder when decreased sleep, episodic mood elevation, grandiosity, or episodic risk-taking is present.",
+      "Learning disorders, autism spectrum disorder, trauma, substance use, and environmental stressors can overlap with ADHD-like impairment."
+    ],
+    "special_populations": [
+      "In adults, symptoms may present as disorganization, poor time management, forgetfulness, restlessness, and underperformance under increased demands.",
+      "Children may show school disruption, homework difficulties, emotional outbursts, and peer conflict.",
+      "Sleep problems and anxiety/depression should be considered when symptoms worsen suddenly."
+    ],
+    "red_flags": [
+      "New-onset attention symptoms after age 12 without childhood history",
+      "Severe impulsive risk-taking causing injury or legal danger",
+      "Suicidal ideation, substance misuse, severe depression, or suspected mania",
+      "Symptoms better explained by sleep disorder, neurologic problem, intoxication, or acute stress"
+    ]
+  }
+}

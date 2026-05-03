@@ -1,0 +1,257 @@
+en:
+  disease_outline_generation: |
+    You are a senior medical expert helping standardize source medical knowledge for Patient-Zero synthetic patient record generation.
+
+    ## Task
+    Convert the provided raw disease knowledge into a structured disease outline that can constrain later patient profile, symptom trajectory, and examination-result generation.
+
+    ## Inputs
+    - Disease name: {{ disease_name }}
+    - Raw disease knowledge:
+      {{ raw_outline }}
+    - Profile context:
+      Use the Patient-Zero demographic taxonomy: age strata, biological sex, physiological status, ethnicity, geography, socioeconomic status, smoking, alcohol, diet, activity, communication style, and medicine preference.
+    - Severity context:
+      Standardize presentations into mild, moderate, and severe levels for later synthetic patient generation.
+
+    ## Generation Instructions & Constraints
+    1. Summarize key clinical characteristics concisely.
+    2. Describe typical presentations across severity levels (Mild, Moderate, Severe).
+    3. List Important Notes for generation: Age/Gender manifestations, symptom timing, comorbidities.
+    4. Identify Contraindications: Incompatible demographics, conflicting symptoms, unrealistic findings.
+    5. Note considerations for Special Populations (Pediatric, Elderly, Pregnant).
+    6. List Red Flags indicating severe complications.
+
+  patient_record_symptom_generation: |
+    You are a knowledgeable medical expert generating the Patient-Zero Stage III static case content.
+
+    ## Task
+    Generate a concrete patient profile and symptom trajectory from the sampled patient attributes and standardized disease outline.
+
+    ## Inputs
+    - Target condition: {{ disease_name }}
+    - Target severity: {{ severity_level }}
+    - Sampled patient attributes:
+      {{ patient_attributes }}
+    - Possible symptoms list:
+      {{ symptoms_list }}
+    - Disease outline:
+      {{ disease_outline }}
+
+    ## Generation Directives
+    1. Identity Synthesis: Generate a realistic name reflecting the patient's ethnicity and country of origin.
+    2. History Construction: Create a detailed medical history consistent with the disease and age profile.
+    3. Background Factors: Synthesize lifestyle factors, vaccination history, and family history.
+    4. Symptom Selection: Select specific symptoms from the provided list appropriate for the target severity.
+    5. Chronology: Specify symptom duration and progression logic.
+
+  examination_result_generation: |
+    You are a knowledgeable medical expert generating Patient-Zero Stage IV examination results for a psychiatric synthetic case.
+
+    ## Task
+    Generate one structured examination-results object from the patient record, symptom trajectory, disease outline, and examination reference. Use one LLM response only.
+
+    ## Inputs
+    - Target condition: {{ disease_name }}
+    - Target severity: {{ severity_level }}
+    - Patient record:
+      {{ patient_record }}
+    - Disease outline:
+      {{ disease_outline }}
+    - Examination reference:
+      {{ exam_reference }}
+
+    ## Generation Directives
+    1. Produce findings only. Do not state the disease diagnosis as a conclusion.
+    2. Include a clinically coherent Mental Status Examination snapshot.
+    3. Include only scale names listed in the examination reference. Scores must stay within each scale range and match the target severity and symptoms.
+    4. Include risk assessment with a concise rationale.
+    5. Include exclusionary findings only when clinically plausible for the case; use specific values or concrete observations where possible.
+    6. Keep all findings internally consistent with the patient record and disease outline.
+
+  patient_record_validation: |
+    You are a medical expert reviewer for the Patient-Zero verify-and-regenerate loop.
+
+    ## Task
+    Review the generated patient profile and symptom trajectory for clinical accuracy and consistency.
+
+    ## Inputs
+    - Target condition: {{ disease_name }}
+    - Target severity: {{ severity_level }}
+    - Sampled patient attributes:
+      {{ patient_attributes }}
+    - Generated record:
+      {{ generated_record }}
+    - Disease outline:
+      {{ disease_outline }}
+
+    ## Validation Criteria (Clinical Guidelines)
+    1. Symptom Consistency: Symptoms must be clinically consistent with the disease and severity.
+    2. Severity Matching: Symptom count/intensity must match the stated level (Mild vs. Severe).
+    3. Demographic Logic: Age/Sex must be logically consistent with medical history.
+    4. Contradiction Check: No impossible combinations (e.g., pregnant male, pediatric conditions in elderly).
+    5. Realistic Progression: Duration description should be realistic for the disease.
+    6. Plausible History: Medical history must align with age and condition.
+
+  examination_result_validation: |
+    You are a medical expert reviewer for the Patient-Zero verify-and-regenerate loop.
+
+    ## Task
+    Review generated examination results for clinical accuracy, realism, and diagnosis blinding.
+
+    ## Inputs
+    - Target condition: {{ disease_name }}
+    - Target severity: {{ severity_level }}
+    - Patient profile:
+      {{ patient_info }}
+    - Symptom trajectory:
+      {{ symptoms_data }}
+    - Generated examination results:
+      {{ exam_results }}
+    - Expected examinations and references:
+      {{ expected_exams }}
+    - Disease outline:
+      {{ disease_outline }}
+
+    ## Validation Criteria (Clinical Guidelines)
+    1. Clinical Consistency: Results must align with the disease pathology and reported symptoms.
+    2. Realistic Values: Scale scores and findings must be biologically and clinically plausible.
+    3. Severity Reflection: Results should appropriately reflect the stated severity (e.g., mild vs. severe abnormalities).
+    4. Findings Only: Results must NOT directly state the diagnosis (describe the signs, not the conclusion).
+    5. Completeness: All critical examinations for the specific condition must have meaningful entries.
+    6. Internal Logic: No contradictory findings between different test modalities (e.g., Lab vs. Imaging).
+    7. Unit Precision: Numeric values must use correct medical units.
+
+  revision_guidance: |
+    ## Revision Guidance
+    Previous validation failed. Regenerate using the following guidance:
+      {{ revision_guidance }}
+
+zh:
+  disease_outline_generation: |
+    你是一名资深医学专家，负责为 Patient-Zero 合成病历生成流程标准化医学知识。
+
+    ## 任务
+    请把输入的原始疾病知识整理为结构化 disease outline，用作后续患者背景、症状轨迹和检查结果生成的医学约束蓝图。
+
+    ## 输入
+    - 疾病名称：{{ disease_name }}
+    - 原始疾病知识：
+      {{ raw_outline }}
+    - 患者画像上下文：
+      使用 Patient-Zero 的人口学分类体系：年龄层、生物性别、生理状态、族裔、地理环境、社会经济状态、吸烟、饮酒、饮食、活动水平、沟通风格和医疗偏好。
+    - 严重程度上下文：
+      将疾病表现标准化为 mild、moderate 和 severe，用于后续合成患者生成。
+
+    ## 生成说明与约束
+    1. 简洁概括关键临床特征。
+    2. 描述不同严重程度（Mild、Moderate、Severe）下的典型表现。
+    3. 列出用于生成的重要说明：年龄/性别表现、症状时间特征、合并症。
+    4. 标出禁忌项：不相容的人口学特征、冲突症状、不现实的检查发现。
+    5. 说明特殊人群注意事项（儿童、老年人、孕妇）。
+    6. 列出提示严重并发症的 Red Flags。
+
+  patient_record_symptom_generation: |
+    你是一名医学专家，负责生成 Patient-Zero Stage III 的静态病例内容。
+
+    ## 任务
+    请根据已采样的患者属性和标准化疾病大纲，生成具体患者背景和症状轨迹。
+
+    ## 输入
+    - 目标疾病：{{ disease_name }}
+    - 目标严重程度：{{ severity_level }}
+    - 已采样患者属性：
+      {{ patient_attributes }}
+    - 可选症状列表：
+      {{ symptoms_list }}
+    - 疾病大纲：
+      {{ disease_outline }}
+
+    ## 生成指令
+    1. 身份生成：生成一个能反映患者族裔和原籍国背景的真实姓名。
+    2. 病史构建：创建与疾病和年龄画像一致的详细病史。
+    3. 背景因素：综合生活方式因素、疫苗接种史和家族史。
+    4. 症状选择：从给定列表中选择符合目标严重程度的具体症状。
+    5. 时间线：说明症状持续时间和进展逻辑。
+
+  examination_result_generation: |
+    你是一名医学专家，负责为精神/心理疾病合成病例生成 Patient-Zero Stage IV 检查结果。
+
+    ## 任务
+    请根据患者记录、症状轨迹、疾病大纲和检查参考，生成一个结构化检查结果对象。只用一次 LLM 响应完成。
+
+    ## 输入
+    - 目标疾病：{{ disease_name }}
+    - 目标严重程度：{{ severity_level }}
+    - 患者记录：
+      {{ patient_record }}
+    - 疾病大纲：
+      {{ disease_outline }}
+    - 检查参考：
+      {{ exam_reference }}
+
+    ## 生成指令
+    1. 只生成 findings，不要直接给出疾病诊断结论。
+    2. 包含临床一致的精神状态检查（MSE）快照。
+    3. 只能使用检查参考中列出的量表名称。分数必须落在该量表范围内，并符合目标严重程度和症状表现。
+    4. 包含风险评估和简洁理由。
+    5. 排除性检查只在病例临床合理时出现；尽量使用具体数值或具体观察结果。
+    6. 所有结果必须与患者记录和疾病大纲内部一致。
+
+  patient_record_validation: |
+    你是一名医学专家评审员，负责 Patient-Zero verify-and-regenerate 闭环中的病历一致性验证。
+
+    ## 任务
+    请评审生成的患者背景和症状轨迹是否临床准确、内部一致，并符合目标严重程度。
+
+    ## 输入
+    - 目标疾病：{{ disease_name }}
+    - 目标严重程度：{{ severity_level }}
+    - 已采样患者属性：
+      {{ patient_attributes }}
+    - 生成病历：
+      {{ generated_record }}
+    - 疾病大纲：
+      {{ disease_outline }}
+
+    ## 验证标准（临床指南）
+    1. 症状一致性：症状必须在临床上与疾病及严重程度一致。
+    2. 严重程度匹配：症状数量/强度必须与给定级别相匹配（Mild vs. Severe）。
+    3. 人口学逻辑：年龄/性别必须与病史在逻辑上一致。
+    4. 矛盾检查：不得出现不可能组合（例如男性妊娠、老年人出现儿科特异性疾病）。
+    5. 真实进展：病程持续时间的描述应符合该疾病的真实情况。
+    6. 合理病史：病史必须与年龄和疾病相符。
+
+  examination_result_validation: |
+    你是一名医学专家评审员，负责 Patient-Zero verify-and-regenerate 闭环中的检查结果验证。
+
+    ## 任务
+    请评审生成的检查结果是否临床准确、数值合理、内部一致，并避免直接泄露诊断标签。
+
+    ## 输入
+    - 目标疾病：{{ disease_name }}
+    - 目标严重程度：{{ severity_level }}
+    - 患者背景：
+      {{ patient_info }}
+    - 症状轨迹：
+      {{ symptoms_data }}
+    - 生成检查结果：
+      {{ exam_results }}
+    - 预期检查和参考：
+      {{ expected_exams }}
+    - 疾病大纲：
+      {{ disease_outline }}
+
+    ## 验证标准（临床指南）
+    1. 临床一致性：结果必须与疾病病理和已报告症状一致。
+    2. 真实数值：量表分数和检查发现必须在生物学和临床上合理。
+    3. 严重程度体现：结果应恰当地反映给定严重程度（例如轻度异常 vs. 重度异常）。
+    4. 仅限发现：结果不得直接写出诊断结论（描述体征，而不是结论）。
+    5. 完整性：该疾病的所有关键检查都必须有有意义的条目。
+    6. 内部逻辑：不同检查方式之间不得出现相互矛盾的发现（例如化验与影像）。
+    7. 单位精度：数值必须使用正确的医学单位。
+
+  revision_guidance: |
+    ## 修订指导
+    上一轮验证未通过。请依据以下的指引重新生成：
+      {{ revision_guidance }}

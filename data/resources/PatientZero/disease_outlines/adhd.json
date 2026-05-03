@@ -1,0 +1,37 @@
+{
+    "disease_summary": "ADHD is a developmental disorder characterized by inattention, hyperactivity, and impulsivity starting in childhood, often affecting academic, occupational, and social functioning. Symptoms can persist into adulthood, manifesting differently across life stages.",
+    "key_characteristics": [
+        "Symptoms must start before age 12 and persist for at least 6 months.",
+        "Functional impairment is required in at least two settings, such as school, work, or home.",
+        "Presentations include predominantly inattentive, predominantly hyperactive-impulsive, or combined types."
+    ],
+    "typical_presentation": {
+        "mild": "Mild inattentive or hyperactive symptoms with limited impact on functioning. Basic school/work performance is preserved through compensatory strategies, with occasional disruptiveness or forgetfulness.",
+        "moderate": "Noticeable impairment in school, work, or social settings. Symptoms such as distractibility, restlessness, missed deadlines, and relationship challenges are common. Behavioral problems or emotional dysregulation may emerge.",
+        "severe": "Pervasive symptoms across multiple settings, leading to significant academic or occupational failures. Unsafe impulsivity, severe emotional dysregulation, and potential comorbidities such as anxiety, depression, or substance use are often present."
+    },
+    "important_notes": [
+        "Symptom burden and impairment levels vary across life stages, with adolescents and adults often displaying less overt hyperactivity but more issues in organization and time management.",
+        "Environmental, social, and genetic factors contribute to ADHD. Brain neurobiology and developmental impacts are areas of ongoing study."
+    ],
+    "contraindications": [
+        "New-onset ADHD symptoms after age 12 without a history of childhood symptoms.",
+        "Rapidly worsening symptoms in the absence of psychosocial or life stressors."
+    ],
+    "differential_considerations": [
+        "Anxiety and depressive disorders causing attention or focus difficulties.",
+        "Bipolar disorder, especially when episodic mood elevation, inflated self-esteem, or risk-taking behaviors are prominent.",
+        "Sleep disorders and physical illnesses that mimic ADHD-like symptoms."
+    ],
+    "special_populations": [
+        "In children, symptoms often present as academic struggles, frequent emotional outbursts, and problems with peer relationships.",
+        "In adults, symptoms may manifest as chronic disorganization, restlessness, difficulty managing time, and underperformance when faced with adult responsibilities.",
+        "Co-occurring conditions like sleep problems, anxiety, depression, or substance use may influence ADHD symptom patterns or exacerbate impairments."
+    ],
+    "red_flags": [
+        "New-onset focus or hyperactivity symptoms starting after childhood.",
+        "Severe impulsivity posing risks for injury or legal issues.",
+        "Suicidal ideation, comorbid substance use, or severe emotional distress.",
+        "Symptoms attributable to underlying neurological issues, intoxication, or acute psychological stress."
+    ]
+}

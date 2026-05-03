@@ -1,0 +1,60 @@
+{
+  "disease_name": "Depression",
+  "stage": "disease_outline_standardization",
+  "retrieval_date": "2026-04-27",
+  "evidence_note": "Summarized from official NIMH patient-facing clinical information. This file is a source-grounded raw outline for synthetic case generation, not a diagnostic guideline.",
+  "sources": [
+    {
+      "title": "Depression",
+      "publisher": "National Institute of Mental Health",
+      "url": "https://www.nimh.nih.gov/health/publications/depression?linkId=100000200918528"
+    }
+  ],
+  "raw_outline": {
+    "summary": "Depression is a mood disorder that can affect people across age, sex, race, ethnicity, income, culture, and education. It commonly involves persistent low, anxious, or empty mood and/or loss of interest, with symptoms that interfere with daily function.",
+    "core_features": [
+      "Major depression requires depressed mood or loss of interest most of the time for at least 2 weeks, with impairment in daily activities.",
+      "Persistent depressive disorder involves less severe but longer-lasting depressive symptoms, usually for at least 2 years.",
+      "Depression may include psychotic symptoms in severe forms and must be distinguished from bipolar disorder when manic or hypomanic episodes are present."
+    ],
+    "common_symptoms": [
+      "Persistent sadness, anxiety, emptiness, hopelessness, or pessimism",
+      "Irritability, frustration, restlessness, guilt, worthlessness, or helplessness",
+      "Loss of interest or pleasure",
+      "Fatigue, low energy, psychomotor slowing, poor concentration, memory difficulty, or indecision",
+      "Insomnia, early-morning awakening, hypersomnia, appetite change, or unplanned weight change",
+      "Unexplained aches, headaches, cramps, or digestive symptoms",
+      "Thoughts of death, suicidal ideation, or suicide attempts"
+    ],
+    "course_and_timing": [
+      "Symptoms vary in severity, frequency, and duration by individual.",
+      "Children and adolescents may present with irritability, school problems, clinginess, low self-esteem, hypersomnia, increased appetite, anxiety, eating disorder symptoms, ADHD, or substance use.",
+      "Older adults may have depression that is underrecognized, especially when symptoms overlap with medical illness, pain, cognitive complaints, bereavement, or medication effects."
+    ],
+    "risk_factors": [
+      "Genetic, biological, environmental, and psychological factors contribute.",
+      "Women are diagnosed more often, while men may be underdiagnosed or undertreated because they may be less likely to report negative feelings.",
+      "Depression can co-occur with chronic illnesses such as diabetes, cancer, heart disease, and chronic pain."
+    ],
+    "generation_severity_anchors": {
+      "mild": "A few depressive symptoms with preserved basic self-care and partial role function; distress is present but no psychosis or active suicidal plan.",
+      "moderate": "Multiple symptoms with clear impairment in work, school, relationships, sleep, appetite, or concentration; passive death thoughts may be present without imminent intent.",
+      "severe": "Marked functional incapacity, suicidal intent or attempt, inability to eat or drink, psychotic features, severe agitation/retardation, or urgent safety concerns."
+    },
+    "differential_and_comorbidity_notes": [
+      "Rule out bipolar disorder when there are manic or hypomanic episodes.",
+      "Rule out medication effects, thyroid disease, viral illness, substance use, grief reactions, anxiety disorders, ADHD, eating disorders, and chronic medical illness contributions."
+    ],
+    "special_populations": [
+      "Perinatal and postpartum depression require pregnancy/postpartum context.",
+      "Perimenopausal depression may include intense irritability, anxiety, sadness, or anhedonia.",
+      "Children and adolescents may appear irritable rather than sad."
+    ],
+    "red_flags": [
+      "Active suicidal ideation, suicide plan, suicide attempt, or inability to maintain safety",
+      "Psychotic symptoms such as delusions or hallucinations",
+      "Refusal or inability to eat or drink",
+      "Severe functional collapse or marked self-neglect"
+    ]
+  }
+}

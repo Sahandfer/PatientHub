@@ -1,0 +1,49 @@
+{
+    "disease_summary": "OCD is a chronic mental health disorder characterized by obsessions (unwanted, intrusive thoughts or urges) and compulsions (repetitive behaviors or mental acts) that interfere with daily life. Symptoms often emerge in late childhood to young adulthood, but treatment can help manage the condition.",
+    "key_characteristics": [
+        "Obsessions involve intrusive, recurring thoughts or urges that cause anxiety.",
+        "Compulsions are repetitive behaviors or mental acts aimed at reducing distress caused by obsessions.",
+        "Symptoms are time-consuming, distressing, and cause impairment in daily functioning.",
+        "The disorder can have a variable course, with symptoms changing or worsening during stress.",
+        "Adults often recognize their compulsions as irrational, while children may not."
+    ],
+    "typical_presentation": {
+        "mild": "Intrusive thoughts and rituals are present but cause limited distress and time burden. Avoidance behaviors are mild, insight is fair, and daily functioning is mostly preserved.",
+        "moderate": "Obsessions and compulsions consume significant time, such as repeated cleaning, checking, or avoidance behaviors. These impair school, work, and/or interpersonal relationships.",
+        "severe": "Rituals dominate daily life, severely impair daily functioning, and may involve poor insight, treatment-resistant symptoms, self-neglect, or comorbid mental health conditions such as severe depression."
+    },
+    "important_notes": [
+        "Symptoms may remit and relapse; stress typically exacerbates OCD.",
+        "Children may present differently, often with excessive fear of harm and need for family involvement in treatment.",
+        "Adults with OCD symptoms may recognize irrationality, but children may not.",
+        "Avoid generating PANDAS-related OCD unless explicitly included.",
+        "Obsessions and compulsions should consume more than 1 hour daily to be diagnostically relevant."
+    ],
+    "contraindications": [
+        "Sudden pediatric OCD onset without explicit intent to generate PANDAS cases.",
+        "Symptoms resolving completely without treatment intervention.",
+        "OCD symptoms without functional impairment or significant distress.",
+        "Adults with OCD lacking insight into obsessions/compulsions unless near severe presentations."
+    ],
+    "differential_considerations": [
+        "Generalized anxiety disorder, which involves worries rather than obsessions.",
+        "Depressive rumination, which lacks compulsive behaviors.",
+        "Psychotic disorders, which may involve delusions rather than insight.",
+        "Hoarding disorder, where the focus is on possessions rather than intrusive thoughts.",
+        "Tic disorders or Tourette syndrome, where repetitive behaviors lack obsessional triggers.",
+        "Obsessive-compulsive personality disorder, which reflects personality traits, not intrusive obsessions."
+    ],
+    "special_populations": [
+        "Parents or teachers may notice symptoms in children who may not articulate them clearly.",
+        "Children may have exaggerated fears of harm if rituals are not completed and require family participation in treatment.",
+        "Pregnant/postpartum women may present with intrusive thoughts related to harm or contamination, requiring targeted treatment.",
+        "Sudden symptom onset in children should be evaluated for PANDAS when relevant."
+    ],
+    "red_flags": [
+        "Rituals preventing eating, sleeping, school, work, or leaving home.",
+        "Self-harm, suicidal ideation, or severe coexisting depression.",
+        "Skin injury or medical harm from excessive washing or rituals.",
+        "Poor insight into compulsions, suggesting possible psychosis or severe OCD.",
+        "Substance misuse or severe comorbidities, such as major depression."
+    ]
+}

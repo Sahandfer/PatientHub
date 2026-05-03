@@ -1,0 +1,60 @@
+{
+  "disease_name": "PTSD",
+  "stage": "disease_outline_standardization",
+  "retrieval_date": "2026-04-27",
+  "evidence_note": "Summarized from official NIMH PTSD material. This file is a source-grounded raw outline for synthetic case generation, not a diagnostic guideline.",
+  "sources": [
+    {
+      "title": "Post-Traumatic Stress Disorder",
+      "publisher": "National Institute of Mental Health",
+      "url": "https://www.nimh.nih.gov/health/publications/post-traumatic-stress-disorder-ptsd"
+    }
+  ],
+  "raw_outline": {
+    "summary": "PTSD can occur after a person experiences, witnesses, or learns about a serious traumatic event. People may continue to feel stressed or frightened after the danger has passed, and symptoms can interfere with relationships, work, sleep, and daily functioning.",
+    "core_features": [
+      "Symptoms typically begin within 3 months after trauma but can emerge later.",
+      "Adult PTSD requires symptoms lasting longer than 1 month, causing functional impairment, and not being due to medication, substance use, or another illness.",
+      "Core symptom clusters include re-experiencing, avoidance, arousal/reactivity, and negative cognition or mood changes."
+    ],
+    "common_symptoms": [
+      "Flashbacks, recurrent distressing memories or dreams, distressing thoughts, or physical signs of stress when reminded of trauma",
+      "Avoidance of trauma-related places, events, objects, thoughts, or feelings",
+      "Startle response, hypervigilance, feeling tense or on guard, concentration problems, irritability, angry or aggressive outbursts, sleep disturbance, or risky behavior",
+      "Memory gaps for trauma details, negative beliefs about self or world, exaggerated blame, persistent fear, anger, guilt, shame, anhedonia, social isolation, or difficulty feeling positive emotions"
+    ],
+    "course_and_timing": [
+      "Some people recover within months, while others have symptoms lasting 1 year or longer.",
+      "Co-occurring depression, substance use, panic disorder, anxiety disorders, and suicidal thoughts are common clinical considerations.",
+      "Ongoing trauma requires attention to both present safety and PTSD symptoms."
+    ],
+    "risk_factors": [
+      "Previous trauma, especially childhood trauma",
+      "Being injured or seeing people injured or killed",
+      "Feeling horror, helplessness, or extreme fear during the event",
+      "Limited social support after trauma",
+      "Post-trauma stressors such as pain, injury, bereavement, job loss, or housing loss",
+      "Personal or family history of mental illness or substance use"
+    ],
+    "generation_severity_anchors": {
+      "mild": "Trauma-linked intrusions and avoidance are present but intermittent; the patient can maintain most roles with distress and sleep disruption.",
+      "moderate": "Multiple symptom clusters are persistent, with clear avoidance, hyperarousal, negative mood changes, and impairment in relationships or work.",
+      "severe": "Frequent flashbacks/nightmares, marked hypervigilance or aggression, major functional impairment, dissociation-like episodes, substance misuse, suicidal thoughts, or ongoing unsafe environment."
+    },
+    "differential_and_comorbidity_notes": [
+      "Distinguish PTSD from acute stress reactions when duration is shorter than 1 month.",
+      "Distinguish trauma reminders from generalized worry, panic disorder, major depression, substance-induced symptoms, psychosis, and traumatic brain injury effects."
+    ],
+    "special_populations": [
+      "Children younger than 6 may show regressive symptoms, trauma reenactment in play, or clinginess.",
+      "Older children and teens may show adult-like symptoms plus disruptive, disrespectful, destructive behavior, guilt, or revenge thoughts.",
+      "Patients in ongoing abusive relationships may require a generation context that includes current safety concerns."
+    ],
+    "red_flags": [
+      "Suicidal ideation, violent impulses, reckless/destructive behavior, or inability to maintain safety",
+      "Ongoing exposure to abuse or serious threat",
+      "Severe substance misuse used to cope with symptoms",
+      "Severe sleep deprivation, aggression, dissociation-like episodes, or inability to function"
+    ]
+  }
+}

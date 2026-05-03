@@ -1,0 +1,40 @@
+{
+    "disease_summary": "Depression is a mood disorder characterized by persistent low mood, loss of interest, or both, significantly impacting daily functioning.",
+    "key_characteristics": [
+        "Depressed mood or loss of interest most of the time for at least two weeks.",
+        "Symptoms include changes in sleep, appetite, energy, concentration, and thoughts of death or suicide.",
+        "Severity ranges from mild functional impairment to severe symptoms with safety risks."
+    ],
+    "typical_presentation": {
+        "mild": "Persistent sadness, anxiety, or loss of interest, with preserved self-care and partial role functionality. No psychosis or active suicidal intent.",
+        "moderate": "Multiple symptoms, including impaired sleep, appetite, and concentration, with noticeable impact on work, school, or relationships. Passive thoughts of death may be present without immediate intent.",
+        "severe": "Marked functional incapacity with symptoms such as psychotic features, inability to meet basic needs, active suicidal intent or behavior, or extreme psychomotor agitation or retardation."
+    },
+    "important_notes": [
+        "Children or adolescents with depression may exhibit irritability, school problems, or clinginess instead of classic sadness.",
+        "Older adults may have overlapping symptoms with medical conditions, making recognition more difficult.",
+        "Perinatal depression includes symptoms during pregnancy or postpartum, often involving intense mood shifts."
+    ],
+    "contraindications": [
+        "Avoid diagnosing depression when mania or hypomania is evident, as this suggests bipolar disorder.",
+        "Do not attribute depressive symptoms solely to medication side effects, substance use, or acute grief without thorough evaluation.",
+        "Avoid assigning severe presentations without corresponding signs such as psychosis, safety concerns, or severe functional impairment."
+    ],
+    "differential_considerations": [
+        "Distinguish major depression from bipolar disorder, anxiety disorders, ADHD, eating disorders, or grief reactions.",
+        "Consider medical causes like thyroid disease, chronic pain conditions, or medication effects.",
+        "Screen for concurrent substance use or viral infections contributing to symptoms."
+    ],
+    "special_populations": [
+        "Children may show irritability, hypersomnia, increased appetite, and behavioral issues.",
+        "Older adults often underreport symptoms or present with cognitive complaints and overlapping medical issues.",
+        "Perinatal depression manifests during pregnancy or postpartum and requires contextual assessment.",
+        "Individuals with chronic illnesses might have co-occurring depression that worsens their overall health and requires nuanced care."
+    ],
+    "red_flags": [
+        "Active suicidal ideation, plan, or attempt.",
+        "Psychotic symptoms such as delusions or hallucinations.",
+        "Severe functional impairment where safety or self-care is compromised.",
+        "Inability to eat or drink due to severe depressive symptoms."
+    ]
+}

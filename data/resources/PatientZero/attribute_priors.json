@@ -1,0 +1,158 @@
+{
+  "note": "Sourced Patient-Zero Stage II fallback priors. Calibrated primarily to official US population and public-health data because the current taxonomy uses US-style race/ethnicity, education, occupation, and income categories. Some generation-control fields do not have direct epidemiologic equivalents and are marked in methodology.",
+  "methodology": {
+    "age_strata": "Child is approximated as ages 6-17 from Census under-18 minus under-5 share; Adult and Elderly use residual working-age and 65+ shares.",
+    "ethnicity": "Mapped to mutually exclusive generation categories using Census QuickFacts race/Hispanic percentages; overlapping Census race/Hispanic categories were normalized for synthetic sampling.",
+    "geography": "Census reports 80% urban and 20% rural. Urban is split into Urban (Metropolitan) and Suburban as a generation heuristic within the Census urban share.",
+    "education_level": "Calibrated to Census high-school-or-higher and bachelor's-or-higher thresholds; College and Graduate are split within bachelor's-or-higher as a generation heuristic.",
+    "occupation_type": "Mapped from BLS major occupational groups plus Census age/labor-force context; Student, Retired, and Unemployed are population-role priors, not occupational categories.",
+    "dietary_pattern": "Mapped from CDC fruit/vegetable, sodium, and fast-food indicators. These are behavioral proxies, not diagnostic dietary-pattern measurements.",
+    "communication_style": "Generation-control prior only; no official epidemiologic source was used.",
+    "medicine_preference": "Modern vs Traditional is proxied by NIH/NCCIH complementary-health-use estimates."
+  },
+  "sources": [
+    {
+      "id": "census_quickfacts_2024",
+      "title": "U.S. Census Bureau QuickFacts: United States",
+      "url": "https://www.census.gov/quickfacts/fact/table/US/PST045224"
+    },
+    {
+      "id": "census_urban_rural_2020",
+      "title": "U.S. Census Bureau 2020 Census Urban Areas Facts",
+      "url": "https://www.census.gov/programs-surveys/geography/guidance/geo-areas/urban-rural/2020-ua-facts.html"
+    },
+    {
+      "id": "cdc_nchs_births_2023",
+      "title": "CDC/NCHS Birth Data, United States 2023",
+      "url": "https://www.cdc.gov/nchs/nvss/births.htm"
+    },
+    {
+      "id": "nih_nichd_menopause",
+      "title": "NICHD Menopause Fact Sheet",
+      "url": "https://www.nichd.nih.gov/health/topics/factsheets/menopause"
+    },
+    {
+      "id": "bls_occupation_2024",
+      "title": "BLS Employment by Major Occupational Group, 2024",
+      "url": "https://www.bls.gov/emp/tables/emp-by-major-occupational-group.htm"
+    },
+    {
+      "id": "samhsa_nsduh_2023",
+      "title": "SAMHSA 2023 NSDUH Annual National Report",
+      "url": "https://www.samhsa.gov/data/sites/default/files/reports/rpt47095/National%20Report/National%20Report/2023-nsduh-annual-national.htm"
+    },
+    {
+      "id": "cdc_physical_inactivity",
+      "title": "CDC Adult Physical Inactivity Maps",
+      "url": "https://archive.cdc.gov/www_cdc_gov/media/releases/2022/p0120-inactivity-map.html"
+    },
+    {
+      "id": "cdc_fruit_vegetable_2019",
+      "title": "CDC MMWR: Adults Meeting Fruit and Vegetable Intake Recommendations, 2019",
+      "url": "https://www.cdc.gov/mmwr/volumes/71/wr/mm7101a1.htm"
+    },
+    {
+      "id": "cdc_sodium",
+      "title": "CDC About Sodium and Health",
+      "url": "https://www.cdc.gov/salt/about/index.html"
+    },
+    {
+      "id": "nccih_nhis_2022",
+      "title": "NIH/NCCIH National Health Interview Survey 2022",
+      "url": "https://www.nccih.nih.gov/research/national-health-interview-survey-2022"
+    }
+  ],
+  "age_ranges": {
+    "Child": [6, 17],
+    "Adult": [18, 64],
+    "Elderly": [65, 90]
+  },
+  "global": {
+    "severity_level": {
+      "mild": 0.4,
+      "moderate": 0.35,
+      "severe": 0.25
+    },
+    "age_strata": {
+      "Child": 0.16,
+      "Adult": 0.66,
+      "Elderly": 0.18
+    },
+    "biological_sex": {
+      "Male": 0.495,
+      "Female": 0.505
+    },
+    "physiological_status": {
+      "Pregnant": 0.02,
+      "Non-pregnant": 0.8,
+      "Post-menopausal": 0.18
+    },
+    "ethnicity": {
+      "Asian": 0.065,
+      "Caucasian": 0.56,
+      "African American": 0.133,
+      "Hispanic": 0.195,
+      "Mixed": 0.03,
+      "Other": 0.017
+    },
+    "geography": {
+      "Urban (Metropolitan)": 0.3,
+      "Rural": 0.2,
+      "Suburban": 0.5
+    },
+    "specific_region_constraints": {
+      "None": 1.0
+    },
+    "education_level": {
+      "Primary": 0.1,
+      "Secondary": 0.54,
+      "College": 0.22,
+      "Graduate": 0.14
+    },
+    "occupation_type": {
+      "Student": 0.15,
+      "Office worker": 0.3,
+      "Service worker": 0.18,
+      "Manual worker": 0.17,
+      "Unemployed": 0.04,
+      "Retired": 0.16
+    },
+    "income_tier": {
+      "Low": 0.3,
+      "Middle": 0.5,
+      "High": 0.2
+    },
+    "smoking": {
+      "Never": 0.68,
+      "Former": 0.18,
+      "Current": 0.14
+    },
+    "alcohol": {
+      "None": 0.525,
+      "Moderate": 0.417,
+      "Heavy": 0.058
+    },
+    "dietary_pattern": {
+      "Balanced": 0.12,
+      "High-fat": 0.35,
+      "High-salt": 0.53
+    },
+    "activity_level": {
+      "Sedentary": 0.22,
+      "Moderate": 0.54,
+      "Active": 0.24
+    },
+    "communication_style": {
+      "Plain": 0.35,
+      "Upset": 0.15,
+      "Verbose": 0.14,
+      "Reserved": 0.18,
+      "Tangent": 0.08,
+      "Pleasing": 0.1
+    },
+    "medicine_preference": {
+      "Modern": 0.67,
+      "Traditional": 0.33
+    }
+  }
+}

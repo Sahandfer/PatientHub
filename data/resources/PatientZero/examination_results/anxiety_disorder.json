@@ -1,0 +1,158 @@
+{
+    "metadata": {
+        "disease_name": "Anxiety Disorder",
+        "severity_level": "moderate",
+        "disease_outline_id": "anxiety_disorder.json"
+    },
+    "sampled_attributes": {
+        "disease_name": "Anxiety Disorder",
+        "severity_level": "moderate",
+        "age_strata": "Adult",
+        "age": 56,
+        "biological_sex": "Female",
+        "physiological_status": "Non-pregnant",
+        "ethnicity": "African American",
+        "geography": "Suburban",
+        "specific_region_constraints": "None",
+        "education_level": "College",
+        "occupation_type": "Student",
+        "income_tier": "Middle",
+        "smoking": "Former",
+        "alcohol": "Heavy",
+        "dietary_pattern": "High-salt",
+        "activity_level": "Moderate",
+        "communication_style": "Tangent",
+        "medicine_preference": "Modern"
+    },
+    "patient_profile": {
+        "age": 56,
+        "age_strata": "Adult",
+        "biological_sex": "Female",
+        "physiological_status": "Non-pregnant",
+        "ethnicity": "African American",
+        "geography": "Suburban",
+        "specific_region_constraints": "None",
+        "education_level": "College",
+        "occupation_type": "Student",
+        "income_tier": "Middle",
+        "smoking": "Former",
+        "alcohol": "Heavy",
+        "dietary_pattern": "High-salt",
+        "activity_level": "Moderate",
+        "communication_style": "Tangent",
+        "medicine_preference": "Modern",
+        "name": "Monica Harris",
+        "lifestyle_summary": "Middle-income suburban lifestyle, college student with moderate activity levels; history of former smoking and heavy alcohol use. Diet primarily high in salt.",
+        "past_medical_history": "Mild gastritis treated with antacids in the past; no other chronic conditions reported.",
+        "family_history": "Mother diagnosed with depression; father had hypertension; sibling with history of unspecified anxiety symptoms.",
+        "medication_history": "No current medications. Previously on oral contraceptives; stopped due to personal preference.",
+        "allergy_history": "No known drug or environmental allergies.",
+        "vaccination_history": "Up-to-date on recommended adult vaccinations including influenza, Tdap, and COVID-19."
+    },
+    "symptom_trajectory": {
+        "current_severity": "moderate",
+        "chief_complaint": "I can't stop worrying about everything, and it's been making it hard for me to sleep or focus on schoolwork.",
+        "onset": "Gradual over several months.",
+        "duration": "6 months.",
+        "progression": "Symptoms worsened over time, especially with increased academic and personal demands.",
+        "selected_symptoms": [
+            {
+                "name": "Persistent worry, fear, tension, restlessness, or feeling on edge",
+                "duration": "Daily for six months",
+                "severity": "moderate",
+                "impact": "Interrupts focus and tasks related to academic studies and personal errands."
+            },
+            {
+                "name": "Difficulty concentrating, fatigue, irritability, and sleep disturbance",
+                "duration": "Consistently for three months",
+                "severity": "moderate",
+                "impact": "Difficulty completing coursework and repeatedly feeling unrested despite sleeping attempts."
+            },
+            {
+                "name": "Avoidance of feared activities, social situations, places, objects, or routines",
+                "duration": "Two months",
+                "severity": "moderate",
+                "impact": "Stopped attending study groups and avoids social gatherings due to fear of judgment."
+            }
+        ],
+        "associated_symptoms": [
+            "Periodic chest discomfort without cardiac symptoms",
+            "Trembling in stressful situations"
+        ],
+        "negative_symptoms": [
+            "No suicidal ideation",
+            "No severe panic attacks",
+            "No syncope or medical danger symptoms"
+        ],
+        "triggers": [
+            "Academic deadlines",
+            "Conflict with peers",
+            "Social expectations"
+        ],
+        "relieving_factors": [
+            "Mindfulness exercises",
+            "Taking short walks outdoors"
+        ],
+        "functional_impact": "Decreased academic performance and social withdrawal, though still able to manage basic daily tasks independently.",
+        "risk_features": [
+            "No urgent psychiatric or medical risks identified."
+        ]
+    },
+    "examination_results": {
+        "mental_status_exam": {
+            "appearance_behavior": "Well-groomed, cooperative, slight restlessness noted but no agitation.",
+            "speech": "Normal rate and tone, though occasionally tangential.",
+            "mood_affect": "Reports feeling anxious; affect congruent with mood and moderately restricted.",
+            "thought_process": "Logical and goal-directed overall; no evidence of formal thought disorders.",
+            "thought_content": "No delusions, hallucinations, or obsessional fears observed.",
+            "perception": "No perceptual disturbances reported or observed.",
+            "cognition": "Alert and oriented to person, place, and time; demonstrated slight difficulties with attention due to tangential tendencies.",
+            "insight_judgment": "Moderate insight into her symptoms; judgment appears intact for daily decision-making.",
+            "reliability": "History provided is considered reliable."
+        },
+        "scale_assessments": [
+            {
+                "scale_name": "GAD-7",
+                "score": 12,
+                "severity_interpretation": "moderate anxiety symptoms",
+                "rationale": "Score aligns with reported persistent worry, irritability, restlessness, and avoidance impacting daily functioning."
+            },
+            {
+                "scale_name": "PHQ-9",
+                "score": 8,
+                "severity_interpretation": "mild depressive symptoms",
+                "rationale": "Reflects secondary mood symptoms like fatigue and sleep disturbance but does not reach the level of major depressive disorder."
+            },
+            {
+                "scale_name": "ISI",
+                "score": 14,
+                "severity_interpretation": "subthreshold insomnia",
+                "rationale": "Consistent with reported sleep difficulties, feeling unrested despite attempts to sleep, but no complete inability to sleep."
+            }
+        ],
+        "risk_assessment": {
+            "suicide_risk": "none",
+            "violence_risk": "none",
+            "self_neglect_risk": "low",
+            "rationale": "No suicidal ideation or violence concerns; slight concern over self-neglect given avoidance behavior, but this is not severe enough to impair essential daily functioning."
+        },
+        "exclusionary_findings": [
+            {
+                "test_name": "TSH",
+                "finding": "2.1 mIU/L",
+                "interpretation": "Normal thyroid function, suggesting adrenergic symptoms are not due to thyroid dysfunction."
+            },
+            {
+                "test_name": "Substance Use Review",
+                "finding": "History of heavy alcohol use; no indication of acute intoxication or dependency symptoms.",
+                "interpretation": "Clinically relevant given potential exacerbation of anxiety symptoms but not suggestive of primary substance-induced disorder in this case."
+            },
+            {
+                "test_name": "Cardiopulmonary Review",
+                "finding": "No abnormalities in heart rate, rhythm, or breath sounds; chest discomfort likely somatic manifestation of anxiety.",
+                "interpretation": "Rules out acute cardiopulmonary causes for reported chest symptoms."
+            }
+        ],
+        "clinical_summary": "56-year-old African American female with moderate anxiety symptoms presenting as persistent worry, fatigue, restlessness, and moderate functional impairment, alongside mild depressive symptoms and subthreshold insomnia. Symptoms are exacerbated by academic stress and peer conflict. No urgent risks or exclusionary medical findings attributed to symptoms; anxiety-related diagnoses are appropriate to consider based on presentation."
+    }
+}

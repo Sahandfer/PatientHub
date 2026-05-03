@@ -1,0 +1,154 @@
+{
+    "metadata": {
+        "disease_name": "ADHD",
+        "severity_level": "moderate",
+        "disease_outline_id": "adhd.json"
+    },
+    "sampled_attributes": {
+        "disease_name": "ADHD",
+        "severity_level": "moderate",
+        "age_strata": "Child",
+        "age": 15,
+        "biological_sex": "Female",
+        "physiological_status": "Non-pregnant",
+        "ethnicity": "African American",
+        "geography": "Suburban",
+        "specific_region_constraints": "None",
+        "education_level": "College",
+        "occupation_type": "Student",
+        "income_tier": "Middle",
+        "smoking": "Former",
+        "alcohol": "Heavy",
+        "dietary_pattern": "High-salt",
+        "activity_level": "Moderate",
+        "communication_style": "Tangent",
+        "medicine_preference": "Modern"
+    },
+    "patient_profile": {
+        "age": 15,
+        "age_strata": "Child",
+        "biological_sex": "Female",
+        "physiological_status": "Non-pregnant",
+        "ethnicity": "African American",
+        "geography": "Suburban",
+        "specific_region_constraints": "None",
+        "education_level": "College",
+        "occupation_type": "Student",
+        "income_tier": "Middle",
+        "smoking": "Former",
+        "alcohol": "Heavy",
+        "dietary_pattern": "High-salt",
+        "activity_level": "Moderate",
+        "communication_style": "Tangent",
+        "medicine_preference": "Modern",
+        "name": "Alyssa Harris",
+        "lifestyle_summary": "Alyssa is a 15-year-old high school student living in a suburban neighborhood. She engages in moderate physical activity, has a preference for modern medicine, and maintains a high-salt diet. She has a history of heavy alcohol consumption and formerly smoked but quit over a year ago.",
+        "past_medical_history": "Diagnosis of childhood asthma, resolved by age 12. No other significant medical history.",
+        "family_history": "Father has ADHD (diagnosed in adulthood). Mother has a history of anxiety. No notable history of other severe medical or psychiatric conditions in immediate family.",
+        "medication_history": "Previously prescribed albuterol for asthma (discontinued). No current medications for other health conditions.",
+        "allergy_history": "No known drug or food allergies.",
+        "vaccination_history": "Up-to-date on routine childhood and adolescent immunizations, including HPV and Tdap."
+    },
+    "symptom_trajectory": {
+        "current_severity": "moderate",
+        "chief_complaint": "I keep struggling to focus on homework and exams, and I can't sit still during class. It’s been getting worse this year.",
+        "onset": "Symptoms of inattention and hyperactivity have been present since early childhood but worsened noticeably around age 14 when academic demands increased.",
+        "duration": "Symptoms have been persistent for over a year, with no periods of remission.",
+        "progression": "Gradual worsening of both inattentive and hyperactive symptoms, particularly impacting academic performance and social interactions.",
+        "selected_symptoms": [
+            {
+                "name": "difficulty sustaining attention",
+                "duration": "Over 1 year",
+                "severity": "moderate",
+                "impact": "Frequently unable to complete reading assignments or focus during lengthy lectures."
+            },
+            {
+                "name": "poor organization",
+                "duration": "Over 1 year",
+                "severity": "moderate",
+                "impact": "Difficulty keeping track of deadlines and maintaining an orderly homework plan."
+            },
+            {
+                "name": "restlessness",
+                "duration": "Over 1 year",
+                "severity": "moderate",
+                "impact": "Frequently shifts in her seat and taps her fingers during class, distracting herself and peers."
+            },
+            {
+                "name": "excessive talking",
+                "duration": "Over 1 year",
+                "severity": "moderate",
+                "impact": "Interrupting teachers and classmates during lessons and struggling to wait her turn in conversations."
+            }
+        ],
+        "associated_symptoms": [
+            "blurting out answers",
+            "difficulty waiting her turn",
+            "distractibility"
+        ],
+        "negative_symptoms": [
+            "no severe emotional outbursts",
+            "no episodes of unsafe impulsivity",
+            "no suicidal ideation"
+        ],
+        "triggers": [
+            "academic pressures",
+            "long periods of sitting still",
+            "unstructured environments"
+        ],
+        "relieving_factors": [
+            "short breaks during study sessions",
+            "engaging in physical activity"
+        ],
+        "functional_impact": "Moderate impairment in academic performance, reduced ability to participate in structured group activities, and some strain in peer relationships due to interruptive behaviors.",
+        "risk_features": [
+            "No evidence of severe emotional distress, substance abuse, or legal issues."
+        ]
+    },
+    "examination_results": {
+        "mental_status_exam": {
+            "appearance_behavior": "Teenage girl appearing well-groomed but fidgeting incessantly in her chair and shifting posture frequently during the interview. Effort was made to engage cooperatively.",
+            "speech": "Speech was rapid and tangential at times, often interrupting but otherwise coherent.",
+            "mood_affect": "Reported mood was 'okay,' with an affect that was congruent but mildly labile, particularly when discussing academics.",
+            "thought_process": "Thought process was goal-directed with tangential tendencies, often diverting to non-essential details before redirecting with prompts.",
+            "thought_content": "No evidence of delusional content, obsessions, or preoccupations. No suicidal or homicidal ideation expressed.",
+            "perception": "No perceptual disturbances recorded; denies hallucinations.",
+            "cognition": "Alert and oriented to time, place, and person. Exhibits moderate distractibility during cognitive testing, requiring redirection.",
+            "insight_judgment": "Insight into academic struggles is partial but lacks understanding of the underlying mechanisms. Judgment is adequate for age yet impacted by impulsivity in social settings.",
+            "reliability": "Moderately reliable historian with some indications of under-reporting emotional strain."
+        },
+        "scale_assessments": [
+            {
+                "scale_name": "PHQ-9",
+                "score": 6,
+                "severity_interpretation": "mild depressive symptoms",
+                "rationale": "Alyssa reported mild academic frustration and emotional lability but denied pervasive sadness or other hallmark depressive symptoms typically associated with higher scores."
+            },
+            {
+                "scale_name": "GAD-7",
+                "score": 8,
+                "severity_interpretation": "mild anxiety symptoms",
+                "rationale": "Alyssa's anxiety appears situational, exacerbated by academic demands, but lacks significant avoidance or autonomic symptoms indicative of greater severity."
+            }
+        ],
+        "risk_assessment": {
+            "suicide_risk": "none",
+            "violence_risk": "none",
+            "self_neglect_risk": "low",
+            "rationale": "No history of self-harm, suicidal ideation, or violence. However, mild self-neglect is possible due to disorganization and impulsivity impacting self-care routines under academic pressures."
+        },
+        "exclusionary_findings": [
+            {
+                "test_name": "Sleep History",
+                "finding": "No indication of chronic insomnia or irregular sleep patterns reported.",
+                "interpretation": "Sleep history does not support alternative diagnoses such as sleep disorders mimicking ADHD-like symptoms."
+            },
+            {
+                "test_name": "Substance Use Screening",
+                "finding": "No current substance or stimulant use reported.",
+                "interpretation": "Substance or stimulant use insufficient to explain or contribute to current symptomatology."
+            }
+        ],
+        "clinical_summary": "The patient, Alyssa Harris, a 15-year-old student, demonstrates moderate impairments in attention, organizational skills, and restlessness, contributing to academic challenges. Emotional and social functioning are moderately impacted, with mild depressive and anxiety symptoms noted. Risk of harm is minimal, and no alternative psychiatric or medical conditions explain the symptoms. Symptom profile and mental status findings align with expected ADHD characteristics in adolescents, with notable functional impairments in academic and social realms."
+    }
+}
