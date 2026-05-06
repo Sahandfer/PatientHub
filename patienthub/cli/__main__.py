@@ -7,6 +7,7 @@ COMMANDS = {
     "create": "Create a new patient simulation implementation.",
     "generate": "Generate patient character profiles.",
     "evaluate": "Evaluate a simulated conversation or character profile.",
+    "adapt": "Adapt a character profile from one character format to another.",
 }
 CONTEXT = {"allow_extra_args": True, "ignore_unknown_options": True}
 app = typer.Typer()

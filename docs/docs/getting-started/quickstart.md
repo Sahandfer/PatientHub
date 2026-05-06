@@ -75,7 +75,7 @@ Launch the Chainlit web interface:
 chainlit run app.py
 ```
 
-Then open http://localhost:8000 in your browser.
+Then open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ## Output Files
 
@@ -111,5 +111,6 @@ patienthub create agent_type=client agent_name=myClient
 ## What's Next?
 
 - [Learn about different components](/docs/components/overview)
+- [Adapt character profiles](/docs/guide/adaptation)
 - [Evaluate conversations](/docs/guide/evaluation)
 - [Configuration options](/docs/getting-started/configuration)
