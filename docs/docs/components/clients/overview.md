@@ -152,7 +152,7 @@ class Response(BaseModel):
 You can run the following command to create the necessary files for a new client:
 
 ```bash
-uv run python -m examples.create generator.gen_agent_name=client generator.gen_agent_name=<agent_name>
+patienthub create generator.gen_agent_name=client generator.gen_agent_name=<agent_name>
 ```
 
 This creates the following two files and registers the client in `__init__.py`:

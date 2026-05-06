@@ -185,7 +185,7 @@ class ElizaTherapist(BaseTherapist):
     }
 
     def __init__(self, configs: Any = None) -> None:
-        self.configs = configs
+        super().__init__(configs)
         self.name = "Eliza"
         self.client_name: Optional[str] = None
         self.is_first_message = True

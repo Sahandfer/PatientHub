@@ -24,7 +24,7 @@ ConsistentMI simulates clients in motivational interviewing (MI) sessions with c
 
 1. **Load Profile**: Reads the character JSON (personas, beliefs, acceptable plans, motivation topics) and initializes `stage` and `receptivity`.
 2. **Initialize Prompts**: Builds a system prompt that anchors the client’s behavior/goal and injects personas + beliefs for consistency.
-3. **Track Topic Engagement**: Matches the therapist’s latest utterance to a motivation topic, then uses the topic graph distance to update `engagement` and count repeated off-topic turns.
+3. **Track Topic Engagement**: Matches the therapist’s latest utterance to a motivation topic using a reranker-backed topic matcher, then uses the topic graph distance to update `engagement` and count repeated off-topic turns. If reranking is unavailable or returns no valid scores, ConsistentMI falls back to lexical matching.
 4. **Verify Motivation (Optional)**: If the therapist addresses the client’s core motivation, the client enters a short `Motivation` state for an acknowledging response.
 5. **Sample a Stage-Consistent Action**: An LLM predicts an action distribution conditioned on recent context and the current stage.
 6. **Select Grounding Detail**: For actions like `Inform/Downplay/Blame/Hesitate/Plan`, the client selects a relevant persona/belief/plan (only when the therapist asks a question) to ground the next reply.
@@ -42,7 +42,7 @@ ConsistentMI simulates clients in motivational interviewing (MI) sessions with c
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=consistentMI
+patienthub simulate client=consistentMI
 ```
 
 ### Python
@@ -58,16 +58,43 @@ response = client.generate_response(
 print(response)
 ```
 
+> ⚠️ **Hint:**
+>
+> - ConsistentMI use a local reranker served through vLLM's OpenAI-compatible `/rerank` endpoint.
+> - Set `LOCAL_BASE_URL` and `LOCAL_API_KEY` in `.env`; PatientHub reuses them for the reranker.
+> - Use `reranker_model_type=LOCAL`.
+> - Set `reranker_model_name` to the LiteLLM vLLM route, e.g. `hosted_vllm/BAAI/bge-reranker-v2-m3`.
+> - If the reranker server runs on the same machine, prefer `127.0.0.1` over `0.0.0.0` in `LOCAL_BASE_URL`.
+
 ## Configuration
 
-| Option             | Description                      | Default                                        |
-| ------------------ | -------------------------------- | ---------------------------------------------- |
-| `prompt_path`      | Path to prompt file              | `data/prompts/client/consistentMI.yaml`        |
-| `data_path`        | Path to character file           | `data/characters/ConsistentMI.json`            |
-| `data_idx`         | Character index                  | `0`                                            |
-| `topics_path`      | Topics from Wiki                 | `data/resources/ConsistentMI/topics.json`      |
-| `topic_graph_path` | Correlation between topics       | `data/resources/ConsistentMI/topic_graph.json` |
-| `model_retriever`  | retrieve the most relevant topic | None                                           |
+| Option                | Description                                             | Default                                        |
+| --------------------- | ------------------------------------------------------- | ---------------------------------------------- |
+| `prompt_path`         | Path to prompt file                                     | `data/prompts/client/consistentMI.yaml`        |
+| `data_path`           | Path to character file                                  | `data/characters/ConsistentMI.json`            |
+| `data_idx`            | Character index                                         | `0`                                            |
+| `topics_path`         | Topics from Wiki                                        | `data/resources/ConsistentMI/topics.json`      |
+| `topic_graph_path`    | Correlation between topics                              | `data/resources/ConsistentMI/topic_graph.json` |
+| `reranker_model_type` | Provider key for topic reranking                        | `LOCAL`                                        |
+| `reranker_model_name` | LiteLLM model route for the reranker                    | `hosted_vllm/BAAI/bge-reranker-v2-m3`          |
+
+### Local Reranker Example
+
+```yaml
+client:
+  agent_name: consistentMI
+  model_type: OPENAI
+  model_name: gpt-4o
+  reranker_model_type: LOCAL
+  reranker_model_name: hosted_vllm/BAAI/bge-reranker-v2-m3
+```
+
+With a local vLLM reranker server, your `.env` should contain:
+
+```bash
+LOCAL_BASE_URL=http://127.0.0.1:7891/v1
+LOCAL_API_KEY=EMPTY
+```
 
 ## Character Data Format
 

@@ -22,10 +22,12 @@ For example,
 OPENAI_API_KEY=your_openai_key
 OPENAI_BASE_URL=https://api.openai.com
 
-# For VLLM (n this case, model_type = VLLM)
-VLLM_BASE_URL=http://127.0.0.1
-VLLM_API_KEY=None
+# For local OpenAI-compatible servers (model_type = LOCAL)
+LOCAL_BASE_URL=http://127.0.0.1:8000/v1
+LOCAL_API_KEY=EMPTY
 ```
+
+`model_type` is used to select the environment-variable namespace. For example, `model_type=LOCAL` makes PatientHub read `LOCAL_BASE_URL` and `LOCAL_API_KEY`.
 
 ## Model Configuration
 
@@ -65,8 +67,13 @@ config = {
 ```yaml
 client:
   agent_name: consistentMI
-  initial_stage: precontemplation # precontemplation, contemplation, preparation, action
+  model_type: OPENAI
+  model_name: gpt-4o
+  reranker_model_type: LOCAL
+  reranker_model_name: hosted_vllm/BAAI/bge-reranker-v2-m3
 ```
+
+`ConsistentMI` uses the main `model_type` / `model_name` pair for response generation and a separate `reranker_model_type` / `reranker_model_name` pair for topic matching. The reranker currently reuses `LOCAL_BASE_URL` and `LOCAL_API_KEY`.
 
 #### SimPatient
 
@@ -105,17 +112,17 @@ Override any config value from the command line:
 
 ```bash
 # Single override
-uv run python -m examples.simulate client.temperature=0.5
+patienthub simulate client.temperature=0.5
 
 # Multiple overrides
-uv run python -m examples.simulate \
+patienthub simulate \
   client=patientPsi \
   client.temperature=0.5 \
   therapist=basic \
   event.max_turns=50
 
 # Override nested values
-uv run python -m examples.simulate client.data_idx=2
+patienthub simulate client.data_idx=2
 ```
 
 ## Config Files
@@ -140,5 +147,5 @@ data_idx: 0
 Use it:
 
 ```bash
-uv run python -m examples.simulate client=myClient
+patienthub simulate client=myClient
 ```

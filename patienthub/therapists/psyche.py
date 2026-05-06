@@ -16,7 +16,6 @@ from dataclasses import dataclass
 
 from .base import BaseTherapist
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, get_chat_model
 
 
 @dataclass
@@ -31,13 +30,8 @@ class PsycheTherapistConfig(APIModelConfig):
 
 class PsycheTherapist(BaseTherapist):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-
+        super().__init__(configs)
         self.name = "Dr. Minsoo Kim"
-
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-        self.build_sys_prompt()
 
     def build_sys_prompt(self):
         self.messages = [
@@ -50,7 +44,3 @@ class PsycheTherapist(BaseTherapist):
         self.messages.append({"role": "assistant", "content": res.content})
 
         return res
-
-    def reset(self):
-        self.build_sys_prompt()
-        self.client = None

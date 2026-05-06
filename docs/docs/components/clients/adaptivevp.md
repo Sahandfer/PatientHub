@@ -69,7 +69,7 @@ Assesses the depth of emotional understanding and validation
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=adaptiveVP
+patienthub simulate client=adaptiveVP
 ```
 
 ### Python

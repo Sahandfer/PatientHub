@@ -20,7 +20,6 @@ from dataclasses import dataclass
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, load_json, get_chat_model
 
 
 @dataclass
@@ -31,19 +30,12 @@ class PatientPsiClientConfig(APIModelConfig):
     prompt_path: str = "data/prompts/client/patientPsi.yaml"
     data_path: str = "data/characters/PatientPsi.json"
     data_idx: int = 0
-    patient_type: str = "tangent"
+    patient_type: str = "plain"
 
 
 class PatientPsiClient(BaseClient):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
-
-        self.data = load_json(configs.data_path)[configs.data_idx]
-        self.name = self.data.get("name", "Client")
-
-        self.chat_model = get_chat_model(configs)
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-        self.build_sys_prompt()
+        super().__init__(configs)
 
     def build_sys_prompt(self):
         profile = self.prompts["profile"].render(data=self.data)
@@ -51,7 +43,9 @@ class PatientPsiClient(BaseClient):
             patient_type=self.configs.patient_type
         )
         conv_prompt = self.prompts["conversation"].render(
-            data=self.data, patientType=self.configs.patient_type, patientTypeContent=patient_type_content
+            data=self.data,
+            patientType=self.configs.patient_type,
+            patientTypeContent=patient_type_content,
         )
         self.messages = [{"role": "system", "content": profile + conv_prompt}]
 
@@ -61,7 +55,3 @@ class PatientPsiClient(BaseClient):
         self.messages.append({"role": "assistant", "content": res.content})
 
         return res
-
-    def reset(self):
-        self.build_sys_prompt()
-        self.therapist = None

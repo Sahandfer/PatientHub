@@ -9,10 +9,11 @@ PatientHub includes a web-based demo using [Chainlit](https://chainlit.io/) for 
 ## Quick Start
 
 ```bash
-chainlit run examples/chainlit.py
+uv sync --extra dev
+uv run python -m chainlit run examples/chainlit.py
 ```
 
-Open http://localhost:8000 in your browser.
+Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ## Features
 

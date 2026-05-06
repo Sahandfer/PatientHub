@@ -21,7 +21,7 @@ Psyche is an LLM-based psychiatrist agent driven by a structured system prompt, 
 ### CLI
 
 ```bash
-uv run python -m examples.simulate therapist=psyche
+patienthub simulate therapist=psyche
 ```
 
 ### Python

@@ -1,6 +1,9 @@
+import logging
 from .therapySession import TherapySession, TherapySessionConfig
 
 from omegaconf import DictConfig
+
+logger = logging.getLogger(__name__)
 
 EVENT_REGISTRY = {
     "therapy_session": TherapySession,
@@ -11,13 +14,21 @@ EVENT_CONFIG_REGISTRY = {
 
 
 def get_event(event_name: str, configs: DictConfig = None):
-    print(f"Loading {event_name} event...")
-    if event_name in EVENT_REGISTRY:
-        if configs is None:
-            configs = get_event_config(event_name)
-        return EVENT_REGISTRY[event_name](configs=configs)
-    else:
+    if event_name not in EVENT_REGISTRY:
         raise ValueError(f"Unknown event type: {event_name}")
+    if configs is None:
+        configs = get_event_config(event_name)
+    try:
+        event = EVENT_REGISTRY[event_name](configs=configs)
+    except Exception as e:
+        logger.error("Failed to initialize event '%s': %s", event_name, e, exc_info=True)
+        raise ValueError(f"Error initializing event '{event_name}'") from e
+    logger.info(
+        "Loaded event '%s' -> %s",
+        event_name,
+        ", ".join(f"{k}={v}" for k, v in vars(configs).items()),
+    )
+    return event
 
 
 def get_event_config(event_name: str):

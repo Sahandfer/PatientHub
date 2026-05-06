@@ -43,7 +43,7 @@ ClientCast integrates multiple validated assessment instruments:
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=clientCast
+patienthub simulate client=clientCast
 ```
 
 ### Python

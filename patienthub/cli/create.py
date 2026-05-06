@@ -4,9 +4,9 @@ It requires:
     - agent_type: either "client" or "therapist"
     - agent_name: the name of the new agent to be created
 It creates:
-- The agent implementation at `patienthub/{agent_type}s/{agent_name}.py`.
-- A prompt template file at `data/prompts/{agent_type}/{agent_name}.yaml`.
-It also adds the new agent to the corresponding `__init__.py` file.
+    - The agent implementation at `patienthub/{agent_type}s/{agent_name}.py`
+    - A prompt template file at `data/prompts/{agent_type}/{agent_name}.yaml`
+It also registers the new agent in the corresponding `__init__.py` file.
 
 Usage:
     # Create a new client agent
@@ -24,6 +24,8 @@ from omegaconf import DictConfig
 from dataclasses import dataclass
 from hydra.core.config_store import ConfigStore
 
+from patienthub.utils.logger import console
+
 AGENT_TEMPLATE = Template(
     '''\
 from omegaconf import DictConfig
@@ -31,31 +33,23 @@ from dataclasses import dataclass
 
 from .base import {% if agent_type == "client" %}BaseClient{% else %}BaseTherapist{% endif %}
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, load_json, get_chat_model
+
 
 @dataclass
 class {{class_name}}Config(APIModelConfig):
-    """
-    Configuration for the {{class_name}} agent.
-    """
+    """Configuration for the {{class_name}} agent."""
+
     agent_name: str = "{{agent_name}}"
-    prompt_path: str = "data/prompts/{{agent_type}}/{{agent_name}}.yaml"
-    data_path: str = ""
-    data_idx: int = 0
+    prompt_path: str = "data/prompts/{{agent_type}}/{{agent_name}}.yaml"{% if agent_type == "client" %}
+    data_path: str = "data/characters/{{agent_name}}.json"
+    data_idx: int = 0{% endif %}
+
 
 class {{class_name}}({% if agent_type == "client" %}BaseClient{% else %}BaseTherapist{% endif %}):
     def __init__(self, configs: DictConfig):
-        self.configs = configs
+        super().__init__(configs)
 
-        self.data = load_json(configs.data_path)[configs.data_idx]
-        self.name = self.data.get("name", "{{class_name}}")
-
-        self.chat_model = get_chat_model(configs)
-        # TODO: Define the prompts for the client agent
-        self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
-        self.build_sys_prompt()
-
-    # TODO: Initialize the system prompt
+    # TODO: Build the system prompt from self.data and self.prompts
     def build_sys_prompt(self):
         self.messages = [{"role": "system", "content": self.prompts["sys_prompt"].render(data=self.data)}]
 
@@ -63,11 +57,20 @@ class {{class_name}}({% if agent_type == "client" %}BaseClient{% else %}BaseTher
         self.messages.append({"role": "user", "content": msg})
         res = self.chat_model.generate(self.messages)
         self.messages.append({"role": "assistant", "content": res.content})
-
         return res
+'''
+)
 
-    def reset(self):
-        self.build_sys_prompt()
+SCHEMA_TEMPLATE = Template(
+    '''\
+from pydantic import Field
+
+from patienthub.schemas.base import BaseCharacter
+
+
+class {{class_name}}Character(BaseCharacter):
+    name: str = Field(...)
+    # TODO: Add fields matching the character JSON structure
 '''
 )
 
@@ -90,12 +93,15 @@ class Generator:
         self.agent_name = configs.agent_name
         self.agent_type = configs.agent_type
         self.agent_class_name = self.get_class_name()
-        self.prompts = {"agent": AGENT_TEMPLATE, "prompt": PROMPT_TEMPLATE}
+        self.prompts = {"agent": AGENT_TEMPLATE, "schema": SCHEMA_TEMPLATE, "prompt": PROMPT_TEMPLATE}
         self.paths = {
             "init": f"patienthub/{self.agent_type}s/__init__.py",
             "agent": f"patienthub/{self.agent_type}s/{self.agent_name}.py",
             "prompt": f"data/prompts/{self.agent_type}/{self.agent_name}.yaml",
         }
+        if self.agent_type == "client":
+            self.paths["schema"] = f"patienthub/schemas/{self.agent_name}.py"
+            self.paths["schema_init"] = "patienthub/schemas/__init__.py"
 
     def get_class_name(self) -> str:
         name = self.agent_name + self.agent_type.capitalize()
@@ -111,7 +117,7 @@ class Generator:
         with open(agent_path, "w", encoding="utf-8") as f:
             f.write(agent_content)
 
-        print(f"> Created new agent at: {agent_path}")
+        console.print(f"> Created new agent at: [cyan]{agent_path}[/cyan]")
 
     def update_init(self) -> None:
         """Add import, registry entry, and config registry entry to the corresponding __init__.py."""
@@ -124,7 +130,9 @@ class Generator:
 
         import_line = f"from .{name} import {class_name}, {class_name}Config"
         if import_line in content:
-            print(f"> {init_path} already contains {class_name}.")
+            console.print(
+                f"[yellow]Warning: {init_path} already contains {class_name}.[/yellow]"
+            )
             return
 
         content = re.sub(
@@ -152,14 +160,65 @@ class Generator:
 
         with open(init_path, "w", encoding="utf-8") as f:
             f.write(content)
-        print(f"> Updated {init_path} to include {class_name}.")
+        console.print(
+            f"> Updated [cyan]{init_path}[/cyan] to include [cyan]{class_name}[/cyan]."
+        )
+
+    def create_schema(self) -> None:
+        schema_path = self.paths["schema"]
+        schema_content = self.prompts["schema"].render(class_name=self.agent_class_name)
+        with open(schema_path, "w", encoding="utf-8") as f:
+            f.write(schema_content)
+        console.print(f"> Created schema at: [cyan]{schema_path}[/cyan]")
+
+    def update_schema_init(self) -> None:
+        """Register the new schema in patienthub/schemas/__init__.py."""
+        init_path = self.paths["schema_init"]
+        name = self.agent_name
+        class_name = self.agent_class_name
+        schema_class = f"{class_name}Character"
+
+        with open(init_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        import_line = f"from .{name} import {schema_class}"
+        if import_line in content:
+            console.print(f"[yellow]Warning: {init_path} already contains {schema_class}.[/yellow]")
+            return
+
+        content = re.sub(
+            r"(from \.\w+ import [^\n]+\n)(?!\s*from \.)",
+            rf"\1{import_line}\n",
+            content,
+            count=1,
+        )
+
+        registry_entry = f'    "{name}": {schema_class},'
+        content = re.sub(
+            r"(CLIENT_SCHEMA_REGISTRY\s*=\s*\{[^}]*)(})",
+            rf"\1{registry_entry}\n\2",
+            content,
+            count=1,
+        )
+
+        all_entry = f'    "{schema_class}",'
+        content = re.sub(
+            r'(__all__\s*=\s*\[[^\]]*?)(\])',
+            rf'\1    {all_entry}\n\2',
+            content,
+            count=1,
+        )
+
+        with open(init_path, "w", encoding="utf-8") as f:
+            f.write(content)
+        console.print(f"> Updated [cyan]{init_path}[/cyan] to include [cyan]{schema_class}[/cyan].")
 
     def create_prompt(self) -> None:
         prompt_path = self.paths["prompt"]
         prompt_content = self.prompts["prompt"].render()
         with open(prompt_path, "w", encoding="utf-8") as f:
             f.write(prompt_content)
-        print(f"> Created prompt template at: {prompt_path}")
+        console.print(f"> Created prompt template at: [cyan]{prompt_path}[/cyan]")
 
     def generate_files(self) -> None:
         if self.agent_type not in ("client", "therapist"):
@@ -169,12 +228,17 @@ class Generator:
 
         agent_path = self.paths["agent"]
         if os.path.exists(agent_path):
-            print(f"> Agent file already exists at: {agent_path}")
+            console.print(
+                f"[yellow]Warning: Agent file already exists at: {agent_path}[/yellow]"
+            )
         else:
             self.create_agent()
             self.update_init()
+            if self.agent_type == "client":
+                self.create_schema()
+                self.update_schema_init()
             self.create_prompt()
-            print("> File creation process completed.")
+            console.print("> File creation completed.")
 
 
 @dataclass
@@ -190,10 +254,10 @@ cs.store(name="create", node=CreateConfig)
 
 
 @hydra.main(version_base=None, config_name="create")
-def main(configs: DictConfig) -> None:
+def create(configs: DictConfig) -> None:
     file_creator = Generator(configs)
     file_creator.generate_files()
 
 
 if __name__ == "__main__":
-    main()
+    create()

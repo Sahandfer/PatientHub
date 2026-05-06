@@ -54,7 +54,7 @@ results = evaluator.evaluate(session)
 ### Command Line
 
 ```bash
-uv run python -m examples.evaluate \
+patienthub evaluate \
     evaluator=conv_judge \
     evaluator.prompt_path=data/prompts/evaluator/client_conv.yaml \
     evaluator.granularity=session \

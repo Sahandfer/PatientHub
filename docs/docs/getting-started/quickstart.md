@@ -11,7 +11,7 @@ This guide will get you running your first patient simulation in under 5 minutes
 The simplest way to start is with the CLI:
 
 ```bash
-uv run python -m examples.simulate
+patienthub simulate
 ```
 
 This runs a therapy session with default settings (talkDep client, user therapist).
@@ -21,14 +21,22 @@ This runs a therapy session with default settings (talkDep client, user therapis
 ### Change the Patient Type
 
 ```bash
-uv run python -m examples.simulate client=patientPsi
+patienthub simulate client=patientPsi
 ```
 
 ### Use an AI Therapist
 
 ```bash
-uv run python -m examples.simulate client=patientPsi therapist=basic
+patienthub simulate client=patientPsi therapist=basic
 ```
+
+### Enable Verbose Logging
+
+```bash
+patienthub simulate verbose=true
+```
+
+Logs are saved to `logs/simulate_<timestamp>.log`.
 
 ## Python API
 
@@ -67,14 +75,14 @@ Launch the Chainlit web interface:
 chainlit run app.py
 ```
 
-Then open http://localhost:8000 in your browser.
+Then open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ## Output Files
 
 Session data is saved to `data/sessions/` by default. You can customize this:
 
 ```bash
-uv run python -m examples.simulate event.output_dir=outputs/my_session.json
+patienthub simulate event.output_dir=outputs/my_session.json
 ```
 
 :::tip TIPS
@@ -91,17 +99,18 @@ All ways to trigger saving:
 You can run the following command to create the necessary files for a new agent:
 
 ```bash
-uv run python -m examples.create generator.gen_agent_name=[client|therapist] generator.gen_agent_name=<agent_name>
+patienthub create agent_type=[client|therapist] agent_name=<agent_name>
 ```
 
-For example
+For example:
 
 ```bash
-uv run python -m examples.create generator.gen_agent_name=client generator.gen_agent_name=test
+patienthub create agent_type=client agent_name=myClient
 ```
 
 ## What's Next?
 
 - [Learn about different components](/docs/components/overview)
+- [Adapt character profiles](/docs/guide/adaptation)
 - [Evaluate conversations](/docs/guide/evaluation)
 - [Configuration options](/docs/getting-started/configuration)

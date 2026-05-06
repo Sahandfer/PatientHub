@@ -52,7 +52,7 @@ PatientHub supports cloud and local models. See [Configuration](/docs/getting-st
 :::
 
 ### Local Models via vLLM
-Our recommended setup for local models is to run a vLLM (or OpenAI-compatible) server on a machine/process, then have PatientHub call it over HTTP via `LOCAL_BASE_URL`.
+PatientHub does not bundle `torch` or `transformers` — local inference runs via an **external** vLLM (or any OpenAI-compatible) server that PatientHub calls over HTTP via `LOCAL_BASE_URL`.
 
 1) Install vLLM on the serving machine (GPU recommended):
 
@@ -74,6 +74,44 @@ LOCAL_API_KEY=EMPTY
 ```
 
 Then set your config to use `model_type=LOCAL` and `model_name` to the model name exposed by your vLLM server.
+
+### Local Reranker Models via vLLM
+
+`ConsistentMI` can also use a local reranker served by vLLM's OpenAI-compatible `/rerank` endpoint.
+
+1) Start a reranker model with vLLM:
+
+```bash
+vllm serve BAAI/bge-reranker-v2-m3 --host 0.0.0.0 --port 7891
+```
+
+2) Point `LOCAL_BASE_URL` at the reranker server:
+
+```bash
+LOCAL_BASE_URL=http://127.0.0.1:7891/v1
+LOCAL_API_KEY=EMPTY
+```
+
+3) Use the LiteLLM vLLM route in `ConsistentMI`:
+
+```yaml
+client:
+  agent_name: consistentMI
+  reranker_model_type: LOCAL
+  reranker_model_name: hosted_vllm/BAAI/bge-reranker-v2-m3
+```
+
+:::tip Localhost vs 0.0.0.0
+Use `0.0.0.0` for the server listen address, but use `127.0.0.1` or the machine's real IP in `LOCAL_BASE_URL`.
+:::
+
+:::tip Proxy settings
+If your shell exports `http_proxy` or `https_proxy`, local requests to the reranker can be sent to the proxy instead of your vLLM server. For local testing, either unset those variables or set:
+
+```bash
+export NO_PROXY=127.0.0.1,localhost
+```
+:::
 
 :::note vLLM fails to start
 it’s usually a CUDA/driver mismatch on the serving machine—check your NVIDIA driver/CUDA runtime and use a vLLM version compatible with your environment.

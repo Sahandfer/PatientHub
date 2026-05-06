@@ -42,7 +42,7 @@ TalkDep personas span the full range of depression severity:
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=talkDep
+patienthub simulate client=talkDep
 ```
 
 ### Python

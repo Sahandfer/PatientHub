@@ -17,6 +17,7 @@ class UserTherapistConfig:
 
 class UserTherapist(BaseTherapist):
     def __init__(self, configs: DictConfig):
+        super().__init__(configs)
         self.name = "Human Therapist"
 
     def build_sys_prompt(self):
@@ -25,6 +26,3 @@ class UserTherapist(BaseTherapist):
     def generate_response(self, msg: str):
         res = input("Your response: ")
         return res
-
-    def reset(self):
-        self.client = None

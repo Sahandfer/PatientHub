@@ -16,7 +16,7 @@ class UserClientConfig:
 
 class UserClient(BaseClient):
     def __init__(self, configs: DictConfig):
-        self.name = "Human Client"
+        super().__init__(configs)
 
     def build_sys_prompt(self):
         pass
@@ -24,6 +24,3 @@ class UserClient(BaseClient):
     def generate_response(self, msg: str):
         res = input("Your response: ")
         return res
-
-    def reset(self):
-        self.therapist = None

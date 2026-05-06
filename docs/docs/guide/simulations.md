@@ -11,21 +11,25 @@ PatientHub provides multiple ways to run therapy session simulations.
 The simplest approach uses the command-line interface:
 
 ```bash
-uv run python -m examples.simulate client=user therapist=eliza
+patienthub simulate client=user therapist=eliza
 ```
 
 ### Customize Components
 
 ```bash
 # Specify client and therapist
-uv run python -m examples.simulate client=patientPsi therapist=basic
+patienthub simulate client=patientPsi therapist=basic
 
 # Attach an evaluator (note: TherapySession does not execute it; see Evaluation guide)
-uv run python -m examples.simulate client=patientPsi therapist=basic +evaluator=llm_judge
+patienthub simulate client=patientPsi therapist=basic +evaluator=llm_judge
 
 # Adjust session parameters
-uv run python -m examples.simulate event.max_turns=25 event.reminder_turn_num=5
+patienthub simulate event.max_turns=25 event.reminder_turn_num=5
+
+patienthub simulate verbose=true
 ```
+
+By default only warnings and errors are shown. Setting `verbose=true` enables `DEBUG`-level logging on the console and saves all logs to `logs/simulate_<timestamp>.log`.
 
 ## Python API
 
@@ -134,7 +138,7 @@ save_json({'messages': conversation}, 'outputs/manual_session.json', overwrite=T
 Use the `user` therapist for manual input:
 
 ```bash
-uv run python -m examples.simulate client=patientPsi therapist=user
+patienthub simulate client=patientPsi therapist=user
 ```
 
 Or in Python:
@@ -146,7 +150,7 @@ from patienthub.clients import get_client
 config = OmegaConf.create({
     'agent_name': 'eeyore',
     'model_type': 'LOCAL',
-    'model_name': 'hosted_vllm//data3/public_checkpoints/huggingface_models/Eeyore_llama3.1_8B',
+    'model_name': 'hosted_vllm//<MODEL_PATH>/Eeyore_llama3.1_8B',
     'temperature': 0.7,
     'max_tokens': 1024,
     'max_retries': 3,

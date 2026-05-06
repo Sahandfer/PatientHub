@@ -1,11 +1,13 @@
+import logging
 from typing import Dict, Any
 from datetime import datetime
 from dataclasses import dataclass
-from colorama import Fore, Style, init
 from patienthub.utils import save_json
+from patienthub.utils.logger import console
 from burr.core import ApplicationBuilder, State, action, when, expr
 
-init(autoreset=True)
+logger = logging.getLogger(__name__)
+logging.getLogger("burr").setLevel(logging.WARNING)
 
 
 @dataclass
@@ -24,7 +26,6 @@ def init_session(state: State, therapist, client) -> State:
     therapist.set_client(client)
     client.set_therapist(therapist)
 
-    print("=" * 50)
     return state.update(
         messages=[],
         msg="[Moderator] You may start the session now.",
@@ -39,8 +40,8 @@ def generate_therapist_response(state: State, therapist, max_turns) -> State:
     res = therapist.generate_response(state["msg"])
     res = res.content if not isinstance(res, str) else res
 
-    print(f"--- Turn # {state['num_turns'] + 1}/{max_turns} ---")
-    print(f"{Fore.CYAN}{Style.BRIGHT}{name}{Style.RESET_ALL}: {res}")
+    console.print(f"--- Turn # {state['num_turns'] + 1}/{max_turns} ---")
+    console.print(f"[bold cyan]{name}[/bold cyan]: {res}")
 
     return state.update(
         msg=f"{name}: {res}",
@@ -65,7 +66,7 @@ def generate_client_response(state: State, therapist, client) -> State:
 
     res = client.generate_response(state["msg"])
     res = res.content if not isinstance(res, str) else res
-    print(f"{Fore.RED}{Style.BRIGHT}{"Client"}{Style.RESET_ALL}: {res}")
+    console.print(f"[bold red]Client[/bold red]: {res}")
 
     return state.update(
         msg=f"Client: {res}",
@@ -82,7 +83,7 @@ def check_and_remind(state: State, max_turns, reminder_turn_num) -> State:
     needs_reminder = 0 < turns_left <= reminder_turn_num
 
     if needs_reminder:
-        print(f"Reminder: {turns_left} turns left in the session.")
+        logger.info("Reminder: %d turns left in the session.", turns_left)
         return state.update(
             msg=state["msg"]
             + f"\n[Moderator] You have {turns_left} turns left in the session. Try to wrap up the conversation.",
@@ -115,10 +116,10 @@ def end_session(state: State, client, therapist, output_dir) -> State:
         "usage": usage,
     }
     save_json(session_state, output_dir)
+    logger.info("Session saved to '%s'", output_dir)
 
-    print("=" * 50)
     if total_cost > 0:
-        print(f"Session cost: ${total_cost:.4f}")
+        logger.info("Session cost: $%.4f", total_cost)
     return state.update(msg="[Moderator] Session has ended.")
 
 

@@ -31,7 +31,7 @@ PatientPsi creates realistic patient simulations based on **cognitive behavioral
 ### CLI
 
 ```bash
-uv run python -m examples.simulate client=patientPsi
+patienthub simulate client=patientPsi
 ```
 
 ### Python
