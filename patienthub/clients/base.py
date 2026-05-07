@@ -36,10 +36,14 @@ class BaseClient(ABC):
         if hasattr(self.configs, "data_path"):
             try:
                 data = load_json(self.configs.data_path)[self.configs.data_idx]
-                get_profile_schema(self.configs.agent_name).model_validate(data)
+                # Check if schema exists for the given agent_name before validating
+                if get_profile_schema(self.configs.agent_name) is None:
+                    logger.warning("Skipping data validation.")
+                else:
+                    get_profile_schema(self.configs.agent_name).model_validate(data)
             except Exception as e:
                 raise ValueError(
-                    f"Error loading or validating data for client '{self.configs.agent_name}: {e}'"
+                    f"Error loading or validating data for client '{self.configs.agent_name}': {e}"
                 )
             return data
         return None

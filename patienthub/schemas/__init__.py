@@ -1,3 +1,4 @@
+import logging
 from .base import BaseCharacter
 from .adaptiveVP import AdaptiveVPCharacter
 from .annaAgent import AnnaAgentCharacter
@@ -10,6 +11,8 @@ from .roleplayDoh import RoleplayDohCharacter
 from .saps import SAPSCharacter
 from .simPatient import SimPatientCharacter
 from .talkDep import TalkDepCharacter
+
+logger = logging.getLogger(__name__)
 
 CLIENT_SCHEMA_REGISTRY = {
     "patientPsi": PatientPsiCharacter,
@@ -28,7 +31,8 @@ CLIENT_SCHEMA_REGISTRY = {
 
 def get_profile_schema(agent_name: str) -> type[BaseCharacter]:
     if agent_name not in CLIENT_SCHEMA_REGISTRY:
-        raise ValueError(f"Schema for '{agent_name}' not found in registry.")
+        logger.warning(f"Schema for '{agent_name}' not found in registry.")
+        return None
     return CLIENT_SCHEMA_REGISTRY[agent_name]
 
 

@@ -8,6 +8,7 @@ from .files import (
 )
 from .models import get_chat_model, get_reranker
 from .helpers import flatten_conv, flatten_dict, dict_to_str
+from .logger import init_logging, get_logger
 
 __all__ = [
     "load_json",
@@ -21,4 +22,6 @@ __all__ = [
     "flatten_conv",
     "flatten_dict",
     "dict_to_str",
+    "init_logging",
+    "get_logger",
 ]
