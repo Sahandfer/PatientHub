@@ -34,6 +34,13 @@
       "Severe impulsivity posing risks for injury or legal issues.",
       "Suicidal ideation, comorbid substance use, or severe emotional distress.",
       "Symptoms attributable to underlying neurological issues, intoxication, or acute psychological stress."
+    ],
+    "sources": [
+      {
+        "title": "Attention-Deficit/Hyperactivity Disorder: What You Need to Know",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/attention-deficit-hyperactivity-disorder-what-you-need-to-know"
+      }
     ]
   },
   "anxiety_disorder": {
@@ -75,6 +82,28 @@
       "Suicidal ideation, severe depression, or substance misuse signaling urgent psychiatric assessment.",
       "Inability to perform essential activities like seeking medical care, attending school or work.",
       "New-onset panic symptoms that may indicate an emergent medical condition."
+    ],
+    "sources": [
+      {
+        "title": "Anxiety Disorders",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/topics/anxiety-disorders"
+      },
+      {
+        "title": "Generalized Anxiety Disorder: What You Need to Know",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/generalized-anxiety-disorder-gad"
+      },
+      {
+        "title": "Panic Disorder: What You Need to Know",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/panic-disorder-when-fear-overwhelms"
+      },
+      {
+        "title": "Social Anxiety Disorder: What You Need to Know",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/social-anxiety-disorder-more-than-just-shyness"
+      }
     ]
   },
   "bipolar_disorder": {
@@ -119,6 +148,13 @@
       "Psychotic symptoms, catatonia, or inability to perform basic self-care.",
       "Severe manic symptoms requiring immediate hospitalization.",
       "Escalating risky behavior, agitation, or prolonged sleep deprivation."
+    ],
+    "sources": [
+      {
+        "title": "Bipolar Disorder",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/bipolar-disorder"
+      }
     ]
   },
   "depression": {
@@ -159,6 +195,13 @@
       "Psychotic symptoms such as delusions or hallucinations.",
       "Severe functional impairment where safety or self-care is compromised.",
       "Inability to eat or drink due to severe depressive symptoms."
+    ],
+    "sources": [
+      {
+        "title": "Depression",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/depression?linkId=100000200918528"
+      }
     ]
   },
   "insomnia": {
@@ -202,6 +245,28 @@
       "New-onset insomnia paired with manic symptoms, psychosis, suicidal ideation, or severe depression",
       "Substance-related sleep disruptions due to medications, alcohol, or recreational drugs",
       "Neurological symptoms requiring evaluation, such as potential narcolepsy or circadian rhythm disorders"
+    ],
+    "sources": [
+      {
+        "title": "Insomnia Symptoms",
+        "publisher": "National Heart, Lung, and Blood Institute",
+        "url": "https://www.nhlbi.nih.gov/health/insomnia/symptoms"
+      },
+      {
+        "title": "Insomnia Diagnosis",
+        "publisher": "National Heart, Lung, and Blood Institute",
+        "url": "https://www.nhlbi.nih.gov/health/insomnia/diagnosis"
+      },
+      {
+        "title": "Insomnia Causes and Risk Factors",
+        "publisher": "National Heart, Lung, and Blood Institute",
+        "url": "https://www.nhlbi.nih.gov/health/insomnia/causes"
+      },
+      {
+        "title": "Insomnia Treatment",
+        "publisher": "National Heart, Lung, and Blood Institute",
+        "url": "https://www.nhlbi.nih.gov/health/insomnia/treatment"
+      }
     ]
   },
   "ocd": {
@@ -251,6 +316,13 @@
       "Skin injury or medical harm from excessive washing or rituals.",
       "Poor insight into compulsions, suggesting possible psychosis or severe OCD.",
       "Substance misuse or severe comorbidities, such as major depression."
+    ],
+    "sources": [
+      {
+        "title": "Obsessive-Compulsive Disorder: When Unwanted Thoughts or Repetitive Behaviors Take Over",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/obsessive-compulsive-disorder-when-unwanted-thoughts-or-repetitive-behaviors-take-over"
+      }
     ]
   },
   "ptsd": {
@@ -291,6 +363,13 @@
       "Violent impulses or inability to maintain safety for oneself or others.",
       "Substance misuse as coping mechanism for symptoms.",
       "Sleep deprivation, aggressive outbursts, dissociation-like episodes, or an inability to function."
+    ],
+    "sources": [
+      {
+        "title": "Post-Traumatic Stress Disorder",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/post-traumatic-stress-disorder-ptsd"
+      }
     ]
   },
   "schizophrenia": {
@@ -334,6 +413,13 @@
       "Severe catatonia including immobility, mutism, or self-neglect.",
       "Major functional disruption leading to inability to maintain safety, shelter, or access to medical care.",
       "Suicidal ideation or violent behavior linked to psychotic symptoms."
+    ],
+    "sources": [
+      {
+        "title": "Schizophrenia",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/schizophrenia"
+      }
     ]
   }
 }

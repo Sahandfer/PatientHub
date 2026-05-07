@@ -14,6 +14,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from .base import BaseGenerator
 from patienthub.configs import APIModelConfig
+from patienthub.schemas.patientZero import PatientZeroFinalRecord
 from patienthub.utils import get_chat_model, load_json, load_prompts, save_json
 
 @dataclass
@@ -23,9 +24,8 @@ class PatientZeroGeneratorConfig(APIModelConfig):
     agent_name: str = "patientZero"
     prompt_path: str = "data/prompts/generator/patientZero.yaml"
     source_data_dir: str = "data/resources/PatientZero"
-    workspace_dir: str = "data/resources/PatientZero"
     output_path: str = "data/characters/PatientZero.json"
-    disease_key: str | None = None
+    disease_key: str | None = "depression"
     random_seed: int | None = None
 
 SeverityLevel = Literal["mild", "moderate", "severe"]
@@ -84,6 +84,10 @@ class DiseaseOutline(BaseModel):
         ..., description="Population-specific considerations and constraints."
     )
     red_flags: list[str] = Field(..., description="Urgent or high-risk features.")
+    sources: list[dict[str, str]] = Field(
+        default_factory=list,
+        description="Source documents used to ground this standardized outline.",
+    )
 
 
 class PatientAttributes(BaseModel):
@@ -261,9 +265,8 @@ class PatientZeroGenerator(BaseGenerator):
         self.chat_model = get_chat_model(self.configs)
         self.prompts = load_prompts(path=configs.prompt_path, lang=configs.lang)
         self.source_data_dir = Path(self.configs.source_data_dir)
-        self.workspace_dir = Path(self.configs.workspace_dir)
         self.raw_outline_path = self.source_data_dir / "raw_outlines.json"
-        self.disease_outline_path = self.workspace_dir / "disease_outlines.json"
+        self.disease_outline_path = self.source_data_dir / "disease_outlines.json"
         self.attribute_priors_path = self.source_data_dir / "attribute_priors.json"
         self.disease_attribute_priors_path = (
             self.source_data_dir / "disease_attribute_priors.json"
@@ -273,41 +276,43 @@ class PatientZeroGenerator(BaseGenerator):
         self.disease_key = self.configs.disease_key
 
     @staticmethod
-    def _normalize_key(value: str) -> str:
+    def normalize_key(value: str) -> str:
         return value.strip().lower().replace("-", "_").replace(" ", "_")
 
     @staticmethod
-    def _weighted_choice(distribution: dict[str, float], rng: random.Random) -> str:
+    def weighted_choice(distribution: dict[str, float], rng: random.Random) -> str:
         weights = [float(weight) for weight in distribution.values()]
         if sum(weights) <= 0:
             raise ValueError("Weighted distribution must have a positive total.")
         return rng.choices(list(distribution), weights=weights, k=1)[0]
 
-    def _resolve_outline_key(self, disease_key: str) -> str:
-        normalized_key = self._normalize_key(disease_key)
+    def resolve_outline_key(self, disease_key: str) -> str:
+        normalized_key = self.normalize_key(disease_key)
         raw_outlines = load_json(str(self.raw_outline_path))
         if normalized_key in raw_outlines:
             return normalized_key
         for key, data in sorted(raw_outlines.items()):
             disease_name = data.get("disease_name", key)
-            if normalized_key == self._normalize_key(disease_name):
+            if normalized_key == self.normalize_key(disease_name):
                 return key
         raise ValueError(f"Unknown Patient-Zero disease outline: {disease_key}")
 
-    def _attribute_distributions(self, disease_key: str) -> tuple[dict, dict]:
+    def attribute_distributions(self, disease_key: str) -> tuple[dict, dict]:
         priors = load_json(str(self.attribute_priors_path))
         distributions = {
             key: value.copy()
             for key, value in priors["global"].items()
         }
         disease_priors = load_json(str(self.disease_attribute_priors_path))
-        overrides = disease_priors.get(self._normalize_key(disease_key), {})
+        overrides = disease_priors.get(self.normalize_key(disease_key), {})
         for key, value in overrides.items():
+            if isinstance(value, dict) and "labels" in value:
+                value = value["labels"]
             distributions[key] = value.copy()
         return distributions, priors["age_ranges"]
 
     @staticmethod
-    def _load_payload(
+    def load_payload(
         payload: dict | list | str | Path,
         seed: int | None = None,
     ) -> dict:
@@ -326,7 +331,7 @@ class PatientZeroGenerator(BaseGenerator):
             raise ValueError(f"No Patient-Zero payload found for seed {seed}.")
         return payload
 
-    def _next_case_index(self, disease_key: str) -> int:
+    def next_case_index(self, disease_key: str) -> int:
         if not self.final_output_path.exists():
             return 0
         payload = load_json(str(self.final_output_path))
@@ -337,9 +342,9 @@ class PatientZeroGenerator(BaseGenerator):
             if record.get("metadata", {}).get("disease_key") == disease_key
         )
 
-    def _exam_reference(self, disease_key: str) -> dict:
+    def exam_reference(self, disease_key: str) -> dict:
         refs = load_json(str(self.exam_reference_path))
-        disease_ref = refs["diseases"].get(self._normalize_key(disease_key), {})
+        disease_ref = refs["diseases"].get(self.normalize_key(disease_key), {})
         selected_scales = disease_ref.get("selected_scales", [])
         return {
             "scale_pool": {
@@ -350,7 +355,7 @@ class PatientZeroGenerator(BaseGenerator):
             "disease_reference": disease_ref,
         }
 
-    def _with_revision_guidance(
+    def with_revision_guidance(
         self,
         prompt: str,
         revision_guidance: list[str] | None = None,
@@ -366,7 +371,7 @@ class PatientZeroGenerator(BaseGenerator):
     def generate_disease_outline(self, disease_key: str) -> DiseaseOutline:
         """Generate a standardized Stage I disease outline for a disease."""
 
-        outline_key = self._resolve_outline_key(disease_key)
+        outline_key = self.resolve_outline_key(disease_key)
         data = load_json(str(self.raw_outline_path)).get(outline_key)
         raw_outline = data.get("raw_outline", data)
         prompt = self.prompts["disease_outline_generation"].render(
@@ -399,52 +404,52 @@ class PatientZeroGenerator(BaseGenerator):
     ) -> PatientAttributes:
         """Sample a valid Patient-Zero Stage II attribute vector."""
 
-        outline_key = self._resolve_outline_key(disease_key)
+        outline_key = self.resolve_outline_key(disease_key)
         disease_name = load_json(str(self.raw_outline_path)).get(outline_key).get(
             "disease_name", outline_key
         )
-        distributions, age_ranges = self._attribute_distributions(outline_key)
+        distributions, age_ranges = self.attribute_distributions(outline_key)
         rng = random.Random(seed)
 
         for _ in range(max_retries):
-            age_strata = self._weighted_choice(distributions["age_strata"], rng)
+            age_strata = self.weighted_choice(distributions["age_strata"], rng)
             age_min, age_max = age_ranges[age_strata]
             data = {
                 "disease_name": disease_name,
                 "severity_level": severity_level
-                or self._weighted_choice(distributions["severity_level"], rng),
+                or self.weighted_choice(distributions["severity_level"], rng),
                 "age_strata": age_strata,
                 "age": rng.randint(age_min, age_max),
-                "biological_sex": self._weighted_choice(
+                "biological_sex": self.weighted_choice(
                     distributions["biological_sex"], rng
                 ),
-                "physiological_status": self._weighted_choice(
+                "physiological_status": self.weighted_choice(
                     distributions["physiological_status"], rng
                 ),
-                "ethnicity": self._weighted_choice(distributions["ethnicity"], rng),
-                "geography": self._weighted_choice(distributions["geography"], rng),
-                "specific_region_constraints": self._weighted_choice(
+                "ethnicity": self.weighted_choice(distributions["ethnicity"], rng),
+                "geography": self.weighted_choice(distributions["geography"], rng),
+                "specific_region_constraints": self.weighted_choice(
                     distributions["specific_region_constraints"], rng
                 ),
-                "education_level": self._weighted_choice(
+                "education_level": self.weighted_choice(
                     distributions["education_level"], rng
                 ),
-                "occupation_type": self._weighted_choice(
+                "occupation_type": self.weighted_choice(
                     distributions["occupation_type"], rng
                 ),
-                "income_tier": self._weighted_choice(distributions["income_tier"], rng),
-                "smoking": self._weighted_choice(distributions["smoking"], rng),
-                "alcohol": self._weighted_choice(distributions["alcohol"], rng),
-                "dietary_pattern": self._weighted_choice(
+                "income_tier": self.weighted_choice(distributions["income_tier"], rng),
+                "smoking": self.weighted_choice(distributions["smoking"], rng),
+                "alcohol": self.weighted_choice(distributions["alcohol"], rng),
+                "dietary_pattern": self.weighted_choice(
                     distributions["dietary_pattern"], rng
                 ),
-                "activity_level": self._weighted_choice(
+                "activity_level": self.weighted_choice(
                     distributions["activity_level"], rng
                 ),
-                "communication_style": self._weighted_choice(
+                "communication_style": self.weighted_choice(
                     distributions["communication_style"], rng
                 ),
-                "medicine_preference": self._weighted_choice(
+                "medicine_preference": self.weighted_choice(
                     distributions["medicine_preference"], rng
                 ),
             }
@@ -471,7 +476,7 @@ class PatientZeroGenerator(BaseGenerator):
         elif isinstance(attributes, dict):
             attributes = PatientAttributes(**attributes)
 
-        outline_key = self._resolve_outline_key(disease_key)
+        outline_key = self.resolve_outline_key(disease_key)
         outline = DiseaseOutline.model_validate(
             load_json(str(self.disease_outline_path)).get(outline_key)
         )
@@ -489,7 +494,7 @@ class PatientZeroGenerator(BaseGenerator):
             ),
             disease_outline=outline.model_dump_json(indent=2),
         )
-        prompt = self._with_revision_guidance(prompt, revision_guidance)
+        prompt = self.with_revision_guidance(prompt, revision_guidance)
         record = self.chat_model.generate(
             [{"role": "system", "content": prompt}],
             response_format=PatientRecordAndSymptoms,
@@ -544,8 +549,8 @@ class PatientZeroGenerator(BaseGenerator):
             raise RuntimeError(
                 "Stage IV cannot be called directly; pass a Stage III patient_record."
             )
-        outline_key = self._resolve_outline_key(disease_key)
-        patient_record = self._load_payload(patient_record, seed=seed)
+        outline_key = self.resolve_outline_key(disease_key)
+        patient_record = self.load_payload(patient_record, seed=seed)
         outline = DiseaseOutline.model_validate(
             load_json(str(self.disease_outline_path)).get(outline_key)
         )
@@ -555,12 +560,12 @@ class PatientZeroGenerator(BaseGenerator):
             patient_record=json.dumps(patient_record, ensure_ascii=False, indent=2),
             disease_outline=outline.model_dump_json(indent=2),
             exam_reference=json.dumps(
-                self._exam_reference(outline_key),
+                self.exam_reference(outline_key),
                 ensure_ascii=False,
                 indent=2,
             ),
         )
-        prompt = self._with_revision_guidance(prompt, revision_guidance)
+        prompt = self.with_revision_guidance(prompt, revision_guidance)
         results = self.chat_model.generate(
             [{"role": "system", "content": prompt}],
             response_format=ExaminationResults,
@@ -578,8 +583,8 @@ class PatientZeroGenerator(BaseGenerator):
     ) -> ClinicalRecordValidation:
         """Validate Stage III profile and symptom content."""
 
-        patient_record = self._load_payload(patient_record)
-        outline_key = self._resolve_outline_key(disease_key)
+        patient_record = self.load_payload(patient_record)
+        outline_key = self.resolve_outline_key(disease_key)
         outline = DiseaseOutline.model_validate(
             load_json(str(self.disease_outline_path)).get(outline_key)
         )
@@ -613,8 +618,8 @@ class PatientZeroGenerator(BaseGenerator):
     ) -> ExaminationResultValidation:
         """Validate Stage IV examination results."""
 
-        patient_record = self._load_payload(patient_record)
-        outline_key = self._resolve_outline_key(disease_key)
+        patient_record = self.load_payload(patient_record)
+        outline_key = self.resolve_outline_key(disease_key)
         outline = DiseaseOutline.model_validate(
             load_json(str(self.disease_outline_path)).get(outline_key)
         )
@@ -637,7 +642,7 @@ class PatientZeroGenerator(BaseGenerator):
                 indent=2,
             ),
             expected_exams=json.dumps(
-                self._exam_reference(outline_key),
+                self.exam_reference(outline_key),
                 ensure_ascii=False,
                 indent=2,
             ),
@@ -656,7 +661,7 @@ class PatientZeroGenerator(BaseGenerator):
     ) -> dict:
         """Generate final static Patient-Zero record P={B,S,E} with validation."""
 
-        outline_key = self._resolve_outline_key(disease_key)
+        outline_key = self.resolve_outline_key(disease_key)
         attributes = self.sample_patient_attributes(outline_key, seed=seed)
         record_logs = []
         exam_logs = []
@@ -701,7 +706,7 @@ class PatientZeroGenerator(BaseGenerator):
             "patient_record": record_logs,
             "examination_results": exam_logs,
         }
-        case_index = self._next_case_index(outline_key)
+        case_index = self.next_case_index(outline_key)
         final_record["metadata"].update(
             {
                 "disease_key": outline_key,
@@ -709,17 +714,24 @@ class PatientZeroGenerator(BaseGenerator):
                 "case_id": f"{outline_key}_{case_index}",
             }
         )
+        final_record = PatientZeroFinalRecord.model_validate(final_record).model_dump()
+        if self.final_output_path.exists():
+            records = load_json(str(self.final_output_path))
+            records = records if isinstance(records, list) else [records]
+            records.append(final_record)
+        else:
+            records = [final_record]
         save_json(
-            data=final_record,
+            data=records,
             output_dir=str(self.final_output_path),
-            overwrite=False,
+            overwrite=True,
         )
         return final_record
 
     def generate_character(self):
         if not self.disease_key:
             raise ValueError("PatientZeroGeneratorConfig.disease_key is required.")
-        outline_key = self._resolve_outline_key(self.disease_key)
+        outline_key = self.resolve_outline_key(self.disease_key)
         disease_outlines = (
             load_json(str(self.disease_outline_path))
             if self.disease_outline_path.exists()

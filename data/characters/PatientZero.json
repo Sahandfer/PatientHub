@@ -162,7 +162,7 @@
             "severity_level": "moderate",
             "disease_outline_id": "anxiety_disorder.json",
             "disease_key": "anxiety_disorder",
-            "case_index": 0,
+            "case_index": 1,
             "case_id": "anxiety_disorder_0"
         },
         "sampled_attributes": {
@@ -323,7 +323,7 @@
             "severity_level": "moderate",
             "disease_outline_id": "bipolar_disorder.json",
             "disease_key": "bipolar_disorder",
-            "case_index": 0,
+            "case_index": 2,
             "case_id": "bipolar_disorder_0"
         },
         "sampled_attributes": {
@@ -495,7 +495,7 @@
             "severity_level": "moderate",
             "disease_outline_id": "depression.json",
             "disease_key": "depression",
-            "case_index": 0,
+            "case_index": 3,
             "case_id": "depression_0"
         },
         "sampled_attributes": {
@@ -662,7 +662,7 @@
             "severity_level": "moderate",
             "disease_outline_id": "insomnia.json",
             "disease_key": "insomnia",
-            "case_index": 0,
+            "case_index": 4,
             "case_id": "insomnia_0"
         },
         "sampled_attributes": {
@@ -826,7 +826,7 @@
             "severity_level": "moderate",
             "disease_outline_id": "ocd.json",
             "disease_key": "ocd",
-            "case_index": 0,
+            "case_index": 5,
             "case_id": "ocd_0"
         },
         "sampled_attributes": {
@@ -977,7 +977,7 @@
             "severity_level": "moderate",
             "disease_outline_id": "ptsd.json",
             "disease_key": "ptsd",
-            "case_index": 0,
+            "case_index": 6,
             "case_id": "ptsd_0"
         },
         "sampled_attributes": {
@@ -1139,7 +1139,7 @@
             "severity_level": "severe",
             "disease_outline_id": "schizophrenia.json",
             "disease_key": "schizophrenia",
-            "case_index": 0,
+            "case_index": 7,
             "case_id": "schizophrenia_0"
         },
         "sampled_attributes": {
