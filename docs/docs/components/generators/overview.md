@@ -8,6 +8,7 @@ Generators create synthetic character files (profiles) for use with client agent
 | ------------------------------------------- | ------------ | ------------------------------------------------------------------ |
 | [**AnnaAgent Generator**](./annaagent.md)   | `annaAgent`  | Multi-session profiles with scales and memory states               |
 | [**ClientCast Generator**](./clientcast.md) | `clientCast` | Profiles from conversation excerpts via Big Five + clinical scales |
+| [**PatientZero Generator**](./patientzero.md) | `patientZero` | Disease-grounded synthetic patient records with sampled priors     |
 | [**Psyche Generator**](./psyche.md)         | `psyche`     | MFC psychiatric profiles for assessment training                   |
 
 ## Listing Available Generators
@@ -54,7 +55,7 @@ generator = get_generator(agent_name='psyche', configs=config, lang='en')
 
 ## Generating a Character
 
-All generators expose a single `generate_character()` method that runs the full pipeline and saves the result to `output_dir`:
+All generators expose a single `generate_character()` method that runs the full pipeline and saves the result to the configured output path:
 
 ```python
 generator.generate_character()

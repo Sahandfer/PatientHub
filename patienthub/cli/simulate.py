@@ -63,7 +63,7 @@ def simulate(configs: DictConfig) -> None:
     )
 
     logger.info(
-        f"Starting simulation with {", ".join(f"{k}={v}" for k, v in configs.items())}"
+        f"Starting simulation with {', '.join(f'{k}={v} for k, v in configs.items())}"
     )
 
     try:

@@ -11,6 +11,7 @@ from .annaAgent import AnnaAgentClient, AnnaAgentClientConfig
 from .talkDep import TalkDepClient, TalkDepClientConfig
 from .saps import SAPSClient, SAPSClientConfig
 from .adaptiveVP import AdaptiveVPClient, AdaptiveVPClientConfig
+from .patientZero import PatientZeroClient, PatientZeroClientConfig
 
 
 import logging
@@ -32,6 +33,7 @@ CLIENT_REGISTRY = {
     "talkDep": TalkDepClient,
     "saps": SAPSClient,
     "adaptiveVP": AdaptiveVPClient,
+    "patientZero": PatientZeroClient,
 }
 
 # Registry of client configs (for Hydra registration)
@@ -48,6 +50,7 @@ CLIENT_CONFIG_REGISTRY = {
     "talkDep": TalkDepClientConfig,
     "saps": SAPSClientConfig,
     "adaptiveVP": AdaptiveVPClientConfig,
+    "patientZero": PatientZeroClientConfig,
 }
 
 
