@@ -84,6 +84,7 @@ const sidebars = {
           items: [
             'components/generators/annaagent',
             'components/generators/clientcast',
+            'components/generators/patientzero',
             'components/generators/psyche',
           ],
         },

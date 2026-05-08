@@ -111,6 +111,7 @@ uv run python -m chainlit run examples/chainlit.py
 | PSYCHE     | `psyche`     | Character generation for PSYCHE     |
 | ClientCast | `clientCast` | Character generation for ClientCast |
 | AnnaAgent  | `annaAgent`  | Character generation for AnnaAgent  |
+| PatientZero | `patientZero` | Disease-grounded synthetic patient records with sampled priors |
 
 ## Project Structure
 

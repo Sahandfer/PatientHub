@@ -1,0 +1,391 @@
+{
+  "note": "Sourced disease-specific Patient-Zero Stage II overrides. Values are case-sampling priors, not disease-selection prevalence. Age/sex weights are calibrated from official prevalence tables where available; severity_level maps NIMH/CDC impairment categories to mild, moderate, and severe. When pediatric and adult measures use different recall windows, weights are harmonized heuristically and documented here rather than treated as exact epidemiologic estimates.",
+  "methodology": {
+    "severity_level": "NIMH reports 'serious impairment'; this is mapped to 'severe'. Where only moderate/serious are reported, mild is kept as a small generation prior rather than forced to zero.",
+    "age_strata": "Child weights use adolescent/child prevalence when available; Adult and Elderly use adult age bands. Because source age bands do not exactly match 6-17, 18-64, and 65-90, values are normalized approximations.",
+    "biological_sex": "Sex weights are normalized from male/female prevalence rates and the global sex prior."
+  },
+  "depression": {
+    "age_strata": {
+      "source": [
+        {
+          "title": "NIMH Major Depression Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/major-depression",
+          "evidence": "Adult and adolescent prevalence by sex/age; adolescent severe impairment; SDS severe-impairment caveats."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source age bands to Child/Adult/Elderly.",
+      "labels": {
+        "Child": 0.22,
+        "Adult": 0.68,
+        "Elderly": 0.1
+      }
+    },
+    "biological_sex": {
+      "source": [
+        {
+          "title": "NIMH Major Depression Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/major-depression",
+          "evidence": "Adult and adolescent prevalence by sex/age; adolescent severe impairment; SDS severe-impairment caveats."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source male/female prevalence differences.",
+      "labels": {
+        "Male": 0.35,
+        "Female": 0.65
+      }
+    },
+    "severity_level": {
+      "source": [
+        {
+          "title": "NIMH Major Depression Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/major-depression",
+          "evidence": "Adult and adolescent prevalence by sex/age; adolescent severe impairment; SDS severe-impairment caveats."
+        }
+      ],
+      "method": "labels map source mild/moderate/serious or severe-impairment categories to Patient-Zero mild/moderate/severe.",
+      "labels": {
+        "mild": 0.1,
+        "moderate": 0.21,
+        "severe": 0.69
+      }
+    }
+  },
+  "anxiety_disorder": {
+    "age_strata": {
+      "source": [
+        {
+          "title": "NIMH Any Anxiety Disorder Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/any-anxiety-disorder",
+          "evidence": "Adult prevalence by sex/age and adult mild/moderate/serious impairment percentages; adolescent prevalence by sex/age."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source age bands to Child/Adult/Elderly.",
+      "labels": {
+        "Child": 0.25,
+        "Adult": 0.67,
+        "Elderly": 0.08
+      }
+    },
+    "biological_sex": {
+      "source": [
+        {
+          "title": "NIMH Any Anxiety Disorder Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/any-anxiety-disorder",
+          "evidence": "Adult prevalence by sex/age and adult mild/moderate/serious impairment percentages; adolescent prevalence by sex/age."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source male/female prevalence differences.",
+      "labels": {
+        "Male": 0.38,
+        "Female": 0.62
+      }
+    },
+    "severity_level": {
+      "source": [
+        {
+          "title": "NIMH Any Anxiety Disorder Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/any-anxiety-disorder",
+          "evidence": "Adult prevalence by sex/age and adult mild/moderate/serious impairment percentages; adolescent prevalence by sex/age."
+        }
+      ],
+      "method": "labels map source mild/moderate/serious or severe-impairment categories to Patient-Zero mild/moderate/severe.",
+      "labels": {
+        "mild": 0.435,
+        "moderate": 0.337,
+        "severe": 0.228
+      }
+    }
+  },
+  "ptsd": {
+    "age_strata": {
+      "source": [
+        {
+          "title": "NIMH PTSD Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/post-traumatic-stress-disorder-ptsd",
+          "evidence": "Adult PTSD prevalence by sex/age and mild/moderate/serious impairment percentages; adolescent prevalence by sex/age."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source age bands to Child/Adult/Elderly.",
+      "labels": {
+        "Child": 0.1,
+        "Adult": 0.84,
+        "Elderly": 0.06
+      }
+    },
+    "biological_sex": {
+      "source": [
+        {
+          "title": "NIMH PTSD Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/post-traumatic-stress-disorder-ptsd",
+          "evidence": "Adult PTSD prevalence by sex/age and mild/moderate/serious impairment percentages; adolescent prevalence by sex/age."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source male/female prevalence differences.",
+      "labels": {
+        "Male": 0.25,
+        "Female": 0.75
+      }
+    },
+    "severity_level": {
+      "source": [
+        {
+          "title": "NIMH PTSD Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/post-traumatic-stress-disorder-ptsd",
+          "evidence": "Adult PTSD prevalence by sex/age and mild/moderate/serious impairment percentages; adolescent prevalence by sex/age."
+        }
+      ],
+      "method": "labels map source mild/moderate/serious or severe-impairment categories to Patient-Zero mild/moderate/severe.",
+      "labels": {
+        "mild": 0.302,
+        "moderate": 0.331,
+        "severe": 0.366
+      }
+    }
+  },
+  "ocd": {
+    "age_strata": {
+      "source": [
+        {
+          "title": "NIMH OCD Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/obsessive-compulsive-disorder-ocd",
+          "evidence": "Adult OCD prevalence by sex/age and mild/moderate/serious impairment percentages."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source age bands to Child/Adult/Elderly.",
+      "labels": {
+        "Child": 0.2,
+        "Adult": 0.72,
+        "Elderly": 0.08
+      }
+    },
+    "biological_sex": {
+      "source": [
+        {
+          "title": "NIMH OCD Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/obsessive-compulsive-disorder-ocd",
+          "evidence": "Adult OCD prevalence by sex/age and mild/moderate/serious impairment percentages."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source male/female prevalence differences.",
+      "labels": {
+        "Male": 0.22,
+        "Female": 0.78
+      }
+    },
+    "severity_level": {
+      "source": [
+        {
+          "title": "NIMH OCD Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/obsessive-compulsive-disorder-ocd",
+          "evidence": "Adult OCD prevalence by sex/age and mild/moderate/serious impairment percentages."
+        }
+      ],
+      "method": "labels map source mild/moderate/serious or severe-impairment categories to Patient-Zero mild/moderate/severe.",
+      "labels": {
+        "mild": 0.146,
+        "moderate": 0.348,
+        "severe": 0.506
+      }
+    }
+  },
+  "bipolar_disorder": {
+    "age_strata": {
+      "source": [
+        {
+          "title": "NIMH Bipolar Disorder Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/bipolar-disorder",
+          "evidence": "Adult bipolar prevalence by sex/age and moderate/serious impairment percentages; adolescent prevalence by sex/age."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source age bands to Child/Adult/Elderly.",
+      "labels": {
+        "Child": 0.18,
+        "Adult": 0.77,
+        "Elderly": 0.05
+      }
+    },
+    "biological_sex": {
+      "source": [
+        {
+          "title": "NIMH Bipolar Disorder Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/bipolar-disorder",
+          "evidence": "Adult bipolar prevalence by sex/age and moderate/serious impairment percentages; adolescent prevalence by sex/age."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source male/female prevalence differences.",
+      "labels": {
+        "Male": 0.49,
+        "Female": 0.51
+      }
+    },
+    "severity_level": {
+      "source": [
+        {
+          "title": "NIMH Bipolar Disorder Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/bipolar-disorder",
+          "evidence": "Adult bipolar prevalence by sex/age and moderate/serious impairment percentages; adolescent prevalence by sex/age."
+        }
+      ],
+      "method": "labels map source mild/moderate/serious or severe-impairment categories to Patient-Zero mild/moderate/severe.",
+      "labels": {
+        "mild": 0.05,
+        "moderate": 0.17,
+        "severe": 0.78
+      }
+    }
+  },
+  "schizophrenia": {
+    "age_strata": {
+      "source": [
+        {
+          "title": "NIMH Schizophrenia Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/schizophrenia",
+          "evidence": "Schizophrenia age of onset, disability burden, premature mortality, and clinical burden statements; precise prevalence by demographic is limited."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source age bands to Child/Adult/Elderly.",
+      "labels": {
+        "Child": 0.03,
+        "Adult": 0.87,
+        "Elderly": 0.1
+      }
+    },
+    "biological_sex": {
+      "source": [
+        {
+          "title": "NIMH Schizophrenia Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/schizophrenia",
+          "evidence": "Schizophrenia age of onset, disability burden, premature mortality, and clinical burden statements; precise prevalence by demographic is limited."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source male/female prevalence differences.",
+      "labels": {
+        "Male": 0.52,
+        "Female": 0.48
+      }
+    },
+    "severity_level": {
+      "source": [
+        {
+          "title": "NIMH Schizophrenia Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/schizophrenia",
+          "evidence": "Schizophrenia age of onset, disability burden, premature mortality, and clinical burden statements; precise prevalence by demographic is limited."
+        }
+      ],
+      "method": "labels map source mild/moderate/serious or severe-impairment categories to Patient-Zero mild/moderate/severe.",
+      "labels": {
+        "mild": 0.1,
+        "moderate": 0.4,
+        "severe": 0.5
+      }
+    }
+  },
+  "adhd": {
+    "age_strata": {
+      "source": [
+        {
+          "title": "NIMH ADHD Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/attention-deficit-hyperactivity-disorder-adhd",
+          "evidence": "ADHD age of onset, adolescent prevalence/severe impairment by sex, and adult prevalence by sex."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source age bands to Child/Adult/Elderly.",
+      "labels": {
+        "Child": 0.45,
+        "Adult": 0.52,
+        "Elderly": 0.03
+      }
+    },
+    "biological_sex": {
+      "source": [
+        {
+          "title": "NIMH ADHD Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/attention-deficit-hyperactivity-disorder-adhd",
+          "evidence": "ADHD age of onset, adolescent prevalence/severe impairment by sex, and adult prevalence by sex."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source male/female prevalence differences.",
+      "labels": {
+        "Male": 0.7,
+        "Female": 0.3
+      }
+    },
+    "severity_level": {
+      "source": [
+        {
+          "title": "NIMH ADHD Statistics",
+          "url": "https://www.nimh.nih.gov/health/statistics/attention-deficit-hyperactivity-disorder-adhd",
+          "evidence": "ADHD age of onset, adolescent prevalence/severe impairment by sex, and adult prevalence by sex."
+        }
+      ],
+      "method": "labels map source mild/moderate/serious or severe-impairment categories to Patient-Zero mild/moderate/severe.",
+      "labels": {
+        "mild": 0.3,
+        "moderate": 0.22,
+        "severe": 0.48
+      }
+    }
+  },
+  "insomnia": {
+    "age_strata": {
+      "source": [
+        {
+          "title": "CDC/NCHS Sleep Difficulties in Adults: United States, 2020",
+          "url": "https://www.cdc.gov/nchs/products/databriefs/db436.htm",
+          "evidence": "Trouble falling/staying asleep among adults by sex, age, income, education, race/Hispanic origin, and urbanization."
+        },
+        {
+          "title": "NIH/NHLBI Insomnia Causes and Risk Factors",
+          "url": "https://www.nhlbi.nih.gov/health/insomnia/causes",
+          "evidence": "Insomnia risk factors including sex, age, stress, health conditions, and life circumstances."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source age bands to Child/Adult/Elderly.",
+      "labels": {
+        "Child": 0.08,
+        "Adult": 0.62,
+        "Elderly": 0.3
+      }
+    },
+    "biological_sex": {
+      "source": [
+        {
+          "title": "CDC/NCHS Sleep Difficulties in Adults: United States, 2020",
+          "url": "https://www.cdc.gov/nchs/products/databriefs/db436.htm",
+          "evidence": "Trouble falling/staying asleep among adults by sex, age, income, education, race/Hispanic origin, and urbanization."
+        },
+        {
+          "title": "NIH/NHLBI Insomnia Causes and Risk Factors",
+          "url": "https://www.nhlbi.nih.gov/health/insomnia/causes",
+          "evidence": "Insomnia risk factors including sex, age, stress, health conditions, and life circumstances."
+        }
+      ],
+      "method": "labels are normalized Patient-Zero sampling weights mapped from source male/female prevalence differences.",
+      "labels": {
+        "Male": 0.4,
+        "Female": 0.6
+      }
+    },
+    "severity_level": {
+      "source": [
+        {
+          "title": "CDC/NCHS Sleep Difficulties in Adults: United States, 2020",
+          "url": "https://www.cdc.gov/nchs/products/databriefs/db436.htm",
+          "evidence": "Trouble falling/staying asleep among adults by sex, age, income, education, race/Hispanic origin, and urbanization."
+        },
+        {
+          "title": "NIH/NHLBI Insomnia Causes and Risk Factors",
+          "url": "https://www.nhlbi.nih.gov/health/insomnia/causes",
+          "evidence": "Insomnia risk factors including sex, age, stress, health conditions, and life circumstances."
+        }
+      ],
+      "method": "labels map source mild/moderate/serious or severe-impairment categories to Patient-Zero mild/moderate/severe.",
+      "labels": {
+        "mild": 0.45,
+        "moderate": 0.4,
+        "severe": 0.15
+      }
+    }
+  }
+}

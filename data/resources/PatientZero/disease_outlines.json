@@ -1,0 +1,425 @@
+{
+  "adhd": {
+    "disease_summary": "ADHD is a developmental disorder characterized by inattention, hyperactivity, and impulsivity starting in childhood, often affecting academic, occupational, and social functioning. Symptoms can persist into adulthood, manifesting differently across life stages.",
+    "key_characteristics": [
+      "Symptoms must start before age 12 and persist for at least 6 months.",
+      "Functional impairment is required in at least two settings, such as school, work, or home.",
+      "Presentations include predominantly inattentive, predominantly hyperactive-impulsive, or combined types."
+    ],
+    "typical_presentation": {
+      "mild": "Mild inattentive or hyperactive symptoms with limited impact on functioning. Basic school/work performance is preserved through compensatory strategies, with occasional disruptiveness or forgetfulness.",
+      "moderate": "Noticeable impairment in school, work, or social settings. Symptoms such as distractibility, restlessness, missed deadlines, and relationship challenges are common. Behavioral problems or emotional dysregulation may emerge.",
+      "severe": "Pervasive symptoms across multiple settings, leading to significant academic or occupational failures. Unsafe impulsivity, severe emotional dysregulation, and potential comorbidities such as anxiety, depression, or substance use are often present."
+    },
+    "important_notes": [
+      "Symptom burden and impairment levels vary across life stages, with adolescents and adults often displaying less overt hyperactivity but more issues in organization and time management.",
+      "Environmental, social, and genetic factors contribute to ADHD. Brain neurobiology and developmental impacts are areas of ongoing study."
+    ],
+    "contraindications": [
+      "New-onset ADHD symptoms after age 12 without a history of childhood symptoms.",
+      "Rapidly worsening symptoms in the absence of psychosocial or life stressors."
+    ],
+    "differential_considerations": [
+      "Anxiety and depressive disorders causing attention or focus difficulties.",
+      "Bipolar disorder, especially when episodic mood elevation, inflated self-esteem, or risk-taking behaviors are prominent.",
+      "Sleep disorders and physical illnesses that mimic ADHD-like symptoms."
+    ],
+    "special_populations": [
+      "In children, symptoms often present as academic struggles, frequent emotional outbursts, and problems with peer relationships.",
+      "In adults, symptoms may manifest as chronic disorganization, restlessness, difficulty managing time, and underperformance when faced with adult responsibilities.",
+      "Co-occurring conditions like sleep problems, anxiety, depression, or substance use may influence ADHD symptom patterns or exacerbate impairments."
+    ],
+    "red_flags": [
+      "New-onset focus or hyperactivity symptoms starting after childhood.",
+      "Severe impulsivity posing risks for injury or legal issues.",
+      "Suicidal ideation, comorbid substance use, or severe emotional distress.",
+      "Symptoms attributable to underlying neurological issues, intoxication, or acute psychological stress."
+    ],
+    "sources": [
+      {
+        "title": "Attention-Deficit/Hyperactivity Disorder: What You Need to Know",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/attention-deficit-hyperactivity-disorder-what-you-need-to-know"
+      }
+    ]
+  },
+  "anxiety_disorder": {
+    "disease_summary": "Anxiety disorders involve excessive and persistent worry or fear that can impair daily functioning and are categorized into generalized anxiety, panic disorder, social anxiety, and specific phobia-related conditions.",
+    "key_characteristics": [
+      "Generalized anxiety characterized by pervasive, uncontrollable worry affecting multiple domains.",
+      "Panic disorder marked by recurrent, unexpected panic attacks with associated anticipatory anxiety.",
+      "Social anxiety driven by fear of scrutiny or negative judgment in social situations.",
+      "Phobia-related conditions defined by intense fear and avoidance of specific triggers."
+    ],
+    "typical_presentation": {
+      "mild": "Excessive worry or fear that may cause discomfort but does not significantly affect daily functioning or lead to marked avoidance behavior.",
+      "moderate": "Recurrent symptoms such as avoidance of feared situations, difficulty concentrating, impaired sleep, or periodic panic-like episodes that interfere with daily responsibilities or roles.",
+      "severe": "Severe functional limitations including inability to leave home, frequent panic attacks, extreme avoidance of routine or necessary activities, and potential co-occurrence of suicidal thoughts or substance misuse."
+    },
+    "important_notes": [
+      "Anxiety symptoms can overlap with physical conditions involving adrenergic hyperactivity.",
+      "Long-lasting, uncontrolled worry is characteristic of anxiety disorders rather than situational stress.",
+      "Avoidance behaviors escalate symptom severity and increase the risk of functional impairment."
+    ],
+    "contraindications": [
+      "Combining anxiety symptoms such as panic attacks with exclusively medical causes like arrhythmia without a psychiatric basis.",
+      "Mistaking generalized anxiety worry for episodic depression or OCD-related intrusive thoughts without differentiation.",
+      "Assigning severe avoidance of essential activities to mild presentation descriptions."
+    ],
+    "differential_considerations": [
+      "Medical conditions presenting with adrenergic symptoms (e.g., thyroid disease, arrhythmia).",
+      "OCD marked by compulsive behaviors versus anxiety-driven avoidance or fear.",
+      "PTSD involving trauma-related triggers versus general worry or non-trauma-related fear."
+    ],
+    "special_populations": [
+      "Children and adolescents may present with school refusal, clinginess, or physical complaints like stomachaches.",
+      "Older adults may exhibit more physical symptoms and less overt emotional worry.",
+      "Pregnancy or postpartum anxiety can manifest with intense worry about harm to the baby.",
+      "Comorbid medical conditions may amplify anxiety-related symptoms or present as exaggerated physical complaints."
+    ],
+    "red_flags": [
+      "Chest pain, syncope, or severe dyspnea requiring medical evaluation to rule out life-threatening causes.",
+      "Suicidal ideation, severe depression, or substance misuse signaling urgent psychiatric assessment.",
+      "Inability to perform essential activities like seeking medical care, attending school or work.",
+      "New-onset panic symptoms that may indicate an emergent medical condition."
+    ],
+    "sources": [
+      {
+        "title": "Anxiety Disorders",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/topics/anxiety-disorders"
+      },
+      {
+        "title": "Generalized Anxiety Disorder: What You Need to Know",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/generalized-anxiety-disorder-gad"
+      },
+      {
+        "title": "Panic Disorder: What You Need to Know",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/panic-disorder-when-fear-overwhelms"
+      },
+      {
+        "title": "Social Anxiety Disorder: What You Need to Know",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/social-anxiety-disorder-more-than-just-shyness"
+      }
+    ]
+  },
+  "bipolar_disorder": {
+    "disease_summary": "Bipolar disorder is a chronic mood disorder characterized by episodic shifts between manic, hypomanic, depressive, and mixed states, often beginning in late adolescence or early adulthood and requiring long-term management.",
+    "key_characteristics": [
+      "Episodes include mania, hypomania, depression, or mixed features.",
+      "Mania involves elevated mood, heightened activity, and impulsive behavior.",
+      "Depressive episodes feature low mood, anhedonia, and functional impairment.",
+      "Symptoms often cycle, with periods of recovery between episodes in some cases.",
+      "Mood episode severity and impacts vary across individuals."
+    ],
+    "typical_presentation": {
+      "mild": "Hypomanic or depressive symptoms resulting in mild functional impairment such as decreased efficiency at work or interpersonal sensitivity but without psychosis or dangerous behaviors.",
+      "moderate": "Manic, hypomanic, or depressive episodes with clear and consistent impairment in occupational or relational domains, disturbed sleep patterns, impulsivity, or difficulty maintaining daily responsibilities.",
+      "severe": "Mania with psychosis, need for urgent hospitalization, severe inability to function, catatonia, suicidal ideation, or episodes of extreme depression with high risk behaviors or intentions."
+    },
+    "important_notes": [
+      "Symptoms rarely fit discrete categories perfectly; mixed features may be observed.",
+      "Early diagnosis and treatment are crucial to prevent worsening severity or complications.",
+      "Mood stabilization often involves medication, therapy, or both and requires personalized approaches."
+    ],
+    "contraindications": [
+      "Bipolar disorder in the absence of mood episodes.",
+      "Mania or psychosis without a history of mood symptoms.",
+      "Rapid diagnosis without longitudinal review of symptoms and history.",
+      "Hypomania persisting for less than 4 days in Bipolar II diagnosis."
+    ],
+    "differential_considerations": [
+      "Distinguish from unipolar depression based on absence of mania/hypomania history.",
+      "Rule out schizophrenia in psychotic patients by evaluating mood episode context.",
+      "Consider thyroid dysfunction, substance-induced mood changes, and medication effects.",
+      "Differentiate from ADHD based on symptom timing and episodic mood changes."
+    ],
+    "special_populations": [
+      "In children or adolescents, mood instability and hyperactivity may mimic ADHD or trauma-related disorders; assess with caution.",
+      "Older adults presenting with new-onset manic/mood symptoms should be evaluated for medical or neurologic causes.",
+      "In pregnancy/postpartum, monitor closely for symptom changes due to sleep disruption or hormonal shifts.",
+      "Patients with other medical or neuropsychiatric comorbidities, such as borderline personality disorder, may present with overlapping or confounding features."
+    ],
+    "red_flags": [
+      "Suicidal ideation, intent, or history of attempt.",
+      "Psychotic symptoms, catatonia, or inability to perform basic self-care.",
+      "Severe manic symptoms requiring immediate hospitalization.",
+      "Escalating risky behavior, agitation, or prolonged sleep deprivation."
+    ],
+    "sources": [
+      {
+        "title": "Bipolar Disorder",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/bipolar-disorder"
+      }
+    ]
+  },
+  "depression": {
+    "disease_summary": "Depression is a mood disorder characterized by persistent low mood, loss of interest, or both, significantly impacting daily functioning.",
+    "key_characteristics": [
+      "Depressed mood or loss of interest most of the time for at least two weeks.",
+      "Symptoms include changes in sleep, appetite, energy, concentration, and thoughts of death or suicide.",
+      "Severity ranges from mild functional impairment to severe symptoms with safety risks."
+    ],
+    "typical_presentation": {
+      "mild": "Persistent sadness, anxiety, or loss of interest, with preserved self-care and partial role functionality. No psychosis or active suicidal intent.",
+      "moderate": "Multiple symptoms, including impaired sleep, appetite, and concentration, with noticeable impact on work, school, or relationships. Passive thoughts of death may be present without immediate intent.",
+      "severe": "Marked functional incapacity with symptoms such as psychotic features, inability to meet basic needs, active suicidal intent or behavior, or extreme psychomotor agitation or retardation."
+    },
+    "important_notes": [
+      "Children or adolescents with depression may exhibit irritability, school problems, or clinginess instead of classic sadness.",
+      "Older adults may have overlapping symptoms with medical conditions, making recognition more difficult.",
+      "Perinatal depression includes symptoms during pregnancy or postpartum, often involving intense mood shifts."
+    ],
+    "contraindications": [
+      "Avoid diagnosing depression when mania or hypomania is evident, as this suggests bipolar disorder.",
+      "Do not attribute depressive symptoms solely to medication side effects, substance use, or acute grief without thorough evaluation.",
+      "Avoid assigning severe presentations without corresponding signs such as psychosis, safety concerns, or severe functional impairment."
+    ],
+    "differential_considerations": [
+      "Distinguish major depression from bipolar disorder, anxiety disorders, ADHD, eating disorders, or grief reactions.",
+      "Consider medical causes like thyroid disease, chronic pain conditions, or medication effects.",
+      "Screen for concurrent substance use or viral infections contributing to symptoms."
+    ],
+    "special_populations": [
+      "Children may show irritability, hypersomnia, increased appetite, and behavioral issues.",
+      "Older adults often underreport symptoms or present with cognitive complaints and overlapping medical issues.",
+      "Perinatal depression manifests during pregnancy or postpartum and requires contextual assessment.",
+      "Individuals with chronic illnesses might have co-occurring depression that worsens their overall health and requires nuanced care."
+    ],
+    "red_flags": [
+      "Active suicidal ideation, plan, or attempt.",
+      "Psychotic symptoms such as delusions or hallucinations.",
+      "Severe functional impairment where safety or self-care is compromised.",
+      "Inability to eat or drink due to severe depressive symptoms."
+    ],
+    "sources": [
+      {
+        "title": "Depression",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/depression?linkId=100000200918528"
+      }
+    ]
+  },
+  "insomnia": {
+    "disease_summary": "Insomnia is characterized by difficulty initiating or maintaining sleep, waking too early, or experiencing nonrestorative sleep, leading to significant daytime impairment. Chronic insomnia occurs when symptoms persist at least three nights per week for over three months.",
+    "key_characteristics": [
+      "Difficulty falling asleep, especially in younger adults",
+      "Frequent nocturnal awakenings or prolonged wakefulness, particularly in older adults",
+      "Early-morning awakening with inability to return to sleep",
+      "Daytime impairment such as fatigue, poor concentration, mood disturbances, or irritability"
+    ],
+    "typical_presentation": {
+      "mild": "Sleep difficulty on several nights with mild daytime fatigue or irritability; routine functioning remains preserved.",
+      "moderate": "Persistent insomnia with impaired concentration, mood changes, or diminished role performance; maladaptive sleep habits or stress-related perpetuating factors are often present.",
+      "severe": "Chronic insomnia with marked daytime impairment, pronounced anxiety or depression, unsafe sleepiness, or signs of potential comorbid conditions like sleep apnea, narcolepsy, or substance-related contributions."
+    },
+    "important_notes": [
+      "Sleep diary evaluation for 1-2 weeks can help identify contributing patterns.",
+      "Risk factors include environmental stressors, irregular sleep routines, hormonal changes in pregnancy or menopause, and lifestyle elements like substance use near bedtime.",
+      "Watch for insomnia occurring alongside major psychiatric or systemic conditions that might explain or worsen symptoms."
+    ],
+    "contraindications": [
+      "Do not attribute insomnia to a standalone psychiatric diagnosis if primary symptoms are fully explained by another disorder.",
+      "Avoid generating chronic insomnia in children or adolescents without contextually plausible factors like severe stressors or environmental disruptions."
+    ],
+    "differential_considerations": [
+      "Circadian rhythm disorders",
+      "Sleep apnea or narcolepsy",
+      "Restless leg syndrome or periodic limb movements",
+      "Psychiatric conditions such as anxiety, depression, or PTSD",
+      "Substance use or medication-induced sleep disturbances",
+      "Chronic pain or thyroid dysfunction"
+    ],
+    "special_populations": [
+      "Older adults are more prone to sleep maintenance issues and early awakenings.",
+      "Pregnancy and menopause may exacerbate insomnia due to hormonal changes.",
+      "Caregivers and shift workers may experience schedule-driven or environmental insomnia."
+    ],
+    "red_flags": [
+      "Loud snoring, gasping, or witnessed apneas indicating possible sleep apnea",
+      "Severe daytime sleepiness posing risks in driving or occupational safety",
+      "New-onset insomnia paired with manic symptoms, psychosis, suicidal ideation, or severe depression",
+      "Substance-related sleep disruptions due to medications, alcohol, or recreational drugs",
+      "Neurological symptoms requiring evaluation, such as potential narcolepsy or circadian rhythm disorders"
+    ],
+    "sources": [
+      {
+        "title": "Insomnia Symptoms",
+        "publisher": "National Heart, Lung, and Blood Institute",
+        "url": "https://www.nhlbi.nih.gov/health/insomnia/symptoms"
+      },
+      {
+        "title": "Insomnia Diagnosis",
+        "publisher": "National Heart, Lung, and Blood Institute",
+        "url": "https://www.nhlbi.nih.gov/health/insomnia/diagnosis"
+      },
+      {
+        "title": "Insomnia Causes and Risk Factors",
+        "publisher": "National Heart, Lung, and Blood Institute",
+        "url": "https://www.nhlbi.nih.gov/health/insomnia/causes"
+      },
+      {
+        "title": "Insomnia Treatment",
+        "publisher": "National Heart, Lung, and Blood Institute",
+        "url": "https://www.nhlbi.nih.gov/health/insomnia/treatment"
+      }
+    ]
+  },
+  "ocd": {
+    "disease_summary": "OCD is a chronic mental health disorder characterized by obsessions (unwanted, intrusive thoughts or urges) and compulsions (repetitive behaviors or mental acts) that interfere with daily life. Symptoms often emerge in late childhood to young adulthood, but treatment can help manage the condition.",
+    "key_characteristics": [
+      "Obsessions involve intrusive, recurring thoughts or urges that cause anxiety.",
+      "Compulsions are repetitive behaviors or mental acts aimed at reducing distress caused by obsessions.",
+      "Symptoms are time-consuming, distressing, and cause impairment in daily functioning.",
+      "The disorder can have a variable course, with symptoms changing or worsening during stress.",
+      "Adults often recognize their compulsions as irrational, while children may not."
+    ],
+    "typical_presentation": {
+      "mild": "Intrusive thoughts and rituals are present but cause limited distress and time burden. Avoidance behaviors are mild, insight is fair, and daily functioning is mostly preserved.",
+      "moderate": "Obsessions and compulsions consume significant time, such as repeated cleaning, checking, or avoidance behaviors. These impair school, work, and/or interpersonal relationships.",
+      "severe": "Rituals dominate daily life, severely impair daily functioning, and may involve poor insight, treatment-resistant symptoms, self-neglect, or comorbid mental health conditions such as severe depression."
+    },
+    "important_notes": [
+      "Symptoms may remit and relapse; stress typically exacerbates OCD.",
+      "Children may present differently, often with excessive fear of harm and need for family involvement in treatment.",
+      "Adults with OCD symptoms may recognize irrationality, but children may not.",
+      "Avoid generating PANDAS-related OCD unless explicitly included.",
+      "Obsessions and compulsions should consume more than 1 hour daily to be diagnostically relevant."
+    ],
+    "contraindications": [
+      "Sudden pediatric OCD onset without explicit intent to generate PANDAS cases.",
+      "Symptoms resolving completely without treatment intervention.",
+      "OCD symptoms without functional impairment or significant distress.",
+      "Adults with OCD lacking insight into obsessions/compulsions unless near severe presentations."
+    ],
+    "differential_considerations": [
+      "Generalized anxiety disorder, which involves worries rather than obsessions.",
+      "Depressive rumination, which lacks compulsive behaviors.",
+      "Psychotic disorders, which may involve delusions rather than insight.",
+      "Hoarding disorder, where the focus is on possessions rather than intrusive thoughts.",
+      "Tic disorders or Tourette syndrome, where repetitive behaviors lack obsessional triggers.",
+      "Obsessive-compulsive personality disorder, which reflects personality traits, not intrusive obsessions."
+    ],
+    "special_populations": [
+      "Parents or teachers may notice symptoms in children who may not articulate them clearly.",
+      "Children may have exaggerated fears of harm if rituals are not completed and require family participation in treatment.",
+      "Pregnant/postpartum women may present with intrusive thoughts related to harm or contamination, requiring targeted treatment.",
+      "Sudden symptom onset in children should be evaluated for PANDAS when relevant."
+    ],
+    "red_flags": [
+      "Rituals preventing eating, sleeping, school, work, or leaving home.",
+      "Self-harm, suicidal ideation, or severe coexisting depression.",
+      "Skin injury or medical harm from excessive washing or rituals.",
+      "Poor insight into compulsions, suggesting possible psychosis or severe OCD.",
+      "Substance misuse or severe comorbidities, such as major depression."
+    ],
+    "sources": [
+      {
+        "title": "Obsessive-Compulsive Disorder: When Unwanted Thoughts or Repetitive Behaviors Take Over",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/obsessive-compulsive-disorder-when-unwanted-thoughts-or-repetitive-behaviors-take-over"
+      }
+    ]
+  },
+  "ptsd": {
+    "disease_summary": "Post-traumatic stress disorder (PTSD) can develop after exposure to a traumatic event, leading to prolonged stress and symptoms affecting emotional and functional well-being.",
+    "key_characteristics": [
+      "Symptoms typically begin within 3 months of trauma but may appear later.",
+      "Persistent symptoms for more than 1 month, causing impairment and not related to medications or other illnesses.",
+      "Core symptom clusters include re-experiencing, avoidance, hyperarousal, and negative changes in cognition/mood."
+    ],
+    "typical_presentation": {
+      "mild": "Occasional intrusions and avoidance behaviors, mild hypervigilance, and sleep difficulties; generally able to maintain daily roles with manageable distress.",
+      "moderate": "Frequent symptoms across multiple clusters, causing tangible impairment in relationships, work, and emotional regulation; includes persistent hyperarousal and negative mood changes.",
+      "severe": "Intense flashbacks, severe hypervigilance or aggression, marked functional deterioration, dissociative episodes, substance misuse, suicidal ideation, or unsafe living circumstances."
+    },
+    "important_notes": [
+      "PTSD can co-occur with depression, anxiety disorders, panic disorder, substance use, and suicidal thoughts.",
+      "Recovery timelines vary significantly; some patients recover within months, while others experience lifelong symptoms.",
+      "Trauma context should factor into current presentations in cases of ongoing threats or abuse."
+    ],
+    "contraindications": [
+      "Mild PTSD presentation with active substance misuse or unsafe environments.",
+      "Severe aggression in safe, supportive living contexts.",
+      "PTSD symptom onset beyond plausible trauma timelines without other clinical explanations."
+    ],
+    "differential_considerations": [
+      "Acute stress reaction if symptoms persist for less than 1 month.",
+      "Major depressive disorder, generalized anxiety disorder, panic disorder, substance-induced symptoms, or traumatic brain injury effects.",
+      "Psychosis or other non-trauma-related diagnoses should be distinguished from dissociative or hyperarousal symptoms."
+    ],
+    "special_populations": [
+      "Children younger than 6 may exhibit regressive behaviors, reenact trauma in play, or cling to caregivers.",
+      "Older children and teens may show symptoms resembling adults but often include disruptive behaviors, guilt, or vengeance ideation.",
+      "Pregnant/postpartum patients may require careful attention to mood regulation and maternal safety.",
+      "Patients in active abuse scenarios may need emphasis on safety planning alongside PTSD management."
+    ],
+    "red_flags": [
+      "Suicidal ideation or severe self-harm risk.",
+      "Violent impulses or inability to maintain safety for oneself or others.",
+      "Substance misuse as coping mechanism for symptoms.",
+      "Sleep deprivation, aggressive outbursts, dissociation-like episodes, or an inability to function."
+    ],
+    "sources": [
+      {
+        "title": "Post-Traumatic Stress Disorder",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/post-traumatic-stress-disorder-ptsd"
+      }
+    ]
+  },
+  "schizophrenia": {
+    "disease_summary": "Schizophrenia is a severe mental illness that affects thought processes, emotional responsiveness, behavior, and perception of reality. The illness often starts in young adulthood and can disrupt functioning in school, work, and relationships.",
+    "key_characteristics": [
+      "Often diagnosed after a first episode of psychosis, typically between ages 16 and 30.",
+      "Symptoms are grouped into psychotic, negative, and cognitive categories.",
+      "Early changes in thinking, mood, and behavior can precede full psychosis.",
+      "Rare in young children and may reflect other conditions in older adults."
+    ],
+    "typical_presentation": {
+      "mild": "Subtle psychosis-like experiences such as minor hallucinations, attenuated delusions, or mild thought disorganization. Social withdrawal or reduced emotional response may occur, but basic functioning and insight are retained.",
+      "moderate": "Prominent hallucinations or delusions, moderate disorganized thinking, and clear negative symptoms (e.g., social withdrawal, low motivation) with evident functional impairments in work or social life.",
+      "severe": "Severe and persistent psychosis including dangerous command hallucinations, profound disorganization, catatonia-like behavior, or complete inability to care for oneself. Risk of repeated hospitalizations, homelessness, or self-harm."
+    },
+    "important_notes": [
+      "Negative symptoms are often mistaken for depression but should be carefully assessed within the context of schizophrenia.",
+      "Early intervention following the first episode of psychosis is crucial for long-term recovery and functional outcomes.",
+      "Substance use should be considered as it can complicate diagnosis, treatment, and recovery."
+    ],
+    "contraindications": [
+      "Schizophrenia with onset before age 10, except in extremely rare and well-documented cases.",
+      "Late-onset psychosis in older adults categorized as schizophrenia without excluding neurocognitive disorders or medical causes.",
+      "Schizophrenia diagnosis without psychotic symptoms such as hallucinations or delusions."
+    ],
+    "differential_considerations": [
+      "Bipolar disorder or major depressive disorder with psychotic features (mood-episode driven psychosis).",
+      "Substance-induced psychosis.",
+      "Neurological diseases such as epilepsy or dementia.",
+      "Trauma-related dissociation.",
+      "Autism spectrum conditions, especially when associated with social or communication challenges.",
+      "Culturally normative beliefs or practices misinterpreted as delusions."
+    ],
+    "special_populations": [
+      "In children and adolescents, psychosis requires careful evaluation to exclude trauma, developmental disorders, or medical causes.",
+      "In older adults, consider neurocognitive disorders, sensory impairment, or delirium as possible causes of psychosis-like symptoms.",
+      "Family involvement and support are often critical during the first episode of psychosis."
+    ],
+    "red_flags": [
+      "Command hallucinations instructing harm to self or others.",
+      "Severe catatonia including immobility, mutism, or self-neglect.",
+      "Major functional disruption leading to inability to maintain safety, shelter, or access to medical care.",
+      "Suicidal ideation or violent behavior linked to psychotic symptoms."
+    ],
+    "sources": [
+      {
+        "title": "Schizophrenia",
+        "publisher": "National Institute of Mental Health",
+        "url": "https://www.nimh.nih.gov/health/publications/schizophrenia"
+      }
+    ]
+  }
+}

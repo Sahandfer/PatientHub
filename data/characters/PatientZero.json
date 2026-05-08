@@ -1,0 +1,1497 @@
+[
+    {
+        "metadata": {
+            "disease_name": "ADHD",
+            "severity_level": "moderate",
+            "disease_outline_id": "adhd.json",
+            "disease_key": "adhd",
+            "case_index": 0,
+            "case_id": "adhd_0"
+        },
+        "sampled_attributes": {
+            "disease_name": "ADHD",
+            "severity_level": "moderate",
+            "age_strata": "Child",
+            "age": 15,
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern"
+        },
+        "patient_profile": {
+            "age": 15,
+            "age_strata": "Child",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern",
+            "name": "Alyssa Harris",
+            "lifestyle_summary": "Alyssa is a 15-year-old high school student living in a suburban neighborhood. She engages in moderate physical activity, has a preference for modern medicine, and maintains a high-salt diet. She has a history of heavy alcohol consumption and formerly smoked but quit over a year ago.",
+            "past_medical_history": "Diagnosis of childhood asthma, resolved by age 12. No other significant medical history.",
+            "family_history": "Father has ADHD (diagnosed in adulthood). Mother has a history of anxiety. No notable history of other severe medical or psychiatric conditions in immediate family.",
+            "medication_history": "Previously prescribed albuterol for asthma (discontinued). No current medications for other health conditions.",
+            "allergy_history": "No known drug or food allergies.",
+            "vaccination_history": "Up-to-date on routine childhood and adolescent immunizations, including HPV and Tdap."
+        },
+        "symptom_trajectory": {
+            "current_severity": "moderate",
+            "chief_complaint": "I keep struggling to focus on homework and exams, and I can't sit still during class. It’s been getting worse this year.",
+            "onset": "Symptoms of inattention and hyperactivity have been present since early childhood but worsened noticeably around age 14 when academic demands increased.",
+            "duration": "Symptoms have been persistent for over a year, with no periods of remission.",
+            "progression": "Gradual worsening of both inattentive and hyperactive symptoms, particularly impacting academic performance and social interactions.",
+            "selected_symptoms": [
+                {
+                    "name": "difficulty sustaining attention",
+                    "duration": "Over 1 year",
+                    "severity": "moderate",
+                    "impact": "Frequently unable to complete reading assignments or focus during lengthy lectures."
+                },
+                {
+                    "name": "poor organization",
+                    "duration": "Over 1 year",
+                    "severity": "moderate",
+                    "impact": "Difficulty keeping track of deadlines and maintaining an orderly homework plan."
+                },
+                {
+                    "name": "restlessness",
+                    "duration": "Over 1 year",
+                    "severity": "moderate",
+                    "impact": "Frequently shifts in her seat and taps her fingers during class, distracting herself and peers."
+                },
+                {
+                    "name": "excessive talking",
+                    "duration": "Over 1 year",
+                    "severity": "moderate",
+                    "impact": "Interrupting teachers and classmates during lessons and struggling to wait her turn in conversations."
+                }
+            ],
+            "associated_symptoms": [
+                "blurting out answers",
+                "difficulty waiting her turn",
+                "distractibility"
+            ],
+            "negative_symptoms": [
+                "no severe emotional outbursts",
+                "no episodes of unsafe impulsivity",
+                "no suicidal ideation"
+            ],
+            "triggers": [
+                "academic pressures",
+                "long periods of sitting still",
+                "unstructured environments"
+            ],
+            "relieving_factors": [
+                "short breaks during study sessions",
+                "engaging in physical activity"
+            ],
+            "functional_impact": "Moderate impairment in academic performance, reduced ability to participate in structured group activities, and some strain in peer relationships due to interruptive behaviors.",
+            "risk_features": [
+                "No evidence of severe emotional distress, substance abuse, or legal issues."
+            ]
+        },
+        "examination_results": {
+            "mental_status_exam": {
+                "appearance_behavior": "Teenage girl appearing well-groomed but fidgeting incessantly in her chair and shifting posture frequently during the interview. Effort was made to engage cooperatively.",
+                "speech": "Speech was rapid and tangential at times, often interrupting but otherwise coherent.",
+                "mood_affect": "Reported mood was 'okay,' with an affect that was congruent but mildly labile, particularly when discussing academics.",
+                "thought_process": "Thought process was goal-directed with tangential tendencies, often diverting to non-essential details before redirecting with prompts.",
+                "thought_content": "No evidence of delusional content, obsessions, or preoccupations. No suicidal or homicidal ideation expressed.",
+                "perception": "No perceptual disturbances recorded; denies hallucinations.",
+                "cognition": "Alert and oriented to time, place, and person. Exhibits moderate distractibility during cognitive testing, requiring redirection.",
+                "insight_judgment": "Insight into academic struggles is partial but lacks understanding of the underlying mechanisms. Judgment is adequate for age yet impacted by impulsivity in social settings.",
+                "reliability": "Moderately reliable historian with some indications of under-reporting emotional strain."
+            },
+            "scale_assessments": [
+                {
+                    "scale_name": "PHQ-9",
+                    "score": 6,
+                    "severity_interpretation": "mild depressive symptoms",
+                    "rationale": "Alyssa reported mild academic frustration and emotional lability but denied pervasive sadness or other hallmark depressive symptoms typically associated with higher scores."
+                },
+                {
+                    "scale_name": "GAD-7",
+                    "score": 8,
+                    "severity_interpretation": "mild anxiety symptoms",
+                    "rationale": "Alyssa's anxiety appears situational, exacerbated by academic demands, but lacks significant avoidance or autonomic symptoms indicative of greater severity."
+                }
+            ],
+            "risk_assessment": {
+                "suicide_risk": "none",
+                "violence_risk": "none",
+                "self_neglect_risk": "low",
+                "rationale": "No history of self-harm, suicidal ideation, or violence. However, mild self-neglect is possible due to disorganization and impulsivity impacting self-care routines under academic pressures."
+            },
+            "exclusionary_findings": [
+                {
+                    "test_name": "Sleep History",
+                    "finding": "No indication of chronic insomnia or irregular sleep patterns reported.",
+                    "interpretation": "Sleep history does not support alternative diagnoses such as sleep disorders mimicking ADHD-like symptoms."
+                },
+                {
+                    "test_name": "Substance Use Screening",
+                    "finding": "No current substance or stimulant use reported.",
+                    "interpretation": "Substance or stimulant use insufficient to explain or contribute to current symptomatology."
+                }
+            ],
+            "clinical_summary": "The patient, Alyssa Harris, a 15-year-old student, demonstrates moderate impairments in attention, organizational skills, and restlessness, contributing to academic challenges. Emotional and social functioning are moderately impacted, with mild depressive and anxiety symptoms noted. Risk of harm is minimal, and no alternative psychiatric or medical conditions explain the symptoms. Symptom profile and mental status findings align with expected ADHD characteristics in adolescents, with notable functional impairments in academic and social realms."
+        }
+    },
+    {
+        "metadata": {
+            "disease_name": "Anxiety Disorder",
+            "severity_level": "moderate",
+            "disease_outline_id": "anxiety_disorder.json",
+            "disease_key": "anxiety_disorder",
+            "case_index": 1,
+            "case_id": "anxiety_disorder_0"
+        },
+        "sampled_attributes": {
+            "disease_name": "Anxiety Disorder",
+            "severity_level": "moderate",
+            "age_strata": "Adult",
+            "age": 56,
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern"
+        },
+        "patient_profile": {
+            "age": 56,
+            "age_strata": "Adult",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern",
+            "name": "Monica Harris",
+            "lifestyle_summary": "Middle-income suburban lifestyle, college student with moderate activity levels; history of former smoking and heavy alcohol use. Diet primarily high in salt.",
+            "past_medical_history": "Mild gastritis treated with antacids in the past; no other chronic conditions reported.",
+            "family_history": "Mother diagnosed with depression; father had hypertension; sibling with history of unspecified anxiety symptoms.",
+            "medication_history": "No current medications. Previously on oral contraceptives; stopped due to personal preference.",
+            "allergy_history": "No known drug or environmental allergies.",
+            "vaccination_history": "Up-to-date on recommended adult vaccinations including influenza, Tdap, and COVID-19."
+        },
+        "symptom_trajectory": {
+            "current_severity": "moderate",
+            "chief_complaint": "I can't stop worrying about everything, and it's been making it hard for me to sleep or focus on schoolwork.",
+            "onset": "Gradual over several months.",
+            "duration": "6 months.",
+            "progression": "Symptoms worsened over time, especially with increased academic and personal demands.",
+            "selected_symptoms": [
+                {
+                    "name": "Persistent worry, fear, tension, restlessness, or feeling on edge",
+                    "duration": "Daily for six months",
+                    "severity": "moderate",
+                    "impact": "Interrupts focus and tasks related to academic studies and personal errands."
+                },
+                {
+                    "name": "Difficulty concentrating, fatigue, irritability, and sleep disturbance",
+                    "duration": "Consistently for three months",
+                    "severity": "moderate",
+                    "impact": "Difficulty completing coursework and repeatedly feeling unrested despite sleeping attempts."
+                },
+                {
+                    "name": "Avoidance of feared activities, social situations, places, objects, or routines",
+                    "duration": "Two months",
+                    "severity": "moderate",
+                    "impact": "Stopped attending study groups and avoids social gatherings due to fear of judgment."
+                }
+            ],
+            "associated_symptoms": [
+                "Periodic chest discomfort without cardiac symptoms",
+                "Trembling in stressful situations"
+            ],
+            "negative_symptoms": [
+                "No suicidal ideation",
+                "No severe panic attacks",
+                "No syncope or medical danger symptoms"
+            ],
+            "triggers": [
+                "Academic deadlines",
+                "Conflict with peers",
+                "Social expectations"
+            ],
+            "relieving_factors": [
+                "Mindfulness exercises",
+                "Taking short walks outdoors"
+            ],
+            "functional_impact": "Decreased academic performance and social withdrawal, though still able to manage basic daily tasks independently.",
+            "risk_features": [
+                "No urgent psychiatric or medical risks identified."
+            ]
+        },
+        "examination_results": {
+            "mental_status_exam": {
+                "appearance_behavior": "Well-groomed, cooperative, slight restlessness noted but no agitation.",
+                "speech": "Normal rate and tone, though occasionally tangential.",
+                "mood_affect": "Reports feeling anxious; affect congruent with mood and moderately restricted.",
+                "thought_process": "Logical and goal-directed overall; no evidence of formal thought disorders.",
+                "thought_content": "No delusions, hallucinations, or obsessional fears observed.",
+                "perception": "No perceptual disturbances reported or observed.",
+                "cognition": "Alert and oriented to person, place, and time; demonstrated slight difficulties with attention due to tangential tendencies.",
+                "insight_judgment": "Moderate insight into her symptoms; judgment appears intact for daily decision-making.",
+                "reliability": "History provided is considered reliable."
+            },
+            "scale_assessments": [
+                {
+                    "scale_name": "GAD-7",
+                    "score": 12,
+                    "severity_interpretation": "moderate anxiety symptoms",
+                    "rationale": "Score aligns with reported persistent worry, irritability, restlessness, and avoidance impacting daily functioning."
+                },
+                {
+                    "scale_name": "PHQ-9",
+                    "score": 8,
+                    "severity_interpretation": "mild depressive symptoms",
+                    "rationale": "Reflects secondary mood symptoms like fatigue and sleep disturbance but does not reach the level of major depressive disorder."
+                },
+                {
+                    "scale_name": "ISI",
+                    "score": 14,
+                    "severity_interpretation": "subthreshold insomnia",
+                    "rationale": "Consistent with reported sleep difficulties, feeling unrested despite attempts to sleep, but no complete inability to sleep."
+                }
+            ],
+            "risk_assessment": {
+                "suicide_risk": "none",
+                "violence_risk": "none",
+                "self_neglect_risk": "low",
+                "rationale": "No suicidal ideation or violence concerns; slight concern over self-neglect given avoidance behavior, but this is not severe enough to impair essential daily functioning."
+            },
+            "exclusionary_findings": [
+                {
+                    "test_name": "TSH",
+                    "finding": "2.1 mIU/L",
+                    "interpretation": "Normal thyroid function, suggesting adrenergic symptoms are not due to thyroid dysfunction."
+                },
+                {
+                    "test_name": "Substance Use Review",
+                    "finding": "History of heavy alcohol use; no indication of acute intoxication or dependency symptoms.",
+                    "interpretation": "Clinically relevant given potential exacerbation of anxiety symptoms but not suggestive of primary substance-induced disorder in this case."
+                },
+                {
+                    "test_name": "Cardiopulmonary Review",
+                    "finding": "No abnormalities in heart rate, rhythm, or breath sounds; chest discomfort likely somatic manifestation of anxiety.",
+                    "interpretation": "Rules out acute cardiopulmonary causes for reported chest symptoms."
+                }
+            ],
+            "clinical_summary": "56-year-old African American female with moderate anxiety symptoms presenting as persistent worry, fatigue, restlessness, and moderate functional impairment, alongside mild depressive symptoms and subthreshold insomnia. Symptoms are exacerbated by academic stress and peer conflict. No urgent risks or exclusionary medical findings attributed to symptoms; anxiety-related diagnoses are appropriate to consider based on presentation."
+        }
+    },
+    {
+        "metadata": {
+            "disease_name": "Bipolar Disorder",
+            "severity_level": "moderate",
+            "disease_outline_id": "bipolar_disorder.json",
+            "disease_key": "bipolar_disorder",
+            "case_index": 2,
+            "case_id": "bipolar_disorder_0"
+        },
+        "sampled_attributes": {
+            "disease_name": "Bipolar Disorder",
+            "severity_level": "moderate",
+            "age_strata": "Adult",
+            "age": 56,
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern"
+        },
+        "patient_profile": {
+            "age": 56,
+            "age_strata": "Adult",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern",
+            "name": "Monique Harrison",
+            "lifestyle_summary": "Monique is a middle-income student living in a suburban area who stays moderately active and has a high-salt diet. She is a former smoker but consumes alcohol heavily.",
+            "past_medical_history": "Monique has a history of hypertension and experienced a major depressive episode in her mid-30s. She has no known psychosis, seizures, or hospitalizations for mental health crises.",
+            "family_history": "Her mother had severe depression and her younger brother was diagnosed with Bipolar Disorder Type I. No significant history of mental health conditions in other relatives.",
+            "medication_history": "She previously took sertraline for depression but discontinued it due to feelings of excessive activation. Currently not on psychiatric medication.",
+            "allergy_history": "No known drug or environmental allergies.",
+            "vaccination_history": "Routine vaccinations up-to-date, including influenza and COVID-19 vaccines."
+        },
+        "symptom_trajectory": {
+            "current_severity": "moderate",
+            "chief_complaint": "I’ve been feeling a mix of really high energy and really low moments, and it’s getting harder to keep up with my schoolwork and life.",
+            "onset": "Symptoms gradually worsened over the past 2 months.",
+            "duration": "Current episode has lasted approximately 8 weeks with intermittent fluctuations.",
+            "progression": "Initially noticed mild restlessness and occasional low mood, which evolved into distinct manic and depressive states lasting several days each.",
+            "selected_symptoms": [
+                {
+                    "name": "elevated or extremely irritable mood",
+                    "duration": "Several days during manic phases",
+                    "severity": "moderate",
+                    "impact": "Caused social tensions and difficulty focusing on academic tasks."
+                },
+                {
+                    "name": "racing thoughts",
+                    "duration": "Intermittent during manic phases, lasting hours",
+                    "severity": "moderate",
+                    "impact": "Interfered with her ability to plan and prioritize schoolwork effectively."
+                },
+                {
+                    "name": "low or anxious mood",
+                    "duration": "Several days during depressive phases",
+                    "severity": "moderate",
+                    "impact": "Caused feelings of hopelessness and neglect of personal hygiene."
+                },
+                {
+                    "name": "sleep disturbance",
+                    "duration": "Present throughout the episode",
+                    "severity": "moderate",
+                    "impact": "Caught between insomnia during manic phases and oversleeping during depressive phases leading to exhaustion."
+                },
+                {
+                    "name": "impaired responsibilities or relationships",
+                    "duration": "Over the last two months",
+                    "severity": "moderate",
+                    "impact": "Struggled to maintain academic deadlines and interpersonal engagements."
+                }
+            ],
+            "associated_symptoms": [
+                "pressured speech during manic phases",
+                "anhedonia during depressive phases",
+                "restlessness during mood transitions"
+            ],
+            "negative_symptoms": [
+                "suicidal ideation",
+                "psychotic symptoms like hallucinations or delusions",
+                "catatonia"
+            ],
+            "triggers": [
+                "Stress regarding school deadlines",
+                "Intake of excess alcohol"
+            ],
+            "relieving_factors": [
+                "Reducing alcohol use"
+            ],
+            "functional_impact": "Her ability to balance academic and personal responsibilities is moderately impaired, but she can perform some tasks intermittently. Social interactions are strained.",
+            "risk_features": [
+                "No urgent risk features such as suicidal ideation or psychosis observed at this time."
+            ]
+        },
+        "examination_results": {
+            "mental_status_exam": {
+                "appearance_behavior": "Appropriately dressed for the season but somewhat disheveled; moderately restless behavior noted during the interview.",
+                "speech": "Pressured speech noted during excited moments, intermittent tangential communication.",
+                "mood_affect": "Mood oscillates between elevated during manic descriptions and dysphoric when discussing depressive states; affect moderately labile.",
+                "thought_process": "Thoughts are generally coherent but exhibit racing qualities during manic moments; occasional tangentiality noted.",
+                "thought_content": "No evidence of delusions, paranoia, or other abnormal thought content.",
+                "perception": "No hallucinations or perceptual disturbances reported or observed.",
+                "cognition": "Alert and oriented to person, place, and time; exhibits moderate difficulty with concentration and memory recall during depressive phases.",
+                "insight_judgment": "Insight is partial; judgment impaired during manic phases, leading to impulsive decisions.",
+                "reliability": "History is reasonably reliable with minor inconsistencies attributable to mood fluctuations."
+            },
+            "scale_assessments": [
+                {
+                    "scale_name": "PHQ-9",
+                    "score": 12,
+                    "severity_interpretation": "moderate depressive symptoms",
+                    "rationale": "Reflects sleep disturbance, feelings of hopelessness, and moderate neglect of responsibilities consistent with depressive episodes described."
+                },
+                {
+                    "scale_name": "GAD-7",
+                    "score": 10,
+                    "severity_interpretation": "moderate anxiety symptoms",
+                    "rationale": "Accounts for racing thoughts, restlessness, and difficulty concentrating during mood shifts."
+                },
+                {
+                    "scale_name": "ISI",
+                    "score": 17,
+                    "severity_interpretation": "moderate clinical insomnia",
+                    "rationale": "Aligns with patient’s alternating insomnia during manic phases and hypersomnia in depressive states, causing functional exhaustion."
+                }
+            ],
+            "risk_assessment": {
+                "suicide_risk": "none",
+                "violence_risk": "none",
+                "self_neglect_risk": "low",
+                "rationale": "No suicidal ideation or psychotic symptoms reported. Self-neglect observed moderately during depressive phases but does not reach critical levels."
+            },
+            "exclusionary_findings": [
+                {
+                    "test_name": "TSH",
+                    "finding": "2.3 μIU/mL",
+                    "interpretation": "Within normal range; thyroid dysfunction unlikely as contributor to mood instability."
+                },
+                {
+                    "test_name": "Substance screen",
+                    "finding": "Negative for illicit substances",
+                    "interpretation": "No evidence of substance-induced mood episodes contributing to current symptoms."
+                },
+                {
+                    "test_name": "Medication review",
+                    "finding": "No current activating psychiatric medications identified",
+                    "interpretation": "Activation from medications does not appear to be relevant."
+                }
+            ],
+            "clinical_summary": "The patient presents moderate bipolar symptomology with manic and depressive phases impacting academic and social performance. Insomnia, racing thoughts, and mood disturbances align with mood cycling. Exclusionary findings rule out thyroid dysfunction and substance-related causes, supporting primary mood disorder consideration without urgent risk features."
+        }
+    },
+    {
+        "metadata": {
+            "disease_name": "Depression",
+            "severity_level": "moderate",
+            "disease_outline_id": "depression.json",
+            "disease_key": "depression",
+            "case_index": 3,
+            "case_id": "depression_0"
+        },
+        "sampled_attributes": {
+            "disease_name": "Depression",
+            "severity_level": "moderate",
+            "age_strata": "Adult",
+            "age": 56,
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern"
+        },
+        "patient_profile": {
+            "age": 56,
+            "age_strata": "Adult",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern",
+            "name": "Jacqueline Carter",
+            "lifestyle_summary": "Jacqueline is a 56-year-old African American woman residing in a suburban area. She is pursuing a college degree, maintains a moderately active lifestyle, and consumes a high-salt diet. She stopped smoking years ago but has been consuming alcohol heavily.",
+            "past_medical_history": "History of hypertension and seasonal allergic rhinitis. No prior episodes of depression or significant mental health concerns on record.",
+            "family_history": "Mother had depression during her late 70s. Father had Type 2 Diabetes, and there is no family history of psychiatric hospitalization or bipolar disorder.",
+            "medication_history": "Currently taking amlodipine for hypertension and over-the-counter antihistamines for seasonal allergies. Not on psychiatric medications.",
+            "allergy_history": "Seasonal allergies to pollen; no drug or food allergies documented.",
+            "vaccination_history": "Up-to-date on routine vaccinations, including influenza and COVID-19 boosters."
+        },
+        "symptom_trajectory": {
+            "current_severity": "moderate",
+            "chief_complaint": "I've been feeling very down and unmotivated—like everything is just overwhelming.",
+            "onset": "Symptoms started approximately three months ago, initially without any clear trigger.",
+            "duration": "Symptoms have been persistent over the past three months.",
+            "progression": "Symptoms began mildly, with occasional sadness and fatigue but have progressively worsened to now include daily pervasive low mood, poor concentration, and disrupted sleep.",
+            "selected_symptoms": [
+                {
+                    "name": "Persistent sadness, anxiety, emptiness, hopelessness, or pessimism",
+                    "duration": "3 months",
+                    "severity": "moderate",
+                    "impact": "Feels emotionally drained, struggles to enjoy day-to-day activities, and frequently avoids family gatherings."
+                },
+                {
+                    "name": "Irritability, frustration, restlessness, guilt, worthlessness, or helplessness",
+                    "duration": "2 months",
+                    "severity": "moderate",
+                    "impact": "Easily frustrated by minor inconveniences and frequently feels guilty about neglecting personal and academic responsibilities."
+                },
+                {
+                    "name": "Fatigue, low energy, psychomotor slowing, poor concentration, memory difficulty, or indecision",
+                    "duration": "2.5 months",
+                    "severity": "moderate",
+                    "impact": "Struggles with college assignments due to lack of focus and feels drained even after a full night's sleep."
+                },
+                {
+                    "name": "Loss of interest or pleasure",
+                    "duration": "2 months",
+                    "severity": "moderate",
+                    "impact": "No longer enjoys hobbies such as gardening and has disengaged from social activities with friends."
+                },
+                {
+                    "name": "Insomnia, early-morning awakening, hypersomnia, appetite change, or unplanned weight change",
+                    "duration": "1.5 months",
+                    "severity": "moderate",
+                    "impact": "Experiencing difficulty falling asleep and frequent early-morning awakenings; reports gaining 6 pounds unintentionally."
+                }
+            ],
+            "associated_symptoms": [
+                "frequent headaches that started in the last month",
+                "mild digestive discomfort"
+            ],
+            "negative_symptoms": [
+                "no thoughts of death or suicidal ideation",
+                "no hallucinations or delusions",
+                "no severe functional impairment preventing self-care"
+            ],
+            "triggers": [
+                "increased academic workload",
+                "conflicts with classmates"
+            ],
+            "relieving_factors": [
+                "short evening walks",
+                "speaking briefly with a trusted friend"
+            ],
+            "functional_impact": "Has experienced noticeable impairment in academic performance and strained social relationships, although daily self-care remains intact.",
+            "risk_features": [
+                "explicit absence of suicidal ideation or psychosis symptoms"
+            ]
+        },
+        "examination_results": {
+            "mental_status_exam": {
+                "appearance_behavior": "Appears older than stated age, with somewhat disheveled hair and clothing; posture is slightly slouched, and psychomotor activity is slowed.",
+                "speech": "Speech is tangential, slightly hesitant, and soft in volume but clear.",
+                "mood_affect": "Mood is described as 'low' by the patient; affect is restricted and congruent with mood.",
+                "thought_process": "Thought process is goal-directed but slightly circumstantial.",
+                "thought_content": "No evidence of delusions, hallucinations, or preoccupations noted during the interview.",
+                "perception": "Normal; no perceptual disturbances reported or observed.",
+                "cognition": "Alert and oriented to person, place, and time; attention mildly impaired, with occasional difficulty staying focused during the interview; memory is intact for recent and remote events.",
+                "insight_judgment": "Insight is fair; demonstrates an understanding of her emotional state but struggles to connect this to her alcohol consumption. Judgment is mildly impaired, likely influenced by mood state.",
+                "reliability": "History provided is reliable, consistent with prior records."
+            },
+            "scale_assessments": [
+                {
+                    "scale_name": "PHQ-9",
+                    "score": 13,
+                    "severity_interpretation": "moderate depressive symptoms",
+                    "rationale": "Score reflects pervasive sadness, poor concentration, fatigue, and lack of interest in activities consistent with the patient’s reported symptoms of moderate depression."
+                },
+                {
+                    "scale_name": "GAD-7",
+                    "score": 10,
+                    "severity_interpretation": "moderate anxiety symptoms",
+                    "rationale": "Score aligns with reported feelings of irritability, restlessness, and mental overwhelm which frequently overlap in depression cases."
+                },
+                {
+                    "scale_name": "ISI",
+                    "score": 17,
+                    "severity_interpretation": "moderate clinical insomnia",
+                    "rationale": "Score is consistent with reported difficulty initiating sleep and early-morning awakenings compounded by fatigue and mental distress."
+                }
+            ],
+            "risk_assessment": {
+                "suicide_risk": "none",
+                "violence_risk": "none",
+                "self_neglect_risk": "low",
+                "rationale": "There are no indications of suicidal ideation, psychosis, or safety concerns; however, emotional withdrawal and passive neglect of academic responsibilities signify low-level self-neglect risks."
+            },
+            "exclusionary_findings": [
+                {
+                    "test_name": "TSH",
+                    "finding": "4.2 µIU/mL (slightly elevated)",
+                    "interpretation": "Potential mild hypothyroidism, which could contribute to fatigue and low mood but is not solely explanatory for the depressive symptoms."
+                },
+                {
+                    "test_name": "CBC",
+                    "finding": "Normal hemoglobin and white cell count",
+                    "interpretation": "Rules out anemia or infection as contributors to fatigue and low energy complaints."
+                }
+            ],
+            "clinical_summary": "Jacqueline Carter, a 56-year-old woman, presents with moderate depressive symptoms including pervasive sadness, difficulty concentrating, fatigue, disrupted sleep patterns, and loss of interest in activities for the past three months. Examination findings highlight slowed psychomotor activity, tangential speech, restricted affect, and mild cognitive and judgment impairment. Scales for depression, anxiety, and insomnia corroborate moderate severity. Exclusionary findings show a slightly elevated TSH and normal CBC. Risks for suicide and violence are absent; self-neglect is minimal, primarily related to academic underperformance."
+        }
+    },
+    {
+        "metadata": {
+            "disease_name": "Insomnia",
+            "severity_level": "moderate",
+            "disease_outline_id": "insomnia.json",
+            "disease_key": "insomnia",
+            "case_index": 4,
+            "case_id": "insomnia_0"
+        },
+        "sampled_attributes": {
+            "disease_name": "Insomnia",
+            "severity_level": "moderate",
+            "age_strata": "Adult",
+            "age": 56,
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern"
+        },
+        "patient_profile": {
+            "age": 56,
+            "age_strata": "Adult",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern",
+            "name": "Denise Jackson",
+            "lifestyle_summary": "Former smoker and current heavy alcohol user with a high-salt diet. Regularly engages in moderate physical activity, and diverse social responsibilities as a midlife student.",
+            "past_medical_history": "History of hypertension and episodic migraine headaches. No prior psychiatric conditions reported. Former years of smoking but has quit for over 10 years.",
+            "family_history": "Mother had diabetes and difficulty sleeping in her later years. Father had hypertension. No significant psychiatric or sleep disorders noted.",
+            "medication_history": "Currently takes lisinopril for hypertension as needed for migraines (sumatriptan). No history of using sleep aids.",
+            "allergy_history": "No known drug or environmental allergies.",
+            "vaccination_history": "Up to date on standard adult vaccinations including Tdap, flu, and COVID-19."
+        },
+        "symptom_trajectory": {
+            "current_severity": "moderate",
+            "chief_complaint": "I can't seem to get a good night's sleep no matter what I do, and it's starting to affect my focus and mood.",
+            "onset": "Symptoms began gradually about four months ago with noticeable difficulty falling asleep.",
+            "duration": "Symptoms have persisted for four months.",
+            "progression": "Initially had trouble falling asleep a few nights a week but now struggles nearly every night, with additional waking up frequently in the middle of the night.",
+            "selected_symptoms": [
+                {
+                    "name": "Long sleep-onset latency",
+                    "duration": "4 months",
+                    "severity": "moderate",
+                    "impact": "Takes over an hour to fall asleep most nights, causing frustration and anxiety."
+                },
+                {
+                    "name": "Frequent nocturnal awakenings",
+                    "duration": "3 months",
+                    "severity": "moderate",
+                    "impact": "Wakes up 2-3 times a night, unable to fall asleep for 30 minutes or more each time."
+                },
+                {
+                    "name": "Unrested feeling, daytime sleepiness, poor concentration, anxiety, depressed mood, or irritability",
+                    "duration": "3 months",
+                    "severity": "moderate",
+                    "impact": "Difficulty focusing on academic work and feeling irritable during social interactions."
+                }
+            ],
+            "associated_symptoms": [
+                "daytime fatigue",
+                "mild depressed mood",
+                "anxiety when trying to fall asleep"
+            ],
+            "negative_symptoms": [
+                "snoring",
+                "gasping at night",
+                "severe daytime sleepiness or risk when driving",
+                "symptoms suggestive of manic or psychotic episodes",
+                "restless legs"
+            ],
+            "triggers": [
+                "stress related to academic pressures",
+                "late-night alcohol consumption"
+            ],
+            "relieving_factors": [
+                "sleep hygiene practices like reducing screen time before bed",
+                "avoiding caffeine in the afternoons",
+                "engaging in relaxing activities like light stretching"
+            ],
+            "functional_impact": "Unable to maintain optimal focus in studies and experiences mild strain in personal relationships due to irritability.",
+            "risk_features": [
+                "Heavy alcohol use and high-salt diet may contribute to poor sleep quality, but no red-flag features like apnea or psychotic symptoms."
+            ]
+        },
+        "examination_results": {
+            "mental_status_exam": {
+                "appearance_behavior": "Neatly dressed and cooperative with normal psychomotor activity observed.",
+                "speech": "Normal rate, rhythm, and tone with mildly tangential tendencies.",
+                "mood_affect": "Self-reported frustration due to sleeplessness with an irritable affect becoming apparent during discussion.",
+                "thought_process": "Linear and goal-directed overall, though occasionally tangent.",
+                "thought_content": "No evidence of suicidal ideation, hallucination, delusions, or obsessional thinking.",
+                "perception": "No abnormalities; denies hallucinations or perceptual disturbances.",
+                "cognition": "Alert and oriented x4; difficulties with focus and sustained attention noted.",
+                "insight_judgment": "Fair insight into sleep hygiene practices and judgment mildly impaired due to persistent alcohol use despite acknowledgment of its impact on sleep.",
+                "reliability": "History appears reliable with no exaggeration or minimization of symptoms."
+            },
+            "scale_assessments": [
+                {
+                    "scale_name": "ISI",
+                    "score": 17,
+                    "severity_interpretation": "moderate clinical insomnia",
+                    "rationale": "Persisting insomnia symptoms with significant difficulties initiating and maintaining sleep, causing notable daytime impairments."
+                },
+                {
+                    "scale_name": "PHQ-9",
+                    "score": 12,
+                    "severity_interpretation": "moderate depressive symptoms",
+                    "rationale": "Reports of irritability, low mood, and difficulty concentrating align with moderate depressive symptoms secondary to chronic insomnia."
+                },
+                {
+                    "scale_name": "GAD-7",
+                    "score": 11,
+                    "severity_interpretation": "moderate anxiety symptoms",
+                    "rationale": "Consistent with pre-sleep anxiety and general restlessness exacerbated by academic stress and difficulties in sleep maintenance."
+                }
+            ],
+            "risk_assessment": {
+                "suicide_risk": "low",
+                "violence_risk": "none",
+                "self_neglect_risk": "low",
+                "rationale": "Low suicide risk due to no reported suicidal ideation and functional support systems. No risk for violence or significant self-neglect beyond the impact of late-night alcohol use contributing to poor sleep patterns."
+            },
+            "exclusionary_findings": [
+                {
+                    "test_name": "Sleep diary",
+                    "finding": "Inconsistent sleep schedule with sleep onset delay exceeding 60 minutes on most nights.",
+                    "interpretation": "Supports a diagnosis of chronic insomnia related to poor sleep habits and behavioral triggers."
+                },
+                {
+                    "test_name": "Alcohol use review",
+                    "finding": "Regular late-night alcohol consumption",
+                    "interpretation": "Likely contributing to sleep fragmentation and poor sleep quality."
+                },
+                {
+                    "test_name": "Screen for sleep apnea symptoms",
+                    "finding": "No snoring, gasping, or observed apneas reported",
+                    "interpretation": "Insomnia unlikely secondary to sleep apnea."
+                }
+            ],
+            "clinical_summary": "The patient, a 56-year-old African American female, presents with a 4-month history of moderate insomnia characterized by difficulty falling asleep, frequent nocturnal awakenings, and associated daytime impairments such as fatigue, poor concentration, and irritability. Key triggers include late-night alcohol use and academic stress, while sleep hygiene has shown partial efficacy in symptom management. There are no symptoms indicative of sleep apnea, manic episodes, or psychosis."
+        }
+    },
+    {
+        "metadata": {
+            "disease_name": "OCD",
+            "severity_level": "moderate",
+            "disease_outline_id": "ocd.json",
+            "disease_key": "ocd",
+            "case_index": 5,
+            "case_id": "ocd_0"
+        },
+        "sampled_attributes": {
+            "disease_name": "OCD",
+            "severity_level": "moderate",
+            "age_strata": "Adult",
+            "age": 56,
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern"
+        },
+        "patient_profile": {
+            "age": 56,
+            "age_strata": "Adult",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern",
+            "name": "Angela Morrison",
+            "lifestyle_summary": "Angela is a 56-year-old African American woman who resides in a suburban area. She is currently enrolled as a student and maintains a moderately active lifestyle. She has a history of heavy alcohol use and follows a high-salt dietary pattern, though she has been a former smoker. Angela prefers modern medical interventions and is known to communicate in a tangential manner during consultations.",
+            "past_medical_history": "History of hypertension diagnosed at age 45, managed with medication. Diagnosed with mild depression 8 years ago, which resolved with treatment. A single hospitalization 15 years ago for a severe anxiety attack.",
+            "family_history": "Mother diagnosed with anxiety and hypertension in her 50s. No family history of OCD or other psychiatric disorders is known.",
+            "medication_history": "Currently on lisinopril for hypertension; no psychiatric medications.",
+            "allergy_history": "No known drug or environmental allergies.",
+            "vaccination_history": "Up-to-date on standard adult immunizations, including yearly influenza vaccine and COVID-19 vaccines."
+        },
+        "symptom_trajectory": {
+            "current_severity": "moderate",
+            "chief_complaint": "I can’t stop double-checking things, and I feel like I’m losing so much time every day.",
+            "onset": "Gradual onset over the past 7 months.",
+            "duration": "Symptoms have been present for 7 months.",
+            "progression": "Symptoms have progressively worsened, especially during periods of stress related to coursework deadlines.",
+            "selected_symptoms": [
+                {
+                    "name": "Fear of forgetting, losing, or misplacing something",
+                    "duration": "7 months",
+                    "severity": "moderate",
+                    "impact": "Causes Angela to repeatedly check and organize her belongings, consuming over 2 hours daily."
+                },
+                {
+                    "name": "Repeated checking such as locks, appliances, or safety",
+                    "duration": "7 months",
+                    "severity": "moderate",
+                    "impact": "Spends a significant portion of each evening checking appliances and locks, leading to delayed bedtimes and fatigue."
+                },
+                {
+                    "name": "Fear of losing control over behavior or harming self/others",
+                    "duration": "5 months",
+                    "severity": "moderate",
+                    "impact": "Frequently worries about accidentally leaving the stove on and causing a fire, increasing her checking behavior."
+                }
+            ],
+            "associated_symptoms": [
+                "Excessive cleaning or handwashing",
+                "Need for symmetry, precision, or perfect order"
+            ],
+            "negative_symptoms": [
+                "No significant intrusive taboo thoughts",
+                "No compulsive counting, praying, or silent repetition",
+                "No skin injuries from cleaning",
+                "No delusional thoughts or lack of insight"
+            ],
+            "triggers": [
+                "Stress from academic work",
+                "Increased deadlines or pressure in her studies"
+            ],
+            "relieving_factors": [
+                "Physical exercise helps to momentarily distract her from obsessive thoughts",
+                "Speaking with her counselor provides temporary relief"
+            ],
+            "functional_impact": "Repeated checking and organizing consume 2-3 hours daily, interfering with her study schedule and causing fatigue due to delayed sleep.",
+            "risk_features": [
+                "No self-harm or suicidal ideation",
+                "Skin intact despite occasional excessive cleaning"
+            ]
+        },
+        "examination_results": {
+            "mental_status_exam": {
+                "appearance_behavior": "Angela appears appropriately dressed and groomed. She displays mild psychomotor agitation with restlessness during the interview, likely due to anxiety.",
+                "speech": "Speech is tangential at times but generally coherent, with an appropriate rate and tone.",
+                "mood_affect": "Mood is described as 'frustrated' and anxious. Affect is congruent with her expressed mood and shows moderate distress.",
+                "thought_process": "Shows a tangential thought process but is logical overall. No derailment or flight of ideas.",
+                "thought_content": "Recurring obsessive fears of forgetting or misplacing items, and worries about safety persist without delusional content.",
+                "perception": "No auditory or visual hallucinations reported.",
+                "cognition": "Angela is oriented to person, time, and place. Attention is mildly impaired by intrusive thoughts. Short-term and long-term memory remain intact.",
+                "insight_judgment": "Insight into her obsessive-compulsive behavior is fair. Judgment is intact but affected by rituals that cause daily inefficiency.",
+                "reliability": "The history provided is reliable though hampered by her tangential communication style."
+            },
+            "scale_assessments": [
+                {
+                    "scale_name": "PHQ-9",
+                    "score": 10,
+                    "severity_interpretation": "moderate depressive symptoms",
+                    "rationale": "The case details reveal moderate distress and fatigue stemming from OCD-related behaviors, which aligns with the PHQ-9 scoring for moderate depressive symptoms."
+                },
+                {
+                    "scale_name": "GAD-7",
+                    "score": 14,
+                    "severity_interpretation": "moderate anxiety symptoms",
+                    "rationale": "Angela exhibits significant anxiety from obsessive fears and compulsive behaviors, particularly during stressful academic situations, fitting the moderate range of the GAD-7 scale."
+                }
+            ],
+            "risk_assessment": {
+                "suicide_risk": "none",
+                "violence_risk": "none",
+                "self_neglect_risk": "low",
+                "rationale": "Angela showed no suicidal or violent ideation and maintains basic self-care despite distress, though her obsessive behaviors interfere with efficient daily functioning."
+            },
+            "exclusionary_findings": [
+                {
+                    "test_name": "Skin examination",
+                    "finding": "Skin intact without damage or irritation noted despite occasional excessive cleaning.",
+                    "interpretation": "No physical harm from repetitive cleaning behaviors."
+                },
+                {
+                    "test_name": "Substance and medication review",
+                    "finding": "Use of lisinopril for hypertension without psychiatric medication; heavy alcohol usage reported.",
+                    "interpretation": "No substance misuse-related worsening of OCD symptoms but heavy alcohol use could contribute to overall mental health strain."
+                }
+            ],
+            "clinical_summary": "Angela Morrison, a 56-year-old African American woman, presents with moderate obsessive-compulsive symptoms including repeated checking and organizing behaviors driven by worry of forgetting or misplacing items and safety concerns. These behaviors consume 2-3 hours daily and are exacerbated by academic stress. Mental status reveals anxiety and frustration, tangential thoughts, fair insight, and no perceptual disturbances. PHQ-9 and GAD-7 assessments confirm moderate depressive and anxiety symptoms. Exclusionary findings show no physical harm from compulsive cleaning and confirm stable medication use, though heavy alcohol consumption warrants consideration. Risk assessment identifies low self-neglect risk without indications of violence or suicide."
+        }
+    },
+    {
+        "metadata": {
+            "disease_name": "PTSD",
+            "severity_level": "moderate",
+            "disease_outline_id": "ptsd.json",
+            "disease_key": "ptsd",
+            "case_index": 6,
+            "case_id": "ptsd_0"
+        },
+        "sampled_attributes": {
+            "disease_name": "PTSD",
+            "severity_level": "moderate",
+            "age_strata": "Adult",
+            "age": 56,
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern"
+        },
+        "patient_profile": {
+            "age": 56,
+            "age_strata": "Adult",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern",
+            "name": "Amara Lewis",
+            "lifestyle_summary": "Moderately active lifestyle with heavy alcohol use and a high-salt diet. Former smoker who is now pursuing further education while managing middle-income challenges.",
+            "past_medical_history": "History of hypertension and an appendectomy at age 37. Experienced severe emotional distress following trauma but no prior psychiatric diagnoses.",
+            "family_history": "Mother had depression; father died of a cardiovascular event at age 68. No family history of PTSD.",
+            "medication_history": "Currently taking lisinopril for blood pressure. Previous short-term use of zolpidem for sleep disturbances.",
+            "allergy_history": "Allergy to penicillin manifesting as rash; no other known allergies.",
+            "vaccination_history": "Up to date on routine adult vaccinations, including influenza and COVID-19."
+        },
+        "symptom_trajectory": {
+            "current_severity": "moderate",
+            "chief_complaint": "I’m having a lot of nightmares and keep remembering the accident. I feel like I can’t relax anymore.",
+            "onset": "Symptoms started approximately nine months ago, within weeks of witnessing a fatal car accident.",
+            "duration": "Symptoms have persisted for nine months without significant improvement.",
+            "progression": "Initially mild symptoms became more frequent and distressing over time, now causing significant effects on daily life.",
+            "selected_symptoms": [
+                {
+                    "name": "Flashbacks, recurrent distressing memories or dreams, distressing thoughts, or physical signs of stress when reminded of trauma",
+                    "duration": "Nine months",
+                    "severity": "moderate",
+                    "impact": "Disrupting sleep patterns and causing emotional distress during the day."
+                },
+                {
+                    "name": "Avoidance of trauma-related places, events, objects, thoughts, or feelings",
+                    "duration": "Seven months",
+                    "severity": "moderate",
+                    "impact": "Avoids driving on major roads and is hesitant about going near the location of the accident."
+                },
+                {
+                    "name": "Startle response, hypervigilance, feeling tense or on guard, concentration problems, irritability, angry or aggressive outbursts, sleep disturbance, or risky behavior",
+                    "duration": "Seven months",
+                    "severity": "moderate",
+                    "impact": "Experiences frequent difficulty concentrating and is more irritable; sleep has been continually restless."
+                },
+                {
+                    "name": "Memory gaps for trauma details, negative beliefs about self or world, exaggerated blame, persistent fear, anger, guilt, shame, anhedonia, social isolation, or difficulty feeling positive emotions",
+                    "duration": "Eight months",
+                    "severity": "moderate",
+                    "impact": "Feels guilty and shameful about witnessing the accident without being able to help; struggles with social engagement."
+                }
+            ],
+            "associated_symptoms": [
+                "frequent nightmares",
+                "heightened startle response",
+                "daytime fatigue"
+            ],
+            "negative_symptoms": [
+                "suicidal ideation",
+                "substance misuse",
+                "dissociative episodes"
+            ],
+            "triggers": [
+                "situations resembling the accident",
+                "discussions about car crashes"
+            ],
+            "relieving_factors": [
+                "avoiding reminders of the incident",
+                "occasional relaxation using breathing exercises"
+            ],
+            "functional_impact": "Amara’s PTSD symptoms are moderately impairing her ability to focus on studies and reducing her social interactions, though she retains some capability for daily routines.",
+            "risk_features": [
+                "No immediate risk factors like suicidal ideation or violent impulses are present."
+            ]
+        },
+        "examination_results": {
+            "mental_status_exam": {
+                "appearance_behavior": "Casually dressed and adequately groomed; appeared restless but was oriented to the environment. No psychomotor agitation or retardation noted.",
+                "speech": "Speech was normal in rate and tone but became tangential at times when discussing trauma-related events.",
+                "mood_affect": "Mood described as 'on edge' and 'sad'; affect congruent with mood and moderately restricted in range.",
+                "thought_process": "Primarily linear but tangential when discussing the accident; no evidence of formal thought disorder.",
+                "thought_content": "Preoccupied with memories of the traumatic event; no psychotic or delusional content evident.",
+                "perception": "No hallucinations or perceptual abnormalities noted.",
+                "cognition": "Alert and oriented to person, place, and time; exhibited minor difficulty maintaining attention and concentration, consistent with subjective complaints.",
+                "insight_judgment": "Demonstrates moderate insight into the connection between trauma and current symptoms; judgment appears intact.",
+                "reliability": "History appears reliable, though emotional distress may slightly color perception of events."
+            },
+            "scale_assessments": [
+                {
+                    "scale_name": "PHQ-9",
+                    "score": 14,
+                    "severity_interpretation": "moderate depressive symptoms",
+                    "rationale": "The PHQ-9 score reflects frequent feelings of sadness, guilt, and anhedonia over the past few months, consistent with the patient's self-reported emotional state and functional impairment."
+                },
+                {
+                    "scale_name": "GAD-7",
+                    "score": 13,
+                    "severity_interpretation": "moderate anxiety symptoms",
+                    "rationale": "The GAD-7 score captures moderate hypervigilance, feelings of tension, and difficulty concentrating as described in the patient record and examination."
+                },
+                {
+                    "scale_name": "ISI",
+                    "score": 17,
+                    "severity_interpretation": "moderate clinical insomnia",
+                    "rationale": "The ISI score aligns with reported frequent nightmares, daytime fatigue, and persistent sleep disturbances that have lasted for months."
+                }
+            ],
+            "risk_assessment": {
+                "suicide_risk": "none",
+                "violence_risk": "none",
+                "self_neglect_risk": "low",
+                "rationale": "The patient denies suicidal ideation, plans, or self-harm behaviors, and presents no signs of a violent or aggressive disposition. Some mild risk of self-neglect may arise from emotional distress and social isolation, but basic needs are being met."
+            },
+            "exclusionary_findings": [
+                {
+                    "test_name": "substance use screen",
+                    "finding": "No evidence of current substance abuse or misuse.",
+                    "interpretation": "Heavy alcohol use is present but does not meet criteria for substance use disorder, nor does it exacerbate PTSD symptoms significantly."
+                },
+                {
+                    "test_name": "sleep diary",
+                    "finding": "Reports 4-5 hours of fragmented sleep per night with nightmares occurring 4 nights per week.",
+                    "interpretation": "Sleep disturbances are consistent with PTSD symptoms, not attributable to other sleep disorders."
+                }
+            ],
+            "clinical_summary": "Amara Lewis, a 56-year-old female, presents with moderate PTSD symptoms following a traumatic accident experienced nine months ago. Symptoms include frequent nightmares, flashbacks, avoidance behaviors, heightened startle response, hypervigilance, and negative alterations in cognitions and mood, such as feelings of shame and guilt. Examination reveals moderate depressive symptoms (PHQ-9: 14), moderate anxiety symptoms (GAD-7: 13), and moderate clinical insomnia (ISI: 17). Risk of suicide or violence is absent, though low-level self-neglect risk is noted. Findings rule out substance misuse or alternate causes for sleep disruptions, affirming trauma-centric origins of her condition."
+        }
+    },
+    {
+        "metadata": {
+            "disease_name": "Schizophrenia",
+            "severity_level": "severe",
+            "disease_outline_id": "schizophrenia.json",
+            "disease_key": "schizophrenia",
+            "case_index": 7,
+            "case_id": "schizophrenia_0"
+        },
+        "sampled_attributes": {
+            "disease_name": "Schizophrenia",
+            "severity_level": "severe",
+            "age_strata": "Adult",
+            "age": 56,
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern"
+        },
+        "patient_profile": {
+            "age": 56,
+            "age_strata": "Adult",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "African American",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "College",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Former",
+            "alcohol": "Heavy",
+            "dietary_pattern": "High-salt",
+            "activity_level": "Moderate",
+            "communication_style": "Tangent",
+            "medicine_preference": "Modern",
+            "name": "Monique Harris",
+            "lifestyle_summary": "Monique lives in a suburban area, attends college as a mature student, and has a high-salt diet. She ceased smoking several years ago but consumes alcohol heavily. Her activity level is moderate, and she communicates in a sometimes disjointed, tangent style.",
+            "past_medical_history": "Monique has a history of hypertension, likely connected to her high-salt diet and heavy alcohol use. She has had occasional depressive episodes over the years but was never formally diagnosed. Hospitalized in the past for severe dehydration after neglecting self-care during what was described as a 'strange episode'.",
+            "family_history": "The patient’s mother had a history of major depressive disorder, and there’s a paternal uncle with an unknown history of psychiatric hospitalization. No known history of schizophrenia in the family.",
+            "medication_history": "Previously prescribed an SSRI for depressive symptoms but discontinued after a few months due to patient-reported ineffectiveness. Sometimes uses medication for hypertension.",
+            "allergy_history": "No known drug or food allergies.",
+            "vaccination_history": "Uptodate on standard vaccinations, including influenza and COVID-19 vaccines as per CDC guidelines."
+        },
+        "symptom_trajectory": {
+            "current_severity": "severe",
+            "chief_complaint": "\"I keep hearing voices that tell me terrible things, and I feel like my thoughts aren't my own.\"",
+            "onset": "Symptoms started abruptly approximately four years ago, with worsening severity over time.",
+            "duration": "Four years, with a significant deterioration in the last six months.",
+            "progression": "Symptoms began with minor auditory hallucinations and delusions, but over time, these have become severe and persistent, leading to profound disorganization and functional impairments. Current symptoms reflect a state of acute exacerbation.",
+            "selected_symptoms": [
+                {
+                    "name": "hallucinations",
+                    "duration": "Four years, worsening in the past six months",
+                    "severity": "severe",
+                    "impact": "Persistent auditory hallucinations command self-harm and foster extreme emotional distress."
+                },
+                {
+                    "name": "delusions",
+                    "duration": "Four years, worsening in intensity recently",
+                    "severity": "severe",
+                    "impact": "Beliefs of conspiracies targeting her have impaired daily interactions and caused social withdrawal."
+                },
+                {
+                    "name": "disorganized speech",
+                    "duration": "Three years",
+                    "severity": "severe",
+                    "impact": "Tendency to jump from topic to topic incoherently, impacting her ability to communicate effectively."
+                },
+                {
+                    "name": "low motivation",
+                    "duration": "Four years",
+                    "severity": "severe",
+                    "impact": "Reduced drive to attend classes or complete routine tasks has led to poor academic and personal outcomes."
+                },
+                {
+                    "name": "difficulty recognizing reality",
+                    "duration": "Two years",
+                    "severity": "severe",
+                    "impact": "Her delusions blur the line between reality and hallucination, reinforcing her misperceptions."
+                }
+            ],
+            "associated_symptoms": [
+                "reduced pleasure",
+                "trouble planning routine activities",
+                "limited emotional expression",
+                "low energy"
+            ],
+            "negative_symptoms": [
+                "denies physical complaints atypical for psychiatric conditions",
+                "denies visual hallucinations",
+                "denies substance use contributing to symptoms"
+            ],
+            "triggers": [
+                "Social interactions often exacerbate hallucinations and anxiety-related delusions.",
+                "Periods of sleep deprivation worsen symptom severity."
+            ],
+            "relieving_factors": [
+                "Temporary alleviation during periods of isolation and avoiding stressful situations."
+            ],
+            "functional_impact": "Monique is unable to maintain safety, perform self-care, or keep up with her academic responsibilities due to the severity of her symptoms. She is at significant risk of further deterioration without intervention.",
+            "risk_features": [
+                "Command hallucinations instructing self-harm",
+                "Severe functional disruption impacting safety and daily living activities"
+            ]
+        },
+        "examination_results": {
+            "mental_status_exam": {
+                "appearance_behavior": "Disheveled appearance with poor personal hygiene. Shows significant psychomotor agitation with repetitive hand-wringing and pacing.",
+                "speech": "Pressured and tangential, frequently jumping between unrelated topics without clear logic.",
+                "mood_affect": "Mood appears distressed. Affect is flat and incongruent with expressed delusional content.",
+                "thought_process": "Severely disorganized with frequent derailment and loose associations.",
+                "thought_content": "Significant delusional content including strong belief in being targeted by conspiracies. Reports persistent auditory hallucinations commanding self-harm.",
+                "perception": "Persistent auditory hallucinations noted. No visual or tactile hallucinations reported.",
+                "cognition": "Alert and oriented to person, place, and time, but with significant impairments in concentration and short-term memory due to internal stimuli.",
+                "insight_judgment": "Poor insight into her condition and severely impaired judgment, particularly given the compliance with hallucinated commands.",
+                "reliability": "Limited due to disorganized thought processes and delusional content, but some consistency in symptom reporting."
+            },
+            "scale_assessments": [
+                {
+                    "scale_name": "PHQ-9",
+                    "score": 23,
+                    "severity_interpretation": "severe depressive symptoms",
+                    "rationale": "The profound loss of motivation, reduced pleasure, and functional impairments are consistent with severe depressive symptoms."
+                },
+                {
+                    "scale_name": "GAD-7",
+                    "score": 18,
+                    "severity_interpretation": "severe anxiety symptoms",
+                    "rationale": "Frequent distress related to auditory hallucinations and delusions about conspiracies are aligned with severe levels of anxiety."
+                }
+            ],
+            "risk_assessment": {
+                "suicide_risk": "high",
+                "violence_risk": "moderate",
+                "self_neglect_risk": "high",
+                "rationale": "Auditory hallucinations commanding self-harm directly elevate suicide risk. Self-neglect is evident through poor hygiene and nutritional care. Potential violence could occur if delusions about conspiracies escalate against others."
+            },
+            "exclusionary_findings": [
+                {
+                    "test_name": "substance screen",
+                    "finding": "Normal",
+                    "interpretation": "No evidence of substance use contributing to psychosis."
+                },
+                {
+                    "test_name": "basic metabolic profile",
+                    "finding": "Electrolytes within normal range, mild liver enzyme elevation",
+                    "interpretation": "Normal metabolic function with mild liver changes possibly connected to heavy alcohol use."
+                },
+                {
+                    "test_name": "neurological examination",
+                    "finding": "No focal deficits",
+                    "interpretation": "No evidence of a neurological condition contributing to symptoms."
+                }
+            ],
+            "clinical_summary": "Monique Harris, 56-year-old non-pregnant African American female, presents with severe psychotic symptoms including persistent auditory hallucinations, severe disorganized speech, and delusions. Her condition has severely impaired functional ability and judgment, with high risks for suicide and self-neglect. Exclusionary findings confirm symptoms are purely psychiatric, with no substance or neurological contributors. Severe depressive and anxiety symptoms are also present, further compounding her distress."
+        }
+    },
+    {
+        "patient_profile": {
+            "name": "Lucia Fernandez",
+            "lifestyle_summary": "Leads a mostly sedentary lifestyle with occasional walks in the neighborhood. Consumes a high-fat diet with limited intake of fruits and vegetables. No history of smoking or alcohol use. Lives alone in a suburban area and relies on help from neighbors.",
+            "past_medical_history": "Hypertension controlled with medication for the past 15 years. Osteoporosis diagnosed 5 years ago. No prior history of psychiatric illness or hospitalizations.",
+            "family_history": "History of mood disorders in the maternal side of the family. Mother and maternal aunt were diagnosed with depression in their later years.",
+            "medication_history": "Currently on antihypertensive medication for high blood pressure and calcium supplements for osteoporosis. No prior history of antidepressant use.",
+            "allergy_history": "No known drug or food allergies.",
+            "vaccination_history": "Up to date for common vaccines like influenza, shingles, and pneumonia. Last flu vaccine was administered six months ago.",
+            "age": 86,
+            "age_strata": "Elderly",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "Mixed",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "Secondary",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Never",
+            "alcohol": "None",
+            "dietary_pattern": "High-fat",
+            "activity_level": "Moderate",
+            "communication_style": "Plain",
+            "medicine_preference": "Traditional"
+        },
+        "symptom_trajectory": {
+            "current_severity": "severe",
+            "chief_complaint": "A persistent and overwhelming sense of worthlessness, coupled with fatigue and lack of interest in daily life.",
+            "onset": "Symptoms started gradually 8 months ago and have worsened significantly over the last 3 months.",
+            "duration": "8 months",
+            "progression": "Initially experienced a subtle loss of interest in hobbies. Progressed to avoidance of social interactions and increasing interruptions in daily routines like cooking or cleaning. Gradual development of active thoughts of worthlessness over the past few months.",
+            "selected_symptoms": [
+                {
+                    "name": "Loss of interest or pleasure",
+                    "duration": "8 months",
+                    "severity": "severe",
+                    "impact": "Avoids engaging in activities she previously enjoyed, such as gardening."
+                },
+                {
+                    "name": "Poor concentration and memory difficulty",
+                    "duration": "4 months",
+                    "severity": "severe",
+                    "impact": "Experiences difficulty understanding simple instructions and forgets appointments."
+                },
+                {
+                    "name": "Insomnia and fatigue",
+                    "duration": "6 months",
+                    "severity": "severe",
+                    "impact": "Struggles to sleep and wakes up exhausted."
+                },
+                {
+                    "name": "Unexplained aches and digestive symptoms",
+                    "duration": "5 months",
+                    "severity": "moderate",
+                    "impact": "Feels physical aches and pains, especially without a clear medical explanation."
+                },
+                {
+                    "name": "Thoughts of death or suicidal ideation",
+                    "duration": "3 months",
+                    "severity": "severe",
+                    "impact": "Occasional fleeting thoughts about whether life is worth living."
+                }
+            ],
+            "associated_symptoms": [
+                "Irritability and episodes of uncontrollable crying.",
+                "Persistent fatigue that worsens by the evening.",
+                "Difficulty concentrating on day-to-day activities, including watching TV or reading."
+            ],
+            "negative_symptoms": [
+                "No evidence of psychotic features like hallucinations or delusions.",
+                "No episodes indicative of a manic or hypomanic state.",
+                "No substance use or withdrawal-related symptoms."
+            ],
+            "triggers": [
+                "Loss of independence with advancing age.",
+                "Isolation and lack of social support systems.",
+                "Anniversaries of family losses trigger worsening symptoms.",
+                "Increased symptoms after doctor appointments or medical tests."
+            ],
+            "relieving_factors": [
+                "Occasionally feels slightly better when a neighbor visits or during short walks.",
+                "Engaging in knitting or simple craft activities provides limited distraction."
+            ],
+            "functional_impact": "Completely dependent on external support for daily routines. Unable to maintain hygiene or manage home tasks. Has withdrawn from all hobbies and interactions except for minimal neighbor support.",
+            "risk_features": [
+                "Passive thoughts of death and questioning the purpose of living.",
+                "Loss of ability to perform basic self-care like preparing meals.",
+                "Profound feelings of hopelessness and worthlessness."
+            ]
+        },
+        "examination_results": {
+            "mental_status_exam": {
+                "appearance_behavior": "Elderly woman with poor grooming and diminished eye contact, sitting hunched and displaying psychomotor retardation.",
+                "speech": "Low volume, slowed, and with sparse content.",
+                "mood_affect": "Depressed mood with a restricted, flat affect.",
+                "thought_process": "Logical and goal-directed, although slowed by fatigue and poor concentration.",
+                "thought_content": "Preoccupied with worthlessness and passive death wishes, but no active suicidal ideation or delusions.",
+                "perception": "No hallucinations or perceptual disturbances reported.",
+                "cognition": "Oriented to person, place, and time but exhibits severe difficulties with concentration and short-term memory.",
+                "insight_judgment": "Limited insight into her condition; judgment impaired due to depressive symptoms.",
+                "reliability": "Appears credible and consistent despite limited engagement."
+            },
+            "scale_assessments": [
+                {
+                    "scale_name": "PHQ-9",
+                    "score": 25,
+                    "severity_interpretation": "severe depressive symptoms",
+                    "rationale": "The patient's symptoms align with severe criteria, including overwhelming worthlessness, profound loss of interest, significant disruption to daily functioning, and passive suicidal ideation."
+                },
+                {
+                    "scale_name": "GAD-7",
+                    "score": 12,
+                    "severity_interpretation": "moderate anxiety symptoms",
+                    "rationale": "The patient exhibits significant levels of restlessness, fatigue, and difficulty concentrating, likely secondary to or comorbid with severe depressive symptoms."
+                },
+                {
+                    "scale_name": "ISI",
+                    "score": 22,
+                    "severity_interpretation": "severe clinical insomnia",
+                    "rationale": "Persistent sleep difficulties with frequent waking and unrefreshing sleep were reported, consistent with the patient's severe fatigue and prolonged insomnia symptoms."
+                }
+            ],
+            "risk_assessment": {
+                "suicide_risk": "moderate",
+                "violence_risk": "none",
+                "self_neglect_risk": "high",
+                "rationale": "The patient has passive suicidal ideation, occasional thoughts questioning the value of life, and profound feelings of worthlessness, but denies active plans or intent. There are no indications of violence risk based on behavior or history."
+            },
+            "exclusionary_findings": [
+                {
+                    "test_name": "TSH",
+                    "finding": "TSH within the normal range at 2.1 μIU/mL.",
+                    "interpretation": "Normal thyroid function, ruling out hypothyroidism as a contributor to fatigue and mood symptoms."
+                },
+                {
+                    "test_name": "CBC",
+                    "finding": "Hemoglobin at 12.8 g/dL, WBC within normal limits.",
+                    "interpretation": "No anemia or infection identified to account for fatigue."
+                }
+            ],
+            "clinical_summary": "Lucia Fernandez, an 86-year-old female, presents with severe depression characterized by a profound sense of worthlessness, significant loss of interest in usual activities, marked functional incapacity, and passive suicidal ideation. Sleep disturbances and fatigue exacerbate her condition, and she exhibits notable cognitive difficulties and unexplained physical symptoms. While moderate anxiety symptoms are evident, they appear secondary to the depressive disorder. High self-neglect risk is noted, given her inability to sustain daily routines like personal hygiene and meal preparation. No psychotic features or substance use contribute to this presentation."
+        },
+        "metadata": {
+            "disease_name": "Depression",
+            "disease_key": "depression",
+            "severity_level": "severe",
+            "disease_outline_id": "depression.json",
+            "seed": null,
+            "case_index": 1,
+            "case_id": "depression_1"
+        },
+        "sampled_attributes": {
+            "age": 86,
+            "age_strata": "Elderly",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "Mixed",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "Secondary",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Never",
+            "alcohol": "None",
+            "dietary_pattern": "High-fat",
+            "activity_level": "Moderate",
+            "communication_style": "Plain",
+            "medicine_preference": "Traditional",
+            "disease_name": "Depression",
+            "severity_level": "severe"
+        },
+        "validation_logs": {
+            "patient_record": [
+                {
+                    "attempt": 1,
+                    "passed": true,
+                    "issues": [],
+                    "rationale": "The generated patient profile and symptom trajectory align well with the clinical presentation of severe depression in an elderly individual. The described symptoms, progression, and functional impact are consistent with the disease outline and the patient's demographics, such as age and gender. The red flags, such as suicidal ideation and profound functional impairment, are appropriately included for severe depression.",
+                    "revision_guidance": []
+                }
+            ],
+            "examination_results": [
+                {
+                    "attempt": 1,
+                    "passed": true,
+                    "issues": [],
+                    "rationale": "All components of the generated examination results align with the provided disease outline, patient profile, and symptom trajectory. The examination reflects a severe presentation of depression without directly stating the diagnosis, as required for diagnosis blinding.",
+                    "revision_guidance": []
+                }
+            ]
+        }
+    }
+]

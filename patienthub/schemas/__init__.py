@@ -5,6 +5,7 @@ from .clientCast import ClientCastCharacter
 from .consistentMI import ConsistentMICharacter
 from .eeyore import EeyoreCharacter
 from .patientPsi import PatientPsiCharacter
+from .patientZero import PatientZeroCharacter
 from .psyche import PsycheCharacter
 from .roleplayDoh import RoleplayDohCharacter
 from .saps import SAPSCharacter
@@ -13,6 +14,7 @@ from .talkDep import TalkDepCharacter
 
 CLIENT_SCHEMA_REGISTRY = {
     "patientPsi": PatientPsiCharacter,
+    "patientZero": PatientZeroCharacter,
     "roleplayDoh": RoleplayDohCharacter,
     "eeyore": EeyoreCharacter,
     "psyche": PsycheCharacter,
@@ -40,6 +42,7 @@ __all__ = [
     "ConsistentMICharacter",
     "EeyoreCharacter",
     "PatientPsiCharacter",
+    "PatientZeroCharacter",
     "PsycheCharacter",
     "RoleplayDohCharacter",
     "SAPSCharacter",

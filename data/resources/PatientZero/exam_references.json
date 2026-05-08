@@ -1,0 +1,77 @@
+{
+  "note": "Patient-Zero Stage IV references for psychiatric static records. The current MVP uses three core self-report scales only: PHQ-9, GAD-7, and ISI. Other examination content is generated as MSE, risk assessment, and clinically plausible exclusionary findings.",
+  "sources": [
+    {
+      "title": "Instructions for Patient Health Questionnaire (PHQ) and GAD-7 Measures",
+      "url": "https://www.uab.edu/medicine/pcp-sci/images/SCIMS/PHQ-9_Instruction_Manual.pdf"
+    },
+    {
+      "title": "Management of Insomnia Disorder - Characteristics of Instruments Measuring Global Outcomes",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK343505/table/methods.t2/?report=objectonly"
+    }
+  ],
+  "scale_pool": {
+    "PHQ-9": {
+      "range": [0, 27],
+      "bands": {
+        "0-4": "minimal depressive symptoms",
+        "5-9": "mild depressive symptoms",
+        "10-14": "moderate depressive symptoms",
+        "15-19": "moderately severe depressive symptoms",
+        "20-27": "severe depressive symptoms"
+      }
+    },
+    "GAD-7": {
+      "range": [0, 21],
+      "bands": {
+        "0-4": "minimal anxiety symptoms",
+        "5-9": "mild anxiety symptoms",
+        "10-14": "moderate anxiety symptoms",
+        "15-21": "severe anxiety symptoms"
+      }
+    },
+    "ISI": {
+      "range": [0, 28],
+      "bands": {
+        "0-7": "no clinically significant insomnia",
+        "8-14": "subthreshold insomnia",
+        "15-21": "moderate clinical insomnia",
+        "22-28": "severe clinical insomnia"
+      }
+    }
+  },
+  "diseases": {
+    "depression": {
+      "selected_scales": ["PHQ-9", "GAD-7", "ISI"],
+      "exclusionary_findings": ["TSH when fatigue or sleep symptoms are prominent", "CBC if fatigue is medically unexplained", "substance and medication review"]
+    },
+    "anxiety_disorder": {
+      "selected_scales": ["GAD-7", "PHQ-9", "ISI"],
+      "exclusionary_findings": ["TSH for adrenergic symptoms", "substance and caffeine review", "cardiopulmonary review if chest pain or dyspnea is described"]
+    },
+    "ptsd": {
+      "selected_scales": ["GAD-7", "PHQ-9", "ISI"],
+      "exclusionary_findings": ["substance use screen", "sleep diary when nightmares or insomnia dominate", "injury or pain review if trauma-related symptoms are physical"]
+    },
+    "ocd": {
+      "selected_scales": ["GAD-7", "PHQ-9"],
+      "exclusionary_findings": ["skin exam if washing rituals cause injury", "substance and medication review", "screen for tic symptoms when clinically relevant"]
+    },
+    "bipolar_disorder": {
+      "selected_scales": ["PHQ-9", "ISI", "GAD-7"],
+      "exclusionary_findings": ["TSH", "substance screen", "medication review for activating agents"]
+    },
+    "schizophrenia": {
+      "selected_scales": ["PHQ-9", "GAD-7"],
+      "exclusionary_findings": ["substance screen", "medication and neurologic review", "basic metabolic baseline if antipsychotic treatment is being considered"]
+    },
+    "adhd": {
+      "selected_scales": ["GAD-7", "PHQ-9"],
+      "exclusionary_findings": ["sleep history", "substance and stimulant use review", "school or occupational collateral when available"]
+    },
+    "insomnia": {
+      "selected_scales": ["ISI", "PHQ-9", "GAD-7"],
+      "exclusionary_findings": ["sleep diary", "screen for sleep apnea symptoms", "medication, caffeine, alcohol, and substance review"]
+    }
+  }
+}
