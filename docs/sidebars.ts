@@ -122,6 +122,7 @@ const sidebars = {
       items: [
         'guide/simulations',
         'guide/evaluation',
+        'guide/adaptation',
         'guide/web-demo',
       ],
     },
