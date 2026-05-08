@@ -1300,5 +1300,198 @@
             ],
             "clinical_summary": "Monique Harris, 56-year-old non-pregnant African American female, presents with severe psychotic symptoms including persistent auditory hallucinations, severe disorganized speech, and delusions. Her condition has severely impaired functional ability and judgment, with high risks for suicide and self-neglect. Exclusionary findings confirm symptoms are purely psychiatric, with no substance or neurological contributors. Severe depressive and anxiety symptoms are also present, further compounding her distress."
         }
+    },
+    {
+        "patient_profile": {
+            "name": "Lucia Fernandez",
+            "lifestyle_summary": "Leads a mostly sedentary lifestyle with occasional walks in the neighborhood. Consumes a high-fat diet with limited intake of fruits and vegetables. No history of smoking or alcohol use. Lives alone in a suburban area and relies on help from neighbors.",
+            "past_medical_history": "Hypertension controlled with medication for the past 15 years. Osteoporosis diagnosed 5 years ago. No prior history of psychiatric illness or hospitalizations.",
+            "family_history": "History of mood disorders in the maternal side of the family. Mother and maternal aunt were diagnosed with depression in their later years.",
+            "medication_history": "Currently on antihypertensive medication for high blood pressure and calcium supplements for osteoporosis. No prior history of antidepressant use.",
+            "allergy_history": "No known drug or food allergies.",
+            "vaccination_history": "Up to date for common vaccines like influenza, shingles, and pneumonia. Last flu vaccine was administered six months ago.",
+            "age": 86,
+            "age_strata": "Elderly",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "Mixed",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "Secondary",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Never",
+            "alcohol": "None",
+            "dietary_pattern": "High-fat",
+            "activity_level": "Moderate",
+            "communication_style": "Plain",
+            "medicine_preference": "Traditional"
+        },
+        "symptom_trajectory": {
+            "current_severity": "severe",
+            "chief_complaint": "A persistent and overwhelming sense of worthlessness, coupled with fatigue and lack of interest in daily life.",
+            "onset": "Symptoms started gradually 8 months ago and have worsened significantly over the last 3 months.",
+            "duration": "8 months",
+            "progression": "Initially experienced a subtle loss of interest in hobbies. Progressed to avoidance of social interactions and increasing interruptions in daily routines like cooking or cleaning. Gradual development of active thoughts of worthlessness over the past few months.",
+            "selected_symptoms": [
+                {
+                    "name": "Loss of interest or pleasure",
+                    "duration": "8 months",
+                    "severity": "severe",
+                    "impact": "Avoids engaging in activities she previously enjoyed, such as gardening."
+                },
+                {
+                    "name": "Poor concentration and memory difficulty",
+                    "duration": "4 months",
+                    "severity": "severe",
+                    "impact": "Experiences difficulty understanding simple instructions and forgets appointments."
+                },
+                {
+                    "name": "Insomnia and fatigue",
+                    "duration": "6 months",
+                    "severity": "severe",
+                    "impact": "Struggles to sleep and wakes up exhausted."
+                },
+                {
+                    "name": "Unexplained aches and digestive symptoms",
+                    "duration": "5 months",
+                    "severity": "moderate",
+                    "impact": "Feels physical aches and pains, especially without a clear medical explanation."
+                },
+                {
+                    "name": "Thoughts of death or suicidal ideation",
+                    "duration": "3 months",
+                    "severity": "severe",
+                    "impact": "Occasional fleeting thoughts about whether life is worth living."
+                }
+            ],
+            "associated_symptoms": [
+                "Irritability and episodes of uncontrollable crying.",
+                "Persistent fatigue that worsens by the evening.",
+                "Difficulty concentrating on day-to-day activities, including watching TV or reading."
+            ],
+            "negative_symptoms": [
+                "No evidence of psychotic features like hallucinations or delusions.",
+                "No episodes indicative of a manic or hypomanic state.",
+                "No substance use or withdrawal-related symptoms."
+            ],
+            "triggers": [
+                "Loss of independence with advancing age.",
+                "Isolation and lack of social support systems.",
+                "Anniversaries of family losses trigger worsening symptoms.",
+                "Increased symptoms after doctor appointments or medical tests."
+            ],
+            "relieving_factors": [
+                "Occasionally feels slightly better when a neighbor visits or during short walks.",
+                "Engaging in knitting or simple craft activities provides limited distraction."
+            ],
+            "functional_impact": "Completely dependent on external support for daily routines. Unable to maintain hygiene or manage home tasks. Has withdrawn from all hobbies and interactions except for minimal neighbor support.",
+            "risk_features": [
+                "Passive thoughts of death and questioning the purpose of living.",
+                "Loss of ability to perform basic self-care like preparing meals.",
+                "Profound feelings of hopelessness and worthlessness."
+            ]
+        },
+        "examination_results": {
+            "mental_status_exam": {
+                "appearance_behavior": "Elderly woman with poor grooming and diminished eye contact, sitting hunched and displaying psychomotor retardation.",
+                "speech": "Low volume, slowed, and with sparse content.",
+                "mood_affect": "Depressed mood with a restricted, flat affect.",
+                "thought_process": "Logical and goal-directed, although slowed by fatigue and poor concentration.",
+                "thought_content": "Preoccupied with worthlessness and passive death wishes, but no active suicidal ideation or delusions.",
+                "perception": "No hallucinations or perceptual disturbances reported.",
+                "cognition": "Oriented to person, place, and time but exhibits severe difficulties with concentration and short-term memory.",
+                "insight_judgment": "Limited insight into her condition; judgment impaired due to depressive symptoms.",
+                "reliability": "Appears credible and consistent despite limited engagement."
+            },
+            "scale_assessments": [
+                {
+                    "scale_name": "PHQ-9",
+                    "score": 25,
+                    "severity_interpretation": "severe depressive symptoms",
+                    "rationale": "The patient's symptoms align with severe criteria, including overwhelming worthlessness, profound loss of interest, significant disruption to daily functioning, and passive suicidal ideation."
+                },
+                {
+                    "scale_name": "GAD-7",
+                    "score": 12,
+                    "severity_interpretation": "moderate anxiety symptoms",
+                    "rationale": "The patient exhibits significant levels of restlessness, fatigue, and difficulty concentrating, likely secondary to or comorbid with severe depressive symptoms."
+                },
+                {
+                    "scale_name": "ISI",
+                    "score": 22,
+                    "severity_interpretation": "severe clinical insomnia",
+                    "rationale": "Persistent sleep difficulties with frequent waking and unrefreshing sleep were reported, consistent with the patient's severe fatigue and prolonged insomnia symptoms."
+                }
+            ],
+            "risk_assessment": {
+                "suicide_risk": "moderate",
+                "violence_risk": "none",
+                "self_neglect_risk": "high",
+                "rationale": "The patient has passive suicidal ideation, occasional thoughts questioning the value of life, and profound feelings of worthlessness, but denies active plans or intent. There are no indications of violence risk based on behavior or history."
+            },
+            "exclusionary_findings": [
+                {
+                    "test_name": "TSH",
+                    "finding": "TSH within the normal range at 2.1 μIU/mL.",
+                    "interpretation": "Normal thyroid function, ruling out hypothyroidism as a contributor to fatigue and mood symptoms."
+                },
+                {
+                    "test_name": "CBC",
+                    "finding": "Hemoglobin at 12.8 g/dL, WBC within normal limits.",
+                    "interpretation": "No anemia or infection identified to account for fatigue."
+                }
+            ],
+            "clinical_summary": "Lucia Fernandez, an 86-year-old female, presents with severe depression characterized by a profound sense of worthlessness, significant loss of interest in usual activities, marked functional incapacity, and passive suicidal ideation. Sleep disturbances and fatigue exacerbate her condition, and she exhibits notable cognitive difficulties and unexplained physical symptoms. While moderate anxiety symptoms are evident, they appear secondary to the depressive disorder. High self-neglect risk is noted, given her inability to sustain daily routines like personal hygiene and meal preparation. No psychotic features or substance use contribute to this presentation."
+        },
+        "metadata": {
+            "disease_name": "Depression",
+            "disease_key": "depression",
+            "severity_level": "severe",
+            "disease_outline_id": "depression.json",
+            "seed": null,
+            "case_index": 1,
+            "case_id": "depression_1"
+        },
+        "sampled_attributes": {
+            "age": 86,
+            "age_strata": "Elderly",
+            "biological_sex": "Female",
+            "physiological_status": "Non-pregnant",
+            "ethnicity": "Mixed",
+            "geography": "Suburban",
+            "specific_region_constraints": "None",
+            "education_level": "Secondary",
+            "occupation_type": "Student",
+            "income_tier": "Middle",
+            "smoking": "Never",
+            "alcohol": "None",
+            "dietary_pattern": "High-fat",
+            "activity_level": "Moderate",
+            "communication_style": "Plain",
+            "medicine_preference": "Traditional",
+            "disease_name": "Depression",
+            "severity_level": "severe"
+        },
+        "validation_logs": {
+            "patient_record": [
+                {
+                    "attempt": 1,
+                    "passed": true,
+                    "issues": [],
+                    "rationale": "The generated patient profile and symptom trajectory align well with the clinical presentation of severe depression in an elderly individual. The described symptoms, progression, and functional impact are consistent with the disease outline and the patient's demographics, such as age and gender. The red flags, such as suicidal ideation and profound functional impairment, are appropriately included for severe depression.",
+                    "revision_guidance": []
+                }
+            ],
+            "examination_results": [
+                {
+                    "attempt": 1,
+                    "passed": true,
+                    "issues": [],
+                    "rationale": "All components of the generated examination results align with the provided disease outline, patient profile, and symptom trajectory. The examination reflects a severe presentation of depression without directly stating the diagnosis, as required for diagnosis blinding.",
+                    "revision_guidance": []
+                }
+            ]
+        }
     }
 ]

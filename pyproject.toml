@@ -33,6 +33,9 @@ patienthub = "patienthub.cli.__main__:app"
 include = ["patienthub*"]
 exclude = ["data*"]
 
+[tool.uv]
+package = true
+
 [build-system]
 requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
