@@ -2,7 +2,10 @@ import os
 import json
 import yaml
 import pandas as pd
+from pathlib import Path
 from jinja2 import Template
+
+PACKAGE_ROOT = Path(__file__).parent.parent.parent
 
 
 def load_csv(path: str):
@@ -84,3 +87,9 @@ def load_prompts(path: str, lang: str = "en", process: bool = True):
     except Exception as e:
         print(f"Error loading prompts from {path}: {e}")
         return {}
+
+
+def resolve_path(path: str) -> str:
+    if not Path(path).is_absolute() and not Path(path).exists():
+        return str(PACKAGE_ROOT / path)
+    return path
