@@ -2,9 +2,8 @@ import logging
 from abc import ABC, abstractmethod
 from omegaconf import DictConfig
 from typing import Any, Dict, List
-from patienthub.utils.models import get_chat_model
-from patienthub.utils.files import load_json, load_prompts
 from patienthub.schemas import get_profile_schema
+from patienthub.utils import load_json, load_prompts, resolve_path, get_chat_model
 
 
 logger = logging.getLogger(__name__)
@@ -50,7 +49,8 @@ class BaseClient(ABC):
 
     def load_prompts(self) -> Dict[str, Any] | None:
         if hasattr(self.configs, "prompt_path"):
-            return load_prompts(path=self.configs.prompt_path, lang=self.configs.lang)
+            path = resolve_path(self.configs.prompt_path)
+            return load_prompts(path=path, lang=self.configs.lang)
         return None
 
     def load_chat_model(self) -> Any | None:

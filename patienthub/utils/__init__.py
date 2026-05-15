@@ -5,6 +5,7 @@ from .files import (
     load_csv,
     parse_json_response,
     save_json,
+    resolve_path,
 )
 from .models import get_chat_model, get_reranker
 from .helpers import flatten_conv, flatten_dict, dict_to_str
@@ -17,6 +18,7 @@ __all__ = [
     "load_csv",
     "parse_json_response",
     "save_json",
+    "resolve_path",
     "get_chat_model",
     "get_reranker",
     "flatten_conv",

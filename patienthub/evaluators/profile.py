@@ -8,6 +8,7 @@ from .base import LLMJudge, LLMJudgeConfig
 @dataclass
 class ProfileJudgeConfig(LLMJudgeConfig):
     agent_name: str = "profile_judge"
+    prompt_path: str = "data/prompts/evaluator/client_profile.yaml"
 
 
 class ProfileJudge(LLMJudge):

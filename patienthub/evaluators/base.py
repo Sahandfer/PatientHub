@@ -6,14 +6,13 @@ from pydantic import Field, create_model
 from typing import Any, Dict, List, Literal
 
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_prompts, get_chat_model
+from patienthub.utils import load_prompts, resolve_path, get_chat_model
 
 PARADIGMS = {"binary", "scalar", "categorical", "extraction"}
 
 
 @dataclass
 class LLMJudgeConfig(APIModelConfig):
-    prompt_path: str = ""
     use_reasoning: bool = False
 
 
@@ -25,8 +24,9 @@ class LLMJudge(ABC):
         self.chat_model = get_chat_model(configs)
 
         try:
+            path = resolve_path(self.configs.prompt_path)
             self.instructions = load_prompts(
-                path=configs.prompt_path, lang=self.configs.lang, process=False
+                path=path, lang=self.configs.lang, process=False
             )
             self.dimensions = self.build_schema()
         except Exception as e:

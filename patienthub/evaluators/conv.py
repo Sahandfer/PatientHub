@@ -9,6 +9,7 @@ from .base import LLMJudge, LLMJudgeConfig
 @dataclass
 class ConvJudgeConfig(LLMJudgeConfig):
     agent_name: str = "conv_judge"
+    prompt_path: str = "data/prompts/evaluator/client_conv.yaml"
     granularity: str = "session"  # session, turn, turn_by_turn
 
 
