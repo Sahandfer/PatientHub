@@ -64,7 +64,7 @@ def generate_client_response(state: State, therapist, client) -> State:
             session_ended=True,
         )
 
-    res = client.generate_response(state["msg"])
+    res = client.generate_response(therapist_msg)
     res = res.content if not isinstance(res, str) else res
     console.print(f"[bold red]Client[/bold red]: {res}")
 

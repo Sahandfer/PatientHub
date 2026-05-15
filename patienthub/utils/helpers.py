@@ -21,7 +21,7 @@ def dict_to_str(d: Dict[str, Any], indent: int = 0, prefix: str = "") -> str:
         line = " " * indent + f"{prefix}" + f"{key}: "
         if isinstance(value, dict):
             lines.append(line)
-            lines.append(dict_to_str(value, indent + 2, prefix + f"{key}_"))
+            lines.append(dict_to_str(value, indent + 2, prefix))
         elif isinstance(value, list):
             lines.append(line)
             for i, item in enumerate(value):
