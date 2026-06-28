@@ -1,0 +1,123 @@
+zh:
+  symptom_extract: |
+    /no_thinking你是一名社交媒体【症状/体验信息】抽取专家。下面是一条与【{{ label }}】相关的推文：
+
+    文本：{{ tweet }}
+
+    任务：判断这条推文是否包含“对用户本人有意义、且由用户亲身体验/直接相关”的症状、主观不适或功能受损。
+
+    如果不包含，请返回 is_meaningful=false。
+    如果包含，请抽取一个“症状三元组”，并给出一句简短摘要。
+
+    要求：
+    1) 三元组要尽量贴近原文，不要编造细节（具体部位/频率/原因/持续时间等），除非原文明确提到。
+    2) 主体优先用“我/用户本人”。如果原文明显是他人的体验且与用户无关，则标记为不 meaningful。
+    3) 谓语优先用“出现/感到/受到影响/难以进行”。选择最贴近原文的一个。
+    4) 宾语必须是更具体的症状/体验短语，不要只输出 {{ label }} 这个标签名。
+    5) summary 用一句话概括症状体验，不要写诊断名，不要科普。
+  life_event_extract: |
+    /no_thinking你是一名社交媒体事件信息抽取专家。下面是一条与【{{ label }}】相关的推文：
+
+    文本：{{ tweet }}
+
+    任务：判断这条推文是否包含“对用户本人有意义、且由用户亲身经历/直接相关”的生活事件。
+
+    如果不包含，请返回 is_meaningful=false。
+    如果包含，请抽取一个“事件三元组”，并给出一句简短摘要。
+
+    要求：
+    1) 三元组要尽量贴近原文，不要编造细节（人物/地点/时间/原因）。
+    2) 主体优先用“我/用户本人”。如果原文明确是他人且与用户无关，则标记为不 meaningful。
+    3) summary 用一句话概括事件。
+  memory_card: |
+    {% macro relative(days) -%}
+    {%- if days <= 0 -%}今天
+    {%- elif days == 1 -%}昨天
+    {%- elif days < 7 -%}{{ days }}天前
+    {%- elif days < 30 -%}{{ [1, (days / 7) | round | int] | max }}周前
+    {%- elif days < 365 -%}{{ [1, (days / 30) | round | int] | max }}个月前
+    {%- else -%}{{ [1, (days / 365) | round | int] | max }}年前
+    {%- endif -%}
+    {%- endmacro %}
+    {%- set start_text = relative(episode.time_range.days_ago_start) -%}
+    {%- set end_text = relative(episode.time_range.days_ago_end) -%}
+    {%- if episode.time_range.days_ago_start == episode.time_range.days_ago_end -%}
+    {{ relative(episode.time_range.days_ago_start) }}
+    {%- else -%}
+    {{ start_text }}~{{ end_text }}
+    {%- endif -%}：
+    {%- if card_items -%}
+    {%- for item in card_items -%}
+    {%- if not loop.first %}；{% endif -%}
+    {%- if item.text -%}{{ item.text }}
+    {%- elif item.node_type == "Symptom" and item.symptom -%}<我> <出现> <{{ item.symptom }}>
+    {%- elif item.life_event -%}{{ item.life_event }}
+    {%- else -%}无有效信息
+    {%- endif -%}
+    {%- endfor -%}
+    {%- else -%}无有效信息
+    {%- endif -%}
+    {%- set representative_text = relative(representative.time_norm.days_ago) -%}
+    。代表时间点：{{ representative_text }}（{{ representative.time_norm.days_ago }}天前）。
+en:
+  symptom_extract: |
+    Decide whether the social-media text describes a meaningful personal experience of the symptom "{{ label }}".
+
+    Text: {{ tweet }}
+
+    If it is not personal or meaningful, return is_meaningful=false.
+    If it is meaningful, extract one symptom triple and one short summary.
+
+    Requirements:
+    1) Keep the triple close to the text and do not invent body parts, frequency, causes, or duration unless stated.
+    2) Prefer "I/the user" as the subject. If the post is clearly about someone else and unrelated to the user, mark it not meaningful.
+    3) The object should be a concrete symptom or experience phrase, not just the label "{{ label }}".
+    4) The summary should describe the symptom experience without diagnosis or explanation.
+  life_event_extract: |
+    Decide whether the social-media text describes a meaningful life event personally experienced by the user in category "{{ label }}".
+
+    Text: {{ tweet }}
+
+    If it is not personal or meaningful, return is_meaningful=false.
+    If it is meaningful, extract one event triple and one short summary.
+
+    Requirements:
+    1) Keep the triple close to the text and do not invent people, places, time, or causes.
+    2) Prefer "I/the user" as the subject. If the post is clearly about someone else and unrelated to the user, mark it not meaningful.
+    3) The summary should describe the event in one sentence.
+  memory_card: |
+    {% macro relative(days) -%}
+    {%- if days <= 0 -%}today
+    {%- elif days == 1 -%}yesterday
+    {%- elif days < 7 -%}{{ days }} days ago
+    {%- elif days < 30 -%}
+    {%- set weeks = [1, (days / 7) | round | int] | max -%}
+    {{ weeks }} week{% if weeks != 1 %}s{% endif %} ago
+    {%- elif days < 365 -%}
+    {%- set months = [1, (days / 30) | round | int] | max -%}
+    {{ months }} month{% if months != 1 %}s{% endif %} ago
+    {%- else -%}
+    {%- set years = [1, (days / 365) | round | int] | max -%}
+    {{ years }} year{% if years != 1 %}s{% endif %} ago
+    {%- endif -%}
+    {%- endmacro %}
+    {%- set start_text = relative(episode.time_range.days_ago_start) -%}
+    {%- set end_text = relative(episode.time_range.days_ago_end) -%}
+    {%- if episode.time_range.days_ago_start == episode.time_range.days_ago_end -%}
+    {{ relative(episode.time_range.days_ago_start) }}
+    {%- else -%}
+    {{ start_text }}~{{ end_text }}
+    {%- endif -%}:
+    {%- if card_items -%}
+    {%- for item in card_items -%}
+    {%- if not loop.first %}; {% endif -%}
+    {%- if item.text -%}{{ item.text }}
+    {%- elif item.node_type == "Symptom" and item.symptom -%}<I> <experience> <{{ item.symptom }}>
+    {%- elif item.life_event -%}{{ item.life_event }}
+    {%- else -%}no valid information
+    {%- endif -%}
+    {%- endfor -%}
+    {%- else -%}no valid information
+    {%- endif -%}
+    {%- set representative_text = relative(representative.time_norm.days_ago) -%}
+    . Representative time point: {{ representative_text }} ({{ representative.time_norm.days_ago }} day{% if representative.time_norm.days_ago != 1 %}s{% endif %} ago).

@@ -1,0 +1,1464 @@
+{
+    "1032292462457323520": {
+        "user_id": "1032292462457323520",
+        "symptoms": [
+            "Depressed_Mood",
+            "do_things_easily_get_painful_consequences"
+        ],
+        "timeline": [
+            {
+                "timestamp": -640,
+                "symptom": "Depressed_Mood",
+                "tweet": "I'm actually crying rn. That video was golden"
+            },
+            {
+                "timestamp": -416,
+                "symptom": "do_things_easily_get_painful_consequences",
+                "tweet": "stop doing drugs"
+            },
+            {
+                "timestamp": -367,
+                "symptom": "Depressed_Mood",
+                "tweet": "I was diagnosed with depression in 2020"
+            }
+        ]
+    },
+    "122057922": {
+        "user_id": "122057922",
+        "symptoms": [
+            "Anger_Irritability",
+            "Anxious_Mood",
+            "Decreased_energy_tiredness_fatigue",
+            "Impulsivity"
+        ],
+        "timeline": [
+            {
+                "timestamp": 179,
+                "symptom": "Decreased_energy_tiredness_fatigue",
+                "tweet": "When you are so exhausted in the first week and you put so much energy into making relationships with your students, so much so that working out is a struggle and you fall asleep in your car once you pull in your driveway...but you receive this on the second day from a student..."
+            },
+            {
+                "timestamp": 183,
+                "symptom": "Decreased_energy_tiredness_fatigue",
+                "tweet": "I’m on contract, and it has been sooooo hard having the energy to get to the gym."
+            },
+            {
+                "timestamp": 195,
+                "symptom": "Anxious_Mood",
+                "tweet": "Yeah. Definitely too many UT losses on it to feel anything but anxiety with that music."
+            },
+            {
+                "timestamp": 342,
+                "symptom": "Anxious_Mood",
+                "tweet": "Hated that movie. Made me irrationally afraid of tornadoes...and it was horrible."
+            },
+            {
+                "timestamp": 474,
+                "symptom": "Impulsivity",
+                "tweet": "Can’t wait"
+            },
+            {
+                "timestamp": 647,
+                "symptom": "Anxious_Mood",
+                "tweet": "See...everyone thought Guarantano was going to transfer last year, and it didn't happen...this has that whole \"one of the last times to beat Georgia\" statement terrifying me even more. Don't be so quick to assume he's gone."
+            },
+            {
+                "timestamp": 654,
+                "symptom": "Anger_Irritability",
+                "tweet": "I get the anger. I just don’t understand taking it out on someone that doesn’t have the say in the decision. Especially a group that can be very helpful for parents right now."
+            }
+        ]
+    },
+    "1231124003085045760": {
+        "user_id": "1231124003085045760",
+        "symptoms": [
+            "Anxious_Mood",
+            "Autonomic_symptoms",
+            "Depressed_Mood",
+            "Impulsivity",
+            "Suicidal_ideas",
+            "compensatory_behaviors_to_prevent_weight_gain",
+            "poor_memory",
+            "somatic_symptoms_others",
+            "somatic_symptoms_sensory"
+        ],
+        "timeline": [
+            {
+                "timestamp": 36,
+                "symptom": "compensatory_behaviors_to_prevent_weight_gain",
+                "tweet": "I gasped and threw up"
+            },
+            {
+                "timestamp": 70,
+                "symptom": "Depressed_Mood",
+                "tweet": "It's my life but also my depression"
+            },
+            {
+                "timestamp": 76,
+                "symptom": "poor_memory",
+                "tweet": "Wait you have? I don't remember shit then😭"
+            },
+            {
+                "timestamp": 136,
+                "symptom": "Depressed_Mood",
+                "tweet": "I dont think it is, that's the sad thing 😭😭"
+            },
+            {
+                "timestamp": 136,
+                "symptom": "Depressed_Mood",
+                "tweet": "I have been diagnosed with depression after doing that for a year"
+            },
+            {
+                "timestamp": 146,
+                "symptom": "Anxious_Mood",
+                "tweet": "ITS like the fact that someone can be that toxic for like WHAT REASON that's what frightens me like gurl, what goes on for you to be so toxic like HUH😭"
+            },
+            {
+                "timestamp": 147,
+                "symptom": "Suicidal_ideas",
+                "tweet": "The first fall had me dying gurl 😭"
+            },
+            {
+                "timestamp": 147,
+                "symptom": "Anxious_Mood",
+                "tweet": "This scares me wtf"
+            },
+            {
+                "timestamp": 173,
+                "symptom": "Depressed_Mood",
+                "tweet": "Okay but why am I crying"
+            },
+            {
+                "timestamp": 173,
+                "symptom": "somatic_symptoms_others",
+                "tweet": "Okay but why am I crying"
+            },
+            {
+                "timestamp": 179,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "You're so hot wtf 😭"
+            },
+            {
+                "timestamp": 187,
+                "symptom": "poor_memory",
+                "tweet": "Wasn't he saying like racist shit a day ago? Like c'mon old man, take your meds and maybe your wouldn't have short term memory loss sissy 😇"
+            },
+            {
+                "timestamp": 192,
+                "symptom": "Autonomic_symptoms",
+                "tweet": "Like wut... this is such a headache omg"
+            },
+            {
+                "timestamp": 194,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "WAIT YOUR HOT"
+            },
+            {
+                "timestamp": 197,
+                "symptom": "Depressed_Mood",
+                "tweet": "Hold on I'm crying in da club rn-"
+            },
+            {
+                "timestamp": 197,
+                "symptom": "somatic_symptoms_others",
+                "tweet": "Hold on I'm crying in da club rn-"
+            },
+            {
+                "timestamp": 206,
+                "symptom": "Impulsivity",
+                "tweet": "WAIT I DIDN'T EVEN SEE THAT WAT- WTF"
+            },
+            {
+                "timestamp": 213,
+                "symptom": "Suicidal_ideas",
+                "tweet": "Dying"
+            },
+            {
+                "timestamp": 216,
+                "symptom": "Depressed_Mood",
+                "tweet": "Stop I'm crying rn"
+            },
+            {
+                "timestamp": 218,
+                "symptom": "Depressed_Mood",
+                "tweet": "Don't worry it's a joke from last year 😭 I was this close to crying"
+            },
+            {
+                "timestamp": 224,
+                "symptom": "somatic_symptoms_others",
+                "tweet": "LITERALLY I'M SCREAMMING"
+            },
+            {
+                "timestamp": 230,
+                "symptom": "Anxious_Mood",
+                "tweet": "I'm so disturbed"
+            },
+            {
+                "timestamp": 253,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "I was so confused for a hot sec 💀💀💀💀"
+            },
+            {
+                "timestamp": 260,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Ur hotter"
+            }
+        ]
+    },
+    "1419053035": {
+        "user_id": "1419053035",
+        "symptoms": [
+            "Anxious_Mood",
+            "Autonomic_symptoms",
+            "Decreased_energy_tiredness_fatigue",
+            "Depressed_Mood",
+            "Respiratory_symptoms",
+            "Suicidal_ideas",
+            "do_things_easily_get_painful_consequences",
+            "somatic_symptoms_sensory"
+        ],
+        "timeline": [
+            {
+                "timestamp": 55,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Safe, protected and very hot. ♨"
+            },
+            {
+                "timestamp": 122,
+                "symptom": "Depressed_Mood",
+                "tweet": "I'll try to repress the sad feelings, then."
+            },
+            {
+                "timestamp": 235,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Waken up by the heat, tried to get myself back to sleep by chanting \"Don't have to go to work tmrw\" to myself, bc. v. tired. The heat won.🐙💦"
+            },
+            {
+                "timestamp": 379,
+                "symptom": "Autonomic_symptoms",
+                "tweet": "*breathing intensifies*"
+            },
+            {
+                "timestamp": 379,
+                "symptom": "Respiratory_symptoms",
+                "tweet": "*breathing intensifies*"
+            },
+            {
+                "timestamp": 550,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "A chill ran down my spine. 😰"
+            },
+            {
+                "timestamp": 731,
+                "symptom": "Decreased_energy_tiredness_fatigue",
+                "tweet": "I have been diagnosed with depression for years now &amp; one of the things that make me feel better is doing something beautiful, useful or both. But when I can't do that, by lack of time, energy, etc. I find happiness in learning what others have been doing that made them happy. 💓"
+            },
+            {
+                "timestamp": 743,
+                "symptom": "Suicidal_ideas",
+                "tweet": "Perhaps because it gives you a feeling of being in control of what hurts you, instead of being receiving the pain inflicted by others on whom we seem to have no control whatsoever. But you have to be careful about self-harm, it's a vicious spiral. Please, break away from it.😢💓"
+            },
+            {
+                "timestamp": 743,
+                "symptom": "do_things_easily_get_painful_consequences",
+                "tweet": "Perhaps because it gives you a feeling of being in control of what hurts you, instead of being receiving the pain inflicted by others on whom we seem to have no control whatsoever. But you have to be careful about self-harm, it's a vicious spiral. Please, break away from it.😢💓"
+            },
+            {
+                "timestamp": 758,
+                "symptom": "Suicidal_ideas",
+                "tweet": "One early mistake I kept making in order to keep myself away from suicidal thoughts was to add things on my \"things I have to do before committing suicide\" list. It was a _bad_ idea. Now I have an ever increasing list of \"things to do because I want to do them for myself\"."
+            },
+            {
+                "timestamp": 830,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "... This is still going on, and it is very very hot !"
+            },
+            {
+                "timestamp": 898,
+                "symptom": "Anxious_Mood",
+                "tweet": "\"If you're constantly anxious and you know it, and you really hate to show it, clap your hands.\" 👏🏻👏🏻"
+            },
+            {
+                "timestamp": 1249,
+                "symptom": "Anxious_Mood",
+                "tweet": "My anxiety usually tie my insides into knots. 😦"
+            },
+            {
+                "timestamp": 1290,
+                "symptom": "Autonomic_symptoms",
+                "tweet": "This heatwave is giving me headaches and the sensations of an ice cube in an oven, but hopefully we'll stay hydrated and alive until the big rainstorms arrive. 🤞⛈"
+            },
+            {
+                "timestamp": 1291,
+                "symptom": "Suicidal_ideas",
+                "tweet": "\"Time ... to die.\" 😢🌧"
+            }
+        ]
+    },
+    "173367742": {
+        "user_id": "173367742",
+        "symptoms": [
+            "Anger_Irritability",
+            "somatic_symptoms_sensory"
+        ],
+        "timeline": [
+            {
+                "timestamp": 315,
+                "symptom": "Anger_Irritability",
+                "tweet": "gue udah nelpon 4x katanya paket gue bakal diprioritasin, tapi nyatanya belom nyampe2. Yang diprioritasin aja gini, gimqna yang ga lu prioritasin? 10000423287004"
+            },
+            {
+                "timestamp": 399,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Me, during the day: tinnitus isn't a big deal *proceed to do everything normally* Also me, during the night: can't sleep. Help"
+            },
+            {
+                "timestamp": 400,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Tinnitus and headache🙃"
+            }
+        ]
+    },
+    "1905625189": {
+        "user_id": "1905625189",
+        "symptoms": [
+            "Anxious_Mood",
+            "Depressed_Mood",
+            "somatic_symptoms_sensory"
+        ],
+        "timeline": [
+            {
+                "timestamp": 654,
+                "symptom": "Depressed_Mood",
+                "tweet": "I was diagnosed with depression 8 years ago.Luckily I have family and friends that listened to me. Don't be afraid to talk to someone, be that a friend, a member of the family or a doctor. But talk to someone."
+            },
+            {
+                "timestamp": 707,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Excuse me, but would someone mind turning the thermostat down a little...? #Melding #TooHotToSleep #spontaneouscombustion"
+            },
+            {
+                "timestamp": 914,
+                "symptom": "Anxious_Mood",
+                "tweet": "Have a good move. Always the most stressful time.."
+            }
+        ]
+    },
+    "2225683430": {
+        "user_id": "2225683430",
+        "symptoms": [
+            "Anxious_Mood",
+            "Autonomic_symptoms",
+            "Depressed_Mood",
+            "pessimism",
+            "somatic_muscle",
+            "somatic_symptoms_others",
+            "somatic_symptoms_sensory"
+        ],
+        "timeline": [
+            {
+                "timestamp": 160,
+                "symptom": "somatic_muscle",
+                "tweet": "I'm literally shaking."
+            },
+            {
+                "timestamp": 262,
+                "symptom": "Depressed_Mood",
+                "tweet": "I felt sad inside"
+            },
+            {
+                "timestamp": 344,
+                "symptom": "Depressed_Mood",
+                "tweet": "I don't know what to do. On one side, I want it all to blow up in everyone's face. I want to kick and scream and shout and cry."
+            },
+            {
+                "timestamp": 406,
+                "symptom": "Depressed_Mood",
+                "tweet": "I'm crying. Then I think about the next presidential speech, and I cry harder."
+            },
+            {
+                "timestamp": 406,
+                "symptom": "somatic_symptoms_others",
+                "tweet": "I'm crying. Then I think about the next presidential speech, and I cry harder."
+            },
+            {
+                "timestamp": 577,
+                "symptom": "Autonomic_symptoms",
+                "tweet": "Nope. I would rather go through the pain and poop sweats so I can just go at home."
+            },
+            {
+                "timestamp": 679,
+                "symptom": "Anxious_Mood",
+                "tweet": "I go to a psychiatrist and take medication for anxiety. NOT ASHAMED. #WorldMentalHealthDay2017"
+            },
+            {
+                "timestamp": 716,
+                "symptom": "Depressed_Mood",
+                "tweet": "I was diagnosed with severe depression at 17. I had actually been dealing with it longer than that. Age certainly doesn’t matter, and I’m now a functioning established adult so...."
+            },
+            {
+                "timestamp": 830,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "So I’ve been reading a lot of books about the Holocaust lately, and this sent a chill down my spine."
+            },
+            {
+                "timestamp": 1402,
+                "symptom": "pessimism",
+                "tweet": "I see this in my future..."
+            }
+        ]
+    },
+    "22637929": {
+        "user_id": "22637929",
+        "symptoms": [
+            "Respiratory_symptoms",
+            "fear_of_gaining_weight",
+            "somatic_symptoms_sensory"
+        ],
+        "timeline": [
+            {
+                "timestamp": 77,
+                "symptom": "fear_of_gaining_weight",
+                "tweet": "If I carry on like this there is a strong possibility I become the first person to get fat whilst still doing a tonne of exercise."
+            },
+            {
+                "timestamp": 128,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Serious heat."
+            },
+            {
+                "timestamp": 218,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Hot, you?"
+            },
+            {
+                "timestamp": 579,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "I’m going to say it. It’s too hot. There."
+            },
+            {
+                "timestamp": 723,
+                "symptom": "Respiratory_symptoms",
+                "tweet": "Anything that involves being out of breath outside is a good thing. Cracking day for it too🏃‍♂️"
+            }
+        ]
+    },
+    "2989972833": {
+        "user_id": "2989972833",
+        "symptoms": [
+            "intrusion_symptoms",
+            "panic_fear",
+            "somatic_muscle"
+        ],
+        "timeline": [
+            {
+                "timestamp": 202,
+                "symptom": "intrusion_symptoms",
+                "tweet": "This is triggering a distant past that I had to go to therapy for😢"
+            },
+            {
+                "timestamp": 406,
+                "symptom": "panic_fear",
+                "tweet": "I went out to get supplies for the first time since lockdown, had a panic attack. Grateful that it did not happen inside the store as people might have thought I have Corona virus...😭😭😭...this is the downside of being me. What will happen when life goes to normal😢"
+            },
+            {
+                "timestamp": 527,
+                "symptom": "somatic_muscle",
+                "tweet": "Yhooo... am shook"
+            }
+        ]
+    },
+    "303343926": {
+        "user_id": "303343926",
+        "symptoms": [
+            "Anxious_Mood",
+            "Depressed_Mood",
+            "Respiratory_symptoms",
+            "sleep_disturbance"
+        ],
+        "timeline": [
+            {
+                "timestamp": 60,
+                "symptom": "Respiratory_symptoms",
+                "tweet": "I can't breath. This was too fast Gado😂😂😂😂"
+            },
+            {
+                "timestamp": 172,
+                "symptom": "Anxious_Mood",
+                "tweet": "The last 5 birthdays of my life were marked with anxiety, worry and depression. I turned 30 in the midst of a storm that eventually grew to land me in hospital. I doubted whether the sun would shine again because I…"
+            },
+            {
+                "timestamp": 290,
+                "symptom": "Depressed_Mood",
+                "tweet": "It recently hit me just how privileged I am to have both parents who are healthy, together, loving and supportive. When my life was spiraling out of control; depression, debt, heartbreak, loneliness, doubt etc, it…"
+            },
+            {
+                "timestamp": 530,
+                "symptom": "Anxious_Mood",
+                "tweet": "For me, loss of opportunities during this time as caused a lot of anxiety. But I've learnt to focus on the moment and appreciate what I have"
+            },
+            {
+                "timestamp": 623,
+                "symptom": "Anxious_Mood",
+                "tweet": "On 17th Dec 2018, I walked into a psychiatrist's office after battling insomnia, nightmares &amp; bad anxiety. I was in a bad place emotionally after a tough season. That's how I found myself in the office of Dr Frank Njenga. This is me experience! A THREAD!"
+            },
+            {
+                "timestamp": 623,
+                "symptom": "sleep_disturbance",
+                "tweet": "On 17th Dec 2018, I walked into a psychiatrist's office after battling insomnia, nightmares &amp; bad anxiety. I was in a bad place emotionally after a tough season. That's how I found myself in the office of Dr Frank Njenga. This is me experience! A THREAD!"
+            }
+        ]
+    },
+    "32124007": {
+        "user_id": "32124007",
+        "symptoms": [
+            "somatic_symptoms_sensory"
+        ],
+        "timeline": [
+            {
+                "timestamp": 1371,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Chill fm, Ramirez and dye witness"
+            }
+        ]
+    },
+    "3234486314": {
+        "user_id": "3234486314",
+        "symptoms": [
+            "Anxious_Mood",
+            "Decreased_energy_tiredness_fatigue",
+            "Depressed_Mood",
+            "Impulsivity",
+            "panic_fear"
+        ],
+        "timeline": [
+            {
+                "timestamp": 157,
+                "symptom": "Depressed_Mood",
+                "tweet": "For 3 years, I was diagnosed with depression. My fatigue was a mixture of depression and laziness. A 35 year old woman could not be that tired. I missed at least 4-5 days of work per…"
+            },
+            {
+                "timestamp": 270,
+                "symptom": "Anxious_Mood",
+                "tweet": "I can't because.... I am broke I have a hectic schedule I have PCOS I have thyroid issues I have anxiety I have back pain I have panic attacks I have weak ankles I have knees that scream…"
+            },
+            {
+                "timestamp": 270,
+                "symptom": "panic_fear",
+                "tweet": "I can't because.... I am broke I have a hectic schedule I have PCOS I have thyroid issues I have anxiety I have back pain I have panic attacks I have weak ankles I have knees that scream…"
+            },
+            {
+                "timestamp": 488,
+                "symptom": "Decreased_energy_tiredness_fatigue",
+                "tweet": "I had to take a step back tonight and play coach to me. I’m so used to the voices, it’s cool 😂🤣 Seriously, tomorrow is week 4 without growth hormone, and the struggle bus is real! My energy is non existent and…"
+            },
+            {
+                "timestamp": 544,
+                "symptom": "Impulsivity",
+                "tweet": "Stop waiting. Stop postponing. Go do it!"
+            }
+        ]
+    },
+    "3313501837": {
+        "user_id": "3313501837",
+        "symptoms": [
+            "Anger_Irritability",
+            "Depressed_Mood",
+            "Impulsivity",
+            "somatic_muscle",
+            "somatic_symptoms_others"
+        ],
+        "timeline": [
+            {
+                "timestamp": 262,
+                "symptom": "Depressed_Mood",
+                "tweet": "NO IM NOT CRYING OR MAYBE I AM AND MAYBE YOU ARE TOO HUHUHU"
+            },
+            {
+                "timestamp": 265,
+                "symptom": "somatic_muscle",
+                "tweet": "IT STOPPED OH MY I FEEL AS IF IM STILL SHAKING"
+            },
+            {
+                "timestamp": 273,
+                "symptom": "somatic_muscle",
+                "tweet": "im shaking"
+            },
+            {
+                "timestamp": 430,
+                "symptom": "Anger_Irritability",
+                "tweet": "happiness, disappointment, anger and all the sort. It has indeed been a roller coaster ride for all of us and I’m sure it'll be the same for"
+            },
+            {
+                "timestamp": 430,
+                "symptom": "Depressed_Mood",
+                "tweet": "trying to find my way to the right path even when I have wanted to give up a long time ago. These boys made me felt various emotions; pain,"
+            },
+            {
+                "timestamp": 591,
+                "symptom": "Depressed_Mood",
+                "tweet": "I CANT FIND A MORE APPROPRIATE DESCRIPTION OF WHATS HAPPENING RN #LoveYourselfTearIsComing"
+            },
+            {
+                "timestamp": 611,
+                "symptom": "somatic_symptoms_others",
+                "tweet": "INTERNALLY SCREAMING AND CRYING FOR #Singularity"
+            },
+            {
+                "timestamp": 717,
+                "symptom": "Impulsivity",
+                "tweet": "#AnswerIn4Days I CANT WAITTT"
+            }
+        ]
+    },
+    "402526659": {
+        "user_id": "402526659",
+        "symptoms": [
+            "Anxious_Mood",
+            "Depressed_Mood",
+            "panic_fear"
+        ],
+        "timeline": [
+            {
+                "timestamp": 731,
+                "symptom": "Depressed_Mood",
+                "tweet": "I want to say for anyone who might be worried after reading this, while I feel very sad lately, I’m not feeling suicidal."
+            },
+            {
+                "timestamp": 731,
+                "symptom": "Anxious_Mood",
+                "tweet": "I was diagnosed with depression and anxiety in 2012. I don’t think I’ve been at the point of wanting to kill myself, but I can understand how hopeless things can seem, and how someone can get to that point."
+            },
+            {
+                "timestamp": 731,
+                "symptom": "Depressed_Mood",
+                "tweet": "I was diagnosed with depression and anxiety in 2012. I don’t think I’ve been at the point of wanting to kill myself, but I can understand how hopeless things can seem, and how someone can get to that point."
+            },
+            {
+                "timestamp": 731,
+                "symptom": "Depressed_Mood",
+                "tweet": "Maybe because I’m feeling down myself lately, or maybe because Reckful was a giant in the videogame community which I consider myself a part of. I only recently watched a视频 of Reckful talking about depression with psychiatrist Dr. Alok Kanojia."
+            },
+            {
+                "timestamp": 736,
+                "symptom": "Depressed_Mood",
+                "tweet": "This makes me sad."
+            },
+            {
+                "timestamp": 736,
+                "symptom": "Anxious_Mood",
+                "tweet": "Why does thinking about the question 'Why is there something and not nothing?' for more than a few seconds fill me with such panic and dread? Anyone else? #philosophy #psychology #existentialism"
+            },
+            {
+                "timestamp": 736,
+                "symptom": "panic_fear",
+                "tweet": "Why does thinking about the question 'Why is there something and not nothing?' for more than a few seconds fill me with such panic and dread? Anyone else? #philosophy #psychology #existentialism"
+            },
+            {
+                "timestamp": 797,
+                "symptom": "Anxious_Mood",
+                "tweet": "This is exactly the response I was about to make. Just last night I had a dream a spider was on my face and I woke up shaking my head in a panic. I don’t see how you could get this response unless a) it was a real spider, or b) I was experiencing it at the time in my mind."
+            },
+            {
+                "timestamp": 797,
+                "symptom": "panic_fear",
+                "tweet": "This is exactly the response I was about to make. Just last night I had a dream a spider was on my face and I woke up shaking my head in a panic. I don’t see how you could get this response unless a) it was a real spider, or b) I was experiencing it at the time in my mind."
+            }
+        ]
+    },
+    "405836820": {
+        "user_id": "405836820",
+        "symptoms": [
+            "Anxious_Mood",
+            "Depressed_Mood",
+            "Worthlessness_and_guilty"
+        ],
+        "timeline": [
+            {
+                "timestamp": 195,
+                "symptom": "Anxious_Mood",
+                "tweet": "So terrifying. To think we are all held hostage by two crazed lunatics who are jeopardizing mankind as we know it. Mind boggling"
+            },
+            {
+                "timestamp": 195,
+                "symptom": "Anxious_Mood",
+                "tweet": "And we are all held hostage by a couple of crazed lunatics. Mindboggling & terrifying"
+            },
+            {
+                "timestamp": 201,
+                "symptom": "Worthlessness_and_guilty",
+                "tweet": "What self-esteem?"
+            },
+            {
+                "timestamp": 470,
+                "symptom": "Depressed_Mood",
+                "tweet": "I’ve had ECT on several occasions &amp; among other things it took me from being unable to work to eventually being able to return to my job. It’s sad there is so much stigma &amp; fear for what can be a life-saving treatment for many. #MentalHealthIsHealth #depression"
+            },
+            {
+                "timestamp": 659,
+                "symptom": "Anxious_Mood",
+                "tweet": "Thinking about taking the #TTC from now until the last snowflake of winter is giving me anxiety #doomed"
+            },
+            {
+                "timestamp": 1378,
+                "symptom": "Anxious_Mood",
+                "tweet": "KEY RACE ALERT - most anxiety inducing words ever 😩 #CNN #USElections2020"
+            }
+        ]
+    },
+    "4621392795": {
+        "user_id": "4621392795",
+        "symptoms": [
+            "Anger_Irritability",
+            "Anxious_Mood",
+            "Autonomic_symptoms",
+            "Decreased_energy_tiredness_fatigue",
+            "Depressed_Mood",
+            "Gastrointestinal_symptoms",
+            "Respiratory_symptoms",
+            "compensatory_behaviors_to_prevent_weight_gain",
+            "panic_fear",
+            "poor_memory",
+            "somatic_symptoms_others"
+        ],
+        "timeline": [
+            {
+                "timestamp": 81,
+                "symptom": "Autonomic_symptoms",
+                "tweet": "*breathes heavily*"
+            },
+            {
+                "timestamp": 81,
+                "symptom": "Respiratory_symptoms",
+                "tweet": "*breathes heavily*"
+            },
+            {
+                "timestamp": 143,
+                "symptom": "Anxious_Mood",
+                "tweet": "Agree. I have an anxiety disorder and being around cats always makes me more relaxed"
+            },
+            {
+                "timestamp": 151,
+                "symptom": "Anxious_Mood",
+                "tweet": "You know what's more fun than having an anxiety attack? Having three within 5 hours of each other. I don't know if I want to scream, cry, or just take a nap -_-"
+            },
+            {
+                "timestamp": 151,
+                "symptom": "somatic_symptoms_others",
+                "tweet": "You know what's more fun than having an anxiety attack? Having three within 5 hours of each other. I don't know if I want to scream, cry, or just take a nap -_-"
+            },
+            {
+                "timestamp": 176,
+                "symptom": "Anxious_Mood",
+                "tweet": "I think my stress over the apartment situation has officially gotten to the point that I'm having panic attacks any time I look at the date. I still have 2 months, but I've exhausted every site, even craigslist."
+            },
+            {
+                "timestamp": 176,
+                "symptom": "panic_fear",
+                "tweet": "I think my stress over the apartment situation has officially gotten to the point that I'm having panic attacks any time I look at the date. I still have 2 months, but I've exhausted every site, even craigslist."
+            },
+            {
+                "timestamp": 225,
+                "symptom": "Gastrointestinal_symptoms",
+                "tweet": "*vomits*"
+            },
+            {
+                "timestamp": 225,
+                "symptom": "compensatory_behaviors_to_prevent_weight_gain",
+                "tweet": "*vomits*"
+            },
+            {
+                "timestamp": 242,
+                "symptom": "Depressed_Mood",
+                "tweet": "Depressed as fuck today, and stressed and sick. August cant come soon enough"
+            },
+            {
+                "timestamp": 260,
+                "symptom": "Anger_Irritability",
+                "tweet": "I'm one of those trainers that uses literally every pokemon, so I'm bummed but I'm still getting the game and the amount of temper tantrums I'm seeing is getting wildly out of control"
+            },
+            {
+                "timestamp": 296,
+                "symptom": "Depressed_Mood",
+                "tweet": "Or kids feel more comfortable exposing their mental issues as its becoming more common and less looked down on. I grew up without the internet but never felt comfortable talking about my depression until I had access to an online, supportive platform"
+            },
+            {
+                "timestamp": 308,
+                "symptom": "Autonomic_symptoms",
+                "tweet": "I have almost all of these as an adult lol *sweats*"
+            },
+            {
+                "timestamp": 309,
+                "symptom": "Anxious_Mood",
+                "tweet": "Anything by yoko kanno (wolf's rain especially) or Of Monsters and Men helps when I have a headache or anxiety attack"
+            },
+            {
+                "timestamp": 311,
+                "symptom": "Anxious_Mood",
+                "tweet": "Its that stuff like this has been happening non stop for the last six months and I'm nearing the end of my rope emotionally (got to love depression and anxiety disorders). None of it is earth shattering, everything is fixable, its just that the ups and downs have been constant"
+            },
+            {
+                "timestamp": 311,
+                "symptom": "Depressed_Mood",
+                "tweet": "Its that stuff like this has been happening non stop for the last six months and I'm nearing the end of my rope emotionally (got to love depression and anxiety disorders). None of it is earth shattering, everything is fixable, its just that the ups and downs have been constant"
+            },
+            {
+                "timestamp": 311,
+                "symptom": "Anxious_Mood",
+                "tweet": "I feel like I'm trapped in this constant loop of every time I find some relief from any of my stress, problems, or even just find something to be happy or excited about, something immediately knocks me back down into anxiety and depression. Its getting really really tiring"
+            },
+            {
+                "timestamp": 311,
+                "symptom": "Depressed_Mood",
+                "tweet": "I feel like I'm trapped in this constant loop of every time I find some relief from any of my stress, problems, or even just find something to be happy or excited about, something immediately knocks me back down into anxiety and depression. Its getting really really tiring"
+            },
+            {
+                "timestamp": 334,
+                "symptom": "Anxious_Mood",
+                "tweet": "If there was some feasible way for me to permanently remove spiders from my room and bathroom, I would but my phobia makes it impossible for them to be near me without me having a severe panic reaction, so pesticide and squishing it is"
+            },
+            {
+                "timestamp": 334,
+                "symptom": "panic_fear",
+                "tweet": "If there was some feasible way for me to permanently remove spiders from my room and bathroom, I would but my phobia makes it impossible for them to be near me without me having a severe panic reaction, so pesticide and squishing it is"
+            },
+            {
+                "timestamp": 448,
+                "symptom": "Depressed_Mood",
+                "tweet": "7 and 8. You can be 100% fit and still be depressed and unhappy, but if you're always happy and comfortable with yourself, who cares if you're overweight?"
+            },
+            {
+                "timestamp": 473,
+                "symptom": "Respiratory_symptoms",
+                "tweet": "It honestly depends. If they're only concerned about the coronavirus, face masks don't have any effect unless the the wearer already has the virus. Personally, I have a difficult time breathing in those masks and they make me really uncomfortable"
+            },
+            {
+                "timestamp": 478,
+                "symptom": "Anger_Irritability",
+                "tweet": "Temper tantrum mode engaged"
+            },
+            {
+                "timestamp": 484,
+                "symptom": "Anxious_Mood",
+                "tweet": "Its more anxiety about treatment and how I would tell my parents. My mother is highly judgmental and the sort to think someone is overreacting or seeking attention. She's had the same attitude since I was diagnosed with an anxiety disorder when I was in college"
+            },
+            {
+                "timestamp": 574,
+                "symptom": "Anxious_Mood",
+                "tweet": "This exact thing kicks my anxiety up to 11"
+            },
+            {
+                "timestamp": 577,
+                "symptom": "Autonomic_symptoms",
+                "tweet": "6 more halls *sweats*"
+            },
+            {
+                "timestamp": 711,
+                "symptom": "Anxious_Mood",
+                "tweet": "Yes and its terrifying staring a lack of empathy in the face every time"
+            },
+            {
+                "timestamp": 728,
+                "symptom": "Depressed_Mood",
+                "tweet": "I was diagnosed with severe depression a few years ago but i never followed up. I've had bad experiences with therapists and the side effects seem pretty awful"
+            },
+            {
+                "timestamp": 747,
+                "symptom": "Decreased_energy_tiredness_fatigue",
+                "tweet": "I just keep getting completely exhausted around 5pm and not having any energy until 8p"
+            },
+            {
+                "timestamp": 764,
+                "symptom": "somatic_symptoms_others",
+                "tweet": "I hate that I can hear this even onmute and have to repress the urge to scream 'gallileo'"
+            },
+            {
+                "timestamp": 771,
+                "symptom": "Decreased_energy_tiredness_fatigue",
+                "tweet": "And I am too mentally exhausted to enjoy them"
+            },
+            {
+                "timestamp": 784,
+                "symptom": "poor_memory",
+                "tweet": "I fainted in the shower when I was thirteen because I had a 104 degree fever. I actually don't remember anything from the fainting itself. I just remember being in the shower and then waking up in bed lol"
+            }
+        ]
+    },
+    "531487196": {
+        "user_id": "531487196",
+        "symptoms": [
+            "Anger_Irritability",
+            "Anxious_Mood",
+            "Cardiovascular_symptoms",
+            "Decreased_energy_tiredness_fatigue",
+            "Depressed_Mood",
+            "Impulsivity",
+            "Worthlessness_and_guilty",
+            "loss_of_interest_or_motivation",
+            "somatic_muscle",
+            "somatic_symptoms_others"
+        ],
+        "timeline": [
+            {
+                "timestamp": 446,
+                "symptom": "Depressed_Mood",
+                "tweet": "Sad."
+            },
+            {
+                "timestamp": 456,
+                "symptom": "Depressed_Mood",
+                "tweet": "Tears every time❤"
+            },
+            {
+                "timestamp": 456,
+                "symptom": "somatic_symptoms_others",
+                "tweet": "Tears every time❤"
+            },
+            {
+                "timestamp": 461,
+                "symptom": "Cardiovascular_symptoms",
+                "tweet": "Heart is hurting tonight."
+            },
+            {
+                "timestamp": 573,
+                "symptom": "Depressed_Mood",
+                "tweet": "I’m so sorry. So painful."
+            },
+            {
+                "timestamp": 582,
+                "symptom": "Impulsivity",
+                "tweet": "Can’t wait."
+            },
+            {
+                "timestamp": 588,
+                "symptom": "Decreased_energy_tiredness_fatigue",
+                "tweet": "There I was, minding my own business, and saw your words - had to go unfollow, because I really don’t have time or energy for BS. It’s so insidious - and, annoying."
+            },
+            {
+                "timestamp": 605,
+                "symptom": "Anger_Irritability",
+                "tweet": "I can feel the pain in your words. It breaks my heart that you went through that. The Words of Jesus ARE my heart, because the Holy Spirit reveals Himself through the reading of God’s word. I have had many hard things happen in my life, and MANY times I was angry at God."
+            },
+            {
+                "timestamp": 634,
+                "symptom": "somatic_muscle",
+                "tweet": "I’m so sorry to hear that. It’s so hard - I use the ointment and essential oils, and also (don’t know if you’ve tried it) I drink magnesium at night to help with relaxation and muscle spasms. I really feel it helps."
+            },
+            {
+                "timestamp": 652,
+                "symptom": "Anxious_Mood",
+                "tweet": "You’re unfortunately spot on. Additionally, I have managed to keep my daughter who is autistic, off of all prescription medications. She 14 now, &amp; I’m so glad I didn’t take \"Dr. advice\". I manage her anxiety and sleep disorder with CBD oil and essential oils/diet. It is possible."
+            },
+            {
+                "timestamp": 654,
+                "symptom": "Depressed_Mood",
+                "tweet": "Please forgive me if I’ve made you feel that way. You must not have read my by-line on my profile. I deal with emotional, mental, and physical issues on a daily basis, so while Jesus has intervened in my life in amazing ways, I still struggle against sometimes overwhelming"
+            },
+            {
+                "timestamp": 678,
+                "symptom": "Decreased_energy_tiredness_fatigue",
+                "tweet": "Low-energy Jeb. Irrelevant."
+            },
+            {
+                "timestamp": 682,
+                "symptom": "Worthlessness_and_guilty",
+                "tweet": "And yet, STILL GUILTY!"
+            },
+            {
+                "timestamp": 909,
+                "symptom": "Depressed_Mood",
+                "tweet": "Unimaginable despair. My heart is heavy these days🙏🏼"
+            },
+            {
+                "timestamp": 967,
+                "symptom": "Anger_Irritability",
+                "tweet": "This makes me so angry😡 I also read somewhere ( can’t remember) that the Zoom meeting app that all the schools are using to conduct this ridiculous “distance learning” has been forwarding user’s metadata to Goog-el. In other words, 🇨🇳"
+            },
+            {
+                "timestamp": 987,
+                "symptom": "loss_of_interest_or_motivation",
+                "tweet": "It is my pleasure to do so."
+            },
+            {
+                "timestamp": 1036,
+                "symptom": "Depressed_Mood",
+                "tweet": "Very sad."
+            }
+        ]
+    },
+    "603116542": {
+        "user_id": "603116542",
+        "symptoms": [
+            "Anxious_Mood",
+            "Depressed_Mood",
+            "Gastrointestinal_symptoms",
+            "Impulsivity",
+            "do_things_easily_get_painful_consequences",
+            "panic_fear",
+            "somatic_muscle",
+            "somatic_symptoms_sensory"
+        ],
+        "timeline": [
+            {
+                "timestamp": 246,
+                "symptom": "Depressed_Mood",
+                "tweet": "Thank you for your advocacy of depression and endometriosis. I have both. Best wishes!"
+            },
+            {
+                "timestamp": 336,
+                "symptom": "Depressed_Mood",
+                "tweet": "Just finished Playing Hurt. Great job, John! So emotional. I have depression and chronic pain, I can relate to this. Thank you!"
+            },
+            {
+                "timestamp": 597,
+                "symptom": "Anxious_Mood",
+                "tweet": "I agree. Saying that anxiety isn't serious is a mistake. I have depression and anxiety, I do not take them lightly."
+            },
+            {
+                "timestamp": 597,
+                "symptom": "Depressed_Mood",
+                "tweet": "I agree. Saying that anxiety isn't serious is a mistake. I have depression and anxiety, I do not take them lightly."
+            },
+            {
+                "timestamp": 619,
+                "symptom": "somatic_muscle",
+                "tweet": "Shaking my head at this."
+            },
+            {
+                "timestamp": 645,
+                "symptom": "Anxious_Mood",
+                "tweet": "I can relate to what you were going through in last night's episode. I also have anxiety and have experienced panic attacks. Best wishes!!"
+            },
+            {
+                "timestamp": 645,
+                "symptom": "panic_fear",
+                "tweet": "I can relate to what you were going through in last night's episode. I also have anxiety and have experienced panic attacks. Best wishes!!"
+            },
+            {
+                "timestamp": 647,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait, Kelly!!"
+            },
+            {
+                "timestamp": 678,
+                "symptom": "Anxious_Mood",
+                "tweet": "Thank you for sharing your story, you will help many people. I have had depression and anxiety for many year."
+            },
+            {
+                "timestamp": 678,
+                "symptom": "Depressed_Mood",
+                "tweet": "Thank you for sharing your story, you will help many people. I have had depression and anxiety for many year."
+            },
+            {
+                "timestamp": 682,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait, Laura!!! GO BLUE!"
+            },
+            {
+                "timestamp": 685,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait!!"
+            },
+            {
+                "timestamp": 698,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait!! GO PATS!!"
+            },
+            {
+                "timestamp": 720,
+                "symptom": "do_things_easily_get_painful_consequences",
+                "tweet": "Does Jeanine still drink and drive and speed over 100 mph?"
+            },
+            {
+                "timestamp": 730,
+                "symptom": "Anxious_Mood",
+                "tweet": "I want to thank you and the co-hosts for acknowledging #MentalHealthAwarenessDay today, Meghan. I was diagnosed over 20 years ago with depression and anxiety. Medication, therapy, and a strong support system helps me so much."
+            },
+            {
+                "timestamp": 730,
+                "symptom": "Depressed_Mood",
+                "tweet": "I want to thank you and the co-hosts for acknowledging #MentalHealthAwarenessDay today, Meghan. I was diagnosed over 20 years ago with depression and anxiety. Medication, therapy, and a strong support system helps me so much."
+            },
+            {
+                "timestamp": 730,
+                "symptom": "Anxious_Mood",
+                "tweet": "I was diagnosed with depression and anxiety over 20 years ago. Medication, therapy, and supportive friends and family really help. Keep reaching out. #MentalHealthAwarenessDay"
+            },
+            {
+                "timestamp": 730,
+                "symptom": "Depressed_Mood",
+                "tweet": "I was diagnosed with depression and anxiety over 20 years ago. Medication, therapy, and supportive friends and family really help. Keep reaching out. #MentalHealthAwarenessDay"
+            },
+            {
+                "timestamp": 755,
+                "symptom": "Depressed_Mood",
+                "tweet": "So sad."
+            },
+            {
+                "timestamp": 795,
+                "symptom": "Depressed_Mood",
+                "tweet": "Wiping away tears."
+            },
+            {
+                "timestamp": 848,
+                "symptom": "Anxious_Mood",
+                "tweet": "Thank you for all that you do. I have depression &amp; anxiety, and I take medication for it. I also see a therapist. I used to be embarrassed about it, that was 20 years ago. Unfortunately, there is still stigma. Bless you, Sir."
+            },
+            {
+                "timestamp": 848,
+                "symptom": "Depressed_Mood",
+                "tweet": "Thank you for all that you do. I have depression &amp; anxiety, and I take medication for it. I also see a therapist. I used to be embarrassed about it, that was 20 years ago. Unfortunately, there is still stigma. Bless you, Sir."
+            },
+            {
+                "timestamp": 848,
+                "symptom": "Impulsivity",
+                "tweet": "Why does keep interrupting ? Wolf is annoying."
+            },
+            {
+                "timestamp": 855,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait, Kelly!!"
+            },
+            {
+                "timestamp": 884,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait!!"
+            },
+            {
+                "timestamp": 886,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait!!"
+            },
+            {
+                "timestamp": 888,
+                "symptom": "somatic_muscle",
+                "tweet": "Shaking my head, Seth. I will take Jay over you every time."
+            },
+            {
+                "timestamp": 910,
+                "symptom": "Anxious_Mood",
+                "tweet": "Thank you both for sharing this. I have dealt with anxiety for many years. Thank you for being so open, Kyle!! Congratulations on your win, but also for helping so many people!"
+            },
+            {
+                "timestamp": 934,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait, Capt. Sandy!"
+            },
+            {
+                "timestamp": 941,
+                "symptom": "Anxious_Mood",
+                "tweet": "Me, too. I have anxiety and depression, I appreciate what GH does."
+            },
+            {
+                "timestamp": 941,
+                "symptom": "Depressed_Mood",
+                "tweet": "Me, too. I have anxiety and depression, I appreciate what GH does."
+            },
+            {
+                "timestamp": 962,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait!"
+            },
+            {
+                "timestamp": 979,
+                "symptom": "Anxious_Mood",
+                "tweet": "Thank you for all that you do to end the stigma of mental health. I have had anxiety and depression for over 20 years. God bless you!"
+            },
+            {
+                "timestamp": 979,
+                "symptom": "Depressed_Mood",
+                "tweet": "Thank you for all that you do to end the stigma of mental health. I have had anxiety and depression for over 20 years. God bless you!"
+            },
+            {
+                "timestamp": 981,
+                "symptom": "Anxious_Mood",
+                "tweet": "Exercise helps my anxiety and depression a lot. I try to exercise five days a week. I went for a walk this morning because I needed to clear my head. Thank you for your positivity and advocacy, Maurice! Best wishes from Northern Michigan!"
+            },
+            {
+                "timestamp": 981,
+                "symptom": "Depressed_Mood",
+                "tweet": "Exercise helps my anxiety and depression a lot. I try to exercise five days a week. I went for a walk this morning because I needed to clear my head. Thank you for your positivity and advocacy, Maurice! Best wishes from Northern Michigan!"
+            },
+            {
+                "timestamp": 989,
+                "symptom": "Anxious_Mood",
+                "tweet": "I just watched last night's show, Chris!! Thank you so much for addressing mental health, I am sure that you helped so many people. I used to be ashamed to have anxiety &amp; depression, but several years ago I decided that it was a part of me."
+            },
+            {
+                "timestamp": 989,
+                "symptom": "Depressed_Mood",
+                "tweet": "I just watched last night's show, Chris!! Thank you so much for addressing mental health, I am sure that you helped so many people. I used to be ashamed to have anxiety &amp; depression, but several years ago I decided that it was a part of me."
+            },
+            {
+                "timestamp": 1000,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait!!!"
+            },
+            {
+                "timestamp": 1035,
+                "symptom": "Gastrointestinal_symptoms",
+                "tweet": "I can't stomach it."
+            },
+            {
+                "timestamp": 1040,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait!!"
+            },
+            {
+                "timestamp": 1099,
+                "symptom": "Depressed_Mood",
+                "tweet": "I was crying, it was so stunning!"
+            },
+            {
+                "timestamp": 1163,
+                "symptom": "Impulsivity",
+                "tweet": "Please stop interrupting the other pundits. You always will tell them to stop when you are talking. I find it hard to find you credible when you keep cutting people off."
+            },
+            {
+                "timestamp": 1177,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait, Kelly!!"
+            },
+            {
+                "timestamp": 1207,
+                "symptom": "Impulsivity",
+                "tweet": "is interrupting the other panelists. He is being very rude, disrespectful, petty, and it is not a good look. You look very foolish, Mr. Santorum."
+            },
+            {
+                "timestamp": 1209,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Gave me chills! Thank you for your service!!"
+            },
+            {
+                "timestamp": 1226,
+                "symptom": "Impulsivity",
+                "tweet": "I can't wait!!!"
+            },
+            {
+                "timestamp": 1271,
+                "symptom": "Depressed_Mood",
+                "tweet": "So sad"
+            },
+            {
+                "timestamp": 1291,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "You were amazing on CNN tonight, Ms. Keys! Good Job gave me chills! Dr. Gupta is right, you are so calming.❤️"
+            },
+            {
+                "timestamp": 1367,
+                "symptom": "Anxious_Mood",
+                "tweet": "I have some fears of going to the dentist now, not because of the dentist and staff. I am afraid that patients are not practicing safety measures."
+            },
+            {
+                "timestamp": 1371,
+                "symptom": "Depressed_Mood",
+                "tweet": "So sad"
+            },
+            {
+                "timestamp": 1400,
+                "symptom": "Anxious_Mood",
+                "tweet": "I have anxiety also, Hannah. I totally can relate. I worked at a shelter several years ago, and I was accused of stealing a client's medication by my boss. I had to meet one-on-one with him. The client fessed up to stealing the medication."
+            },
+            {
+                "timestamp": 1408,
+                "symptom": "Anxious_Mood",
+                "tweet": "I have anxiety issues, and I totally agree."
+            },
+            {
+                "timestamp": 1408,
+                "symptom": "Anxious_Mood",
+                "tweet": "I have anxiety, and I agree."
+            },
+            {
+                "timestamp": 1424,
+                "symptom": "Impulsivity",
+                "tweet": "Can't wait, Herbie!!"
+            }
+        ]
+    },
+    "615729016": {
+        "user_id": "615729016",
+        "symptoms": [
+            "Anxious_Mood",
+            "Gastrointestinal_symptoms",
+            "Inattention",
+            "Indecisiveness",
+            "Worthlessness_and_guilty",
+            "somatic_symptoms_sensory"
+        ],
+        "timeline": [
+            {
+                "timestamp": 343,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Yes, the kind of creepy that sends a chill through the room."
+            },
+            {
+                "timestamp": 596,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Gone cold"
+            },
+            {
+                "timestamp": 730,
+                "symptom": "Anxious_Mood",
+                "tweet": "I have been through a lot of what you describe, and it is chilling. Never been diagnosed with depression, but I understand living with a loud mind that is mean. An unchecked conscious is bleeping brutal. Avoid \"substances\" if this happens to you, personal experience there, scary."
+            },
+            {
+                "timestamp": 732,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "Hot, right?"
+            },
+            {
+                "timestamp": 748,
+                "symptom": "Worthlessness_and_guilty",
+                "tweet": "This is not directed at you, personally, that is just the way it came out from between my ears. Personally, I deal poorly with all of this. But, if I separate my emotions out of it, my response to this is probably normal. Still, I feel guilty if I don't try something."
+            },
+            {
+                "timestamp": 760,
+                "symptom": "Indecisiveness",
+                "tweet": "Just make a decision already..."
+            },
+            {
+                "timestamp": 804,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "So I have been sick for the past three months, perhaps it is why I am more prickly, either that or I'm a curmudgeon. I doubt you deserve it. However, twitter over simplifies things by its nature. This can be problematic."
+            },
+            {
+                "timestamp": 826,
+                "symptom": "Inattention",
+                "tweet": "It's technically not a decade (longer) too late for that, but Dave get's distracted by shiny objects, I'm not really worried."
+            },
+            {
+                "timestamp": 830,
+                "symptom": "Gastrointestinal_symptoms",
+                "tweet": "I just get sick. Headaches and over acid stomach becomes much more difficult to deal with, also the mental focus goes to hell. My advice is don't grow old, it's hard on a person. ;)"
+            },
+            {
+                "timestamp": 1024,
+                "symptom": "Inattention",
+                "tweet": "Sigh, I don't need distracting thoughts like this. Now my brain is in, \"I WANT, I NEED, I HAVE TO HAVE!!!\" mode, again. I really want this too."
+            },
+            {
+                "timestamp": 1103,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "(singing) \"I got Chilllllllllllllllllllls.....\""
+            },
+            {
+                "timestamp": 1132,
+                "symptom": "Anxious_Mood",
+                "tweet": "It is strange, but you take what you have control of and use it as best as you can. However, I've never made a video about it, and that is mildly terrifying to think about making..."
+            },
+            {
+                "timestamp": 1214,
+                "symptom": "Gastrointestinal_symptoms",
+                "tweet": "Okay, but as a life long medical condition person, if it comes back to bite you, we'll talk then. I've been diagnosed with gasteroparesis, so a lot more foods have been taken from my diet. Trust me, that is a very stupid attitude towards a lot of things, when hind sight is used."
+            },
+            {
+                "timestamp": 1505,
+                "symptom": "somatic_symptoms_sensory",
+                "tweet": "I have tinnitus so it's kind of needed if I want to avoid the ringing while falling asleep."
+            }
+        ]
+    },
+    "66979514": {
+        "user_id": "66979514",
+        "symptoms": [
+            "Depressed_Mood"
+        ],
+        "timeline": [
+            {
+                "timestamp": -520,
+                "symptom": "Depressed_Mood",
+                "tweet": "I can't accept this.. It broke my heart.. I'm crying.."
+            },
+            {
+                "timestamp": 185,
+                "symptom": "Depressed_Mood",
+                "tweet": "I actually saw this coming but I didn't know that it was you, why it should be you? I'm trying to hold my emotions but then here I am, crying and sobbing in wee hours while doing this. What more to Ninang Queenie,…"
+            }
+        ]
+    },
+    "709414893515051008": {
+        "user_id": "709414893515051008",
+        "symptoms": [
+            "Autonomic_symptoms",
+            "Cardiovascular_symptoms",
+            "Depressed_Mood"
+        ],
+        "timeline": [
+            {
+                "timestamp": 10,
+                "symptom": "Depressed_Mood",
+                "tweet": "I'm so sad ☺"
+            },
+            {
+                "timestamp": 12,
+                "symptom": "Depressed_Mood",
+                "tweet": "#WINGS7 Cry cry cry :')"
+            },
+            {
+                "timestamp": 36,
+                "symptom": "Autonomic_symptoms",
+                "tweet": "WAW WAW WAAAAAAAAAAAAAW MY FUCKING HEART"
+            },
+            {
+                "timestamp": 36,
+                "symptom": "Cardiovascular_symptoms",
+                "tweet": "WAW WAW WAAAAAAAAAAAAAW MY FUCKING HEART"
+            }
+        ]
+    },
+    "721638187": {
+        "user_id": "721638187",
+        "symptoms": [
+            "Anxious_Mood",
+            "Depressed_Mood",
+            "Suicidal_ideas",
+            "pessimism"
+        ],
+        "timeline": [
+            {
+                "timestamp": 20,
+                "symptom": "Anxious_Mood",
+                "tweet": "If you find yourself in circumstances that are causing you anxiety, go through these 3 verses; Hebrews 13:5 - God..."
+            },
+            {
+                "timestamp": 20,
+                "symptom": "Depressed_Mood",
+                "tweet": "If our circumstances cause our emotions to lead us to depression, cut off the problem at the root and remove..."
+            },
+            {
+                "timestamp": 20,
+                "symptom": "pessimism",
+                "tweet": "Self-discovery, self-actualization, or just self-centeredness in general will only lead you to despair. Let your..."
+            },
+            {
+                "timestamp": 201,
+                "symptom": "Suicidal_ideas",
+                "tweet": "Gotta die to self to really live!"
+            },
+            {
+                "timestamp": 730,
+                "symptom": "Depressed_Mood",
+                "tweet": "Both smell of desperation.."
+            }
+        ]
+    },
+    "75233559": {
+        "user_id": "75233559",
+        "symptoms": [
+            "Depressed_Mood"
+        ],
+        "timeline": [
+            {
+                "timestamp": 359,
+                "symptom": "Depressed_Mood",
+                "tweet": "Very sad."
+            },
+            {
+                "timestamp": 451,
+                "symptom": "Depressed_Mood",
+                "tweet": "How very sad."
+            }
+        ]
+    }
+}

@@ -12,6 +12,7 @@ from .talkDep import TalkDepClient, TalkDepClientConfig
 from .saps import SAPSClient, SAPSClientConfig
 from .adaptiveVP import AdaptiveVPClient, AdaptiveVPClientConfig
 from .patientZero import PatientZeroClient, PatientZeroClientConfig
+from .deprofile import DeprofileClient, DeprofileClientConfig
 
 
 import logging
@@ -34,6 +35,7 @@ CLIENT_REGISTRY = {
     "saps": SAPSClient,
     "adaptiveVP": AdaptiveVPClient,
     "patientZero": PatientZeroClient,
+    "deprofile": DeprofileClient,
 }
 
 # Registry of client configs (for Hydra registration)
@@ -51,6 +53,7 @@ CLIENT_CONFIG_REGISTRY = {
     "saps": SAPSClientConfig,
     "adaptiveVP": AdaptiveVPClientConfig,
     "patientZero": PatientZeroClientConfig,
+    "deprofile": DeprofileClientConfig,
 }
 
 
