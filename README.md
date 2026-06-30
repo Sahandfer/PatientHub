@@ -59,7 +59,7 @@ patienthub generate generator=psyche
 **Adapt** a character profile from one client format to another:
 
 ```bash
-patienthub adapt input_path=data/characters/PatientPsi.json target_client=roleplayDoh
+patienthub adapt input_path=data/characters/patientPsi.json target_client=roleplayDoh
 ```
 
 **Run the web demo** (requires `dev` dependencies):

@@ -11,7 +11,7 @@ class PatientZeroClientConfig(APIModelConfig):
 
     agent_name: str = "patientZero"
     prompt_path: str = "data/prompts/client/patientZero.yaml"
-    data_path: str = "data/characters/PatientZero.json"
+    data_path: str = "data/characters/patientZero.json"
     data_idx: int = 0
 
 

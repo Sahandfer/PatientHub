@@ -46,7 +46,7 @@ generator.generate_character()
 | `prompt_path`  | string | `data/prompts/generator/clientCast.yaml`      | Path to prompt file                              |
 | `input_dir`    | string | `data/resources/ClientCast/human_data.json`   | Path to input conversation JSON                  |
 | `symptoms_dir` | string | `data/resources/ClientCast/symptoms.json`     | Path to symptom item definitions                 |
-| `output_dir`   | string | `data/characters/ClientCast.json`             | Path where the generated character is saved      |
+| `output_dir`   | string | `data/characters/clientCast.json`             | Path where the generated character is saved      |
 | `data_idx`     | int    | `0`                                           | Index of the conversation to use from input file |
 | `model_type`   | string | `"OPENAI"`                                    | Model provider key                               |
 | `model_name`   | string | `"gpt-4o"`                                    | Model identifier                                 |

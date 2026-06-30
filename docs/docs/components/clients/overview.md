@@ -58,7 +58,7 @@ config = OmegaConf.create({
     'max_tokens': 8192,
     'max_retries': 3,
     'prompt_path': 'data/prompts/client/patientPsi.yaml',
-    'data_path': 'data/characters/PatientPsi.json',
+    'data_path': 'data/characters/patientPsi.json',
     'data_idx': 0,
     'patient_type': 'upset',
 })

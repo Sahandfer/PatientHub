@@ -31,22 +31,8 @@ class SAPSClientConfig(APIModelConfig):
 
     agent_name: str = "saps"
     prompt_path: str = "data/prompts/client/saps.yaml"
-    data_path: str = "data/characters/SAPS.json"
+    data_path: str = "data/characters/saps.json"
     data_idx: int = 0
-
-
-class StageIResponse(BaseModel):
-    """Stage I: five types of questions classification"""
-
-    question_type: Literal["A", "B", "C", "D", "E"] = Field()
-
-
-class StageIIResponse(BaseModel):
-    """Stage II: determine the question is specific or broad"""
-
-    specificity: Literal["Specific", "Broad"] = Field(
-        description="Whether the question/advise is Specific or Broad"
-    )
 
 
 class StageIIIResponse(BaseModel):
@@ -82,9 +68,9 @@ class SAPSClient(BaseClient):
         prompt = self.prompts["state_detection"]["stage_I"].render(question=question)
         res = self.chat_model.generate(
             messages=[{"role": "system", "content": prompt}],
-            response_format=StageIResponse,
+            response_format=Literal["A", "B", "C", "D", "E"],
         )
-        return res.question_type
+        return res
 
     def perform_stage_II(self, question: str, question_type: str) -> Any:
         if question_type not in ["A", "B"]:
@@ -95,9 +81,9 @@ class SAPSClient(BaseClient):
         )
         res = self.chat_model.generate(
             messages=[{"role": "system", "content": prompt}],
-            response_format=StageIIResponse,
+            response_format=Literal["Specific", "Broad"],
         )
-        return "A" if res.specificity == "Specific" else "B"
+        return "A" if res == "Specific" else "B"
 
     def perform_stage_III(
         self,

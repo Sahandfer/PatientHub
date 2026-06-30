@@ -45,7 +45,7 @@ generator.generate_character()
 | ------------- | ------ | --------------------------------------- | --------------------------------------------- |
 | `prompt_path` | string | `data/prompts/generator/annaAgent.yaml` | Path to prompt file                           |
 | `input_dir`   | string | `data/resources/AnnaAgent`              | Directory with `case.json`, event files, etc. |
-| `output_dir`  | string | `data/characters/AnnaAgent.json`        | Path where the generated character is saved   |
+| `output_dir`  | string | `data/characters/annaAgent.json`        | Path where the generated character is saved   |
 | `model_type`  | string | `"OPENAI"`                              | Model provider key                            |
 | `model_name`  | string | `"gpt-4o"`                              | Model identifier                              |
 | `temperature` | float  | `0.7`                                   | Sampling temperature                          |

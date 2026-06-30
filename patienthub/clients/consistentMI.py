@@ -35,7 +35,7 @@ class ConsistentMIClientConfig(APIModelConfig):
 
     agent_name: str = "consistentMI"
     prompt_path: str = "data/prompts/client/consistentMI.yaml"
-    data_path: str = "data/characters/ConsistentMI.json"
+    data_path: str = "data/characters/consistentMI.json"
     topics_path: str = "data/resources/ConsistentMI/topics.json"
     topic_graph_path: str = "data/resources/ConsistentMI/topic_graph.json"
     reranker_model_type: str = "LOCAL"

@@ -36,7 +36,7 @@ class AdaptiveVPClientConfig(APIModelConfig):
 
     agent_name: str = "adaptiveVP"
     prompt_path: str = "data/prompts/client/adaptiveVP.yaml"
-    data_path: str = "data/characters/AdaptiveVP.json"
+    data_path: str = "data/characters/adaptiveVP.json"
     directions_path: str = "data/resources/AdaptiveVP_stage_direction.json"
     data_idx: int = 0
 

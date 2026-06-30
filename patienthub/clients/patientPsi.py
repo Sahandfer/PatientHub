@@ -28,7 +28,7 @@ class PatientPsiClientConfig(APIModelConfig):
 
     agent_name: str = "patientPsi"
     prompt_path: str = "data/prompts/client/patientPsi.yaml"
-    data_path: str = "data/characters/PatientPsi.json"
+    data_path: str = "data/characters/patientPsi.json"
     data_idx: int = 0
     patient_type: str = "plain"
 

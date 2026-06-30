@@ -33,7 +33,7 @@ class AnnaAgentGeneratorConfig(APIModelConfig):
     agent_name: str = "annaAgent"
     prompt_path: str = "data/prompts/generator/annaAgent.yaml"
     input_dir: str = "data/resources/AnnaAgent"
-    output_dir: str = "data/characters/AnnaAgent.json"
+    output_dir: str = "data/characters/annaAgent.json"
 
 
 class ScaleAnswer(BaseModel):

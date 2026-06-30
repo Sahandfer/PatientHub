@@ -71,7 +71,7 @@ print(response)
 | Option                | Description                                             | Default                                        |
 | --------------------- | ------------------------------------------------------- | ---------------------------------------------- |
 | `prompt_path`         | Path to prompt file                                     | `data/prompts/client/consistentMI.yaml`        |
-| `data_path`           | Path to character file                                  | `data/characters/ConsistentMI.json`            |
+| `data_path`           | Path to character file                                  | `data/characters/consistentMI.json`            |
 | `data_idx`            | Character index                                         | `0`                                            |
 | `topics_path`         | Topics from Wiki                                        | `data/resources/ConsistentMI/topics.json`      |
 | `topic_graph_path`    | Correlation between topics                              | `data/resources/ConsistentMI/topic_graph.json` |

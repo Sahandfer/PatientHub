@@ -91,7 +91,7 @@ print(f"Non-verbal: {response.non_verbal}")
 | Option            | Description              | Default                                          |
 | ----------------- | ------------------------ | ------------------------------------------------ |
 | `prompt_path`     | Path to prompt file      | `data/prompts/client/adaptiveVP.yaml`            |
-| `data_path`       | Path to character file   | `data/characters/AdaptiveVP.json`                |
+| `data_path`       | Path to character file   | `data/characters/adaptiveVP.json`                |
 | `directions_path` | Path to stage directions | `data/resources/AdaptiveVP_stage_direction.json` |
 | `data_idx`        | Character index          | `0`                                              |
 

@@ -20,7 +20,6 @@ import random
 from typing import Dict
 from omegaconf import DictConfig
 from dataclasses import dataclass
-from pydantic import BaseModel, Field
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
@@ -41,32 +40,8 @@ class AnnaAgentClientConfig(APIModelConfig):
 
     agent_name: str = "annaAgent"
     prompt_path: str = "data/prompts/client/annaAgent.yaml"
-    data_path: str = "data/characters/AnnaAgent.json"
+    data_path: str = "data/characters/annaAgent.json"
     data_idx: int = 0
-
-
-class EmotionResponse(BaseModel):
-    emotion: EMOTION_TYPES = Field(
-        description="The inferred emotion category, must be one of the 28 emotions defined by GoEmotions"
-    )
-
-
-class IsRecognizedResponse(BaseModel):
-    is_recognized: bool = Field(
-        description="Based on the dialogue content and the cognitive change chain of the chief complaint, determine whether the patient has well recognized the current stage complaint."
-    )
-
-
-class IsNeedPreviousResponse(BaseModel):
-    is_need: bool = Field(
-        description="Whether the therapist's statement involves content from previous sessions"
-    )
-
-
-class KnowledgeResponse(BaseModel):
-    knowledge: str = Field(
-        description="Relevant information retrieved from historical conversations and scales"
-    )
 
 
 class AnnaAgentClient(BaseClient):
@@ -99,10 +74,10 @@ class AnnaAgentClient(BaseClient):
         )
         res = self.chat_model.generate(
             [{"role": "system", "content": prompt}],
-            response_format=EmotionResponse,
+            response_format=EMOTION_TYPES,
         )
 
-        return res.emotion
+        return res
 
     def get_emotion_weights(self, emotion_category: str):
         probabilities = {}
@@ -149,9 +124,9 @@ class AnnaAgentClient(BaseClient):
         )
         res = self.chat_model.generate(
             [{"role": "system", "content": prompt}],
-            response_format=IsRecognizedResponse,
+            response_format=bool,
         )
-        if res.is_recognized:
+        if res:
             self.chain_idx += 1
 
     def is_need_previous(self, msg: str):
@@ -159,10 +134,10 @@ class AnnaAgentClient(BaseClient):
 
         res = self.chat_model.generate(
             messages=[{"role": "system", "content": prompt}],
-            response_format=IsNeedPreviousResponse,
+            response_format=bool,
         )
 
-        return res.is_need
+        return res
 
     def query_knowledge(self, msg: str):
         past_conv = flatten_conv(self.prev_conv)
@@ -172,10 +147,10 @@ class AnnaAgentClient(BaseClient):
 
         res = self.chat_model.generate(
             messages=[{"role": "system", "content": prompt}],
-            response_format=KnowledgeResponse,
+            response_format=str,
         )
 
-        return res.knowledge
+        return res
 
     def generate_response(self, msg: str):
         # 1) Infer emotions

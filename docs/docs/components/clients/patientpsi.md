@@ -50,7 +50,7 @@ print(response)
 | Option         | Description            | Default                               |
 | -------------- | ---------------------- | ------------------------------------- |
 | `prompt_path`  | Path to prompt file    | `data/prompts/client/patientPsi.yaml` |
-| `data_path`    | Path to character file | `data/characters/PatientPsi.json`     |
+| `data_path`    | Path to character file | `data/characters/patientPsi.json`     |
 | `data_idx`     | Character index        | `0`                                   |
 | `patient_type` | Behavior pattern       | `"upset"`                             |
 

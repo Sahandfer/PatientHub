@@ -140,7 +140,7 @@ model_name: gpt-4o
 temperature: 0.5
 max_tokens: 2048
 prompt_path: data/prompts/client/patientPsi.yaml
-data_path: data/characters/PatientPsi.json
+data_path: data/characters/patientPsi.json
 data_idx: 0
 ```
 

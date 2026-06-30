@@ -62,7 +62,7 @@ print(response)
 | Option        | Description            | Default                           |
 | ------------- | ---------------------- | --------------------------------- |
 | `prompt_path` | Path to prompt file    | `data/prompts/client/psyche.yaml` |
-| `data_path`   | Path to character file | `data/characters/Psyche.json`     |
+| `data_path`   | Path to character file | `data/characters/psyche.json`     |
 | `data_idx`    | Character index        | `0`                               |
 
 ## Character Data Format

@@ -34,7 +34,7 @@ class SimPatientClientConfig(APIModelConfig):
 
     agent_name: str = "simPatient"
     prompt_path: str = "data/prompts/client/simPatient.yaml"
-    data_path: str = "data/characters/SimPatient.json"
+    data_path: str = "data/characters/simPatient.json"
     conv_history_path: str = "data/sessions/SimPatient/session_1.json"
     data_idx: int = 0
     continue_last_session: bool = False

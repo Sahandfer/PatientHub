@@ -29,7 +29,7 @@ class PsycheClientConfig(APIModelConfig):
 
     agent_name: str = "psyche"
     prompt_path: str = "data/prompts/client/psyche.yaml"
-    data_path: str = "data/characters/Psyche.json"
+    data_path: str = "data/characters/psyche.json"
     data_idx: int = 0
 
 
