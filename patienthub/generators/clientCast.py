@@ -34,7 +34,7 @@ class ClientCastGeneratorConfig(APIModelConfig):
     prompt_path: str = "data/prompts/generator/clientCast.yaml"
     input_dir: str = "data/resources/ClientCast/human_data.json"
     symptoms_dir: str = "data/resources/ClientCast/symptoms.json"
-    output_dir: str = "data/characters/ClientCast.json"
+    output_dir: str = "data/characters/clientCast.json"
     data_idx: int = 0
 
 

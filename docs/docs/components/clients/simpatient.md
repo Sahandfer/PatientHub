@@ -68,7 +68,7 @@ print(response)
 | Option                  | Description                      | Default                                   |
 | ----------------------- | -------------------------------- | ----------------------------------------- |
 | `prompt_path`           | Path to prompt file              | `data/prompts/client/simPatient.yaml`     |
-| `data_path`             | Path to character file           | `data/characters/SimPatient.json`         |
+| `data_path`             | Path to character file           | `data/characters/simPatient.json`         |
 | `data_idx`              | Character index                  | `0`                                       |
 | `continue_last_session` | Resume from previous session     | `False`                                   |
 | `conv_history_path`     | Path to previous session history | `data/sessions/SimPatient/session_1.json` |

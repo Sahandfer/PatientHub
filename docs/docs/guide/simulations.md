@@ -51,7 +51,7 @@ client_config = OmegaConf.create({
     'max_tokens': 1024,
     'max_retries': 3,
     'prompt_path': 'data/prompts/client/patientPsi.yaml',
-    'data_path': 'data/characters/PatientPsi.json',
+    'data_path': 'data/characters/patientPsi.json',
     'data_idx': 0,
 })
 
@@ -105,7 +105,7 @@ config = OmegaConf.create({
     'temperature': 0.7,
     'max_tokens': 1024,
     'max_retries': 3,
-    'data_path': 'data/characters/PatientPsi.json',
+    'data_path': 'data/characters/patientPsi.json',
     'data_idx': 0,
 })
 
@@ -154,7 +154,7 @@ config = OmegaConf.create({
     'temperature': 0.7,
     'max_tokens': 1024,
     'max_retries': 3,
-    'data_path': 'data/characters/Eeyore.json',
+    'data_path': 'data/characters/eeyore.json',
     'data_idx': 0,
 })
 

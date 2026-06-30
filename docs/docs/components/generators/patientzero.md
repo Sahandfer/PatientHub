@@ -71,7 +71,7 @@ config = OmegaConf.create({
     "max_retries": 3,
     "prompt_path": "data/prompts/generator/patientZero.yaml",
     "source_dir": "data/resources/PatientZero",
-    "output_path": "data/characters/PatientZero.json",
+    "output_path": "data/characters/patientZero.json",
     "disease_key": "depression",
     "random_seed": 0,
 })
@@ -86,7 +86,7 @@ generator.generate_character()
 | ----------------- | ----------- | -------------------------------------------- | --------------------------------------------------------------- |
 | `prompt_path`     | string      | `data/prompts/generator/patientZero.yaml`    | Path to PatientZero prompts                                     |
 | `source_dir`      | string      | `data/resources/PatientZero`                 | Folder for source data, priors, examination references, and reusable disease outlines |
-| `output_path`     | string      | `data/characters/PatientZero.json`           | Final JSON file where validated records are appended            |
+| `output_path`     | string      | `data/characters/patientZero.json`           | Final JSON file where validated records are appended            |
 | `disease_key`     | string      | `depression`                                 | Target disease key, for example `depression` or `insomnia`      |
 | `random_seed`     | int/null    | `None`                                       | Optional seed for reproducible attribute sampling               |                                          |
 | `max_retries`     | int         | `3`                                          | API retry attempts                                              |

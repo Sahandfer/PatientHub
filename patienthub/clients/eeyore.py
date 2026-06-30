@@ -29,7 +29,7 @@ class EeyoreClientConfig(APIModelConfig):
 
     agent_name: str = "eeyore"
     prompt_path: str = "data/prompts/client/eeyore.yaml"
-    data_path: str = "data/characters/Eeyore.json"
+    data_path: str = "data/characters/eeyore.json"
     model_type: str = "LOCAL"
     model_name: str = "hosted_vllm//<path_to_weights>/Eeyore_llama3.1_8B"
     data_idx: int = 0

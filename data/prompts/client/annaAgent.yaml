@@ -31,7 +31,6 @@ en:
     - Describe symptoms vaguely and colloquially, linking them to life experiences. Avoid clinical terms.
 
     ## Output Format
-    - Spoken language: {% if lang == "en" %}English{% else %}Chinese{% endif %}
     - Keep responses under 200 words.
     - Use casual, conversational dialogue only.
   reminder: |
@@ -112,7 +111,6 @@ zh:
     - 用模糊、口语化的方式描述症状，并与生活经历相关联。避免使用临床术语。
 
     ## 输出格式
-    - 语言: {% if lang == "en" %}英文{% else %}中文{% endif %}
     - 回复不超过200字。
     - 仅使用口语化、对话体表达。
   reminder: |
@@ -160,4 +158,3 @@ zh:
     {{report}}
 
     提取与咨询师话语密切相关的历史信息，帮助患者回忆并作答。
-    

@@ -50,7 +50,7 @@ print(response)
 | Option        | Description            | Default                           |
 | ------------- | ---------------------- | --------------------------------- |
 | `prompt_path` | Path to prompt file    | `data/prompts/client/eeyore.yaml` |
-| `data_path`   | Path to character file | `data/characters/Eeyore.json`     |
+| `data_path`   | Path to character file | `data/characters/eeyore.json`     |
 | `data_idx`    | Character index        | `0`                               |
 
 ## Character Data Format
@@ -161,4 +161,4 @@ print(response)
 
 ## Resources
 
-`data/characters/Eeyore.json`: Collected a large amount of real-world depression-related conversations from public sources such as Reddit (r/depression), YouTube (the HOPE dataset), ESC, and AnnoMI.
+`data/characters/eeyore.json`: Collected a large amount of real-world depression-related conversations from public sources such as Reddit (r/depression), YouTube (the HOPE dataset), ESC, and AnnoMI.

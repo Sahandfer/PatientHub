@@ -31,7 +31,7 @@ class PatientZeroGeneratorConfig(APIModelConfig):
     agent_name: str = "patientZero"
     prompt_path: str = "data/prompts/generator/patientZero.yaml"
     source_dir: str = "data/resources/PatientZero"
-    output_path: str = "data/characters/PatientZero.json"
+    output_path: str = "data/characters/patientZero.json"
     disease_key: str = "depression"
     random_seed: int | None = None
 

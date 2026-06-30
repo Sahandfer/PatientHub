@@ -58,7 +58,7 @@ print(response)
 | Option        | Description            | Default                         |
 | ------------- | ---------------------- | ------------------------------- |
 | `prompt_path` | Path to prompt file    | `data/prompts/client/saps.yaml` |
-| `data_path`   | Path to character file | `data/characters/SAPS.json`     |
+| `data_path`   | Path to character file | `data/characters/saps.json`     |
 | `data_idx`    | Character index        | `0`                             |
 
 ## Character Data Format

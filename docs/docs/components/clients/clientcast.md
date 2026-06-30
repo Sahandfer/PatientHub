@@ -62,7 +62,7 @@ print(response.content)
 | Option          | Description                            | Default                                     |
 | --------------- | -------------------------------------- | ------------------------------------------- |
 | `prompt_path`   | Path to prompt file                    | `data/prompts/client/clientCast.yaml`       |
-| `data_path`     | Path to character file                 | `data/characters/ClientCast.json`           |
+| `data_path`     | Path to character file                 | `data/characters/clientCast.json`           |
 | `conv_path`     | Path to conversation data              | `data/resources/ClientCast/human_data.json` |
 | `symptoms_path` | Path to symptom assessment definitions | `data/resources/ClientCast/symptoms.json`   |
 | `data_idx`      | Character index                        | `0`                                         |

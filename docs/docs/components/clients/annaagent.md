@@ -66,7 +66,7 @@ The original implementation described in this paper are based on Qwen2.5-7B-Inst
 | Option        | Description            | Default                              |
 | ------------- | ---------------------- | ------------------------------------ |
 | `prompt_path` | Path to prompt file    | `data/prompts/client/annaAgent.yaml` |
-| `data_path`   | Path to character file | `data/characters/AnnaAgent.json`     |
+| `data_path`   | Path to character file | `data/characters/annaAgent.json`     |
 | `data_idx`    | Character index        | `0`                                  |
 
 ## Character Data Format

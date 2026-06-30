@@ -28,7 +28,7 @@ class ClientCastClientConfig(APIModelConfig):
 
     agent_name: str = "clientCast"
     prompt_path: str = "data/prompts/client/clientCast.yaml"
-    data_path: str = "data/characters/ClientCast.json"
+    data_path: str = "data/characters/clientCast.json"
     conv_path: str = "data/resources/ClientCast/human_data.json"
     symptoms_path: str = "data/resources/ClientCast/symptoms.json"
     data_idx: int = 0

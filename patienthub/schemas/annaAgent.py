@@ -41,7 +41,7 @@ class AnnaAgentCharacter(BaseCharacter):
     style: list[str] = Field(...)
     complaint_chain: list[ComplaintNode] = Field(...)
     report: Report = Field(...)
-    previous_conversations: list[Message] = Field(...)
+    previous_conversations: list[Message] = Field(default_factory=list)
 
 
 # GoEmotions taxonomy constants

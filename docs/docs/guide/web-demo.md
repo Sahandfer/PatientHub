@@ -48,7 +48,7 @@ DEFAULT_CONFIG = {
     "temperature": 0.7,
     "max_tokens": 1024,
     "max_retries": 3,
-    "data_path": "data/characters/PatientPsi.json",
+    "data_path": "data/characters/patientPsi.json",
     "data_idx": 0,
 }
 
