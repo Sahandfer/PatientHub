@@ -62,23 +62,18 @@ class ChatModel:
             return result
         else:
             client = instructor.from_litellm(completion)
+            client.on("completion:response", self.track_usage)
             res = client.chat.completions.create(
                 model=self.model_name,
                 messages=messages,
                 response_model=response_format,
                 **self.kwargs,
             )
-            if hasattr(res, "_raw_response"):
-                self.track_usage(res._raw_response)
-                logger.debug(
-                    "LLM response: model=%s tokens=%s",
-                    self.model_name,
-                    (
-                        res._raw_response.usage.total_tokens
-                        if res._raw_response.usage
-                        else "n/a"
-                    ),
-                )
+            logger.debug(
+                "LLM response: model=%s total_tokens=%d",
+                self.model_name,
+                self.total_tokens,
+            )
             return res
 
     def get_usage(self) -> Dict:
@@ -158,7 +153,9 @@ class Reranker:
         if not passages:
             return None
 
-        logger.debug("Reranker request: model=%s passages=%d", self.model_name, len(passages))
+        logger.debug(
+            "Reranker request: model=%s passages=%d", self.model_name, len(passages)
+        )
         try:
             response = rerank(
                 model=self.model_name,
