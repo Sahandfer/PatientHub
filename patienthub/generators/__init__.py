@@ -3,6 +3,7 @@ from .psyche import PsycheGenerator, PsycheGeneratorConfig
 from .clientCast import ClientCastGenerator, ClientCastGeneratorConfig
 from .annaAgent import AnnaAgentGenerator, AnnaAgentGeneratorConfig
 from .patientZero import PatientZeroGenerator, PatientZeroGeneratorConfig
+from .deprofile import DeprofileGenerator, DeprofileGeneratorConfig
 
 
 from omegaconf import DictConfig
@@ -13,6 +14,7 @@ GENERATORS = {
     "clientCast": ClientCastGenerator,
     "annaAgent": AnnaAgentGenerator,
     "patientZero": PatientZeroGenerator,
+    "deprofile": DeprofileGenerator,
 }
 
 # Registry of generator configs (for Hydra registration)
@@ -21,6 +23,7 @@ GENERATOR_CONFIG_REGISTRY = {
     "clientCast": ClientCastGeneratorConfig,
     "annaAgent": AnnaAgentGeneratorConfig,
     "patientZero": PatientZeroGeneratorConfig,
+    "deprofile": DeprofileGeneratorConfig,
 }
 
 

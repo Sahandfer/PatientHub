@@ -12,6 +12,7 @@ from .roleplayDoh import RoleplayDohCharacter
 from .saps import SAPSCharacter
 from .simPatient import SimPatientCharacter
 from .talkDep import TalkDepCharacter
+from .deprofile import DeprofileCharacter
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +29,7 @@ CLIENT_SCHEMA_REGISTRY = {
     "talkDep": TalkDepCharacter,
     "saps": SAPSCharacter,
     "adaptiveVP": AdaptiveVPCharacter,
+    "deprofile": DeprofileCharacter,
 }
 
 
@@ -52,6 +54,7 @@ __all__ = [
     "SAPSCharacter",
     "SimPatientCharacter",
     "TalkDepCharacter",
+    "DeprofileCharacter",
     "CLIENT_SCHEMA_REGISTRY",
     "get_profile_schema",
 ]
