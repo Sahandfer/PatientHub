@@ -8,50 +8,28 @@ from pydantic import ValidationError
 
 from .base import BaseGenerator
 from patienthub.configs import APIModelConfig
-from patienthub.schemas.deprofile import (
-    AssessmentMessage,
-    ClinicalProfile,
-    CoCExtraction,
-    CounselingMessage,
-    DeprofileCharacter,
-    LifeEventTimeline,
-    MatchMetadata,
-    MatchStageCounts,
-    Provenance,
-    SocialProfile,
-    SocialProfileCatalog,
-    SymptomTimeline,
-    TimelineMemory,
-    map_social_symptoms_to_clinical,
-)
+from patienthub.schemas import deprofile as ds
 from patienthub.utils import load_json, save_json
 
 
 @dataclass
 class DeprofileGeneratorConfig(APIModelConfig):
+    """Configuration for the Deprofile character generator."""
+
     agent_name: str = "deprofile"
+    prompt_path: str = "data/prompts/generator/deprofile.yaml"
+    output_path: str = "data/characters/deprofile.json"
+    resource_dir: str = "data/resources/Deprofile"
+    social_profiles_path: str = "data/resources/Deprofile/social_user_profiles.json"
     profile_id: str = "0069"
     candidate_rank: int = 0
-    resource_dir: str = "data/resources/Deprofile"
-    social_profiles_path: str = (
-        "data/resources/Deprofile/social_user_profiles.json"
-    )
-    prompt_path: str = "data/prompts/generator/deprofile.yaml"
-    output_path: str = "data/characters/Deprofile.json"
     symptom_similarity_threshold: float = 0.5
     personality_similarity_threshold: float = 0.8
     coc_horizon_days: int = 90
     coc_max_items: int = 80
     coc_episode_window_days: int = 7
-
-
-class NoMatchingCandidateError(RuntimeError):
-    def __init__(self, profile_id: str, stage_counts: MatchStageCounts):
-        self.stage_counts = stage_counts
-        super().__init__(
-            f"No social candidate matched profile {profile_id}; "
-            f"stage_counts={stage_counts.model_dump()}"
-        )
+    coc_max_symptoms_per_card: int = 3
+    coc_max_events_per_card: int = 2
 
 
 class DeprofileGenerator(BaseGenerator):
@@ -63,11 +41,11 @@ class DeprofileGenerator(BaseGenerator):
         self._symptom_timelines: dict[str, Any] | None = None
         self._life_event_timelines: dict[str, Any] | None = None
 
-    def load_social_profile_catalog(self) -> dict[str, SocialProfile]:
+    def load_social_profile_catalog(self) -> dict[str, ds.SocialProfile]:
         path = Path(self.configs.social_profiles_path)
         raw_profiles = load_json(str(path))
         try:
-            return SocialProfileCatalog.model_validate(raw_profiles).root
+            return ds.SocialProfileCatalog.model_validate(raw_profiles).root
         except ValidationError as exc:
             raise ValueError(
                 "Invalid social profile catalog "
@@ -76,42 +54,40 @@ class DeprofileGenerator(BaseGenerator):
                 "object keyed by social user ID with valid SocialProfile values"
             ) from exc
 
-    def load_clinical_profile(self) -> ClinicalProfile:
+    def load_clinical_profile(self) -> ds.ClinicalProfile:
         profiles = load_json(f"{self.resource_dir}/deprofiles_complete_index.json")
         profile_id = str(self.configs.profile_id)
-        return ClinicalProfile.model_validate(profiles[profile_id])
+        return ds.ClinicalProfile.model_validate(profiles[profile_id])
 
     def load_dialogues(
         self,
-    ) -> tuple[list[AssessmentMessage], list[CounselingMessage]]:
+    ) -> tuple[list[ds.AssessmentMessage], list[ds.CounselingMessage]]:
         profile_id = str(self.configs.profile_id)
         assessment_records = load_json(f"{self.resource_dir}/assessment_dialogues.json")
         counseling_records = load_json(f"{self.resource_dir}/counseling_dialogues.json")
         assessment = [
-            AssessmentMessage.model_validate(item)
+            ds.AssessmentMessage.model_validate(item)
             for item in assessment_records[profile_id]
         ]
         counseling = [
-            CounselingMessage.model_validate(item)
+            ds.CounselingMessage.model_validate(item)
             for item in counseling_records[profile_id]
         ]
         return assessment, counseling
 
     def select_index_candidate(
-        self, profile: ClinicalProfile
-    ) -> tuple[str, MatchMetadata]:
+        self, profile: ds.ClinicalProfile
+    ) -> tuple[str, ds.MatchMetadata]:
         rank = int(self.configs.candidate_rank)
         candidate = profile.candidate_id[rank]
-        return candidate.basic_id, MatchMetadata(
+        return candidate.basic_id, ds.MatchMetadata(
             mode="index",
             selected_social_user_id=candidate.basic_id,
             candidate_rank=rank,
             personality_similarity=candidate.similarity,
             symptom_similarity=candidate.symp_similarity,
             combined_score=candidate.similarity + candidate.symp_similarity,
-            personality_threshold=float(
-                self.configs.personality_similarity_threshold
-            ),
+            personality_threshold=float(self.configs.personality_similarity_threshold),
             symptom_threshold=float(self.configs.symptom_similarity_threshold),
         )
 
@@ -133,7 +109,7 @@ class DeprofileGenerator(BaseGenerator):
 
     @classmethod
     def demographics_match(
-        cls, clinical: ClinicalProfile, social: SocialProfile
+        cls, clinical: ds.ClinicalProfile, social: ds.SocialProfile
     ) -> bool:
         return all(
             (
@@ -150,13 +126,11 @@ class DeprofileGenerator(BaseGenerator):
         right_norm = math.sqrt(sum(value * value for value in right))
         if left_norm == 0 or right_norm == 0:
             return 0.0
-        similarity = sum(a * b for a, b in zip(left, right)) / (
-            left_norm * right_norm
-        )
+        similarity = sum(a * b for a, b in zip(left, right)) / (left_norm * right_norm)
         return max(-1.0, min(1.0, similarity))
 
     @staticmethod
-    def big_five_vector(profile: ClinicalProfile | SocialProfile) -> list[float]:
+    def big_five_vector(profile: ds.ClinicalProfile | ds.SocialProfile) -> list[float]:
         traits = profile.big_five
         return [
             traits.Openness,
@@ -177,27 +151,27 @@ class DeprofileGenerator(BaseGenerator):
             self._life_event_timelines = load_json(life_event_path)
         return self._symptom_timelines, self._life_event_timelines
 
-    def has_timelines(self, user_id: str) -> bool:
-        symptom, life_event = self.load_timeline_catalogs()
-        return user_id in symptom and user_id in life_event
-
     def select_rematched_candidate(
-        self, profile: ClinicalProfile
-    ) -> tuple[str, MatchMetadata]:
+        self, profile: ds.ClinicalProfile
+    ) -> tuple[str, ds.MatchMetadata]:
         social_profiles = self.load_social_profile_catalog()
-        counts = MatchStageCounts(total=len(social_profiles))
+        counts = ds.MatchStageCounts(total=len(social_profiles))
         candidates: list[tuple[float, str, float, float]] = []
         clinical_vector = self.big_five_vector(profile)
 
+        symptom, life_event = self.load_timeline_catalogs()
+
         for user_id, social in social_profiles.items():
-            if not self.has_timelines(user_id):
+            if not (user_id in symptom and user_id in life_event):
                 continue
             counts.timeline_eligible += 1
             if not self.demographics_match(profile, social):
                 continue
             counts.demographic_compatible += 1
 
-            mapped = map_social_symptoms_to_clinical(social.symptoms)
+            mapped = [
+                ds.SOCIAL_SYMPTOM_TO_CLINICAL[symptom] for symptom in social.symptoms
+            ]
             if not mapped or any(
                 symptom in profile.negative_symptoms for symptom in mapped
             ):
@@ -205,15 +179,15 @@ class DeprofileGenerator(BaseGenerator):
             symptom_similarity = sum(
                 symptom in profile.positive_symptoms for symptom in mapped
             ) / len(mapped)
-            if symptom_similarity < float(
-                self.configs.symptom_similarity_threshold
-            ):
+            if symptom_similarity < float(self.configs.symptom_similarity_threshold):
                 continue
             counts.symptom_compatible += 1
 
             personality_similarity = self.cosine_similarity(
                 clinical_vector, self.big_five_vector(social)
             )
+            # Upstream (7_redo_json.py) keeps candidates with cosine ``> 0.8``;
+            # rejecting ``<= threshold`` reproduces that strict comparison.
             if personality_similarity <= float(
                 self.configs.personality_similarity_threshold
             ):
@@ -232,37 +206,41 @@ class DeprofileGenerator(BaseGenerator):
         rank = int(self.configs.candidate_rank)
         if rank < 0 or rank >= len(candidates):
             if not candidates:
-                raise NoMatchingCandidateError(str(self.configs.profile_id), counts)
+                raise RuntimeError(
+                    f"No social candidate matched profile {self.configs.profile_id}; "
+                    f"stage_counts={counts.model_dump()}"
+                )
             raise IndexError(
                 f"candidate_rank {rank} is invalid for {len(candidates)} matches"
             )
         combined, user_id, personality, symptom = candidates[rank]
-        return user_id, MatchMetadata(
+        return user_id, ds.MatchMetadata(
             mode="rematch",
             selected_social_user_id=user_id,
             candidate_rank=rank,
             personality_similarity=personality,
             symptom_similarity=symptom,
             combined_score=combined,
-            personality_threshold=float(
-                self.configs.personality_similarity_threshold
-            ),
+            personality_threshold=float(self.configs.personality_similarity_threshold),
             symptom_threshold=float(self.configs.symptom_similarity_threshold),
             stage_counts=counts,
         )
 
     def load_timelines(
         self, user_id: str
-    ) -> tuple[SymptomTimeline, LifeEventTimeline]:
+    ) -> tuple[ds.SymptomTimeline, ds.LifeEventTimeline]:
         symptom_records, life_event_records = self.load_timeline_catalogs()
-        symptom = SymptomTimeline.model_validate(symptom_records[user_id])
-        life_event = LifeEventTimeline.model_validate(life_event_records[user_id])
+        symptom = ds.SymptomTimeline.model_validate(symptom_records[user_id])
+        life_event = ds.LifeEventTimeline.model_validate(life_event_records[user_id])
         if symptom.user_id != user_id or life_event.user_id != user_id:
             raise ValueError(f"Timeline owner does not match social user {user_id}")
         return symptom, life_event
 
     def time_norm(self, timestamp: int, anchor_timestamp: int) -> dict[str, Any]:
         days_ago = max(0, anchor_timestamp - timestamp)
+        # Only the language-neutral ``days_ago`` is persisted; the relative-time
+        # phrase is rendered at point-of-use (memory_card template / client) in
+        # the appropriate language, so no baked string is stored here.
         return {
             "event_day": timestamp,
             "days_ago": days_ago,
@@ -271,10 +249,11 @@ class DeprofileGenerator(BaseGenerator):
             "confidence": 1.0,
         }
 
-    def episode_time_range(self, nodes: list[dict[str, Any]]) -> dict[str, Any]:
-        days = [node["time_norm"]["days_ago"] for node in nodes]
-        start_days = max(days)
-        end_days = min(days)
+    def episode_time_range(self, bucket: int, window: int) -> dict[str, Any]:
+        # Match upstream build_episodes_by_window: the range spans the fixed
+        # window boundaries (not the actual node days within the bucket).
+        start_days = bucket * window + (window - 1)
+        end_days = bucket * window
         return {
             "days_ago_start": start_days,
             "days_ago_end": end_days,
@@ -285,36 +264,58 @@ class DeprofileGenerator(BaseGenerator):
     ) -> dict[str, Any]:
         if not self.prompts or "memory_card" not in self.prompts:
             raise ValueError("Deprofile memory_card prompt is required.")
-        representative = max(
-            episode_nodes, key=lambda node: node["timestamp_day"]
-        )
+        max_symptoms = int(getattr(self.configs, "coc_max_symptoms_per_card", 3))
+        max_events = int(getattr(self.configs, "coc_max_events_per_card", 2))
+        representative = max(episode_nodes, key=lambda node: node["timestamp_day"])
+        # Match upstream render_cards_minimal: keep only the most recent few
+        # symptom/event nodes per card, symptom lines first then event lines.
+        symptom_nodes = sorted(
+            (n for n in episode_nodes if n.get("node_type") == "Symptom"),
+            key=lambda node: node["timestamp_day"],
+            reverse=True,
+        )[:max_symptoms]
+        event_nodes = sorted(
+            (n for n in episode_nodes if n.get("node_type") == "LifeEvent"),
+            key=lambda node: node["timestamp_day"],
+            reverse=True,
+        )[:max_events]
         card_items: list[dict[str, Any]] = []
-        seen: set[tuple[Any, ...]] = set()
-        for node in episode_nodes:
-            text = node.get("triple") or node.get("event_triple")
-            text = text or node.get("event_summary_cn")
-            key = (
-                node.get("node_type"),
-                text,
-                node.get("symptom"),
-                node.get("life_event"),
-            )
-            if key in seen:
+        seen: set[Any] = set()
+        for node in symptom_nodes:
+            text = node.get("triple") or node.get("event_summary_cn")
+            if text and text in seen:
                 continue
-            seen.add(key)
+            if text:
+                seen.add(text)
             card_items.append(
                 {
-                    "node_type": node.get("node_type"),
+                    "node_type": "Symptom",
                     "text": text[:60] if text else None,
                     "symptom": node.get("symptom"),
+                    "life_event": None,
+                }
+            )
+        for node in event_nodes:
+            text = node.get("event_triple") or node.get("event_summary_cn")
+            card_items.append(
+                {
+                    "node_type": "LifeEvent",
+                    "text": text[:60] if text else None,
+                    "symptom": None,
                     "life_event": node.get("life_event"),
                 }
             )
-        card_text = self.prompts["memory_card"].render(
-            episode=episode,
-            representative=representative,
-            card_items=card_items,
-        ).strip()
+        lang = str(getattr(self.configs, "lang", "zh"))
+        card_text = (
+            self.prompts["memory_card"]
+            .render(
+                episode=episode,
+                representative=representative,
+                card_items=card_items,
+                relative=lambda days: ds.days_to_relative(days, lang),
+            )
+            .strip()
+        )
         return {
             "episode_id": episode["episode_id"],
             "time_range": episode["time_range"],
@@ -323,9 +324,15 @@ class DeprofileGenerator(BaseGenerator):
         }
 
     def process_timeline(self, kind: str, items: list[Any]) -> dict[str, Any]:
+        # Sort ascending by timestamp first (upstream load_timeline does the
+        # same) so the temporal_precedes edges below follow real time order
+        # regardless of the input ordering.
+        items = sorted(items, key=lambda item: item.timestamp)
         latest = max(item.timestamp for item in items)
         earliest = latest - int(getattr(self.configs, "coc_horizon_days", 90))
-        bounded = [item for item in items if item.timestamp >= earliest]
+        # Strictly greater-than, matching upstream cut_items
+        # (timestamp > now_day - horizon_days).
+        bounded = [item for item in items if item.timestamp > earliest]
         bounded = bounded[-int(getattr(self.configs, "coc_max_items", 80)) :]
         prompt_key = "symptom_extract" if kind == "symptom" else "life_event_extract"
         nodes: list[dict[str, Any]] = []
@@ -337,17 +344,18 @@ class DeprofileGenerator(BaseGenerator):
             triple = None
             summary = None
             if self.chat_model is not None and self.prompts:
-                prompt = self.prompts[prompt_key].render(
-                    label=label, tweet=item.tweet
-                )
+                prompt = self.prompts[prompt_key].render(label=label, tweet=item.tweet)
                 extracted = self.chat_model.generate(
                     [{"role": "user", "content": prompt}],
-                    response_format=CoCExtraction,
+                    response_format=ds.CoCExtraction,
                 )
                 if not extracted.is_meaningful or not extracted.event_triple:
                     continue
                 triple = extracted.event_triple
                 summary = extracted.summary
+            # Upstream uses ``SYM_{day}_{symptom}``; the extra ``_{len(nodes)}``
+            # suffix keeps ids unique when the same symptom recurs on one day
+            # (otherwise the by_symptom index and edges would collide).
             node_id = (
                 f"SYM_{item.timestamp}_{label}_{len(nodes)}"
                 if kind == "symptom"
@@ -410,14 +418,14 @@ class DeprofileGenerator(BaseGenerator):
 
         episodes: list[dict[str, Any]] = []
         if nodes:
-            window = max(
-                1, int(getattr(self.configs, "coc_episode_window_days", 7))
-            )
+            window = max(1, int(getattr(self.configs, "coc_episode_window_days", 7)))
             grouped: dict[int, list[dict[str, Any]]] = {}
             for node in nodes:
                 bucket = node["time_norm"]["days_ago"] // window
                 grouped.setdefault(bucket, []).append(node)
-            for bucket in sorted(grouped, reverse=True):
+            # Ascending bucket order = most recent episode (E_0) first, matching
+            # upstream build_episodes_by_window.
+            for bucket in sorted(grouped):
                 episode_nodes = sorted(
                     grouped[bucket], key=lambda node: node["timestamp_day"]
                 )
@@ -425,7 +433,7 @@ class DeprofileGenerator(BaseGenerator):
                     {
                         "episode_id": f"E_{bucket}",
                         "window_days": window,
-                        "time_range": self.episode_time_range(episode_nodes),
+                        "time_range": self.episode_time_range(bucket, window),
                         "salient_node_ids": [node["id"] for node in episode_nodes],
                     }
                 )
@@ -442,7 +450,6 @@ class DeprofileGenerator(BaseGenerator):
                 "time_axis": {
                     "anchor_day": latest,
                     "unit": "day",
-                    "timezone": None,
                 },
                 "timeline_type": kind,
                 "nodes": nodes,
@@ -458,15 +465,15 @@ class DeprofileGenerator(BaseGenerator):
 
     def build_timeline_memory(
         self,
-        symptom: SymptomTimeline,
-        life_event: LifeEventTimeline,
-    ) -> TimelineMemory:
-        return TimelineMemory(
+        symptom: ds.SymptomTimeline,
+        life_event: ds.LifeEventTimeline,
+    ) -> ds.TimelineMemory:
+        return ds.TimelineMemory(
             symptom=self.process_timeline("symptom", symptom.timeline),
             life_event=self.process_timeline("life_event", life_event.timeline),
         )
 
-    def upsert_output(self, character: DeprofileCharacter) -> None:
+    def upsert_output(self, character: ds.DeprofileCharacter) -> None:
         path = Path(self.configs.output_path)
         records: list[dict[str, Any]] = []
         if path.exists():
@@ -482,7 +489,9 @@ class DeprofileGenerator(BaseGenerator):
         records.append(dumped)
         save_json(records, str(path), overwrite=True)
 
-    def select_candidate(self, profile: ClinicalProfile) -> tuple[str, MatchMetadata]:
+    def select_candidate(
+        self, profile: ds.ClinicalProfile
+    ) -> tuple[str, ds.MatchMetadata]:
         rank = int(self.configs.candidate_rank)
         if profile.candidate_id:
             if 0 <= rank < len(profile.candidate_id):
@@ -493,14 +502,14 @@ class DeprofileGenerator(BaseGenerator):
             )
         return self.select_rematched_candidate(profile)
 
-    def generate_character(self) -> DeprofileCharacter:
+    def generate_character(self) -> ds.DeprofileCharacter:
         profile = self.load_clinical_profile()
         assessment, counseling = self.load_dialogues()
         user_id, match = self.select_candidate(profile)
         symptom, life_event = self.load_timelines(user_id)
         timeline_memory = self.build_timeline_memory(symptom, life_event)
 
-        character = DeprofileCharacter(
+        character = ds.DeprofileCharacter(
             profile_id=str(self.configs.profile_id),
             clinical_profile=profile,
             assessment_dialogue=assessment,
@@ -510,7 +519,7 @@ class DeprofileGenerator(BaseGenerator):
             life_event_timeline=life_event,
             timeline_memory=timeline_memory,
             match_metadata=match,
-            provenance=Provenance(
+            provenance=ds.Provenance(
                 generator_version="1",
                 language=str(self.configs.lang),
                 source_paths={

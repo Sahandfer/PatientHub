@@ -82,10 +82,14 @@ timeline items before calling `generate_character()`.
    episodes, and memory cards.
 6. `upsert_output()` saves a `DeprofileCharacter` record to `output_path`.
 
-The client role-play prompt uses the final character file. For life events, the
-Deprofile client prefers `timeline_memory.life_event.cards[*].card_text` and
-falls back to raw `life_event_timeline.timeline` only when memory cards are not
-available.
+The client role-play prompt uses the final character file. Clinical positive and
+negative symptoms are rendered into natural-language descriptions from the
+`symptom_descriptions` section of `constants.json` (see *Localization constants*
+below), and the symptom timeline is woven into the matching positive symptoms
+(timeline symptoms with no listed positive symptom are shown as an extra timeline
+block). For life events, the Deprofile client prefers
+`timeline_memory.life_event.cards[*].card_text` and falls back to raw
+`life_event_timeline.timeline` only when memory cards are not available.
 
 ## Usage
 
@@ -100,20 +104,24 @@ config = OmegaConf.create({
     "resource_dir": "data/resources/Deprofile",
     "social_profiles_path": "data/resources/Deprofile/social_user_profiles.json",
     "prompt_path": "data/prompts/generator/deprofile.yaml",
-    "output_path": "data/characters/Deprofile.json",
+    "output_path": "data/characters/deprofile.json",
     "symptom_similarity_threshold": 0.5,
     "personality_similarity_threshold": 0.8,
     "coc_horizon_days": 90,
     "coc_max_items": 80,
     "coc_episode_window_days": 7,
+    "coc_max_symptoms_per_card": 3,
+    "coc_max_events_per_card": 2,
 })
 
 generator = get_generator(agent_name="deprofile", configs=config, lang="zh")
 character = generator.generate_character()
 ```
 
-`lang` is set by `get_generator(..., lang="zh" | "en")`. It controls the
-language-specific prompt templates used for timeline memory card rendering.
+`lang` is set by `get_generator(..., lang="zh" | "en")`. It selects the
+language-specific extraction / memory-card prompt templates and the localized
+constants (Big Five guidance, relative-time phrasing, and — on the client —
+symptom descriptions). See *Localization constants* below.
 
 ## Configuration
 
@@ -124,12 +132,14 @@ language-specific prompt templates used for timeline memory card rendering.
 | `resource_dir` | string | `data/resources/Deprofile` | Directory containing the fixed Deprofile resource files |
 | `social_profiles_path` | string | `data/resources/Deprofile/social_user_profiles.json` | Social profile catalog used only when rematching is needed |
 | `prompt_path` | string | `data/prompts/generator/deprofile.yaml` | Prompt templates for timeline extraction and memory cards |
-| `output_path` | string | `data/characters/Deprofile.json` | JSON array file where generated characters are saved |
+| `output_path` | string | `data/characters/deprofile.json` | JSON array file where generated characters are saved |
 | `symptom_similarity_threshold` | float | `0.5` | Minimum symptom overlap for rematched candidates |
 | `personality_similarity_threshold` | float | `0.8` | Minimum Big Five cosine similarity for rematched candidates |
 | `coc_horizon_days` | int | `90` | Relative-day horizon used when building timeline memory |
 | `coc_max_items` | int | `80` | Maximum timeline items processed per timeline type |
 | `coc_episode_window_days` | int | `7` | Bucket size for grouping timeline nodes into episodes |
+| `coc_max_symptoms_per_card` | int | `3` | Max symptom lines rendered per memory card |
+| `coc_max_events_per_card` | int | `2` | Max life-event lines rendered per memory card |
 
 ## Required Resource Files
 
@@ -143,11 +153,34 @@ With the default `resource_dir`, Deprofile reads these fixed file names:
 | `symptom_timelines.json` | `social_user_id` | Always for selected social user | Social posts labeled as symptom evidence |
 | `life_event_timelines.json` | `social_user_id` | Always for selected social user | Social posts labeled as life-event evidence |
 | `social_user_profiles.json` | `social_user_id` | Only for rematch mode | Demographics, Big Five, and social symptom labels used to find candidates |
+| `constants.json` | section → lang | Always | Localized display text: `symptom_descriptions`, `BFI`, `days` |
 
 The resource files are catalogs: each top-level key identifies either a clinical
 profile or a social user. The selected `profile_id` must exist in the three
 clinical/dialogue catalogs. The selected social user ID must exist in both
 timeline catalogs.
+
+### Localization constants (`constants.json`)
+
+`data/resources/Deprofile/constants.json` holds the translatable display text,
+kept out of both the prompt templates and the Python source. It has three
+sections, each keyed by language (`en` / `zh`):
+
+| Section | Purpose |
+| ------- | ------- |
+| `symptom_descriptions` | Natural-language `positive` / `negative` text per clinical task label, used by the client to describe symptoms |
+| `BFI` | Big Five trait guidance keyed by trait and level (`Low` / `Medium` / `High`) |
+| `days` | Relative-time phrase templates (`today`, `yesterday`, `days_ago`, `weeks_ago`, …) |
+
+`get_constant_dict(section, lang)` reads a section and **falls back to `zh`** when
+the requested language is missing or empty. Both `en` and `zh` are populated for
+all three sections; the fallback exists so a partially-translated section still
+renders.
+
+The social-symptom → clinical-symptom mapping is **not** in this file. It is a
+language-neutral data mapping (English social labels → Chinese clinical task
+codes) kept as the `SOCIAL_SYMPTOM_TO_CLINICAL` constant in
+`patienthub/schemas/deprofile.py`.
 
 ## Which Files Do I Need To Add?
 
@@ -269,7 +302,7 @@ Important constraints:
   `suiside_risk`
 
 Clinical `positive_symptoms` and `negative_symptoms` use clinical Chinese task
-labels. Rematch only compares against the 17 clinical labels reachable from
+labels. Rematch only compares against the 18 clinical labels reachable from
 `SOCIAL_SYMPTOM_TO_CLINICAL`; other clinical labels may remain in the profile
 but will not help social rematching.
 
@@ -359,6 +392,7 @@ Supported social symptom labels are:
 | `pessimism` | `任务-自杀-有无望感` |
 | `poor_memory` | `任务-精神状态-记忆力下降` |
 | `sleep_disturbance` | `任务-睡眠-存在睡眠问题` |
+| `somatic_symptoms_sensory` | `任务-躯体症状-躯体不适` |
 | `weight_and_appetite_change` | `任务-食欲-食欲存在问题` |
 
 ### `symptom_timelines.json`
@@ -526,6 +560,8 @@ those timelines.
 - A social profile uses unsupported symptom labels.
 - `user_id` inside a timeline object does not match the top-level social user
   key.
+- `constants.json` is missing or malformed (it is loaded when
+  `patienthub.schemas.deprofile` is imported).
 
 ## Quick Checklist For Adding A Complete New Profile
 

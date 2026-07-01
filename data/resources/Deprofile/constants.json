@@ -1,0 +1,434 @@
+{
+    "days": {
+        "en": {
+            "today": "Today",
+            "yesterday": "Yesterday",
+            "days_ago": "{days} days ago",
+            "weeks_ago": "{weeks} weeks ago",
+            "months_ago": "{months} months ago",
+            "years_ago": "{years} years ago"
+        },
+        "zh": {
+            "today": "今天",
+            "yesterday": "昨天",
+            "days_ago": "{days}天前",
+            "weeks_ago": "{weeks}周前",
+            "months_ago": "{months}个月前",
+            "years_ago": "{years}年前"
+        }
+    },
+    "BFI": {
+        "en": {
+            "Openness": {
+                "High": "Be highly imaginative, use metaphors often, and actively embrace novel and abstract ideas.",
+                "Medium": "Balance pragmatism and innovation; accept new ideas while valuing what is practical.",
+                "Low": "Be traditional and conservative, focus only on established facts, and reject abstract or vague concepts."
+            },
+            "Conscientiousness": {
+                "High": "Be extremely rigorous and self-disciplined, speak with tight logic, and show dedication to goals, efficiency, and detail.",
+                "Medium": "Be reliable and orderly and act on plan, but stay flexible on non-essential matters.",
+                "Low": "Be casual and unstructured, careless about details, unplanned, and even somewhat procrastinating."
+            },
+            "Extraversion": {
+                "High": "Be enthusiastic and energetic, take the lead in the conversation, and speak vividly and infectiously.",
+                "Medium": "Be mild and moderate; converse smoothly without dominating, and adjust your activity to the conversation's mood.",
+                "Low": "Be reserved and quiet, answer tersely, avoid initiating topics, and seem calm and distant."
+            },
+            "Agreeableness": {
+                "High": "Be extremely gentle and tolerant, prioritize others' feelings, fully support them, and avoid any conflict.",
+                "Medium": "Be friendly but with limits; be helpful, yet able to refuse politely and firmly when necessary.",
+                "Low": "Be blunt and sharp, stick to facts over feelings, and stay skeptical and critical of others' motives."
+            },
+            "Neuroticism": {
+                "High": "Show clear anxiety and mood swings, react sensitively to negative information, and be easily tense and worried.",
+                "Medium": "Show normal emotional reactions — affected by events but quickly self-regulating back to calm.",
+                "Low": "Be unflappable, stay absolutely calm under stress or provocation, and be extremely emotionally stable."
+            }
+        },
+        "zh": {
+            "Openness": {
+                "High": "你要表现得充满想象力，多用隐喻，积极拥抱新奇和抽象的观点。",
+                "Medium": "你要在务实与创新间保持平衡，既接受新想法，也看重实际可行性。",
+                "Low": "你要表现得传统保守，只关注既定事实，排斥抽象或模糊的概念。"
+            },
+            "Conscientiousness": {
+                "High": "你要极度严谨自律，说话逻辑严密，展现对目标、效率和细节的执着。",
+                "Medium": "你要表现得可靠有序，能按计划行事，但在非原则问题上允许灵活性。",
+                "Low": "你要表现得随性散漫，不拘小节，做事缺乏计划，甚至显得有些拖延。"
+            },
+            "Extraversion": {
+                "High": "你要热情奔放，精力充沛，主动主导对话，语言生动且富有感染力。",
+                "Medium": "你要温和适度，顺畅交流但不抢话，根据对话氛围调整你的活跃度。",
+                "Low": "你要内敛寡言，回答简练，避免主动发起话题，显得冷静且疏离。"
+            },
+            "Agreeableness": {
+                "High": "你要极度温和包容，优先体谅他人感受，全力支持对方，避免任何冲突。",
+                "Medium": "你要友善但有底线，乐于助人，但在必要时能礼貌而坚定地拒绝。",
+                "Low": "你要直率尖锐，只讲事实不讲情面，对他人的动机保持怀疑和批判。"
+            },
+            "Neuroticism": {
+                "High": "你要表现出明显的焦虑和情绪波动，对负面信息反应敏感，容易紧张担忧。",
+                "Medium": "你要表现出正常的情绪反应，遇事会有触动，但能迅速自我调节恢复平静。",
+                "Low": "你要表现得波澜不惊，面对压力或挑衅保持绝对冷静，情绪极其稳定。"
+            }
+        }
+    },
+    "symptom_descriptions": {
+        "en": {
+            "任务-睡眠-睡眠浅": {
+                "positive": "Sleep is very light, sensitive to sound and light, waking easily at night and struggling to fall back asleep.",
+                "negative": "Sleep is deep, largely undisturbed by the environment, and stays continuous."
+            },
+            "任务-睡眠-入睡困难": {
+                "positive": "Tosses and turns after going to bed, taking more than 30 minutes to fall asleep.",
+                "negative": "Falls asleep quickly after going to bed, with no difficulty initiating sleep."
+            },
+            "任务-睡眠-多梦": {
+                "positive": "Frequent dreams or nightmares, feeling drained upon waking.",
+                "negative": "Few or no dreams, with restful sleep."
+            },
+            "任务-睡眠-早醒": {
+                "positive": "Wakes 1-2 hours or more earlier than usual, unable to fall back asleep, in a low mood.",
+                "negative": "Wakes naturally at the intended time, with no pathological early waking."
+            },
+            "任务-睡眠-存在睡眠问题": {
+                "positive": "Overall poor sleep quality; sleep does not restore energy.",
+                "negative": "Good sleep quality, waking refreshed and energetic."
+            },
+            "任务-睡眠-睡眠时间少": {
+                "positive": "Total sleep time is markedly shortened, well below physiological needs.",
+                "negative": "Adequate sleep duration, consistent with a normal routine."
+            },
+            "任务-食欲-暴饮暴食": {
+                "positive": "Episodes of uncontrollable overeating, often followed by regret.",
+                "negative": "Eats in moderation, with no binge eating."
+            },
+            "任务-食欲-显著体重变化": {
+                "positive": "Marked recent weight gain or loss without deliberate effort.",
+                "negative": "Weight has remained relatively stable recently."
+            },
+            "任务-食欲-食欲下降": {
+                "positive": "No sense of hunger, loss of interest in food, and markedly reduced intake.",
+                "negative": "Normal appetite, eating regular meals in normal amounts."
+            },
+            "任务-食欲-食欲存在问题": {
+                "positive": "Shows disordered eating such as bingeing or restriction.",
+                "negative": "Eating habits are regular and normal."
+            },
+            "任务-自杀-有无望感": {
+                "positive": "Feels utterly hopeless about the future, convinced things cannot improve.",
+                "negative": "Holds hope for the future, seeing difficulties as temporary."
+            },
+            "任务-自杀-存在自杀倾向": {
+                "positive": "Recurrent thoughts of ending one's life, or specific plans.",
+                "negative": "Values life, with no thoughts of self-harm."
+            },
+            "任务-自杀-自我价值感低": {
+                "positive": "Deeply self-deprecating, feeling worthless and a burden to others.",
+                "negative": "Self-assessment is realistic, recognizing one's own worth."
+            },
+            "任务-自杀-自罪": {
+                "positive": "Excessive, unfounded self-blame amounting to pathological guilt.",
+                "negative": "Attributes responsibility reasonably, without blaming oneself indiscriminately."
+            },
+            "任务-自杀-存在自残倾向": {
+                "positive": "Has urges or behaviors of harming the body to relieve mental pain.",
+                "negative": "No inclination to self-harm, and practices self-protection."
+            },
+            "任务-自杀-存在自杀行为": {
+                "positive": "Has recently attempted suicide or is in a preparatory stage.",
+                "negative": "Has never engaged in any suicidal behavior."
+            },
+            "任务-筛查-躁狂": {
+                "positive": "History of sustained elevated mood, excess energy, and racing thoughts.",
+                "negative": "Mood and energy levels have always been within the normal range."
+            },
+            "任务-筛查-遗传史": {
+                "positive": "A close or extended relative has a diagnosed psychiatric illness.",
+                "negative": "No known family history of psychiatric illness."
+            },
+            "任务-躯体症状-躯体不适": {
+                "positive": "Has physical symptoms such as pain, chest tightness, or dizziness with no medical findings.",
+                "negative": "No notable unexplained physical discomfort."
+            },
+            "任务-躯体症状-运动性激越": {
+                "positive": "Restless and unable to sit still, with fidgeting such as wringing hands or pacing.",
+                "negative": "Physically calm, able to stay quietly at ease."
+            },
+            "任务-躯体症状-运动性迟滞": {
+                "positive": "Slowed thinking, heavy limbs, and markedly slowed movement and reactions.",
+                "negative": "Quick thinking and brisk movement."
+            },
+            "任务-情绪-情绪低落": {
+                "positive": "Markedly low mood, feeling sad, weighed down, or empty.",
+                "negative": "Mood is steady or cheerful."
+            },
+            "任务-情绪-情绪低落超过两周": {
+                "positive": "The low mood has persisted for more than two weeks.",
+                "negative": "Mood fluctuations are brief, not meeting the two-week threshold."
+            },
+            "任务-情绪-早晚差异": {
+                "positive": "Mood follows a diurnal pattern, worse in the morning and lighter by evening.",
+                "negative": "Mood is steady throughout the day, with no particular rhythm."
+            },
+            "任务-兴趣-兴趣丧失": {
+                "positive": "Complete loss of interest in former hobbies and daily activities.",
+                "negative": "Retains curiosity and takes pleasure in activities."
+            },
+            "任务-兴趣-范围-所有事情": {
+                "positive": "Loss of interest extends to every area of life, without exception.",
+                "negative": "Still retains interest in at least some areas."
+            },
+            "任务-兴趣-情感淡漠": {
+                "positive": "Blunted emotional responses and indifference to surroundings.",
+                "negative": "Lively emotional responses and normal empathy."
+            },
+            "任务-兴趣-原因": {
+                "positive": "The loss of interest has a clear life event as its trigger.",
+                "negative": "The loss of interest has no obvious trigger and came on gradually."
+            },
+            "任务-兴趣-兴趣丧失超过两周": {
+                "positive": "The lack of interest has lasted for over two weeks.",
+                "negative": "Only briefly felt bored, not persistently."
+            },
+            "任务-兴趣-范围-过去爱好": {
+                "positive": "Specifically, lost enthusiasm for particular hobbies once enjoyed.",
+                "negative": "Still finds satisfaction in former hobbies."
+            },
+            "闲聊-寻求帮助-询问医生的看法": {
+                "positive": "Proactively seeks the doctor's diagnosis and treatment advice.",
+                "negative": "Passively goes along with the consultation, not seeking advice."
+            },
+            "闲聊-提供信息-被动提供相关信息": {
+                "positive": "Answers only what is asked, even falling silent, needing repeated prompting.",
+                "negative": "Communicates smoothly and readily provides information."
+            },
+            "闲聊-提供信息-主动提供相关信息": {
+                "positive": "Readily shares symptom details and inner feelings.",
+                "negative": "Sticks to answering the questions asked, without volunteering more."
+            },
+            "闲聊-自我表露-抱怨自我": {
+                "positive": "Frequently self-deprecating, complaining about one's abilities or character flaws.",
+                "negative": "Describes oneself objectively, without a marked tendency to complain."
+            },
+            "任务-社会功能-日常生活存在困难": {
+                "positive": "Basic self-care such as washing and eating is markedly impaired.",
+                "negative": "Fully able to manage daily self-care."
+            },
+            "任务-社会功能-学习工作存在困难": {
+                "positive": "Unable to maintain normal work efficiency or study.",
+                "negative": "Meets current academic or occupational demands."
+            },
+            "任务-精神状态-疲倦": {
+                "positive": "Persistent extreme fatigue that rest does not relieve.",
+                "negative": "Energy is adequate and recovers normally after rest."
+            },
+            "任务-社会功能-避免与人接触": {
+                "positive": "Actively avoids socializing, withdraws, and refuses contact with family and friends.",
+                "negative": "Maintains normal relationships and enjoys socializing."
+            },
+            "闲聊-自我表露-对事物的情绪": {
+                "positive": "Reacts to things with strong subjective emotional coloring.",
+                "negative": "Narrates calmly and objectively, with little emotional involvement."
+            },
+            "任务-精神状态-记忆力下降": {
+                "positive": "Markedly forgetful, struggling to retain short-term memory.",
+                "negative": "Clear memory, with no cognitive decline."
+            },
+            "任务-精神状态-缺乏自信": {
+                "positive": "Low sense of self-efficacy, lacking confidence in one's ability to handle things.",
+                "negative": "Reasonably confident, trusting one's ability to solve problems."
+            },
+            "任务-社会功能-避免从亲友处得到支持": {
+                "positive": "Deliberately hides their condition and refuses help from family and friends.",
+                "negative": "Willing to seek and accept help from their support system."
+            },
+            "任务-精神状态-选择困难": {
+                "positive": "Unable to decide on everyday trifles, chronically indecisive.",
+                "negative": "Decisive, with no difficulty making choices."
+            },
+            "任务-精神状态-注意力不集中": {
+                "positive": "Hard to sustain attention, with the mind easily wandering.",
+                "negative": "Normal concentration, able to focus for long periods."
+            }
+        },
+        "zh": {
+            "任务-睡眠-睡眠浅": {
+                "positive": "睡眠极浅，对声光敏感，夜间易惊醒且难再入睡。",
+                "negative": "睡眠深沉，不易受环境干扰，能维持连续睡眠。"
+            },
+            "任务-睡眠-入睡困难": {
+                "positive": "上床后辗转反侧，入睡潜伏期超过30分钟。",
+                "negative": "上床后能迅速入睡，无入睡障碍。"
+            },
+            "任务-睡眠-多梦": {
+                "positive": "梦境频繁或多噩梦，醒后疲惫感强。",
+                "negative": "少梦或无梦，睡眠安稳。"
+            },
+            "任务-睡眠-早醒": {
+                "positive": "比平日早醒1-2小时以上，醒后无法回笼，情绪恶劣。",
+                "negative": "能睡至预定时间自然醒，无病理性早醒。"
+            },
+            "任务-睡眠-存在睡眠问题": {
+                "positive": "整体睡眠质量差，无法通过睡眠恢复精力。",
+                "negative": "睡眠质量良好，醒后精力充沛。"
+            },
+            "任务-睡眠-睡眠时间少": {
+                "positive": "总睡眠时长显著缩短，远低于生理需求。",
+                "negative": "睡眠时长充足，符合正常作息。"
+            },
+            "任务-食欲-暴饮暴食": {
+                "positive": "发作性不可控地大量进食，常伴事后悔恨。",
+                "negative": "饮食有节制，无暴食行为。"
+            },
+            "任务-食欲-显著体重变化": {
+                "positive": "非刻意情况下，近期体重出现显著增减。",
+                "negative": "近期体重保持相对稳定。"
+            },
+            "任务-食欲-食欲下降": {
+                "positive": "无饥饿感，对食物丧失兴趣，进食量明显减少。",
+                "negative": "胃口正常，按时按量进食。"
+            },
+            "任务-食欲-食欲存在问题": {
+                "positive": "存在暴食或厌食等进食紊乱行为。",
+                "negative": "饮食习惯规律正常。"
+            },
+            "任务-自杀-有无望感": {
+                "positive": "对未来彻底绝望，坚信现状无法改善。",
+                "negative": "对未来抱有希望，认为困难是暂时的。"
+            },
+            "任务-自杀-存在自杀倾向": {
+                "positive": "反复出现结束生命的念头或具体计划。",
+                "negative": "珍视生命，无轻生念头。"
+            },
+            "任务-自杀-自我价值感低": {
+                "positive": "极度自卑，认为自己毫无价值，是他人的累赘。",
+                "negative": "自我评价客观，认可自身价值。"
+            },
+            "任务-自杀-自罪": {
+                "positive": "毫无根据地过度自责，产生病理性的负罪感。",
+                "negative": "归因合理，不盲目揽责。"
+            },
+            "任务-自杀-存在自残倾向": {
+                "positive": "有通过伤害身体来缓解精神痛苦的冲动或行为。",
+                "negative": "无自伤意愿，懂得自我保护。"
+            },
+            "任务-自杀-存在自杀行为": {
+                "positive": "近期实施过自杀尝试或处于准备阶段。",
+                "negative": "从未实施过自杀行为。"
+            },
+            "任务-筛查-躁狂": {
+                "positive": "曾有情绪持续高涨、精力过剩、思维奔逸的病史。",
+                "negative": "情绪及精力水平始终处于正常区间。"
+            },
+            "任务-筛查-遗传史": {
+                "positive": "直系或旁系亲属有精神疾病确诊史。",
+                "negative": "家族无已知精神疾病史。"
+            },
+            "任务-躯体症状-躯体不适": {
+                "positive": "伴有查无实据的疼痛、胸闷、头晕等躯体症状。",
+                "negative": "身体无明显不明原因的不适感。"
+            },
+            "任务-躯体症状-运动性激越": {
+                "positive": "烦躁不安，无法静坐，伴有搓手、踱步等小动作。",
+                "negative": "肢体平静，能安静独处。"
+            },
+            "任务-躯体症状-运动性迟滞": {
+                "positive": "思维迟缓，肢体沉重，行动及反应显著变慢。",
+                "negative": "思维敏捷，行动利落。"
+            },
+            "任务-情绪-情绪低落": {
+                "positive": "心境显著低落，感到悲伤、压抑或空虚。",
+                "negative": "心境平稳或愉快。"
+            },
+            "任务-情绪-情绪低落超过两周": {
+                "positive": "低落心境持续时间已达两周以上。",
+                "negative": "情绪波动短暂，未达两周标准。"
+            },
+            "任务-情绪-早晚差异": {
+                "positive": "情绪呈现“晨重暮轻”的节律变化。",
+                "negative": "情绪全天平稳，无特定节律。"
+            },
+            "任务-兴趣-兴趣丧失": {
+                "positive": "对既往爱好及日常活动完全丧失兴趣。",
+                "negative": "保有好奇心，能从活动中获得乐趣。"
+            },
+            "任务-兴趣-范围-所有事情": {
+                "positive": "兴趣丧失泛化至生活所有领域，无一例外。",
+                "negative": "仍保留至少部分领域的兴趣。"
+            },
+            "任务-兴趣-情感淡漠": {
+                "positive": "情感反应迟钝，对周围事物漠不关心。",
+                "negative": "情感反应鲜活，能正常共情。"
+            },
+            "任务-兴趣-原因": {
+                "positive": "兴趣丧失有明确的生活事件作为诱因。",
+                "negative": "兴趣丧失无明显诱因，潜移默化发生。"
+            },
+            "任务-兴趣-兴趣丧失超过两周": {
+                "positive": "兴趣缺乏的状态持续已逾两周。",
+                "negative": "仅短暂感到无聊，未持续存在。"
+            },
+            "任务-兴趣-范围-过去爱好": {
+                "positive": "特指对以往热衷的特定爱好失去热情。",
+                "negative": "仍能从既往爱好中获得满足感。"
+            },
+            "闲聊-寻求帮助-询问医生的看法": {
+                "positive": "主动征求诊断意见及治疗建议。",
+                "negative": "被动接受问诊，不主动寻求建议。"
+            },
+            "闲聊-提供信息-被动提供相关信息": {
+                "positive": "问一句答一句，甚至缄默，需反复引导。",
+                "negative": "沟通顺畅，主动配合提供信息。"
+            },
+            "闲聊-提供信息-主动提供相关信息": {
+                "positive": "积极倾诉症状细节及内心感受。",
+                "negative": "仅限于回答既定问题，不主动发散。"
+            },
+            "闲聊-自我表露-抱怨自我": {
+                "positive": "频繁自我贬低，抱怨自身能力或性格缺陷。",
+                "negative": "自我陈述客观，无明显抱怨倾向。"
+            },
+            "任务-社会功能-日常生活存在困难": {
+                "positive": "洗漱、进食等基础生活自理能力显著受损。",
+                "negative": "生活自理完全正常。"
+            },
+            "任务-社会功能-学习工作存在困难": {
+                "positive": "无法维持正常的工作效率或学习状态。",
+                "negative": "胜任当前学业或职业要求。"
+            },
+            "任务-精神状态-疲倦": {
+                "positive": "持续性极度疲乏，休息无法缓解。",
+                "negative": "精力尚可，休息后体力恢复正常。"
+            },
+            "任务-社会功能-避免与人接触": {
+                "positive": "主动回避社交，自我封闭，拒绝接触亲友。",
+                "negative": "维持正常人际交往，乐于社交。"
+            },
+            "闲聊-自我表露-对事物的情绪": {
+                "positive": "对外界事物表现出强烈的主观情绪色彩。",
+                "negative": "叙事客观冷静，情绪卷入度低。"
+            },
+            "任务-精神状态-记忆力下降": {
+                "positive": "显著健忘，难以保留短期记忆。",
+                "negative": "记忆清晰，无认知功能下降。"
+            },
+            "任务-精神状态-缺乏自信": {
+                "positive": "自我效能感低，对自己处理事情的能力缺乏信心。",
+                "negative": "自信适度，相信自己能解决问题。"
+            },
+            "任务-社会功能-避免从亲友处得到支持": {
+                "positive": "刻意隐瞒病情，拒绝亲友帮助。",
+                "negative": "愿意向支持系统寻求并接受帮助。"
+            },
+            "任务-精神状态-选择困难": {
+                "positive": "对日常琐事无法做出决断，优柔寡断。",
+                "negative": "决策果断，无选择障碍。"
+            },
+            "任务-精神状态-注意力不集中": {
+                "positive": "注意力难以维持，思维易涣散。",
+                "negative": "专注力正常，能长时间集中精神。"
+            }
+        }
+    }
+}
