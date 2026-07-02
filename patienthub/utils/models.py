@@ -16,7 +16,6 @@ load_dotenv()
 
 
 def get_config_value(configs, name, default=None):
-    # Support both DictConfig (attribute access) and dict (key access)
     if isinstance(configs, dict):
         return configs.get(name, default)
     return getattr(configs, name, default)
@@ -100,10 +99,15 @@ def get_chat_model(configs):
     model_type = get("model_type")
     model_name = get("model_name")
 
+    kwargs = {
+        key: get(key) for key in ("temperature", "max_tokens") if get(key) is not None
+    }
+
     return ChatModel(
         model_name=model_name,
         api_base=os.environ.get(f"{model_type}_BASE_URL", None),
         api_key=os.environ.get(f"{model_type}_API_KEY", None),
+        **kwargs,
     )
 
 

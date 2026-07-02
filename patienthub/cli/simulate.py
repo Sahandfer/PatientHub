@@ -1,38 +1,36 @@
 """
-An example for simulating a therapy session between a client and a therapist.
-It requires:
-    - A client agent
-    - A therapist agent
-    - (Optional) An evaluator agent
-It creates a TherapySession object and runs the simulation using Burr.
+Simulate a therapy session between a client and a therapist.
 
 Usage:
     # Run with defaults
-    uv run python -m examples.simulate
+    patienthub simulate
 
-    # Override client/therapist
-    uv run python -m examples.simulate client=patientPsi therapist=basic
+    # Pick client / therapist
+    patienthub simulate client=patientPsi therapist=user
 
-    # Override specific config values
-    uv run python -m examples.simulate client.temperature=0.5 session.max_turns=50
+    # Override config fields (e.g. temperature, session length)
+    patienthub simulate client.temperature=0.5 event.max_turns=50
 
-    # Enable verbose logging (DEBUG level)
-    uv run python -m examples.simulate verbose=true
+    # Add an (optional) evaluator
+    patienthub simulate evaluator=conv_judge
+
+    # Language and verbose logging (DEBUG level)
+    patienthub simulate lang=zh verbose=true
 
 Logs are saved to logs/simulate_<timestamp>.log.
 """
 
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import Any, List, Optional
 
 import hydra
-from dataclasses import dataclass
-from omegaconf import DictConfig
+from omegaconf import DictConfig, MISSING
 from hydra.core.config_store import ConfigStore
 
-from patienthub.events import get_event
-from patienthub.clients import get_client
-from patienthub.therapists import get_therapist
-from patienthub.evaluators import get_evaluator
+from patienthub.events import get_event, register_event_configs
+from patienthub.clients import get_client, register_client_configs
+from patienthub.therapists import get_therapist, register_therapist_configs
+from patienthub.evaluators import get_evaluator, register_evaluator_configs
 from patienthub.utils.logger import get_logger, init_logging, LogLevel
 
 logger = get_logger(__name__)
@@ -42,18 +40,29 @@ logger = get_logger(__name__)
 class SimulateConfig:
     """Main configuration for simulation."""
 
-    client: str = "patientPsi"
-    therapist: str = "basic"
-    evaluator: Optional[str] = None
-    event: str = "therapy_session"
+    defaults: List[Any] = field(
+        default_factory=lambda: [
+            "_self_",
+            {"client": "patientPsi"},
+            {"therapist": "user"},
+            {"event": "therapy_session"},
+            {"evaluator": None},
+        ]
+    )
+    client: Any = MISSING
+    therapist: Any = MISSING
+    event: Any = MISSING
+    evaluator: Optional[Any] = None
     lang: str = "en"
     verbose: bool = False
 
 
-# Register all dataclass configs with Hydra before main
-
 cs = ConfigStore.instance()
 cs.store(name="simulate", node=SimulateConfig)
+register_client_configs(cs)
+register_therapist_configs(cs)
+register_evaluator_configs(cs)
+register_event_configs(cs)
 
 
 @hydra.main(version_base=None, config_name="simulate")
@@ -61,27 +70,37 @@ def simulate(configs: DictConfig) -> None:
     init_logging(
         "simulate", level=LogLevel.DEBUG if configs.verbose else LogLevel.WARNING
     )
-
     logger.info(
-        f"Starting simulation with {', '.join(f'{k}={v}' for k, v in configs.items())}"
+        "Starting simulation: client=%s therapist=%s evaluator=%s event=%s lang=%s",
+        configs.client.agent_name,
+        configs.therapist.agent_name,
+        configs.evaluator.agent_name if configs.evaluator else None,
+        configs.event.event_type,
+        configs.lang,
     )
 
     try:
-        # Load client
-        client = get_client(agent_name=configs.client, lang=configs.lang)
-
-        # Load therapist
-        therapist = get_therapist(agent_name=configs.therapist, lang=configs.lang)
-
-        # Load evaluator (if any)
+        client = get_client(
+            agent_name=configs.client.agent_name,
+            configs=configs.client,
+            lang=configs.lang,
+        )
+        therapist = get_therapist(
+            agent_name=configs.therapist.agent_name,
+            configs=configs.therapist,
+            lang=configs.lang,
+        )
         evaluator = (
-            get_evaluator(agent_name=configs.evaluator, lang=configs.lang)
+            get_evaluator(
+                agent_name=configs.evaluator.agent_name,
+                configs=configs.evaluator,
+                lang=configs.lang,
+            )
             if configs.evaluator
             else None
         )
 
-        # # Create therapy session
-        event = get_event(event_name=configs.event)
+        event = get_event(event_name=configs.event.event_type, configs=configs.event)
         event.set_characters(
             {
                 "client": client,

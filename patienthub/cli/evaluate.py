@@ -1,29 +1,33 @@
 """
-An example for evaluation.
-It requires:
-    - An evaluator agent
-    - Data (e.g., conversation history, profile data)
+Evaluate a simulated conversation or character profile.
 
 Usage:
     # Evaluate with defaults
-    uv run python -m examples.evaluate
+    patienthub evaluate
 
-    # Override evaluator and paths
-    uv run python -m examples.evaluate evaluator=conv_judge input_dir=data/sessions/session.json
+    # Pick an evaluator and I/O paths
+    patienthub evaluate evaluator=profile_judge \
+        input_dir=data/sessions/session.json output_dir=data/evaluations/out.json
+
+    # Override evaluator config fields
+    patienthub evaluate evaluator.temperature=0 \
+        evaluator.prompt_path=data/prompts/evaluator/client_conv.yaml
 
     # Enable verbose logging (DEBUG level)
-    uv run python -m examples.evaluate verbose=true
+    patienthub evaluate verbose=true
 
 Logs are saved to logs/evaluate_<timestamp>.log.
 """
 
+from dataclasses import dataclass, field
+from typing import Any, List
+
 import hydra
-from omegaconf import DictConfig
-from dataclasses import dataclass
+from omegaconf import DictConfig, MISSING
 from hydra.core.config_store import ConfigStore
 
 from patienthub.utils import load_json, save_json
-from patienthub.evaluators import get_evaluator, get_evaluator_config
+from patienthub.evaluators import get_evaluator, register_evaluator_configs
 from patienthub.utils.logger import get_logger, init_logging, LogLevel
 
 logger = get_logger(__name__)
@@ -33,16 +37,19 @@ logger = get_logger(__name__)
 class EvaluateConfig:
     """Configuration for evaluation."""
 
-    evaluator: str = "conv_judge"
+    defaults: List[Any] = field(
+        default_factory=lambda: ["_self_", {"evaluator": "conv_judge"}]
+    )
+    evaluator: Any = MISSING
     input_dir: str = "data/sessions/default/badtherapist.json"
     output_dir: str = "data/evaluations/default/temp_cot.json"
-    prompt_path: str = "data/prompts/evaluator/client_conv.yaml"
     lang: str = "en"
     verbose: bool = False
 
 
 cs = ConfigStore.instance()
 cs.store(name="evaluate", node=EvaluateConfig)
+register_evaluator_configs(cs)
 
 
 @hydra.main(version_base=None, config_name="evaluate")
@@ -50,16 +57,13 @@ def evaluate(configs: DictConfig):
     init_logging(
         "evaluate", level=LogLevel.DEBUG if configs.verbose else LogLevel.WARNING
     )
+    agent_name = configs.evaluator.agent_name
     logger.info(
-        "Starting evaluation: evaluator=%s, input=%s",
-        configs.evaluator,
-        configs.input_dir,
+        "Starting evaluation: evaluator=%s, input=%s", agent_name, configs.input_dir
     )
     try:
-        eval_configs = get_evaluator_config(configs.evaluator)
-        eval_configs.prompt_path = configs.prompt_path
         evaluator = get_evaluator(
-            agent_name=configs.evaluator, configs=eval_configs, lang=configs.lang
+            agent_name=agent_name, configs=configs.evaluator, lang=configs.lang
         )
         data = load_json(configs.input_dir)
         res = evaluator.evaluate(data=data)

@@ -10,10 +10,10 @@ It also registers the new agent in the corresponding `__init__.py` file.
 
 Usage:
     # Create a new client agent
-    uv run python -m examples.create agent_type=client agent_name=myClient
+    patienthub create agent_type=client agent_name=myClient
 
     # Create a new therapist agent
-    uv run python -m examples.create agent_type=therapist agent_name=myTherapist
+    patienthub create agent_type=therapist agent_name=myTherapist
 """
 
 import os

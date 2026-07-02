@@ -57,7 +57,7 @@ def get_therapist_config(agent_name: str):
 
 def register_therapist_configs(cs):
     for name, config_cls in THERAPIST_CONFIG_REGISTRY.items():
-        cs.store(group="therapist_configs", name=name, node=config_cls)
+        cs.store(group="therapist", name=name, node=config_cls)
 
 
 __all__ = [
