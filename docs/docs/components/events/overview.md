@@ -31,7 +31,7 @@ patienthub simulate event=therapy_session
 from patienthub.events import get_event
 
 # With default configurations
-event = get_event(name="therapy_session")
+event = get_event(event_name="therapy_session")
 
 # With custom configurations
 from omegaconf import OmegaConf
@@ -41,7 +41,7 @@ event_config = {
     'reminder_turn_num': 5,
     'output_dir': 'outputs/session.json',
 }
-event = get_event(name="therapy_session", configs=event_config)
+event = get_event(event_name="therapy_session", configs=event_config)
 
 # Run the event
 event.start()
@@ -50,20 +50,24 @@ event.start()
 
 ## Creating Custom Events
 
-You can create custom events by extending the base class:
+Events are plain Python classes (like `TherapySession`) — there is no shared `Event` base class to inherit from. A custom event implements a `set_characters(characters: dict)` method to receive its participants and a `start()` method to run the interaction:
 
 ```python
-from patienthub.events.base import Event
-
-class MyCustomEvent(Event):
-    def __init__(self, config):
-        super().__init__(config)
+class MyCustomEvent:
+    def __init__(self, configs):
+        self.configs = configs
         # Initialize your event
+
+    def set_characters(self, characters: dict):
+        # Store participating agents (e.g. client, therapist)
+        self.characters = characters
 
     def start(self):
         # Implement event logic
         pass
 ```
+
+Register the class in `EVENT_REGISTRY` (and its config dataclass in `EVENT_CONFIG_REGISTRY`) in `patienthub/events/__init__.py` so it can be loaded via `get_event()`.
 
 ## See Also
 

@@ -29,7 +29,7 @@ The Therapy Session is the primary event type in PatientHub, orchestrating conve
 ```python
 from patienthub.events import get_event
 
-event = get_event(name="therapy_session")
+event = get_event(event_name="therapy_session")
 ```
 
 ## Parameters
@@ -37,8 +37,8 @@ event = get_event(name="therapy_session")
 | Parameter           | Type   | Default           | Description                       |
 | ------------------- | ------ | ----------------- | --------------------------------- |
 | `event_type`        | string | `therapy_session` | Event type identifier             |
-| `max_turns`         | int    | `30`              | Maximum conversation turns        |
-| `reminder_turn_num` | int    | `5`               | Turns before end to show reminder |
+| `max_turns`         | int    | `15`              | Maximum conversation turns        |
+| `reminder_turn_num` | int    | `2`               | Turns before end to show reminder |
 | `output_dir`        | string | varies            | Output file path for session data |
 
 ## Session Flow
@@ -66,17 +66,16 @@ generate_client_response ──┬──► end_session (therapist says END/end/
 
 ## Session State
 
-```python
-from typing import TypedDict, List, Dict, Any
+The session state is not a separate importable type — it is defined inline through Burr's `.with_state(...)` when the workflow is built. The state carries the following fields:
 
-class TherapySessionState(TypedDict):
-    messages: List[Dict[str, Any]]  # Conversation history
-    msg: str                        # Current message being processed
-    num_turns: int                  # Number of completed turns
-    session_ended: bool             # End flag
-    initialized: bool               # Init flag
-    needs_reminder: bool            # Reminder flag
-```
+| Field            | Type                  | Description                     |
+| ---------------- | --------------------- | ------------------------------- |
+| `messages`       | `List[Dict[str, Any]]` | Conversation history            |
+| `msg`            | `str`                 | Current message being processed |
+| `num_turns`      | `int`                 | Number of completed turns       |
+| `session_ended`  | `bool`                | End flag                        |
+| `initialized`    | `bool`                | Init flag                       |
+| `needs_reminder` | `bool`                | Reminder flag                   |
 
 ## Methods
 

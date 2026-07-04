@@ -8,435 +8,201 @@ This guide explains how to add new evaluation methods to PatientHub.
 
 ## Overview
 
-Evaluators assess simulation quality, therapist performance, or session outcomes. PatientHub supports multiple evaluation types: rating, survey, comparison, inspection, and interview.
+Evaluators assess the quality of simulations and generated artifacts using an LLM as a judge. Every evaluator subclasses `LLMJudge`, is keyed by an `agent_name`, and reads its scoring schema (the `dimensions`) from a prompt YAML. PatientHub currently ships two evaluators:
+
+- `conv_judge`: evaluates a therapy session (conversation).
+- `profile_judge`: evaluates a generated client profile.
+
+Adding a new evaluator means writing a small subclass plus a config dataclass, registering both, and providing a prompt YAML.
 
 ## Architecture
 
 ```
 patienthub/evaluators/
-├── __init__.py       # Evaluator registry
-├── rating.py         # Dimension-based rating
-├── survey.py         # Standardized questionnaires
-├── comparison.py     # A/B comparison
-├── inspect.py        # Qualitative analysis
-├── interview.py      # Interactive evaluation
+├── __init__.py       # Registries and get_evaluator()
+├── base.py           # LLMJudge, LLMJudgeConfig
+├── conv.py           # ConvJudge, ConvJudgeConfig
+├── profile.py        # ProfileJudge, ProfileJudgeConfig
 └── your_evaluator.py # Your new evaluator
 ```
 
+`base.py` does the heavy lifting: it loads the prompt from `prompt_path`, builds Pydantic response models from the `dimensions` in that YAML, calls the chat model with `response_format=<dimension model>`, and returns one structured result per dimension. Each evaluator subclass typically just prepares the `data` payload and calls `self.evaluate_dimensions(data)`.
+
+The base config `LLMJudgeConfig` subclasses `APIModelConfig`, so every evaluator config inherits these fields:
+
+| Field           | Default  | Notes                                 |
+| --------------- | -------- | ------------------------------------- |
+| `model_type`    | `OPENAI` | Chat model backend                    |
+| `model_name`    | `gpt-4o` | Model identifier                      |
+| `temperature`   | `0.7`    |                                       |
+| `max_tokens`    | `8192`   |                                       |
+| `max_retries`   | `3`      |                                       |
+| `lang`          | `en`     | Prompt language                       |
+| `use_reasoning` | `False`  | Adds a `reasoning` field per judgment |
+
 ## Step 1: Create Evaluator File
 
-Create a new file in `patienthub/evaluators/`:
+Create a new file in `patienthub/evaluators/`. Define a config dataclass (subclassing `LLMJudgeConfig`) and an evaluator class (subclassing `LLMJudge`) that implements `evaluate`:
 
 ```python
 # patienthub/evaluators/myEvaluator.py
 
-from typing import Any, Dict, List, Optional
-from langchain_core.messages import AIMessage, HumanMessage
+from typing import Any, Dict
+from omegaconf import DictConfig
+from dataclasses import dataclass
 
-from patienthub.base.agents import BaseAgent
+from .base import LLMJudge, LLMJudgeConfig
 
 
-class MyEvaluator(BaseAgent):
+@dataclass
+class MyEvaluatorConfig(LLMJudgeConfig):
+    agent_name: str = "my_evaluator"
+    prompt_path: str = "data/prompts/evaluator/my_evaluator.yaml"
+
+
+class MyEvaluator(LLMJudge):
+    """Your custom evaluation method.
+
+    Describe what this evaluator measures and what input it expects.
     """
-    Your custom evaluation method.
 
-    Description of what this evaluator measures.
-    """
+    def __init__(self, configs: DictConfig):
+        super().__init__(configs)
 
-    def __init__(
-        self,
-        configs: Any,
-        lang: str = "en",
-        **kwargs
-    ):
-        super().__init__(configs=configs, lang=lang, **kwargs)
+    def evaluate(self, data: Dict[str, Any], *args) -> Dict[str, Any]:
+        # Validate/prepare the payload your prompt expects.
+        if not data:
+            print("No data provided for evaluation.")
+            return {}
 
-        # Load evaluation criteria
-        self._load_criteria()
-
-        # Initialize results storage
-        self.results = []
-
-    def _load_criteria(self):
-        """Load evaluation criteria from config or file."""
-        self.criteria = getattr(self.configs, 'criteria', [])
-        self.scoring_scale = getattr(self.configs, 'scale', (1, 5))
-
-    def evaluate(
-        self,
-        conversation: List[Dict[str, str]],
-        client_profile: Optional[Dict] = None,
-        therapist_profile: Optional[Dict] = None,
-        **kwargs
-    ) -> Dict[str, Any]:
-        """
-        Evaluate a conversation.
-
-        Args:
-            conversation: List of turns [{"role": "therapist/client", "content": "..."}]
-            client_profile: Optional client character info
-            therapist_profile: Optional therapist info
-            **kwargs: Additional evaluation parameters
-
-        Returns:
-            Dictionary containing evaluation results
-        """
-        results = {
-            "evaluator": "myEvaluator",
-            "scores": {},
-            "feedback": {},
-            "overall": None,
-        }
-
-        # Prepare conversation text
-        conv_text = self._format_conversation(conversation)
-
-        # Evaluate each criterion
-        for criterion in self.criteria:
-            score, feedback = self._evaluate_criterion(
-                conv_text, criterion, client_profile, therapist_profile
-            )
-            results["scores"][criterion] = score
-            results["feedback"][criterion] = feedback
-
-        # Calculate overall score
-        if results["scores"]:
-            results["overall"] = sum(results["scores"].values()) / len(results["scores"])
-
-        self.results.append(results)
-        return results
-
-    def _format_conversation(self, conversation: List[Dict]) -> str:
-        """Format conversation for evaluation."""
-        lines = []
-        for turn in conversation:
-            role = turn.get("role", "unknown").capitalize()
-            content = turn.get("content", "")
-            lines.append(f"{role}: {content}")
-        return "\n\n".join(lines)
-
-    def _evaluate_criterion(
-        self,
-        conversation: str,
-        criterion: str,
-        client_profile: Optional[Dict],
-        therapist_profile: Optional[Dict],
-    ) -> tuple:
-        """
-        Evaluate a single criterion using LLM.
-
-        Returns:
-            (score, feedback) tuple
-        """
-        prompt = self._build_evaluation_prompt(
-            conversation, criterion, client_profile, therapist_profile
-        )
-
-        messages = [
-            {"role": "system", "content": self._get_system_prompt()},
-            {"role": "user", "content": prompt},
-        ]
-
-        response = self.llm.invoke(messages)
-
-        # Parse response for score and feedback
-        score, feedback = self._parse_response(response.content, criterion)
-
-        return score, feedback
-
-    def _get_system_prompt(self) -> str:
-        """System prompt for the evaluator LLM."""
-        return """You are an expert evaluator assessing therapy conversations.
-Provide objective, constructive assessments based on the criteria given.
-Always explain your reasoning and provide specific examples from the conversation."""
-
-    def _build_evaluation_prompt(
-        self,
-        conversation: str,
-        criterion: str,
-        client_profile: Optional[Dict],
-        therapist_profile: Optional[Dict],
-    ) -> str:
-        """Build the evaluation prompt."""
-        prompt = f"""Please evaluate the following conversation on the criterion: {criterion}
-
-Conversation:
-{conversation}
-
-"""
-        if client_profile:
-            prompt += f"""
-Client Profile:
-{client_profile}
-
-"""
-
-        prompt += f"""
-Rate on a scale of {self.scoring_scale[0]} to {self.scoring_scale[1]}.
-Provide your rating and a brief explanation.
-
-Format your response as:
-SCORE: [number]
-FEEDBACK: [your explanation]
-"""
-        return prompt
-
-    def _parse_response(self, response: str, criterion: str) -> tuple:
-        """Parse LLM response into score and feedback."""
-        import re
-
-        # Extract score
-        score_match = re.search(r'SCORE:\s*(\d+(?:\.\d+)?)', response)
-        score = float(score_match.group(1)) if score_match else None
-
-        # Extract feedback
-        feedback_match = re.search(r'FEEDBACK:\s*(.+)', response, re.DOTALL)
-        feedback = feedback_match.group(1).strip() if feedback_match else response
-
-        # Clamp score to valid range
-        if score is not None:
-            score = max(self.scoring_scale[0], min(self.scoring_scale[1], score))
-
-        return score, feedback
-
-    def get_summary(self) -> Dict[str, Any]:
-        """Get summary statistics across all evaluations."""
-        if not self.results:
-            return {"error": "No evaluations performed"}
-
-        summary = {
-            "num_evaluations": len(self.results),
-            "average_scores": {},
-            "overall_average": None,
-        }
-
-        # Aggregate scores by criterion
-        all_criteria = set()
-        for r in self.results:
-            all_criteria.update(r["scores"].keys())
-
-        for criterion in all_criteria:
-            scores = [r["scores"].get(criterion) for r in self.results if r["scores"].get(criterion)]
-            if scores:
-                summary["average_scores"][criterion] = sum(scores) / len(scores)
-
-        # Overall average
-        overalls = [r["overall"] for r in self.results if r["overall"] is not None]
-        if overalls:
-            summary["overall_average"] = sum(overalls) / len(overalls)
-
-        return summary
-
-    def reset(self):
-        """Reset evaluator for new evaluation batch."""
-        self.results = []
+        # The base class renders the prompt with this `data` (as `{{data.*}}`),
+        # calls the model per dimension, and returns structured results.
+        return self.evaluate_dimensions(data)
 ```
+
+The base class references `data` inside the prompt's Jinja2 template (e.g. `{{data.profile}}` or `{{data.conv_history}}`), so shape the `data` dict to match the fields your prompt uses.
 
 ## Step 2: Register the Evaluator
 
-Add to `patienthub/evaluators/__init__.py`:
+Add your evaluator and its config to the registries in `patienthub/evaluators/__init__.py`:
 
 ```python
-from patienthub.evaluators.myEvaluator import MyEvaluator
+# patienthub/evaluators/__init__.py
+from .myEvaluator import MyEvaluator, MyEvaluatorConfig
 
 EVALUATOR_REGISTRY = {
-    # ... existing evaluators ...
-    'myEvaluator': MyEvaluator,
+    "conv_judge": ConvJudge,
+    "profile_judge": ProfileJudge,
+    "my_evaluator": MyEvaluator,
 }
 
-def get_evaluator(configs, lang: str = "en", **kwargs):
-    eval_type = configs.eval_type
-    if eval_type not in EVALUATOR_REGISTRY:
-        raise ValueError(f"Unknown evaluator type: {eval_type}")
-    return EVALUATOR_REGISTRY[eval_type](configs=configs, lang=lang, **kwargs)
+EVALUATOR_CONFIG_REGISTRY = {
+    "conv_judge": ConvJudgeConfig,
+    "profile_judge": ProfileJudgeConfig,
+    "my_evaluator": MyEvaluatorConfig,
+}
 ```
+
+`get_evaluator(agent_name, configs=None, lang="en")` looks the evaluator up by `agent_name`. Registering the config lets `get_evaluator` construct sensible defaults when `configs` is not passed, and lets the config be selected as a Hydra group (`evaluator=my_evaluator`).
 
 ## Step 3: Define Evaluation Dimensions
 
-Create dimension definitions in `patienthub/evaluators/dimensions/`:
+Dimensions are **not** Python objects — they live in the prompt YAML referenced by `prompt_path`. Create it with a `sys_prompt` (Jinja2 template) and a `dimensions` list. Each dimension has a `name`, a `description`, and either a scoring `paradigm` or a list of `aspects` that inherit the dimension's `paradigm` and `range`:
 
-```python
-# patienthub/evaluators/dimensions/myDimensions.py
+```yaml
+# data/prompts/evaluator/my_evaluator.yaml
+sys_prompt: |
+  You are an expert evaluator assessing therapy conversations.
 
-MY_DIMENSIONS = {
-    "empathy": {
-        "name": "Empathy",
-        "description": "The degree to which the therapist demonstrates understanding of the client's emotional experience",
-        "indicators": [
-            "Reflects client's feelings accurately",
-            "Validates emotional experiences",
-            "Shows genuine concern",
-        ],
-        "scale": (1, 5),
-        "anchors": {
-            1: "No empathy demonstrated",
-            3: "Moderate empathy with some reflection",
-            5: "Deep empathic understanding throughout",
-        }
-    },
-    "authenticity": {
-        "name": "Client Authenticity",
-        "description": "How realistic and consistent the simulated client's responses are",
-        "indicators": [
-            "Responses match character profile",
-            "Emotional reactions are appropriate",
-            "Maintains consistent personality",
-        ],
-        "scale": (1, 5),
-        "anchors": {
-            1: "Responses feel artificial or inconsistent",
-            3: "Generally authentic with minor inconsistencies",
-            5: "Highly authentic and completely consistent",
-        }
-    },
-}
+  ## Conversation History:
+  {{data.conv_history}}
+
+  Return the judgment in the required structured format.
+
+dimensions:
+  - name: empathy
+    description: Whether the therapist demonstrates understanding of the client's emotional experience.
+    paradigm: scalar
+    range: [1, 5]
+  - name: authenticity
+    description: How realistic and consistent the simulated client's responses are.
+    paradigm: scalar
+    range: [1, 5]
+    aspects:
+      - name: profile_match
+        description: Responses match the character profile
+      - name: consistency
+        description: Maintains a consistent personality
 ```
+
+Supported paradigms and their returned fields:
+
+| Paradigm      | Returned Field        | Example                         |
+| ------------- | --------------------- | ------------------------------- |
+| `binary`      | `label: bool`         | `{"label": true}`               |
+| `scalar`      | `score: int`          | `{"score": 4}`                  |
+| `categorical` | `label: Literal[...]` | `{"label": "very consistent"}`  |
+| `extraction`  | `snippets: List[str]` | `{"snippets": ["Client: ..."]}` |
+
+If `use_reasoning=True`, each judged item also gets a `reasoning` field. Dimensions whose `paradigm` is unsupported are skipped when the schema is built.
 
 ## Step 4: Create Configuration
 
-Add configuration options:
+You can select and override the evaluator from Hydra using its real config fields. There is a config group per registered evaluator:
 
-```yaml
-# configs/evaluator/myEvaluator.yaml
-eval_type: myEvaluator
-model_type: OPENAI
-model_name: gpt-4o
-temperature: 0.0 # Deterministic for evaluation
-max_tokens: 1024
-criteria:
-  - empathy
-  - authenticity
-scale: [1, 5]
-target: therapist # or "client" or "both"
+```bash
+patienthub evaluate \
+  evaluator=my_evaluator \
+  evaluator.prompt_path=data/prompts/evaluator/my_evaluator.yaml \
+  evaluator.use_reasoning=true \
+  evaluator.model_name=gpt-4o
 ```
 
-## Step 5: Add Tests
+Overrides must use fields that actually exist on the config (the inherited `APIModelConfig`/`LLMJudgeConfig` fields plus any you add). For `conv_judge`, `evaluator.granularity=turn` selects the granularity.
+
+## Step 5: Test Your Evaluator
+
+Load the evaluator with `get_evaluator` (note that `agent_name` is a required positional argument) and run it on a sample payload:
 
 ```python
-# patienthub/tests/test_myEvaluator.py
-
-import pytest
 from omegaconf import OmegaConf
 from patienthub.evaluators import get_evaluator
 
+configs = OmegaConf.create({
+    "agent_name": "my_evaluator",
+    "prompt_path": "data/prompts/evaluator/my_evaluator.yaml",
+    "use_reasoning": False,
+    "model_type": "OPENAI",
+    "model_name": "gpt-4o",
+})
 
-@pytest.fixture
-def evaluator_config():
-    return OmegaConf.create({
-        'eval_type': 'myEvaluator',
-        'model_type': 'OPENAI',
-        'model_name': 'gpt-4o-mini',
-        'temperature': 0.0,
-        'max_tokens': 512,
-        'criteria': ['empathy', 'authenticity'],
-        'scale': [1, 5],
-    })
+evaluator = get_evaluator(agent_name="my_evaluator", configs=configs, lang="en")
 
+sample = {
+    "messages": [
+        {"role": "therapist", "content": "How are you feeling today?"},
+        {"role": "client", "content": "I've been really anxious lately."},
+    ],
+}
 
-@pytest.fixture
-def sample_conversation():
-    return [
-        {"role": "therapist", "content": "Hello, how are you feeling today?"},
-        {"role": "client", "content": "Not great, I've been really anxious lately."},
-        {"role": "therapist", "content": "I hear that you've been struggling with anxiety. That sounds difficult. Can you tell me more about what triggers it?"},
-        {"role": "client", "content": "Work mostly. The deadlines are overwhelming."},
-    ]
-
-
-def test_evaluator_initialization(evaluator_config):
-    evaluator = get_evaluator(configs=evaluator_config)
-    assert evaluator is not None
-
-
-def test_single_evaluation(evaluator_config, sample_conversation):
-    evaluator = get_evaluator(configs=evaluator_config)
-    results = evaluator.evaluate(sample_conversation)
-
-    assert "scores" in results
-    assert "feedback" in results
-    assert "overall" in results
-
-
-def test_multiple_evaluations(evaluator_config, sample_conversation):
-    evaluator = get_evaluator(configs=evaluator_config)
-
-    evaluator.evaluate(sample_conversation)
-    evaluator.evaluate(sample_conversation)
-
-    summary = evaluator.get_summary()
-    assert summary["num_evaluations"] == 2
+results = evaluator.evaluate(sample)
+print(results)
 ```
 
-## Evaluator Types
-
-### Rating Evaluator
-
-Scores conversations on predefined dimensions (1-5 scale).
-
-### Survey Evaluator
-
-Administers standardized questionnaires (PHQ-9, GAD-7, etc.).
-
-### Comparison Evaluator
-
-A/B comparison between two agents or methods.
-
-### Inspection Evaluator
-
-Qualitative analysis with structured feedback.
-
-### Interview Evaluator
-
-Interactive evaluation through follow-up questions.
-
-## Advanced Features
-
-### Turn-Level vs Session-Level
-
-```python
-class TurnLevelEvaluator(BaseEvaluator):
-    def evaluate(self, conversation, **kwargs):
-        turn_results = []
-        for i in range(0, len(conversation), 2):  # Each exchange
-            turn = conversation[i:i+2]
-            result = self._evaluate_turn(turn)
-            turn_results.append(result)
-
-        return {
-            "turn_results": turn_results,
-            "session_aggregate": self._aggregate(turn_results),
-        }
-```
-
-### Multi-Rater Support
-
-```python
-class MultiRaterEvaluator(BaseEvaluator):
-    def __init__(self, configs, **kwargs):
-        super().__init__(configs, **kwargs)
-        self.num_raters = getattr(configs, 'num_raters', 3)
-
-    def evaluate(self, conversation, **kwargs):
-        ratings = []
-        for _ in range(self.num_raters):
-            rating = self._single_evaluation(conversation)
-            ratings.append(rating)
-
-        return {
-            "individual_ratings": ratings,
-            "consensus": self._compute_consensus(ratings),
-            "agreement": self._compute_agreement(ratings),
-        }
-```
+To use the registered defaults instead, call `get_evaluator(agent_name="my_evaluator", lang="en")` without a `configs` argument.
 
 ## Checklist
 
 Before submitting your new evaluator:
 
-- [ ] Evaluator class in `patienthub/evaluators/`
-- [ ] Registered in `__init__.py`
-- [ ] Dimension definitions (if applicable)
-- [ ] Configuration file
-- [ ] Unit tests passing
+- [ ] Evaluator class subclassing `LLMJudge` in `patienthub/evaluators/`
+- [ ] Config dataclass subclassing `LLMJudgeConfig` with an `agent_name` and `prompt_path`
+- [ ] Both registered in `EVALUATOR_REGISTRY` and `EVALUATOR_CONFIG_REGISTRY`
+- [ ] Prompt YAML with `sys_prompt` and `dimensions`
+- [ ] Verified end-to-end: `patienthub evaluate evaluator=my_evaluator`
 - [ ] Documentation updated
-- [ ] Example usage: `python -m examples.evaluate evaluator=yourEvaluator`
+
+## See Also
+
+- [Evaluators Overview](../components/evaluators/overview.md)
+- [Evaluation Guide](../guide/evaluation.md)

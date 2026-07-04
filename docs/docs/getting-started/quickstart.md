@@ -14,7 +14,7 @@ The simplest way to start is with the CLI:
 patienthub simulate
 ```
 
-This runs a therapy session with default settings (talkDep client, user therapist).
+This runs a therapy session with default settings (patientPsi client, user therapist).
 
 ## Customize the Simulation
 
@@ -60,7 +60,7 @@ config = OmegaConf.create({
 })
 
 # Load the client
-client = get_client(configs=config, lang='en')
+client = get_client(agent_name='patientPsi', configs=config, lang='en')
 
 # Generate responses
 response = client.generate_response("Hello, how are you feeling today?")
@@ -69,10 +69,11 @@ print(response)
 
 ## Interactive Web Demo
 
-Launch the Chainlit web interface:
+Launch the Chainlit web interface (Chainlit is an optional `dev` dependency):
 
 ```bash
-chainlit run app.py
+uv sync --extra dev
+uv run chainlit run examples/chainlit.py
 ```
 
 Then open [http://localhost:8000](http://localhost:8000) in your browser.

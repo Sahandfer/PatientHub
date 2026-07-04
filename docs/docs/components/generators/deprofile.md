@@ -1,4 +1,4 @@
-# Deprofile Generator
+# Deprofile
 
 > Decomposing Clinical Profiles for Mental Health Patient Simulation
 
@@ -9,11 +9,11 @@ constructs timeline memory, and saves a role-playable character file.
 
 ## Overview
 
-| Property   | Value                                  |
-| ---------- | -------------------------------------- |
-| **Key**    | `deprofile`                            |
+| Property   | Value                                                          |
+| ---------- | -------------------------------------------------------------- |
+| **Key**    | `deprofile`                                                    |
 | **Type**   | Matching Counseling/Asessment Dialogue & Social-media Timeline |
-| **Output** | Deprofile character profile            |
+| **Output** | Deprofile character profile                                    |
 
 ## What This Generator Does
 
@@ -84,7 +84,7 @@ timeline items before calling `generate_character()`.
 
 The client role-play prompt uses the final character file. Clinical positive and
 negative symptoms are rendered into natural-language descriptions from the
-`symptom_descriptions` section of `constants.json` (see *Localization constants*
+`symptom_descriptions` section of `constants.json` (see _Localization constants_
 below), and the symptom timeline is woven into the matching positive symptoms
 (timeline symptoms with no listed positive symptom are shown as an extra timeline
 block). For life events, the Deprofile client prefers
@@ -121,39 +121,39 @@ character = generator.generate_character()
 `lang` is set by `get_generator(..., lang="zh" | "en")`. It selects the
 language-specific extraction / memory-card prompt templates and the localized
 constants (Big Five guidance, relative-time phrasing, and — on the client —
-symptom descriptions). See *Localization constants* below.
+symptom descriptions). See _Localization constants_ below.
 
 ## Configuration
 
-| Parameter | Type | Default | Description |
-| --------- | ---- | ------- | ----------- |
-| `profile_id` | string | `0069` | Clinical profile key to load from `deprofiles_complete_index.json` |
-| `candidate_rank` | int | `0` | Which indexed or rematched candidate to use |
-| `resource_dir` | string | `data/resources/Deprofile` | Directory containing the fixed Deprofile resource files |
-| `social_profiles_path` | string | `data/resources/Deprofile/social_user_profiles.json` | Social profile catalog used only when rematching is needed |
-| `prompt_path` | string | `data/prompts/generator/deprofile.yaml` | Prompt templates for timeline extraction and memory cards |
-| `output_path` | string | `data/characters/deprofile.json` | JSON array file where generated characters are saved |
-| `symptom_similarity_threshold` | float | `0.5` | Minimum symptom overlap for rematched candidates |
-| `personality_similarity_threshold` | float | `0.8` | Minimum Big Five cosine similarity for rematched candidates |
-| `coc_horizon_days` | int | `90` | Relative-day horizon used when building timeline memory |
-| `coc_max_items` | int | `80` | Maximum timeline items processed per timeline type |
-| `coc_episode_window_days` | int | `7` | Bucket size for grouping timeline nodes into episodes |
-| `coc_max_symptoms_per_card` | int | `3` | Max symptom lines rendered per memory card |
-| `coc_max_events_per_card` | int | `2` | Max life-event lines rendered per memory card |
+| Parameter                          | Type   | Default                                              | Description                                                        |
+| ---------------------------------- | ------ | ---------------------------------------------------- | ------------------------------------------------------------------ |
+| `profile_id`                       | string | `0069`                                               | Clinical profile key to load from `deprofiles_complete_index.json` |
+| `candidate_rank`                   | int    | `0`                                                  | Which indexed or rematched candidate to use                        |
+| `resource_dir`                     | string | `data/resources/Deprofile`                           | Directory containing the fixed Deprofile resource files            |
+| `social_profiles_path`             | string | `data/resources/Deprofile/social_user_profiles.json` | Social profile catalog used only when rematching is needed         |
+| `prompt_path`                      | string | `data/prompts/generator/deprofile.yaml`              | Prompt templates for timeline extraction and memory cards          |
+| `output_path`                      | string | `data/characters/deprofile.json`                     | JSON array file where generated characters are saved               |
+| `symptom_similarity_threshold`     | float  | `0.5`                                                | Minimum symptom overlap for rematched candidates                   |
+| `personality_similarity_threshold` | float  | `0.8`                                                | Minimum Big Five cosine similarity for rematched candidates        |
+| `coc_horizon_days`                 | int    | `90`                                                 | Relative-day horizon used when building timeline memory            |
+| `coc_max_items`                    | int    | `80`                                                 | Maximum timeline items processed per timeline type                 |
+| `coc_episode_window_days`          | int    | `7`                                                  | Bucket size for grouping timeline nodes into episodes              |
+| `coc_max_symptoms_per_card`        | int    | `3`                                                  | Max symptom lines rendered per memory card                         |
+| `coc_max_events_per_card`          | int    | `2`                                                  | Max life-event lines rendered per memory card                      |
 
 ## Required Resource Files
 
 With the default `resource_dir`, Deprofile reads these fixed file names:
 
-| File | Keyed By | Required When | Purpose |
-| ---- | -------- | ------------- | ------- |
-| `deprofiles_complete_index.json` | `profile_id` | Always | Clinical profile, risks, symptoms, Big Five, and optional indexed candidates |
-| `assessment_dialogues.json` | `profile_id` | Always | Doctor-user assessment dialogue snippets |
-| `counseling_dialogues.json` | `profile_id` | Always | Consultant-patient counseling dialogue snippets |
-| `symptom_timelines.json` | `social_user_id` | Always for selected social user | Social posts labeled as symptom evidence |
-| `life_event_timelines.json` | `social_user_id` | Always for selected social user | Social posts labeled as life-event evidence |
-| `social_user_profiles.json` | `social_user_id` | Only for rematch mode | Demographics, Big Five, and social symptom labels used to find candidates |
-| `constants.json` | section → lang | Always | Localized display text: `symptom_descriptions`, `BFI`, `days` |
+| File                             | Keyed By         | Required When                   | Purpose                                                                      |
+| -------------------------------- | ---------------- | ------------------------------- | ---------------------------------------------------------------------------- |
+| `deprofiles_complete_index.json` | `profile_id`     | Always                          | Clinical profile, risks, symptoms, Big Five, and optional indexed candidates |
+| `assessment_dialogues.json`      | `profile_id`     | Always                          | Doctor-user assessment dialogue snippets                                     |
+| `counseling_dialogues.json`      | `profile_id`     | Always                          | Consultant-patient counseling dialogue snippets                              |
+| `symptom_timelines.json`         | `social_user_id` | Always for selected social user | Social posts labeled as symptom evidence                                     |
+| `life_event_timelines.json`      | `social_user_id` | Always for selected social user | Social posts labeled as life-event evidence                                  |
+| `social_user_profiles.json`      | `social_user_id` | Only for rematch mode           | Demographics, Big Five, and social symptom labels used to find candidates    |
+| `constants.json`                 | section → lang   | Always                          | Localized display text: `symptom_descriptions`, `BFI`, `days`                |
 
 The resource files are catalogs: each top-level key identifies either a clinical
 profile or a social user. The selected `profile_id` must exist in the three
@@ -166,11 +166,11 @@ timeline catalogs.
 kept out of both the prompt templates and the Python source. It has three
 sections, each keyed by language (`en` / `zh`):
 
-| Section | Purpose |
-| ------- | ------- |
+| Section                | Purpose                                                                                                        |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `symptom_descriptions` | Natural-language `positive` / `negative` text per clinical task label, used by the client to describe symptoms |
-| `BFI` | Big Five trait guidance keyed by trait and level (`Low` / `Medium` / `High`) |
-| `days` | Relative-time phrase templates (`today`, `yesterday`, `days_ago`, `weeks_ago`, …) |
+| `BFI`                  | Big Five trait guidance keyed by trait and level (`Low` / `Medium` / `High`)                                   |
+| `days`                 | Relative-time phrase templates (`today`, `yesterday`, `days_ago`, `weeks_ago`, …)                              |
 
 `get_constant_dict(section, lang)` reads a section and **falls back to `zh`** when
 the requested language is missing or empty. Both `en` and `zh` are populated for
@@ -186,14 +186,14 @@ codes) kept as the `SOCIAL_SYMPTOM_TO_CLINICAL` constant in
 
 Use this table before editing data:
 
-| Situation | Add / Update These Files | Notes |
-| --------- | ------------------------ | ----- |
-| Use an existing curated Deprofile profile | No new files | Set `profile_id` and `candidate_rank`; the existing `candidate_id` chooses a social user |
-| Add a new clinical profile and already know the social user | `deprofiles_complete_index.json`, `assessment_dialogues.json`, `counseling_dialogues.json`, `symptom_timelines.json`, `life_event_timelines.json` | Put the social user in `candidate_id`; `social_user_profiles.json` is not required for index mode |
-| Add a new clinical profile but do not know which social user to use | Same as above, plus `social_user_profiles.json` entries for candidate social users | Leave `candidate_id` empty; the generator will rematch using demographics, symptoms, and Big Five |
-| Add a new social-media candidate for future matching | `social_user_profiles.json`, `symptom_timelines.json`, `life_event_timelines.json` | This does not create a patient by itself; a clinical `profile_id` is still needed |
-| Start from raw social-media posts only | Preprocess outside this generator first | Convert raw posts into Big Five, supported symptom labels, demographic fields, and the two timeline files |
-| Add only assessment/counseling dialogue | Not enough | A complete Deprofile character also needs a clinical profile and both timelines |
+| Situation                                                           | Add / Update These Files                                                                                                                          | Notes                                                                                                     |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Use an existing curated Deprofile profile                           | No new files                                                                                                                                      | Set `profile_id` and `candidate_rank`; the existing `candidate_id` chooses a social user                  |
+| Add a new clinical profile and already know the social user         | `deprofiles_complete_index.json`, `assessment_dialogues.json`, `counseling_dialogues.json`, `symptom_timelines.json`, `life_event_timelines.json` | Put the social user in `candidate_id`; `social_user_profiles.json` is not required for index mode         |
+| Add a new clinical profile but do not know which social user to use | Same as above, plus `social_user_profiles.json` entries for candidate social users                                                                | Leave `candidate_id` empty; the generator will rematch using demographics, symptoms, and Big Five         |
+| Add a new social-media candidate for future matching                | `social_user_profiles.json`, `symptom_timelines.json`, `life_event_timelines.json`                                                                | This does not create a patient by itself; a clinical `profile_id` is still needed                         |
+| Start from raw social-media posts only                              | Preprocess outside this generator first                                                                                                           | Convert raw posts into Big Five, supported symptom labels, demographic fields, and the two timeline files |
+| Add only assessment/counseling dialogue                             | Not enough                                                                                                                                        | A complete Deprofile character also needs a clinical profile and both timelines                           |
 
 ## Candidate Selection Modes
 
@@ -270,13 +270,8 @@ Top-level object keyed by `profile_id`:
       "Agreeableness": 5,
       "Neuroticism": 7
     },
-    "positive_symptoms": [
-      "任务-情绪-情绪低落",
-      "任务-睡眠-存在睡眠问题"
-    ],
-    "negative_symptoms": [
-      "任务-自杀-存在自杀倾向"
-    ],
+    "positive_symptoms": ["任务-情绪-情绪低落", "任务-睡眠-存在睡眠问题"],
+    "negative_symptoms": ["任务-自杀-存在自杀倾向"],
     "summation": "Brief clinical summary.",
     "depression_risk": 2,
     "suicide_risk": 0,
@@ -313,8 +308,8 @@ Top-level object keyed by the same `profile_id`:
 ```json
 {
   "NEW_PROFILE_001": [
-    {"role": "doctor", "content": "最近睡眠怎么样？"},
-    {"role": "user", "content": "睡得很浅，经常醒。"}
+    { "role": "doctor", "content": "最近睡眠怎么样？" },
+    { "role": "user", "content": "睡得很浅，经常醒。" }
   ]
 }
 ```
@@ -328,8 +323,8 @@ Top-level object keyed by the same `profile_id`:
 ```json
 {
   "NEW_PROFILE_001": [
-    {"role": "consultant", "content": "这样确实很难受。"},
-    {"role": "patient", "content": "嗯，我最近压力很大。"}
+    { "role": "consultant", "content": "这样确实很难受。" },
+    { "role": "patient", "content": "嗯，我最近压力很大。" }
   ]
 }
 ```
@@ -355,10 +350,7 @@ social user ID:
       "Agreeableness": 5,
       "Neuroticism": 7
     },
-    "symptoms": [
-      "Depressed_Mood",
-      "sleep_disturbance"
-    ],
+    "symptoms": ["Depressed_Mood", "sleep_disturbance"],
     "life_events": true,
     "prompt_count": 38
   }
@@ -374,26 +366,26 @@ Important constraints:
 
 Supported social symptom labels are:
 
-| Social Label | Clinical Label |
-| ------------ | -------------- |
-| `Catatonic_behavior` | `任务-躯体症状-运动性迟滞` |
-| `Decreased_energy_tiredness_fatigue` | `任务-精神状态-疲倦` |
-| `Depressed_Mood` | `任务-情绪-情绪低落` |
-| `Hyperactivity_agitation` | `任务-躯体症状-运动性激越` |
-| `Inattention` | `任务-精神状态-注意力不集中` |
-| `Indecisiveness` | `任务-精神状态-选择困难` |
-| `Suicidal_ideas` | `任务-自杀-存在自杀倾向` |
-| `Worthlessness_and_guilty` | `任务-自杀-自我价值感低` |
-| `diminished_emotional_expression` | `任务-兴趣-情感淡漠` |
-| `drastical_shift_in_mood_and_energy` | `任务-筛查-躁狂` |
-| `fear_about_social_situations` | `任务-社会功能-避免与人接触` |
-| `fear_of_gaining_weight` | `任务-食欲-显著体重变化` |
-| `loss_of_interest_or_motivation` | `任务-兴趣-兴趣丧失` |
-| `pessimism` | `任务-自杀-有无望感` |
-| `poor_memory` | `任务-精神状态-记忆力下降` |
-| `sleep_disturbance` | `任务-睡眠-存在睡眠问题` |
-| `somatic_symptoms_sensory` | `任务-躯体症状-躯体不适` |
-| `weight_and_appetite_change` | `任务-食欲-食欲存在问题` |
+| Social Label                         | Clinical Label               |
+| ------------------------------------ | ---------------------------- |
+| `Catatonic_behavior`                 | `任务-躯体症状-运动性迟滞`   |
+| `Decreased_energy_tiredness_fatigue` | `任务-精神状态-疲倦`         |
+| `Depressed_Mood`                     | `任务-情绪-情绪低落`         |
+| `Hyperactivity_agitation`            | `任务-躯体症状-运动性激越`   |
+| `Inattention`                        | `任务-精神状态-注意力不集中` |
+| `Indecisiveness`                     | `任务-精神状态-选择困难`     |
+| `Suicidal_ideas`                     | `任务-自杀-存在自杀倾向`     |
+| `Worthlessness_and_guilty`           | `任务-自杀-自我价值感低`     |
+| `diminished_emotional_expression`    | `任务-兴趣-情感淡漠`         |
+| `drastical_shift_in_mood_and_energy` | `任务-筛查-躁狂`             |
+| `fear_about_social_situations`       | `任务-社会功能-避免与人接触` |
+| `fear_of_gaining_weight`             | `任务-食欲-显著体重变化`     |
+| `loss_of_interest_or_motivation`     | `任务-兴趣-兴趣丧失`         |
+| `pessimism`                          | `任务-自杀-有无望感`         |
+| `poor_memory`                        | `任务-精神状态-记忆力下降`   |
+| `sleep_disturbance`                  | `任务-睡眠-存在睡眠问题`     |
+| `somatic_symptoms_sensory`           | `任务-躯体症状-躯体不适`     |
+| `weight_and_appetite_change`         | `任务-食欲-食欲存在问题`     |
 
 ### `symptom_timelines.json`
 

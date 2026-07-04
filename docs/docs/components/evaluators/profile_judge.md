@@ -69,14 +69,14 @@ from patienthub.utils import load_json
 session = load_json("data/sessions/default/badtherapist.json")
 
 configs = OmegaConf.create({
-    "agent_type": "profile_judge",
+    "agent_name": "profile_judge",
     "prompt_path": "data/prompts/evaluator/client_profile.yaml",
     "use_reasoning": False,
     "model_type": "OPENAI",
     "model_name": "gpt-4o",
 })
 
-evaluator = get_evaluator(configs=configs, lang="en")
+evaluator = get_evaluator(agent_name="profile_judge", configs=configs, lang="en")
 results = evaluator.evaluate(session)
 print(results)
 ```

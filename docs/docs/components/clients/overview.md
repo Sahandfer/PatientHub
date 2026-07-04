@@ -8,20 +8,22 @@ Client agents simulate patients/clients in therapy interactions.
 
 ## Available Clients
 
-| Client                                | Key            | Description                                 |
-| ------------------------------------- | -------------- | ------------------------------------------- |
-| [**SAPS**](./saps.md)                 | `saps`         | State-aware medical patient                 |
-| [**ConsistentMI**](./consistentmi.md) | `consistentMI` | MI client with stage transitions (ACL 2025) |
-| [**Eeyore**](./eeyore.md)             | `eeyore`       | Depression simulation (ACL 2025)            |
-| [**AnnaAgent**](./annaagent.md)       | `annaAgent`    | Multi-session with memory (ACL 2025)        |
-| [**AdaptiveVP**](./adaptivevp.md)     | `adaptiveVP`   | Nurse training simulation (ACL 2025)        |
-| [**SimPatient**](./simpatient.md)     | `simPatient`   | Cognitive model updates (CHI 2025)          |
-| [**TalkDep**](./talkdep.md)           | `talkDep`      | Depression screening (CIKM 2025)            |
-| [**ClientCast**](./clientcast.md)     | `clientCast`   | Psychotherapy assessment                    |
-| [**Psyche**](./psyche.md)             | `psyche`       | Psychiatric assessment                      |
-| [**PatientPsi**](./patientpsi.md)     | `patientPsi`   | CBT-focused patient (EMNLP 2024)            |
-| [**RoleplayDoh**](./roleplaydoh.md)   | `roleplayDoh`  | Principle-based simulation (EMNLP 2024)     |
-| [**User**](./user.md)                 | `user`         | Human input client                          |
+| Client                                | Key            | Description                                    |
+| ------------------------------------- | -------------- | ---------------------------------------------- |
+| [**SAPS**](./saps.md)                 | `saps`         | State-aware medical patient                    |
+| [**ConsistentMI**](./consistentmi.md) | `consistentMI` | MI client with stage transitions (ACL 2025)    |
+| [**Eeyore**](./eeyore.md)             | `eeyore`       | Depression simulation (ACL 2025)               |
+| [**AnnaAgent**](./annaagent.md)       | `annaAgent`    | Multi-session with memory (ACL 2025)           |
+| [**AdaptiveVP**](./adaptivevp.md)     | `adaptiveVP`   | Nurse training simulation (ACL 2025)           |
+| [**SimPatient**](./simpatient.md)     | `simPatient`   | Cognitive model updates (CHI 2025)             |
+| [**TalkDep**](./talkdep.md)           | `talkDep`      | Depression screening (CIKM 2025)               |
+| [**ClientCast**](./clientcast.md)     | `clientCast`   | Psychotherapy assessment                       |
+| [**Psyche**](./psyche.md)             | `psyche`       | Psychiatric assessment                         |
+| [**PatientPsi**](./patientpsi.md)     | `patientPsi`   | CBT-focused patient (EMNLP 2024)               |
+| [**RoleplayDoh**](./roleplaydoh.md)   | `roleplayDoh`  | Principle-based simulation (EMNLP 2024)        |
+| [**PatientZero**](./patientzero.md)   | `patientZero`  | Synthetic clinical records from disease priors |
+| [**Deprofile**](./deprofile.md)       | `deprofile`    | Decomposed clinical profile + social timeline  |
+| [**User**](./user.md)                 | `user`         | Human input client                             |
 
 ## Listing Available Clients
 
@@ -109,19 +111,14 @@ class Response(BaseModel):
     )
 ```
 
-Some clients include additional fields:
+Most clients (including PatientPsi and ConsistentMI) do not wrap their output in this schema, their `generate_response()` returns the chat-model result object, from which only `.content` is exposed:
 
 ```python
-# PatientPsi response
-class Response(BaseModel):
-    content: str
-    # Internal reasoning (not shown to therapist)
-
-# ConsistentMI response
-class Response(BaseModel):
-    content: str
-    action: str  # Selected action type
+response = client.generate_response("How have you been feeling lately?")
+print(response.content)
 ```
+
+Some clients do return a richer structured response. For example, AdaptiveVP returns a `Response` with `content`, `inner_monologue`, and `non_verbal` fields.
 
 ## By Focus Area
 
@@ -152,7 +149,7 @@ class Response(BaseModel):
 You can run the following command to create the necessary files for a new client:
 
 ```bash
-patienthub create generator.gen_agent_name=client generator.gen_agent_name=<agent_name>
+patienthub create agent_type=client agent_name=<agent_name>
 ```
 
 This creates the following two files and registers the client in `__init__.py`:

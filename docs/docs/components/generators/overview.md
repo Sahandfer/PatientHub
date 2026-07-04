@@ -4,13 +4,13 @@ Generators create synthetic character files (profiles) for use with client agent
 
 ## Available Generators
 
-| Generator                                   | Key          | Description                                                        |
-| ------------------------------------------- | ------------ | ------------------------------------------------------------------ |
-| [**AnnaAgent Generator**](./annaagent.md)   | `annaAgent`  | Multi-session profiles with scales and memory states               |
-| [**ClientCast Generator**](./clientcast.md) | `clientCast` | Profiles from conversation excerpts via Big Five + clinical scales |
-| [**Deprofile Generator**](./deprofile.md) | `deprofile` | Clinical/social profile assembly with matched timelines and memory cards |
-| [**PatientZero Generator**](./patientzero.md) | `patientZero` | Disease-grounded synthetic patient records with sampled priors     |
-| [**Psyche Generator**](./psyche.md)         | `psyche`     | MFC psychiatric profiles for assessment training                   |
+| Generator                           | Key           | Description                                                              |
+| ----------------------------------- | ------------- | ------------------------------------------------------------------------ |
+| [**AnnaAgent**](./annaagent.md)     | `annaAgent`   | Multi-session profiles with scales and memory states                     |
+| [**ClientCast**](./clientcast.md)   | `clientCast`  | Profiles from conversation excerpts via Big Five + clinical scales       |
+| [**Deprofile**](./deprofile.md)     | `deprofile`   | Clinical/social profile assembly with matched timelines and memory cards |
+| [**PatientZero**](./patientzero.md) | `patientZero` | Disease-grounded synthetic patient records with sampled priors           |
+| [**Psyche**](./psyche.md)           | `psyche`      | MFC psychiatric profiles for assessment training                         |
 
 ## Listing Available Generators
 

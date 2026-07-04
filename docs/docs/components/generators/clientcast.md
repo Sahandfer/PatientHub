@@ -1,4 +1,4 @@
-# ClientCast Generator
+# ClientCast
 
 > Towards a Client-Centered Assessment of LLM Therapists by Client Simulation
 
@@ -41,18 +41,18 @@ generator.generate_character()
 
 ## Configuration
 
-| Parameter      | Type   | Default                                       | Description                                      |
-| -------------- | ------ | --------------------------------------------- | ------------------------------------------------ |
-| `prompt_path`  | string | `data/prompts/generator/clientCast.yaml`      | Path to prompt file                              |
-| `input_dir`    | string | `data/resources/ClientCast/human_data.json`   | Path to input conversation JSON                  |
-| `symptoms_dir` | string | `data/resources/ClientCast/symptoms.json`     | Path to symptom item definitions                 |
-| `output_dir`   | string | `data/characters/clientCast.json`             | Path where the generated character is saved      |
-| `data_idx`     | int    | `0`                                           | Index of the conversation to use from input file |
-| `model_type`   | string | `"OPENAI"`                                    | Model provider key                               |
-| `model_name`   | string | `"gpt-4o"`                                    | Model identifier                                 |
-| `temperature`  | float  | `0.7`                                         | Sampling temperature                             |
-| `max_tokens`   | int    | `8192`                                        | Max response tokens                              |
-| `max_retries`  | int    | `3`                                           | API retry attempts                               |
+| Parameter      | Type   | Default                                     | Description                                      |
+| -------------- | ------ | ------------------------------------------- | ------------------------------------------------ |
+| `prompt_path`  | string | `data/prompts/generator/clientCast.yaml`    | Path to prompt file                              |
+| `input_dir`    | string | `data/resources/ClientCast/human_data.json` | Path to input conversation JSON                  |
+| `symptoms_dir` | string | `data/resources/ClientCast/symptoms.json`   | Path to symptom item definitions                 |
+| `output_dir`   | string | `data/characters/clientCast.json`           | Path where the generated character is saved      |
+| `data_idx`     | int    | `0`                                         | Index of the conversation to use from input file |
+| `model_type`   | string | `"OPENAI"`                                  | Model provider key                               |
+| `model_name`   | string | `"gpt-4o"`                                  | Model identifier                                 |
+| `temperature`  | float  | `0.7`                                       | Sampling temperature                             |
+| `max_tokens`   | int    | `8192`                                      | Max response tokens                              |
+| `max_retries`  | int    | `3`                                         | API retry attempts                               |
 
 ## Input Data Format
 
@@ -62,8 +62,8 @@ The input file is a JSON array of conversation objects:
 [
   {
     "messages": [
-      {"role": "Therapist", "content": "What brings you here today?"},
-      {"role": "Client", "content": "I've been feeling really low lately..."}
+      { "role": "Therapist", "content": "What brings you here today?" },
+      { "role": "Client", "content": "I've been feeling really low lately..." }
     ]
   }
 ]
@@ -86,13 +86,22 @@ The input file is a JSON array of conversation objects:
     "resistance": "Low – the client is open to suggestions."
   },
   "big_five": {
-    "Openness": {"score_percent": 62, "explanation": "..."},
-    "Conscientiousness": {"score_percent": 55, "explanation": "..."}
+    "Openness": { "score_percent": 62, "explanation": "..." },
+    "Conscientiousness": { "score_percent": 55, "explanation": "..." }
   },
   "symptoms": {
-    "PHQ-9": {"1": {"identified": true, "severity_level": 2, "severity_label": "More than half the days", "explanation": "..."}},
-    "GAD-7": {"1": {"identified": true, "severity_level": 1, "explanation": "..."}},
-    "OQ-45": {"1": {"identified": false, "explanation": "..."}}
+    "PHQ-9": {
+      "1": {
+        "identified": true,
+        "severity_level": 2,
+        "severity_label": "More than half the days",
+        "explanation": "..."
+      }
+    },
+    "GAD-7": {
+      "1": { "identified": true, "severity_level": 1, "explanation": "..." }
+    },
+    "OQ-45": { "1": { "identified": false, "explanation": "..." } }
   }
 }
 ```

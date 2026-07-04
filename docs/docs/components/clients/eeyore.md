@@ -47,11 +47,15 @@ print(response)
 
 ## Configuration
 
-| Option        | Description            | Default                           |
-| ------------- | ---------------------- | --------------------------------- |
-| `prompt_path` | Path to prompt file    | `data/prompts/client/eeyore.yaml` |
-| `data_path`   | Path to character file | `data/characters/eeyore.json`     |
-| `data_idx`    | Character index        | `0`                               |
+Unlike most clients (which default to the OpenAI model), Eeyore defaults to a **local** served model:
+
+| Option        | Description            | Default                                                 |
+| ------------- | ---------------------- | ------------------------------------------------------- |
+| `prompt_path` | Path to prompt file    | `data/prompts/client/eeyore.yaml`                       |
+| `data_path`   | Path to character file | `data/characters/eeyore.json`                           |
+| `data_idx`    | Character index        | `0`                                                     |
+| `model_type`  | Model provider key     | `"LOCAL"`                                               |
+| `model_name`  | Model identifier       | `hosted_vllm//<path_to_weights>/Eeyore_llama3.1_8B`     |
 
 ## Character Data Format
 

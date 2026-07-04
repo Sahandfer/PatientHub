@@ -1,4 +1,4 @@
-# PatientZero Generator
+# PatientZero
 
 > Scaling Synthetic Patient Agents to Real-World Distributions without Real Patient Data
 
@@ -45,16 +45,16 @@ The disease outline `O` is used as a latent scaffold and is not part of the role
 
 The default PatientZero resources currently include the following diseases. These entries have the required raw outline, standardized disease outline, disease-specific attribute priors, and examination references, so they can be used directly as `disease_key` values.
 
-| Disease Key | Disease Name |
-| ----------- | ------------ |
-| `adhd` | ADHD |
+| Disease Key        | Disease Name     |
+| ------------------ | ---------------- |
+| `adhd`             | ADHD             |
 | `anxiety_disorder` | Anxiety Disorder |
 | `bipolar_disorder` | Bipolar Disorder |
-| `depression` | Depression |
-| `insomnia` | Insomnia |
-| `ocd` | OCD |
-| `ptsd` | PTSD |
-| `schizophrenia` | Schizophrenia |
+| `depression`       | Depression       |
+| `insomnia`         | Insomnia         |
+| `ocd`              | OCD              |
+| `ptsd`             | PTSD             |
+| `schizophrenia`    | Schizophrenia    |
 
 ## Usage
 
@@ -82,14 +82,14 @@ generator.generate_character()
 
 ## Configuration
 
-| Parameter         | Type        | Default                                      | Description                                                     |
-| ----------------- | ----------- | -------------------------------------------- | --------------------------------------------------------------- |
-| `prompt_path`     | string      | `data/prompts/generator/patientZero.yaml`    | Path to PatientZero prompts                                     |
-| `source_dir`      | string      | `data/resources/PatientZero`                 | Folder for source data, priors, examination references, and reusable disease outlines |
-| `output_path`     | string      | `data/characters/patientZero.json`           | Final JSON file where validated records are appended            |
-| `disease_key`     | string      | `depression`                                 | Target disease key, for example `depression` or `insomnia`      |
-| `random_seed`     | int/null    | `None`                                       | Optional seed for reproducible attribute sampling               |                                          |
-| `max_retries`     | int         | `3`                                          | API retry attempts                                              |
+| Parameter     | Type     | Default                                   | Description                                                                           |
+| ------------- | -------- | ----------------------------------------- | ------------------------------------------------------------------------------------- | --- |
+| `prompt_path` | string   | `data/prompts/generator/patientZero.yaml` | Path to PatientZero prompts                                                           |
+| `source_dir`  | string   | `data/resources/PatientZero`              | Folder for source data, priors, examination references, and reusable disease outlines |
+| `output_path` | string   | `data/characters/patientZero.json`        | Final JSON file where validated records are appended                                  |
+| `disease_key` | string   | `depression`                              | Target disease key, for example `depression` or `insomnia`                            |
+| `random_seed` | int/null | `None`                                    | Optional seed for reproducible attribute sampling                                     |     |
+| `max_retries` | int      | `3`                                       | API retry attempts                                                                    |
 
 ## Output Format
 
@@ -165,15 +165,15 @@ The role-play schema requires `patient_profile`, `symptom_trajectory`, and `exam
 
 PatientZero depends on both disease knowledge and attribute priors. With the default paths, the generator expects these files:
 
-| File | Location | Purpose |
-| ---- | -------- | ------- |
-| `raw_outlines.json` | `source_dir` | Human-provided disease knowledge gathered from authoritative sources |
-| `demo_priors.json` | `source_dir` | Global demographic, socioeconomic, lifestyle, and communication distributions |
-| `disease_priors.json` | `source_dir` | Disease-specific overrides for age, sex, severity, or other sampled attributes |
-| `exam_references.json` | `source_dir` | Disease-specific clinical scales and exclusionary findings |
-| `disease_outlines.json` | `source_dir` | Reusable standardized disease outlines used by later generation stages |
+| File                    | Location     | Purpose                                                                        |
+| ----------------------- | ------------ | ------------------------------------------------------------------------------ |
+| `raw_outlines.json`     | `source_dir` | Human-provided disease knowledge gathered from authoritative sources           |
+| `demo_priors.json`      | `source_dir` | Global demographic, socioeconomic, lifestyle, and communication distributions  |
+| `disease_priors.json`   | `source_dir` | Disease-specific overrides for age, sex, severity, or other sampled attributes |
+| `exam_references.json`  | `source_dir` | Disease-specific clinical scales and exclusionary findings                     |
+| `disease_outlines.json` | `source_dir` | Reusable standardized disease outlines used by later generation stages         |
 
-`source_data_dir` contains both human-provided priors and reusable standardized outlines. `disease_outlines.json` may be generated by Stage I, but it is saved beside the source files because it can be reused across future runs.
+`source_dir` contains both human-provided priors and reusable standardized outlines. `disease_outlines.json` may be generated by Stage I, but it is saved beside the source files because it can be reused across future runs.
 
 ## Adding a New Disease
 
@@ -252,7 +252,7 @@ Add one entry to `data/resources/PatientZero/disease_priors.json`. Each override
       "method": "labels are normalized PatientZero sampling weights mapped from source age bands.",
       "labels": {
         "Child": 0.25,
-        "Adult": 0.70,
+        "Adult": 0.7,
         "Elderly": 0.05
       }
     },
@@ -280,7 +280,7 @@ Add one entry to `data/resources/PatientZero/disease_priors.json`. Each override
       ],
       "method": "labels map source severity or impairment categories to mild/moderate/severe.",
       "labels": {
-        "mild": 0.40,
+        "mild": 0.4,
         "moderate": 0.35,
         "severe": 0.25
       }
@@ -289,7 +289,7 @@ Add one entry to `data/resources/PatientZero/disease_priors.json`. Each override
 }
 ```
 
-Only fields that differ from the global priors need to be added. Fields not specified here fall back to `attribute_priors.json`.
+Only fields that differ from the global priors need to be added. Fields not specified here fall back to `demo_priors.json`.
 
 ### 4. Add Examination References
 
@@ -322,7 +322,7 @@ generator = get_generator(agent_name="patientZero", configs=config, lang="en")
 generator.generate_character()
 ```
 
-If the standardized outline is missing, Stage I writes it to `source_data_dir/disease_outlines.json`. The final validated case is appended to `output_path`.
+If the standardized outline is missing, Stage I writes it to `source_dir/disease_outlines.json`. The final validated case is appended to `output_path`.
 
 ## Use Cases
 

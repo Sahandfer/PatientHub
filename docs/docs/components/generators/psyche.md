@@ -1,4 +1,4 @@
-# Psyche Generator
+# Psyche
 
 > A Multi-faceted Patient Simulation Framework for Evaluation of Psychiatric Assessment Conversational Agents
 
@@ -41,16 +41,16 @@ generator.generate_character()
 
 ## Configuration
 
-| Parameter     | Type   | Default                                | Description                                    |
-| ------------- | ------ | -------------------------------------- | ---------------------------------------------- |
-| `prompt_path` | string | `data/prompts/generator/psyche.yaml`   | Path to prompt file                            |
-| `input_dir`   | string | `data/resources/psyche_character.json` | Path to seed JSON (diagnosis, age, sex)        |
-| `output_dir`  | string | `data/characters/Psyche MFC.json`      | Path where the generated character is saved    |
-| `model_type`  | string | `"OPENAI"`                             | Model provider key                             |
-| `model_name`  | string | `"gpt-4o"`                             | Model identifier                               |
-| `temperature` | float  | `0.7`                                  | Sampling temperature                           |
-| `max_tokens`  | int    | `8192`                                 | Max response tokens                            |
-| `max_retries` | int    | `3`                                    | API retry attempts                             |
+| Parameter     | Type   | Default                                | Description                                 |
+| ------------- | ------ | -------------------------------------- | ------------------------------------------- |
+| `prompt_path` | string | `data/prompts/generator/psyche.yaml`   | Path to prompt file                         |
+| `input_dir`   | string | `data/resources/psyche_character.json` | Path to seed JSON (diagnosis, age, sex)     |
+| `output_dir`  | string | `data/characters/Psyche MFC.json`      | Path where the generated character is saved |
+| `model_type`  | string | `"OPENAI"`                             | Model provider key                          |
+| `model_name`  | string | `"gpt-4o"`                             | Model identifier                            |
+| `temperature` | float  | `0.7`                                  | Sampling temperature                        |
+| `max_tokens`  | int    | `8192`                                 | Max response tokens                         |
+| `max_retries` | int    | `3`                                    | API retry attempts                          |
 
 ## Input Data Format
 
@@ -67,11 +67,28 @@ generator.generate_character()
 ```json
 {
   "MFC-Profile": {
-    "Identifying data": {"Age": "40", "Sex": "Female", "Marital status": "Married", "Occupation": "Office worker"},
-    "Chief complaint": {"Description": "I feel overwhelmingly sad and have no energy."},
-    "Present illness": {"Symptom": {"Name": "Persistent sadness", "Length": 24, "Stressor": "work"}},
-    "Past psychiatric history": {"Presence": "No", "Description": null},
-    "Impulsivity": {"Suicidal ideation": "High", "Suicidal plan": "Presence", "Homicide risk": "Low"}
+    "Identifying data": {
+      "Age": "40",
+      "Sex": "Female",
+      "Marital status": "Married",
+      "Occupation": "Office worker"
+    },
+    "Chief complaint": {
+      "Description": "I feel overwhelmingly sad and have no energy."
+    },
+    "Present illness": {
+      "Symptom": {
+        "Name": "Persistent sadness",
+        "Length": 24,
+        "Stressor": "work"
+      }
+    },
+    "Past psychiatric history": { "Presence": "No", "Description": null },
+    "Impulsivity": {
+      "Suicidal ideation": "High",
+      "Suicidal plan": "Presence",
+      "Homicide risk": "Low"
+    }
   },
   "MFC-History": "I grew up in a small town...",
   "MFC-Behavior": {

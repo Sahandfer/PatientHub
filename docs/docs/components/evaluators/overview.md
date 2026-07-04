@@ -37,7 +37,7 @@ from patienthub.utils import load_json
 session = load_json("data/sessions/default/badtherapist.json")
 
 configs = OmegaConf.create({
-    "agent_type": "conv_judge",
+    "agent_name": "conv_judge",
     "prompt_path": "data/prompts/evaluator/client_conv.yaml",
     "granularity": "session",
     "model_type": "OPENAI",
@@ -45,7 +45,7 @@ configs = OmegaConf.create({
     "use_reasoning": False,
 })
 
-evaluator = get_evaluator(configs=configs, lang="en")
+evaluator = get_evaluator(agent_name="conv_judge", configs=configs, lang="en")
 results = evaluator.evaluate(session)
 ```
 
@@ -72,14 +72,14 @@ from patienthub.evaluators import get_evaluator
 from patienthub.utils import load_json
 
 configs = OmegaConf.create({
-    "agent_type": "conv_judge",
+    "agent_name": "conv_judge",
     "prompt_path": "data/prompts/evaluator/client_conv.yaml",
     "granularity": "session",
     "model_type": "OPENAI",
     "model_name": "gpt-4o",
 })
 
-evaluator = get_evaluator(configs=configs, lang="en")
+evaluator = get_evaluator(agent_name="conv_judge", configs=configs, lang="en")
 results = []
 
 for session_path in Path("outputs/").rglob("*.json"):
@@ -90,22 +90,28 @@ for session_path in Path("outputs/").rglob("*.json"):
 
 ## Creating Custom Evaluators
 
-You can create custom evaluators by extending the base judge class:
+You can create custom evaluators by extending the base judge class and pairing it with a config dataclass:
 
 ```python
-from patienthub.evaluators.base import LLMJudge
+from dataclasses import dataclass
+from typing import Any, Dict
+
+from patienthub.evaluators.base import LLMJudge, LLMJudgeConfig
+
+
+@dataclass
+class MyCustomEvaluatorConfig(LLMJudgeConfig):
+    agent_name: str = "my_evaluator"
+    prompt_path: str = "data/prompts/evaluator/my_evaluator.yaml"
+
 
 class MyCustomEvaluator(LLMJudge):
-    def __init__(self, configs):
-        super().__init__(configs)
-        # Initialize your evaluator
-
-    def evaluate(self, data):
-        # Perform evaluation
+    def evaluate(self, data: Dict[str, Any], *args) -> Dict[str, Any]:
+        # Perform evaluation using the prompt-defined dimensions
         return self.evaluate_dimensions(data)
 ```
 
-Then register it:
+Then register both in the registries:
 
 ```python
 # patienthub/evaluators/__init__.py

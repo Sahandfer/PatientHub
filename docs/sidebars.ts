@@ -43,6 +43,8 @@ const sidebars = {
             'components/clients/psyche',
             'components/clients/patientpsi',
             'components/clients/roleplaydoh',
+            'components/clients/patientzero',
+            'components/clients/deprofile',
             'components/clients/user',
           ],
         },

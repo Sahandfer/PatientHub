@@ -1,4 +1,4 @@
-# AnnaAgent Generator
+# AnnaAgent
 
 Creates character files for the AnnaAgent client, supporting multi-session counseling simulations with dynamic memory and clinical scale tracking.
 
@@ -65,8 +65,8 @@ The generator reads from `input_dir/case.json`:
   },
   "report": "...",
   "previous_conversations": [
-    {"role": "Therapist", "content": "..."},
-    {"role": "Client", "content": "..."}
+    { "role": "Therapist", "content": "..." },
+    { "role": "Client", "content": "..." }
   ]
 }
 ```
