@@ -16,6 +16,7 @@ Client agents simulate patients/clients in therapy interactions.
 | [**AnnaAgent**](./annaagent.md)       | `annaAgent`    | Multi-session with memory (ACL 2025)        |
 | [**AdaptiveVP**](./adaptivevp.md)     | `adaptiveVP`   | Nurse training simulation (ACL 2025)        |
 | [**SimPatient**](./simpatient.md)     | `simPatient`   | Cognitive model updates (CHI 2025)          |
+| [**MindVoyager**](./mindvoyager.md)   | `mindVoyager`  | Cognitive diagram disclosure simulation     |
 | [**TalkDep**](./talkdep.md)           | `talkDep`      | Depression screening (CIKM 2025)            |
 | [**ClientCast**](./clientcast.md)     | `clientCast`   | Psychotherapy assessment                    |
 | [**Psyche**](./psyche.md)             | `psyche`       | Psychiatric assessment                      |

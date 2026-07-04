@@ -23,10 +23,9 @@ class MindVoyagerClientConfig(APIModelConfig):
 
 
 class MindVoyagerClient(BaseClient):
-    MAX_EXTERNAL_SITUATIONS = 3
-    RAPPORT_CHECK_INTERVAL = 4
-    RAPPORT_THRESHOLD = 4
-    QUESTION_THRESHOLD = 4
+    rapport_check_interval = 4
+    rapport_threshold = 4
+    question_threshold = 4
     DIFFICULTY_PRESETS = {
         "easy": {
             "openness": "high",
@@ -96,9 +95,6 @@ class MindVoyagerClient(BaseClient):
         return {"situation": "unknown", "reaction": "unknown"}
 
     def build_sys_prompt(self):
-        first = self.visible_experience(0)
-        second = self.visible_experience(1)
-        third = self.visible_experience(2)
         prompt = self.prompts["system_prompt"].render(
             name=self.data.get("name", "Client"),
             openness=str(self.behavior_settings.get("openness", "low")),
@@ -113,12 +109,10 @@ class MindVoyagerClient(BaseClient):
                 if item
             ),
             strategy=self.visible_internal_value("coping_strategies"),
-            situation1=first["situation"],
-            reaction1=first["reaction"],
-            situation2=second["situation"],
-            reaction2=second["reaction"],
-            situation3=third["situation"],
-            reaction3=third["reaction"],
+            external_experiences=[
+                {"number": index + 1, **self.visible_experience(index)}
+                for index, _ in enumerate(self.data.get("external_experiences", []))
+            ],
         )
         system_message = {"role": "system", "content": prompt}
         if not getattr(self, "messages", None):
@@ -129,10 +123,7 @@ class MindVoyagerClient(BaseClient):
             self.messages.insert(0, system_message)
 
     def reveal_next_external(self) -> bool:
-        max_visible = min(
-            self.MAX_EXTERNAL_SITUATIONS,
-            len(self.data.get("external_experiences", [])),
-        )
+        max_visible = len(self.data.get("external_experiences", []))
         if self.visible_external_count >= max_visible:
             return False
         self.visible_external_count += 1
@@ -157,7 +148,7 @@ class MindVoyagerClient(BaseClient):
         if not dialogue:
             return
 
-        rapport_interval = self.RAPPORT_CHECK_INTERVAL
+        rapport_interval = self.rapport_check_interval
         if rapport_interval > 0 and self.turn_count % rapport_interval == 0:
             prompt = self.prompts["openness_critic_prompt"].render(
                 dialogue_context=dialogue
@@ -166,7 +157,7 @@ class MindVoyagerClient(BaseClient):
                 [{"role": "user", "content": prompt}],
                 response_format=OpennessAssessment,
             )
-            if int(result.rating) >= self.RAPPORT_THRESHOLD:
+            if int(result.rating) >= self.rapport_threshold:
                 self.reveal_next_external()
 
         if str(self.behavior_settings.get("metacognition", "low")).lower() == "high":
@@ -189,7 +180,7 @@ class MindVoyagerClient(BaseClient):
                 [{"role": "user", "content": prompt}],
                 response_format=QuestionFacilitationAssessment,
             )
-            if int(result.rating) >= self.QUESTION_THRESHOLD:
+            if int(result.rating) >= self.question_threshold:
                 self.reveal_internal()
 
     def generate_response(self, msg: str):
