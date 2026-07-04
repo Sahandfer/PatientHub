@@ -1,5 +1,6 @@
 from omegaconf import DictConfig
 from dataclasses import dataclass
+import logging
 from typing import Any
 
 from .base import BaseClient
@@ -9,6 +10,8 @@ from patienthub.schemas.mindVoyager import (
     OpennessAssessment,
     QuestionFacilitationAssessment,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -127,12 +130,18 @@ class MindVoyagerClient(BaseClient):
         if self.visible_external_count >= max_visible:
             return False
         self.visible_external_count += 1
+        logger.info(
+            "Revealed external experience %d/%d",
+            self.visible_external_count,
+            max_visible,
+        )
         return True
 
     def reveal_internal(self) -> bool:
         for key in self.INTERNAL_REVEAL_ORDER:
             if key not in self.visible_internal_keys:
                 self.visible_internal_keys.add(key)
+                logger.info("Revealed internal information: %s", key)
                 return True
         return False
 
