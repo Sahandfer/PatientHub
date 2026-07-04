@@ -215,6 +215,11 @@ print(response.content)
 
 ## Character Data Format
 
+MindVoyager profiles are close to PatientPsi-style CBT profiles because both are organized around cognitive diagrams. In the MindVoyager paper, the cognitive elements are derived from Cognitive Conceptualization Diagrams, and the annotations come from the Patient-psi-CM dataset written by experts. In practice, a PatientPsi-style profile can be adapted into MindVoyager format by separating the case into:
+
+- `internal_cognitive_diagram`: relevant history, core beliefs, intermediate beliefs, and coping strategies.
+- `external_experiences`: situations and reactions that can be progressively disclosed.
+
 ```json
 {
   "id": "mindvoyager_001",
