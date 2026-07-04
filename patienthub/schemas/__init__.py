@@ -13,6 +13,7 @@ from .saps import SAPSCharacter
 from .simPatient import SimPatientCharacter
 from .talkDep import TalkDepCharacter
 from .deprofile import DeprofileCharacter
+from .mindVoyager import MindVoyagerCharacter
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +31,7 @@ CLIENT_SCHEMA_REGISTRY = {
     "saps": SAPSCharacter,
     "adaptiveVP": AdaptiveVPCharacter,
     "deprofile": DeprofileCharacter,
+    "mindVoyager": MindVoyagerCharacter,
 }
 
 
@@ -55,6 +57,7 @@ __all__ = [
     "SimPatientCharacter",
     "TalkDepCharacter",
     "DeprofileCharacter",
+    "MindVoyagerCharacter",
     "CLIENT_SCHEMA_REGISTRY",
     "get_profile_schema",
 ]
