@@ -44,10 +44,8 @@ def save_json(data, output_dir: str, overwrite: bool = False):
 
         if isinstance(prev_data, list):
             prev_data.append(data)
-        elif prev_data:
-            prev_data = [prev_data, data]
         else:
-            prev_data = [data]
+            prev_data = [prev_data, data]
 
         with open(output_dir, "w", encoding="utf-8") as f:
             json.dump(prev_data, f, indent=4, ensure_ascii=False)

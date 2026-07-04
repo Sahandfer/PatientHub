@@ -167,7 +167,8 @@ class AdaptiveVPClient(BaseClient):
             [{"role": "system", "content": prompt}],
             response_format=Analysis,
         )
-        score = self.calc_eval_score(res)
+
+        score = max(0, min(self.calc_eval_score(res), len(self.directions) - 1))
         direction = self.directions[score]
 
         # Step 2: Generate a response based on the determined direction

@@ -155,6 +155,7 @@ class ClientCastGenerator(BaseGenerator):
     def generate_symptoms(self):
         full_res = {}
         for disorder, symptoms in self.symptoms.items():
+            full_res.setdefault(disorder, {})
             for i, symptom in enumerate(symptoms):
                 prompt = self.prompts["symptoms_prompt"].render(
                     conversation=self.conv_history, symptom=symptom

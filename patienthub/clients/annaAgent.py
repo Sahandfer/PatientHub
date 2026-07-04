@@ -77,7 +77,7 @@ class AnnaAgentClient(BaseClient):
             response_format=EMOTION_TYPES,
         )
 
-        return res
+        return res if isinstance(res, str) else getattr(res, "content", "Neutral")
 
     def get_emotion_weights(self, emotion_category: str):
         probabilities = {}

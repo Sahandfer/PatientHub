@@ -201,8 +201,9 @@ class ElizaTherapist(BaseTherapist):
 
     def reflect(self, text: str) -> str:
         """Swap first/second person pronouns for more natural responses."""
-        tokens = text.lower().split()
-        return " ".join(self.REFLECTIONS.get(token, token) for token in tokens)
+        return " ".join(
+            self.REFLECTIONS.get(token.lower(), token) for token in text.split()
+        )
 
     def format_response(self, response: str, match: re.Match) -> str:
         """Format response with reflected captured group."""

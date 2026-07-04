@@ -303,8 +303,8 @@ class ConsistentMIClient(BaseClient):
 
     def build_sys_prompt(self):
         self.load_profile()
-        self.personas: List[str] = self.data.get("Personas", [])
-        self.beliefs: List[str] = self.data.get("Beliefs", [])
+        self.personas: List[str] = self.data.get("Personas", []).copy()
+        self.beliefs: List[str] = self.data.get("Beliefs", []).copy()
         personas_and_beliefs = "\n".join(f"- {t}" for t in self.personas + self.beliefs)
 
         sys_prompt = self.prompts["client_system_prompt"].render(

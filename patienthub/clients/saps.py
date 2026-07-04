@@ -123,7 +123,13 @@ class SAPSClient(BaseClient):
 
         state, memory = self.get_state(msg)
 
-        prompt = self.prompts["state_instruction"][state].render(patient_info=memory)
+        instruction = self.prompts["state_instruction"].get(state)
+        if instruction is None:
+            closing = "Thank you, doctor."
+            self.messages.append({"role": "assistant", "content": closing})
+            return closing
+
+        prompt = instruction.render(patient_info=memory)
         messages = [{"role": "system", "content": prompt}] + self.messages
 
         res = self.chat_model.generate(messages=messages)

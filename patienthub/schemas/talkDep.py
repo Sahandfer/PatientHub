@@ -15,7 +15,7 @@ class TalkDepCharacter(BaseCharacter):
     gender: str = Field(...)
     bdi_score: int = Field(...)
     depression_level: str = Field(...)
-    key_negative_symptoms: list[Symptom] | None = Field(..., default_factory=list)
+    key_negative_symptoms: list[Symptom] | None = Field(default_factory=list)
     life_history: list[str] = Field(...)
     social_context: list[str] = Field(...)
     past_interactions: list[str] = Field(...)

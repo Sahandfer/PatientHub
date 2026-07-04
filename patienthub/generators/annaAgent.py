@@ -157,7 +157,7 @@ class AnnaAgentGenerator(BaseGenerator):
         if len(age_events) > 0:
             return age_events.sample(1)["Event"].values[0]
 
-        return self.events_df.sample(1)["Event"].values[0]
+        return self.adult_events.sample(1)["Event"].values[0]
 
     def generate_complaint_chain(self, event: str) -> List[Dict[str, str]]:
         prompt = self.prompts["complaint_chain_generation"].render(

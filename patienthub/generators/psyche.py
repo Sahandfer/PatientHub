@@ -42,7 +42,7 @@ class MFCHistory(BaseModel):
 class PsycheGenerator(BaseGenerator):
     def __init__(self, configs: DictConfig):
         super().__init__(configs)
-        self.data = load_json(configs.generator.input_dir)
+        self.data = load_json(configs.input_dir)
         self.mfc_profile = None
         self.mfc_history = None
         self.mfc_behavior = None
@@ -55,7 +55,7 @@ class PsycheGenerator(BaseGenerator):
             sex=self.data["sex"],
         )
         self.mfc_profile = self.chat_model.generate(
-            [{"role": "system", "content": prompt}], responses_format=MFCProfile
+            [{"role": "system", "content": prompt}], response_format=MFCProfile
         )
 
     def generate_mfc_history(self):
@@ -67,7 +67,7 @@ class PsycheGenerator(BaseGenerator):
             mfc_profile_json=profile_json,
         )
         self.mfc_history = self.chat_model.generate(
-            [{"role": "system", "content": prompt}], responses_format=MFCHistory
+            [{"role": "system", "content": prompt}], response_format=MFCHistory
         )
 
     def generate_mfc_behavior(self):
@@ -81,7 +81,7 @@ class PsycheGenerator(BaseGenerator):
             mfc_history_json=history_json,
         )
         self.mfc_behavior = self.chat_model.generate(
-            [{"role": "system", "content": prompt}], responses_format=MFCBehavior
+            [{"role": "system", "content": prompt}], response_format=MFCBehavior
         )
 
     def generate_character(self):
@@ -90,12 +90,16 @@ class PsycheGenerator(BaseGenerator):
         self.generate_mfc_behavior()
 
         mfc = PsycheCharacter(
-            **{"MFC-Profile": self.mfc_profile, "MFC-History": self.mfc_history.MFC_History, "MFC-Behavior": self.mfc_behavior}
+            **{
+                "MFC-Profile": self.mfc_profile,
+                "MFC-History": self.mfc_history.MFC_History,
+                "MFC-Behavior": self.mfc_behavior,
+            }
         )
 
         save_json(
             data=mfc.model_dump(by_alias=True),
-            output_dir=self.configs.generator.output_dir,
+            output_dir=self.configs.output_dir,
         )
 
     def reset(self):

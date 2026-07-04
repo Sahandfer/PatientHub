@@ -52,7 +52,7 @@ async def setup_client(agent_name: str):
 
     await cl.Message(
         content=(
-            f"**Patient loaded:** `{agent_name}` — *{client.name}*\n\n"
+            f"**Patient loaded:** `{agent_name}`a — *{getattr(client, 'name', '')}*\n\n"
             "You are the therapist. Start the conversation!\n\n"
             "*Tip: change settings in the sidebar to switch patients.*"
         ),
@@ -87,7 +87,7 @@ async def main(message: cl.Message):
         await cl.Message(content=f"Error generating response: `{e}`").send()
         return
 
-    await cl.Message(content=text, author=client.name).send()
+    await cl.Message(content=text, author=getattr(client, "name", "Patient")).send()
 
 
 @cl.on_chat_end

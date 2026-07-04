@@ -36,9 +36,11 @@ class ChatModel:
     def track_usage(self, response):
         """Track token usage and cost from API response using LiteLLM."""
         if hasattr(response, "usage") and response.usage:
-            self.prompt_tokens += response.usage.prompt_tokens or 0
-            self.completion_tokens += response.usage.completion_tokens or 0
-            self.total_tokens += response.usage.total_tokens or 0
+            self.prompt_tokens += getattr(response.usage, "prompt_tokens", 0) or 0
+            self.completion_tokens += (
+                getattr(response.usage, "completion_tokens", 0) or 0
+            )
+            self.total_tokens += getattr(response.usage, "total_tokens", 0) or 0
         try:
             self.total_cost += completion_cost(completion_response=response)
         except Exception:
