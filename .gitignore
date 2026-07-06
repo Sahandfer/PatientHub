@@ -189,5 +189,4 @@ cython_debug/
 *.DS_Store
 
 outputs/
-evaluations/
 .chainlit
