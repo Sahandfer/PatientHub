@@ -1,3 +1,6 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
 from .base import BaseGenerator
 from .psyche import PsycheGenerator, PsycheGeneratorConfig
 from .clientCast import ClientCastGenerator, ClientCastGeneratorConfig

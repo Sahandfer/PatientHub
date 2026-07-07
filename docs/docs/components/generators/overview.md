@@ -64,13 +64,15 @@ the full pipeline and **returns** a character object. It performs no file I/O:
 character = generator.generate_character(seed_record)
 ```
 
-In normal use you do not call this directly — the `generate` CLI validates seeds,
-drives the loop, and saves the returned characters (see below).
+In normal use you do not call this directly — the `generate` CLI drives the loop
+and saves the returned characters, while each generator validates its own seed
+record first (see below).
 
 ## Running Generation via the CLI
 
-The `generate` CLI owns all I/O. It loads seed records, validates each against the
-generator's seed schema, calls `generate_character()`, and saves the results.
+The `generate` CLI owns all I/O: it loads seed records, drives the loop, and saves
+the results. Each record is first validated against the generator's own seed schema
+via `BaseGenerator.prepare_seed`, then passed to `generate_character()`.
 
 ```bash
 # Item-driven: one character per record in an input JSON list

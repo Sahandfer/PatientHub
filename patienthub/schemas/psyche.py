@@ -126,7 +126,7 @@ class PsycheCharacter(BaseCharacter):
     mfc_behavior: MFCBehavior = Field(..., alias="MFC-Behavior")
 
 
-class PsycheSeed:
+class PsycheSeed(BaseModel):
     age: int
     sex: str
     diagnosis: str

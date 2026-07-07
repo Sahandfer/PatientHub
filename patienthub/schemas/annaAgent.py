@@ -43,7 +43,7 @@ class AnnaAgentCharacter(BaseCharacter):
     previous_conversations: list[Message] = Field(default_factory=list)
 
 
-class AnnaAgentSeed:
+class AnnaAgentSeed(BaseModel):
     profile: dict
     report: dict | str = ""
     previous_conversations: list[ConvTurn] = Field(default_factory=list)

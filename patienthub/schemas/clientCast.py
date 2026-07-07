@@ -95,6 +95,6 @@ class ClientCastCharacter(BaseCharacter):
     symptoms: dict = Field(...)  # PHQ-9/GAD-7/OQ-45 structure varies per item
 
 
-class ClientCastSeed:
+class ClientCastSeed(BaseModel):
     conv_id: str | None = None
     messages: list[ConvTurn]

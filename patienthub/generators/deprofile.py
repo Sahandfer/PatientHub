@@ -1,15 +1,18 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
 import math
-from dataclasses import dataclass
+
 from pathlib import Path
 from typing import Any
-
 from omegaconf import DictConfig
+from dataclasses import dataclass
 from pydantic import ValidationError
 
 from .base import BaseGenerator
 from patienthub.configs import APIModelConfig
 from patienthub.schemas import deprofile as ds
-from patienthub.utils import load_json, save_json
+from patienthub.utils import load_json
 
 
 @dataclass
@@ -18,7 +21,6 @@ class DeprofileGeneratorConfig(APIModelConfig):
 
     agent_name: str = "deprofile"
     prompt_path: str = "data/prompts/generator/deprofile.yaml"
-    output_path: str = "data/characters/deprofile.json"
     resource_dir: str = "data/resources/Deprofile"
     social_profiles_path: str = "data/resources/Deprofile/social_user_profiles.json"
     profile_id: str = "0069"
@@ -38,6 +40,7 @@ class DeprofileGenerator(BaseGenerator):
     def __init__(self, configs: DictConfig):
         super().__init__(configs)
         self.resource_dir = self.configs.resource_dir
+        self.profile_id = str(self.configs.profile_id)
         self._symptom_timelines: dict[str, Any] | None = None
         self._life_event_timelines: dict[str, Any] | None = None
 
@@ -56,13 +59,13 @@ class DeprofileGenerator(BaseGenerator):
 
     def load_clinical_profile(self) -> ds.ClinicalProfile:
         profiles = load_json(f"{self.resource_dir}/deprofiles_complete_index.json")
-        profile_id = str(self.configs.profile_id)
+        profile_id = self.profile_id
         return ds.ClinicalProfile.model_validate(profiles[profile_id])
 
     def load_dialogues(
         self,
     ) -> tuple[list[ds.AssessmentMessage], list[ds.CounselingMessage]]:
-        profile_id = str(self.configs.profile_id)
+        profile_id = self.profile_id
         assessment_records = load_json(f"{self.resource_dir}/assessment_dialogues.json")
         counseling_records = load_json(f"{self.resource_dir}/counseling_dialogues.json")
         assessment = [
@@ -207,7 +210,7 @@ class DeprofileGenerator(BaseGenerator):
         if rank < 0 or rank >= len(candidates):
             if not candidates:
                 raise RuntimeError(
-                    f"No social candidate matched profile {self.configs.profile_id}; "
+                    f"No social candidate matched profile {self.profile_id}; "
                     f"stage_counts={counts.model_dump()}"
                 )
             raise IndexError(
@@ -473,22 +476,6 @@ class DeprofileGenerator(BaseGenerator):
             life_event=self.process_timeline("life_event", life_event.timeline),
         )
 
-    def upsert_output(self, character: ds.DeprofileCharacter) -> None:
-        path = Path(self.configs.output_path)
-        records: list[dict[str, Any]] = []
-        if path.exists():
-            records = load_json(str(path))
-            if not isinstance(records, list):
-                raise ValueError(f"Deprofile output must be a JSON list: {path}")
-        dumped = character.model_dump(mode="json")
-        records = [
-            record
-            for record in records
-            if record.get("profile_id") != character.profile_id
-        ]
-        records.append(dumped)
-        save_json(records, str(path), overwrite=True)
-
     def select_candidate(
         self, profile: ds.ClinicalProfile
     ) -> tuple[str, ds.MatchMetadata]:
@@ -502,15 +489,17 @@ class DeprofileGenerator(BaseGenerator):
             )
         return self.select_rematched_candidate(profile)
 
-    def generate_character(self) -> ds.DeprofileCharacter:
+    def generate_character(self, data: dict[str, Any]) -> ds.DeprofileCharacter:
+        # ``profile_id`` may be supplied per-item (list-driven) or via config.
+        self.profile_id = str(data.get("profile_id") or self.configs.profile_id)
         profile = self.load_clinical_profile()
         assessment, counseling = self.load_dialogues()
         user_id, match = self.select_candidate(profile)
         symptom, life_event = self.load_timelines(user_id)
         timeline_memory = self.build_timeline_memory(symptom, life_event)
 
-        character = ds.DeprofileCharacter(
-            profile_id=str(self.configs.profile_id),
+        return ds.DeprofileCharacter(
+            profile_id=self.profile_id,
             clinical_profile=profile,
             assessment_dialogue=assessment,
             counseling_dialogue=counseling,
@@ -548,5 +537,3 @@ class DeprofileGenerator(BaseGenerator):
                 },
             ),
         )
-        self.upsert_output(character)
-        return character

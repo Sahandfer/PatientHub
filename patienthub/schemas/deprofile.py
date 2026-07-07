@@ -270,6 +270,6 @@ class DeprofileCharacter(BaseCharacter):
     provenance: Provenance
 
 
-class DeprofileSeed:
+class DeprofileSeed(BaseModel):
     profile_id: str
     candidate_rank: int = 0

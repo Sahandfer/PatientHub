@@ -196,6 +196,6 @@ class PatientZeroCharacter(BaseCharacter):
     examination_results: ExaminationResults
 
 
-class PatientZeroSeed:
+class PatientZeroSeed(BaseModel):
     disease_key: str
     random_seed: int | None = None
