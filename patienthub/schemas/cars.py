@@ -3,17 +3,6 @@ from pydantic import BaseModel, Field
 from patienthub.schemas.base import BaseCharacter
 
 
-class CarsSource(BaseModel):
-    paper: str = Field(...)
-    location: str = Field(...)
-    status: str = Field(...)
-
-
-class CarsPaperTrace(BaseModel):
-    direct_paper_fields: list[str] = Field(default_factory=list)
-    generated_fields: list[str] = Field(default_factory=list)
-
-
 class CarsDemographics(BaseModel):
     age: str | None = None
     occupation: str | None = None
@@ -21,19 +10,30 @@ class CarsDemographics(BaseModel):
 
 
 class MainCognitiveConceptualizationDiagram(BaseModel):
+    name: str = Field(...)
     relevant_history: str = ""
     core_beliefs: list[str] = Field(default_factory=list)
     intermediate_beliefs: list[str] = Field(default_factory=list)
     coping_strategies: list[str] = Field(default_factory=list)
 
 
+class CarsAutomaticThought(BaseModel):
+    situation: str = Field(...)
+    cognition: str = Field(...)
+    reaction: str = Field(...)
+
+
+class CarsIntermediateBelief(BaseModel):
+    attitude: str = Field(...)
+    rule: str = Field(...)
+    assumption: str = Field(...)
+
+
 class SessionSpecificCognitiveConceptualizationDiagram(BaseModel):
     theme: str = ""
     structured_cbt_strategy: str = ""
-    situation: str = Field(...)
-    automatic_thoughts: list[str] = Field(default_factory=list)
-    intermediate_beliefs: list[str] = Field(default_factory=list)
-    expected_reactions: list[str] = Field(default_factory=list)
+    automatic_thought: CarsAutomaticThought = Field(...)
+    intermediate_belief: CarsIntermediateBelief = Field(...)
     resistance_triggers: list[str] = Field(default_factory=list)
 
 
@@ -80,69 +80,32 @@ class CarsPersonaGenerationOutput(BaseModel):
     chief_complaint: str = Field(...)
 
 
-class CarsGeneratorAutomaticThought(BaseModel):
-    situation: str = Field(...)
-    cognition: str = Field(...)
-    reaction: str = Field(...)
-
-
-class CarsGeneratorIntermediateBelief(BaseModel):
-    attitude: str = Field(...)
-    assumption: str = Field(...)
-    rule: str = Field(...)
-
-
-class CarsGeneratorBelief(BaseModel):
-    theme: str = Field(
-        description=(
-            "CBT theme for the generated session belief, such as session "
-            "structuring, problem solving and homework, goal setting, cognitive "
-            "change, cognitive identification, or therapeutic alliance."
-        )
-    )
-    automatic_thought: CarsGeneratorAutomaticThought = Field(...)
-    intermediate_belief: CarsGeneratorIntermediateBelief = Field(...)
-
-
-class CarsGeneratorEmotionResponse(BaseModel):
-    dialogue_style: str = Field(...)
-    nonverbal_behavior: str = Field(...)
-
-
-class CarsGeneratorPreferencePair(BaseModel):
-    first: str = Field(...)
-    second: str = Field(...)
-
-
-class CarsGeneratorPolarPreferences(BaseModel):
-    positive: CarsGeneratorPreferencePair = Field(...)
-    negative: CarsGeneratorPreferencePair = Field(...)
-
-
-class CarsGeneratorClientCharacteristicsAndPreferences(BaseModel):
-    possible_responses_under_different_emotions: CarsGeneratorEmotionResponse = Field(
-        ...
-    )
-    preferred_counselor_style: CarsGeneratorPolarPreferences = Field(...)
-    other_client_characteristics: CarsGeneratorPolarPreferences = Field(...)
-
-
 class CarsCognitivePatternGenerationOutput(BaseModel):
-    """Paper Appendix A.2 JSON output for CARS cognitive pattern generation."""
+    """CARS cognitive-pattern output in the final runtime character shape."""
 
     background: str = Field(...)
-    beliefs: list[CarsGeneratorBelief] = Field(default_factory=list)
-    client_characteristics_and_preferences: (
-        CarsGeneratorClientCharacteristicsAndPreferences
+    session_specific_cognitive_conceptualization_diagram: (
+        SessionSpecificCognitiveConceptualizationDiagram
     ) = Field(...)
+    preferences: CarsPreferences = Field(...)
+    client_characteristics: CarsClientCharacteristics = Field(...)
+
+
+class CarsDialogueTurn(BaseModel):
+    role: str = Field(...)
+    content: str = Field(...)
+
+
+class CarsSeed(BaseModel):
+    main_ccd: MainCognitiveConceptualizationDiagram = Field(...)
+    mesc_sentences: list[str] = Field(..., min_length=1)
+    dialogue_excerpt: list[CarsDialogueTurn] = Field(...)
 
 
 class CarsCharacter(BaseCharacter):
     name: str = Field(...)
-    source: CarsSource | None = None
-    paper_trace: CarsPaperTrace = Field(default_factory=CarsPaperTrace)
     demographics: CarsDemographics = Field(default_factory=CarsDemographics)
-    persona: str = ""
+    persona: CarsPersonaGenerationOutput = Field(...)
     background: str = ""
     main_cognitive_conceptualization_diagram: (
         MainCognitiveConceptualizationDiagram

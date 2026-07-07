@@ -54,7 +54,7 @@ class CarsClient(BaseClient):
     def render_system_prompt(self) -> str:
         self.initialize_cars_state()
         prompt_data = {
-            "persona": self.data.get("persona", self.data.get("name", "")),
+            "persona": self.json_dump(self.data["persona"]),
             "background": self.data.get("background", ""),
             "preference": self.json_dump(
                 {

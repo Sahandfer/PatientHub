@@ -7,6 +7,7 @@ from .clientCast import ClientCastGenerator, ClientCastGeneratorConfig
 from .annaAgent import AnnaAgentGenerator, AnnaAgentGeneratorConfig
 from .patientZero import PatientZeroGenerator, PatientZeroGeneratorConfig
 from .deprofile import DeprofileGenerator, DeprofileGeneratorConfig
+from .cars import CarsGenerator, CarsGeneratorConfig
 
 
 from omegaconf import DictConfig
@@ -18,6 +19,7 @@ GENERATORS = {
     "annaAgent": AnnaAgentGenerator,
     "patientZero": PatientZeroGenerator,
     "deprofile": DeprofileGenerator,
+    "cars": CarsGenerator,
 }
 
 # Registry of generator configs (for Hydra registration)
@@ -27,6 +29,7 @@ GENERATOR_CONFIG_REGISTRY = {
     "annaAgent": AnnaAgentGeneratorConfig,
     "patientZero": PatientZeroGeneratorConfig,
     "deprofile": DeprofileGeneratorConfig,
+    "cars": CarsGeneratorConfig,
 }
 
 

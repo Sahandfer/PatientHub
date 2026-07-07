@@ -63,7 +63,12 @@ en:
     - Cognition, which refers to the client's thought or appraisal in that situation, emerging automatically and being fully accepted by the client.
     - Reaction, which refers to the manifestation of the psychological problem. Here, only emotional reactions are considered.
     3. The objects or situations of intermediate beliefs and automatic thoughts should be written according to common CBT themes. The common themes are as follows:
-    {{ topic }}
+    - session structuring: agenda setting, recent-status inquiry, homework review
+    - problem solving and homework: homework assignment, homework completion
+    - goal setting: formulation of treatment directions, goal lists
+    - cognitive change: helping the client modify thoughts and cognitions
+    - cognitive identification: helping the client identify and recognize their own thoughts
+    - therapeutic alliance: the client's attitudes toward the self, others, and the therapist
 
     Please note that the generated beliefs should depend on the core beliefs in the cognitive conceptualization diagram and should cover diverse possibilities.
 
@@ -164,7 +169,12 @@ zh:
     - 认知，指来访者在该情境中的想法或评价，这种想法或评价会自动出现并被来访者完全接受。
     - 反应，指心理问题的表现。在这里，仅考虑情绪反应。
     3. 中间信念和自动思维的对象或情境应根据常见 CBT 主题撰写。常见主题如下：
-    {{ topic }}
+    - 会谈结构化：议程设置、近期状态询问、家庭作业回顾
+    - 问题解决与家庭作业：家庭作业布置、家庭作业完成
+    - 目标设置：治疗方向制定、目标列表
+    - 认知改变：帮助来访者修正想法和认知
+    - 认知识别：帮助来访者识别和认识自己的想法
+    - 治疗同盟：来访者对自我、他人和咨询师的态度
 
     请注意，生成的信念应取决于认知概念化图中的核心信念，并应覆盖多样化的可能性。
 

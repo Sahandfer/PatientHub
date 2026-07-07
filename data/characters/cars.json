@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Alex",
+    "demographics": {
+      "age": "23 years old",
+      "occupation": "Unemployed"
+    },
+    "persona": {
+      "name": "Alex",
+      "age": "23 years old",
+      "gender": "Not specified in the paper fragment.",
+      "occupation": "Unemployed",
+      "family_background": "Not specified in the paper fragment.",
+      "interpersonal_relationships": "Not specified in the paper fragment.",
+      "physical_condition": "Not specified in the paper fragment.",
+      "lifestyle": "Not specified in the paper fragment.",
+      "chief_complaint": "Alex is sensitive to structured goal-setting because formal goals can feel like evaluation and proof of incompetence."
+    },
+    "background": "The current counseling topic is treatment goal setting. Alex is asked to discuss treatment goals with the counselor, which can activate his fear that committing to goals will expose failure and make him feel worse.",
+    "main_cognitive_conceptualization_diagram": {
+      "name": "Alex",
+      "relevant_history": "Not specified in the paper fragment.",
+      "core_beliefs": [
+        "I am trapped."
+      ],
+      "intermediate_beliefs": [],
+      "coping_strategies": [
+        "Patients tend to avoid ..."
+      ]
+    },
+    "session_specific_cognitive_conceptualization_diagram": {
+      "theme": "goal setting",
+      "structured_cbt_strategy": "Goal list or agenda setting",
+      "automatic_thought": {
+        "situation": "Discuss treatment goals with a counselor.",
+        "cognition": "Those goals don't work for me, I should avoid setting goals.",
+        "reaction": "Unease, decreased emotional value, and avoidance."
+      },
+      "intermediate_belief": {
+        "attitude": "Formal goals are evaluative and threatening.",
+        "rule": "I should avoid setting goals that could expose failure.",
+        "assumption": "If I set goals seriously but fail to achieve them, it will prove that I am truly incompetent and not worth expecting."
+      },
+      "resistance_triggers": [
+        "Authoritative or commanding goal-setting",
+        "Overly formal treatment goals",
+        "Language that makes the client feel evaluated"
+      ]
+    },
+    "preferences": {
+      "positive": [
+        "Collaborative and non-commanding discussion of what feels real to the client."
+      ],
+      "negative": [
+        "Being too authoritative or commanding makes him feel controlled, increasing his defensiveness and confrontation."
+      ]
+    },
+    "client_characteristics": {
+      "possible_responses_under_different_emotions": [
+        "When uneasy, Alex gives short, avoidant answers and tries to move away from formal goal setting.",
+        "When feeling pressured, Alex frames goals as proof of failure and asks to skip them.",
+        "When the counselor reduces pressure, Alex may cautiously discuss the stuck feeling behind the avoidance."
+      ],
+      "other_client_characteristics": [
+        "Alex is guarded around structured tasks that resemble evaluation.",
+        "Alex responds better when the counselor treats resistance as useful therapeutic material instead of noncompliance."
+      ]
+    },
+    "emotion_utterance_examples": [
+      {
+        "emotion": "unease",
+        "utterance": "Goals? I don't think they work. I always fail. It just makes me feel worse. Can we skip this?",
+        "nonverbal_behavior": "Disgusted expression"
+      },
+      {
+        "emotion": "guarded",
+        "utterance": "Maybe we can talk about the stuck feeling first. That feels more real than a checklist.",
+        "nonverbal_behavior": "Looks away, then speaks more quietly"
+      }
+    ],
+    "example_interaction": {
+      "counselor": "Alex, let's set some treatment goals for our session today. How does that sound?",
+      "client": "Goals? I don't think they work. I always fail. It just makes me feel worse. Can we skip this?"
+    },
+    "example_state_update": {
+      "emotion": "Unease, decreased emotional value",
+      "intention": "Avoid",
+      "nonverbal_cue": "Disgusted expression"
+    },
+    "initial_emotion_state": 50
+  }
+]
