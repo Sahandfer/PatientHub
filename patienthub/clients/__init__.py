@@ -13,6 +13,7 @@ from .saps import SAPSClient, SAPSClientConfig
 from .adaptiveVP import AdaptiveVPClient, AdaptiveVPClientConfig
 from .patientZero import PatientZeroClient, PatientZeroClientConfig
 from .deprofile import DeprofileClient, DeprofileClientConfig
+from .cars import CarsClient, CarsClientConfig
 
 
 import logging
@@ -36,6 +37,7 @@ CLIENT_REGISTRY = {
     "adaptiveVP": AdaptiveVPClient,
     "patientZero": PatientZeroClient,
     "deprofile": DeprofileClient,
+    "cars": CarsClient,
 }
 
 # Registry of client configs (for Hydra registration)
@@ -54,6 +56,7 @@ CLIENT_CONFIG_REGISTRY = {
     "adaptiveVP": AdaptiveVPClientConfig,
     "patientZero": PatientZeroClientConfig,
     "deprofile": DeprofileClientConfig,
+    "cars": CarsClientConfig,
 }
 
 
