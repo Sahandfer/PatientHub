@@ -103,6 +103,8 @@ You can run the following command to create the necessary files for a new agent:
 patienthub create agent_type=[client|therapist] agent_name=<agent_name>
 ```
 
+`agent_type` is required (either `client` or `therapist`) and the command errors out if it is omitted.
+
 For example:
 
 ```bash

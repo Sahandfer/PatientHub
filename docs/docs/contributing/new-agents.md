@@ -18,6 +18,8 @@ patienthub create agent_type=client agent_name=myClient
 patienthub create agent_type=therapist agent_name=myTherapist
 ```
 
+`agent_type` is required and must be either `client` or `therapist`; the command errors out if it is omitted. `agent_name` defaults to `myAgent` if not provided.
+
 This generates:
 
 - `patienthub/clients/myClient.py` (or `patienthub/therapists/myTherapist.py`)

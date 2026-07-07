@@ -4,40 +4,56 @@ sidebar_position: 3
 
 # Evaluation
 
-PatientHub provides multi-dimensional evaluation of simulated conversations.
+PatientHub provides multi-dimensional evaluation of simulated conversations and generated profiles using LLM-as-a-judge evaluators.
 
-## Evaluation Types
+## Evaluators
 
-### Rating Evaluation
+PatientHub ships two evaluators, selected by `agent_name`:
 
-Score conversations using LLM-as-a-judge **scalar** evaluation (1–5 by default):
+- `conv_judge`: evaluates a therapy session (conversation).
+- `profile_judge`: evaluates a generated client profile.
+
+Each evaluator reads its scoring schema from a prompt YAML (`prompt_path`). The scoring paradigm for each dimension is defined inside that YAML, not on the config.
+
+### Conversation Evaluation
+
+Score a session with `conv_judge`:
 
 ```bash
 patienthub evaluate \
   input_dir=data/sessions/default/badtherapist.json \
-  output_dir=data/evaluations/session_scalar.json \
-  evaluator.eval_type=scalar \
-  evaluator.instruction_dir=data/prompts/evaluator/client/scalar.yaml
+  output_dir=data/evaluations/session_conv.json \
+  evaluator=conv_judge \
+  evaluator.granularity=session
 ```
 
-### Inspection Evaluation
+### Profile Evaluation
 
-Identify issues by extracting relevant passages with **extraction** evaluation:
+Evaluate a generated client profile with `profile_judge`:
 
 ```bash
 patienthub evaluate \
   input_dir=data/sessions/default/badtherapist.json \
-  output_dir=data/evaluations/session_inspection.json \
-  evaluator.eval_type=extraction \
-  evaluator.instruction_dir=data/prompts/evaluator/client/inspect.yaml \
+  output_dir=data/evaluations/profile.json \
+  evaluator=profile_judge \
   evaluator.use_reasoning=true
+```
+
+### Resuming an Interrupted Run
+
+The output is checkpointed after every session, so an interrupted run keeps its
+progress. Pass `resume=true` to keep the already-evaluated sessions in the
+existing output and (re-)evaluate only the missing or failed ones:
+
+```bash
+patienthub evaluate \
+  input_dir=data/sessions/default \
+  resume=true
 ```
 
 ## Evaluation Dimensions
 
-### For Clients (Patients)
-
-Client dimensions are defined in the instruction YAML (e.g. `data/prompts/evaluator/client/scalar.yaml`):
+Dimensions are defined in the prompt YAML referenced by `prompt_path`. Each dimension has a `name`, a `description`, and either a list of `aspects` or a scoring `paradigm`. For example, the bundled `data/prompts/evaluator/client_conv.yaml` defines client dimensions such as:
 
 | Dimension           | Description                                                                        |
 | ------------------- | ---------------------------------------------------------------------------------- |
@@ -46,33 +62,31 @@ Client dimensions are defined in the instruction YAML (e.g. `data/prompts/evalua
 | `pedagogical_value` | Whether responses create learning opportunities and an appropriate challenge level |
 | `engagement`        | Interaction quality: agreeableness, “self-curing” tendency, and realism            |
 
-### For Therapists
-
-Therapist dimensions are also instruction-driven (e.g. `data/prompts/evaluator/therapist/cbt.yaml`):
-
-| Dimension                     | Description                                          |
-| ----------------------------- | ---------------------------------------------------- |
-| `adherence_to_cbt_principles` | Adherence to CBT principles (rubric aspects in YAML) |
+To change or add dimensions, edit the prompt YAML (see [Custom Dimensions](#custom-dimensions)) rather than the config.
 
 ## Configuration
 
-### LLM Judge Evaluator
+### Conv Judge Config
+
+`ConvJudgeConfig` fields (subclass of `LLMJudgeConfig` → `APIModelConfig`):
 
 ```python
+from patienthub.evaluators import ConvJudgeConfig  # or build a dict/OmegaConf
+
 eval_config = {
-    'agent_name': 'llm_judge',
-    'eval_type': 'scalar',  # 'binary' | 'scalar' | 'extraction' | 'classification'
-    'target': 'client',  # or 'therapist'
-    'instruction_dir': 'data/prompts/evaluator/client/scalar.yaml',
-    'granularity': 'session',  # 'turn', 'turn_by_turn', or 'session'
+    'agent_name': 'conv_judge',
+    'prompt_path': 'data/prompts/evaluator/client_conv.yaml',
+    'granularity': 'session',  # 'session' | 'turn' | 'turn_by_turn'
     'use_reasoning': False,
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
-    'temperature': 0.3,
-    'max_tokens': 1024,
+    'temperature': 0.7,
+    'max_tokens': 8192,
     'max_retries': 3,
 }
 ```
+
+`profile_judge` uses the same fields except that it has no `granularity` (its `prompt_path` defaults to `data/prompts/evaluator/client_profile.yaml`).
 
 ### Granularity Options
 
@@ -81,6 +95,8 @@ eval_config = {
 - **turn_by_turn**: Evaluate each turn individually
 
 ## Python API
+
+`get_evaluator` takes `agent_name` as a required positional argument. Pass `configs` to override the defaults, or omit it to use the evaluator's default config.
 
 ```python
 from omegaconf import OmegaConf
@@ -92,27 +108,29 @@ session = load_json('data/sessions/default/badtherapist.json')
 
 # Configure evaluator
 eval_config = OmegaConf.create({
-    'agent_name': 'llm_judge',
-    'eval_type': 'scalar',
-    'target': 'client',
-    'instruction_dir': 'data/prompts/evaluator/client/scalar.yaml',
+    'agent_name': 'conv_judge',
+    'prompt_path': 'data/prompts/evaluator/client_conv.yaml',
     'granularity': 'session',
     'use_reasoning': False,
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
-    'temperature': 0.3,
-    'max_tokens': 1024,
+    'temperature': 0.7,
+    'max_tokens': 8192,
     'max_retries': 3,
 })
 
 # Run evaluation
-evaluator = get_evaluator(configs=eval_config, lang='en')
+evaluator = get_evaluator(agent_name='conv_judge', configs=eval_config, lang='en')
 results = evaluator.evaluate(session)
 
 print(results)
 ```
 
+To use the built-in defaults, call `get_evaluator(agent_name='conv_judge', lang='en')` without a `configs` argument.
+
 ## Output Format
+
+The output shape follows the prompt's `dimensions`. A dimension with `aspects` nests one result per aspect; a dimension with a bare `paradigm` returns a single result.
 
 ### Scalar Output
 
@@ -137,11 +155,13 @@ print(results)
 
 ### Extraction Output
 
+Extraction dimensions return a `snippets` list. With `use_reasoning=true`, each judged item also gets a `reasoning` field:
+
 ```json
 {
   "consistency": {
     "profile_factual": {
-      "extracted_passages": ["Client: ..."],
+      "snippets": ["Client: ..."],
       "reasoning": "..."
     }
   }
@@ -150,14 +170,17 @@ print(results)
 
 ## Custom Dimensions
 
-Dimensions and aspects live in the instruction YAML (under `dimensions:`). To customize, edit or copy an instruction file and update the `instruction_dir` in your config.
+Dimensions and aspects live in the prompt YAML (under `dimensions:`). To customize, edit or copy a prompt file and point `prompt_path` at it.
 
 Example (add a dimension entry to your YAML):
+
+A dimension either declares a `paradigm` directly, or lists `aspects` that inherit the dimension's `paradigm` and `range`:
 
 ```yaml
 dimensions:
   - name: therapeutic_alliance
     description: Quality of therapeutic relationship
+    paradigm: scalar
     range: [1, 5]
     aspects:
       - name: rapport
@@ -165,6 +188,8 @@ dimensions:
       - name: trust
         description: Client's apparent trust
 ```
+
+Supported paradigms are `binary`, `scalar`, `categorical`, and `extraction`.
 
 ## Batch Evaluation
 
@@ -177,20 +202,18 @@ from patienthub.evaluators import get_evaluator
 from omegaconf import OmegaConf
 
 eval_config = OmegaConf.create({
-    'agent_name': 'llm_judge',
-    'eval_type': 'scalar',
-    'target': 'client',
-    'instruction_dir': 'data/prompts/evaluator/client/scalar.yaml',
+    'agent_name': 'conv_judge',
+    'prompt_path': 'data/prompts/evaluator/client_conv.yaml',
     'granularity': 'session',
     'use_reasoning': False,
     'model_type': 'OPENAI',
     'model_name': 'gpt-4o',
-    'temperature': 0.3,
-    'max_tokens': 1024,
+    'temperature': 0.7,
+    'max_tokens': 8192,
     'max_retries': 3,
 })
 
-evaluator = get_evaluator(configs=eval_config, lang='en')
+evaluator = get_evaluator(agent_name='conv_judge', configs=eval_config, lang='en')
 
 input_dir = Path('data/sessions')
 output_dir = Path('outputs/evaluations')
@@ -251,9 +274,9 @@ patienthub simulate \
 ```bash
 patienthub evaluate \
   input_dir=data/sessions/default/session_1.json \
-  output_dir=data/evaluations/session_1_scalar.json \
-  evaluator.eval_type=scalar \
-  evaluator.instruction_dir=data/prompts/evaluator/client/scalar.yaml
+  output_dir=data/evaluations/session_1_conv.json \
+  evaluator=conv_judge \
+  evaluator.granularity=session
 ```
 
 ## Next Steps

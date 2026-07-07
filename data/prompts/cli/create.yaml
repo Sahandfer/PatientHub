@@ -1,0 +1,46 @@
+agent: |
+    from omegaconf import DictConfig
+    from dataclasses import dataclass
+
+    from .base import {% if agent_type == "client" %}BaseClient{% else %}BaseTherapist{% endif %}
+    from patienthub.configs import APIModelConfig
+
+
+    @dataclass
+    class {{class_name}}Config(APIModelConfig):
+        """Configuration for the {{class_name}} agent."""
+
+        agent_name: str = "{{agent_name}}"
+        prompt_path: str = "data/prompts/{{agent_type}}/{{agent_name}}.yaml"{% if agent_type == "client" %}
+        data_path: str = "data/characters/{{agent_name}}.json"
+        data_idx: int = 0{% endif %}
+
+
+    class {{class_name}}({% if agent_type == "client" %}BaseClient{% else %}BaseTherapist{% endif %}):
+        def __init__(self, configs: DictConfig):
+            super().__init__(configs)
+
+        # TODO: Build the system prompt from self.data and self.prompts
+        def build_sys_prompt(self):
+            self.messages = [{"role": "system", "content": self.prompts["sys_prompt"].render(data=self.data)}]
+
+        def generate_response(self, msg: str):
+            self.messages.append({"role": "user", "content": msg})
+            res = self.chat_model.generate(self.messages)
+            self.messages.append({"role": "assistant", "content": res.content})
+            return res
+schema: |
+    from pydantic import Field
+
+    from patienthub.schemas.base import BaseCharacter
+
+    # TODO: Add fields matching the character JSON structure
+    class {{class_name}}Character(BaseCharacter):
+        name: str = Field(...)
+prompt: |
+    en: 
+    sys_prompt: |
+        <insert prompt text here>
+    zh: 
+    sys_prompt: |
+        <在这里输入提示文本>

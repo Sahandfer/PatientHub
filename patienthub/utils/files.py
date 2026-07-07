@@ -34,8 +34,10 @@ def save_json(data, output_dir: str, overwrite: bool = False):
         os.makedirs(parent_dir)
 
     if overwrite or not os.path.exists(output_dir):
-        with open(output_dir, "w", encoding="utf-8") as f:
+        tmp_path = f"{output_dir}.tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
+        os.replace(tmp_path, output_dir)
 
     else:
         prev_data = None
