@@ -20,6 +20,7 @@ from dataclasses import dataclass
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_json
+from patienthub.schemas.clientCast import SYMPTOMS_LIST
 
 
 @dataclass
@@ -29,17 +30,15 @@ class ClientCastClientConfig(APIModelConfig):
     agent_name: str = "clientCast"
     prompt_path: str = "data/prompts/client/clientCast.yaml"
     data_path: str = "data/characters/clientCast.json"
-    conv_path: str = "data/resources/ClientCast/human_data.json"
-    symptoms_path: str = "data/resources/ClientCast/symptoms.json"
+    conv_path: str = "data/seeds/clientCast.json"
     data_idx: int = 0
     conv_id: int = 0
 
 
 class ClientCastClient(BaseClient):
     def __init__(self, configs: DictConfig):
-        # Load extra resources before super() so build_sys_prompt() can use them
         self.conv = load_json(configs.conv_path)[configs.conv_id]["messages"]
-        self.symptoms = load_json(configs.symptoms_path)
+        self.symptoms = SYMPTOMS_LIST
         super().__init__(configs)
 
     def get_case_synopsis(self):
@@ -80,11 +79,14 @@ class ClientCastClient(BaseClient):
         case_synopsis, reasons = self.get_case_synopsis()
         symptoms = self.get_symptoms()
         appearance = self.get_appreance()
+        role_labels = {
+            "therapist": "[Another Therapist]",
+            "client": "[Original Client]",
+        }
         conversation = "\n".join(
-            [
-                f"{ turn.get('role').capitalize()}: {turn.get('content')}\n"
-                for turn in self.conv
-            ]
+            f"{role_labels.get(turn.get('role', '').lower(), turn.get('role'))}: "
+            f"{turn.get('content')}"
+            for turn in self.conv
         )
         sys_prompt = self.prompts["simulation"].render(
             case_synopsis=case_synopsis,

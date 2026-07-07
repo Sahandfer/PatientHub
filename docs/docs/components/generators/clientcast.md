@@ -22,45 +22,47 @@ Extracts a structured psychological profile from a real therapy conversation, in
 
 ## How It Works
 
-`generate_character()` runs three sequential LLM calls:
+`generate_character(seed)` runs three sequential LLM calls:
 
 1. **Basic profile** — extracts name, gender, age, occupation, topic, situation, emotion, resistance, and emotional fluctuation
 2. **Big Five** — estimates each trait as a percentage score with explanation
 3. **Symptoms** — scores individual items from PHQ-9, GAD-7, and OQ-45
 
-The result is saved to `output_dir`.
+The result is returned; the `generate` CLI saves it.
 
 ## Usage
 
-```python
-from patienthub.generators import get_generator
+Provide seeds as a JSON list at `data/seeds/clientCast.json` and run the CLI:
 
-generator = get_generator(agent_name="clientCast", lang="en")
-generator.generate_character()
+```bash
+patienthub generate generator=clientCast input_path=data/seeds/clientCast.json
 ```
+
+Each conversation record produces one character, written to
+`data/characters/clientCast.json` (override with `output_path`). Use `num_workers`
+to process records in parallel and `resume=true` to refill only failed slots.
 
 ## Configuration
 
-| Parameter      | Type   | Default                                     | Description                                      |
-| -------------- | ------ | ------------------------------------------- | ------------------------------------------------ |
-| `prompt_path`  | string | `data/prompts/generator/clientCast.yaml`    | Path to prompt file                              |
-| `input_dir`    | string | `data/resources/ClientCast/human_data.json` | Path to input conversation JSON                  |
-| `symptoms_dir` | string | `data/resources/ClientCast/symptoms.json`   | Path to symptom item definitions                 |
-| `output_dir`   | string | `data/characters/clientCast.json`           | Path where the generated character is saved      |
-| `data_idx`     | int    | `0`                                         | Index of the conversation to use from input file |
-| `model_type`   | string | `"OPENAI"`                                  | Model provider key                               |
-| `model_name`   | string | `"gpt-4o"`                                  | Model identifier                                 |
-| `temperature`  | float  | `0.7`                                       | Sampling temperature                             |
-| `max_tokens`   | int    | `8192`                                      | Max response tokens                              |
-| `max_retries`  | int    | `3`                                         | API retry attempts                               |
+| Parameter       | Type   | Default                                   | Description                       |
+| --------------- | ------ | ----------------------------------------- | --------------------------------- |
+| `agent_name`    | string | `clientCast`                              | Generator identifier              |
+| `prompt_path`   | string | `data/prompts/generator/clientCast.yaml`  | Path to prompt file               |
+| `model_type`    | string | `"OPENAI"`                                | Model provider key                |
+| `model_name`    | string | `"gpt-4o"`                                | Model identifier                  |
+| `temperature`   | float  | `0.7`                                     | Sampling temperature              |
+| `max_tokens`    | int    | `8192`                                    | Max response tokens               |
+| `max_retries`   | int    | `3`                                       | API retry attempts                |
 
-## Input Data Format
+## Seed Record Format
 
-The input file is a JSON array of conversation objects:
+Seeds live in `data/seeds/clientCast.json` as a JSON list. Each record is validated
+against `ClientCastSeed` before generation — one character is produced per record:
 
 ```json
 [
   {
+    "conv_id": "conv_001",
     "messages": [
       { "role": "Therapist", "content": "What brings you here today?" },
       { "role": "Client", "content": "I've been feeling really low lately..." }
@@ -69,7 +71,10 @@ The input file is a JSON array of conversation objects:
 ]
 ```
 
-`data_idx` selects which conversation to process.
+| Field      | Type   | Description                                                |
+| ---------- | ------ | --------------------------------------------------------- |
+| `conv_id`  | string | Optional conversation identifier                          |
+| `messages` | list   | Conversation turns, each `{ "role", "content" }`          |
 
 ## Output Format
 

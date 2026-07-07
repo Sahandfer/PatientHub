@@ -19,19 +19,21 @@ Generates clinically grounded static patient records from disease knowledge and 
 - **Disease-grounded generation(Stage I)**: Uses source-grounded `raw_outlines.json` and standardized `disease_outlines.json` as the clinical scaffold.
 - **Attribute sampling(Stage II)**: Samples demographics, socioeconomic factors, lifestyle factors, communication style, and severity from global and disease-specific priors.
 - **Stage-wise synthesis(Stage III & IV)**: Generates patient background, symptom trajectory, and examination results in separate pipeline stages.
-- **Verify-and-regenerate loop(Stage V)**: Validates patient record content and examination results before saving the final profile.
-- **Append-only output**: Saves multiple cases into one final JSON list.
+- **Verify-and-regenerate loop(Stage V)**: Validates patient record content and examination results before returning the final profile.
+- **Config-parameterized**: Runs from `disease_key` (and optional `random_seed`); the `generate` CLI appends returned cases into one JSON list.
 
 ## How It Works
 
-`generate_character()` runs the full PatientZero pipeline for the disease configured by `disease_key`:
+`generate_character(data=None)` runs the full PatientZero pipeline for the target
+disease. The disease may be supplied per-record via a seed (`data["disease_key"]`)
+or fall back to the configured `disease_key`:
 
 1. **Stage I: Disease outline standardization** - if the disease is not already present in `disease_outlines.json`, the generator converts the matching raw outline into a standardized `DiseaseOutline`.
 2. **Stage II: Attribute permutation** - samples a valid patient attribute vector from `demo_priors.json` plus disease-specific overrides in `disease_priors.json`.
 3. **Stage III: Patient record and symptoms** - generates `patient_profile` and `symptom_trajectory` from the sampled attributes and disease outline.
 4. **Stage IV: Examination results** - generates mental status exam, scale assessments, risk assessment, exclusionary findings, and a clinical summary.
 5. **Stage V: Validation** - checks Stage III and Stage IV outputs. Failed generations are retried with revision guidance.
-6. **Final save** - appends the validated record to `output_path`.
+6. **Return** - the validated record is returned; the `generate` CLI appends it to the output bank.
 
 The final observable profile follows the paper's static record definition `P = {B, S, E}`:
 
@@ -58,38 +60,58 @@ The default PatientZero resources currently include the following diseases. Thes
 
 ## Usage
 
-```python
-from omegaconf import OmegaConf
-from patienthub.generators import get_generator
+PatientZero is config-parameterized — it needs no seed list. Choose the disease
+with `generator.disease_key` and run the CLI:
 
-config = OmegaConf.create({
-    "agent_name": "patientZero",
-    "model_type": "OPENAI",
-    "model_name": "gpt-4o",
-    "temperature": 0.7,
-    "max_tokens": 8192,
-    "max_retries": 3,
-    "prompt_path": "data/prompts/generator/patientZero.yaml",
-    "source_dir": "data/resources/PatientZero",
-    "output_path": "data/characters/patientZero.json",
-    "disease_key": "depression",
-    "random_seed": 0,
-})
+```bash
+# One case for a disease
+patienthub generate generator=patientZero generator.disease_key=depression
 
-generator = get_generator(agent_name="patientZero", configs=config, lang="en")
-generator.generate_character()
+# Several cases appended to the output bank
+patienthub generate generator=patientZero generator.disease_key=insomnia num_samples=10
+```
+
+Cases are appended to `data/characters/patientZero.json` (override with `output_path`).
+
+Alternatively, drive multiple diseases from a seed list at `data/seeds/patientZero.json`,
+where each record selects a disease (and optional seed):
+
+```bash
+patienthub generate generator=patientZero input_path=data/seeds/patientZero.json
 ```
 
 ## Configuration
 
-| Parameter     | Type     | Default                                   | Description                                                                           |
-| ------------- | -------- | ----------------------------------------- | ------------------------------------------------------------------------------------- | --- |
-| `prompt_path` | string   | `data/prompts/generator/patientZero.yaml` | Path to PatientZero prompts                                                           |
-| `source_dir`  | string   | `data/resources/PatientZero`              | Folder for source data, priors, examination references, and reusable disease outlines |
-| `output_path` | string   | `data/characters/patientZero.json`        | Final JSON file where validated records are appended                                  |
-| `disease_key` | string   | `depression`                              | Target disease key, for example `depression` or `insomnia`                            |
-| `random_seed` | int/null | `None`                                    | Optional seed for reproducible attribute sampling                                     |     |
-| `max_retries` | int      | `3`                                       | API retry attempts                                                                    |
+| Parameter      | Type     | Default                                   | Description                                                                            |
+| -------------- | -------- | ----------------------------------------- | -------------------------------------------------------------------------------------- |
+| `agent_name`   | string   | `patientZero`                             | Generator identifier                                                                   |
+| `prompt_path`  | string   | `data/prompts/generator/patientZero.yaml` | Path to PatientZero prompts                                                            |
+| `resource_dir` | string   | `data/resources/PatientZero`              | Folder for source data, priors, examination references, and reusable disease outlines  |
+| `disease_key`  | string   | `depression`                              | Target disease key, for example `depression` or `insomnia`                             |
+| `random_seed`  | int/null | `None`                                    | Optional seed for reproducible attribute sampling                                      |
+| `model_type`   | string   | `"OPENAI"`                                | Model provider key                                                                     |
+| `model_name`   | string   | `"gpt-4o"`                                | Model identifier                                                                        |
+| `temperature`  | float    | `0.7`                                     | Sampling temperature                                                                   |
+| `max_tokens`   | int      | `8192`                                    | Max response tokens                                                                    |
+| `max_retries`  | int      | `3`                                       | API retry attempts                                                                     |
+
+## Seed Record Format
+
+PatientZero can run without a seed list (from `disease_key`), but when driving many
+diseases from one run, `data/seeds/patientZero.json` is a JSON list validated against
+`PatientZeroSeed`:
+
+```json
+[
+  { "disease_key": "depression", "random_seed": 0 },
+  { "disease_key": "insomnia" }
+]
+```
+
+| Field         | Type     | Description                                       |
+| ------------- | -------- | ------------------------------------------------- |
+| `disease_key` | string   | Target disease key                                |
+| `random_seed` | int/null | Optional seed for reproducible attribute sampling |
 
 ## Output Format
 
@@ -165,15 +187,15 @@ The role-play schema requires `patient_profile`, `symptom_trajectory`, and `exam
 
 PatientZero depends on both disease knowledge and attribute priors. With the default paths, the generator expects these files:
 
-| File                    | Location     | Purpose                                                                        |
-| ----------------------- | ------------ | ------------------------------------------------------------------------------ |
-| `raw_outlines.json`     | `source_dir` | Human-provided disease knowledge gathered from authoritative sources           |
-| `demo_priors.json`      | `source_dir` | Global demographic, socioeconomic, lifestyle, and communication distributions  |
-| `disease_priors.json`   | `source_dir` | Disease-specific overrides for age, sex, severity, or other sampled attributes |
-| `exam_references.json`  | `source_dir` | Disease-specific clinical scales and exclusionary findings                     |
-| `disease_outlines.json` | `source_dir` | Reusable standardized disease outlines used by later generation stages         |
+| File                    | Location       | Purpose                                                                        |
+| ----------------------- | -------------- | ------------------------------------------------------------------------------ |
+| `raw_outlines.json`     | `resource_dir` | Human-provided disease knowledge gathered from authoritative sources           |
+| `demo_priors.json`      | `resource_dir` | Global demographic, socioeconomic, lifestyle, and communication distributions  |
+| `disease_priors.json`   | `resource_dir` | Disease-specific overrides for age, sex, severity, or other sampled attributes |
+| `exam_references.json`  | `resource_dir` | Disease-specific clinical scales and exclusionary findings                     |
+| `disease_outlines.json` | `resource_dir` | Reusable standardized disease outlines used by later generation stages         |
 
-`source_dir` contains both human-provided priors and reusable standardized outlines. `disease_outlines.json` may be generated by Stage I, but it is saved beside the source files because it can be reused across future runs.
+`resource_dir` contains both human-provided priors and reusable standardized outlines. `disease_outlines.json` may be generated by Stage I, but it is saved beside the source files because it can be reused across future runs.
 
 ## Adding a New Disease
 
@@ -313,16 +335,14 @@ Add one entry to `data/resources/PatientZero/exam_references.json` under `diseas
 
 ### 5. Generate the Disease Case
 
-Set `disease_key` to the new key:
+Set `generator.disease_key` to the new key and run the CLI:
 
-```python
-config.disease_key = "social_anxiety_disorder"
-config.random_seed = 0
-generator = get_generator(agent_name="patientZero", configs=config, lang="en")
-generator.generate_character()
+```bash
+patienthub generate generator=patientZero \
+    generator.disease_key=social_anxiety_disorder generator.random_seed=0
 ```
 
-If the standardized outline is missing, Stage I writes it to `source_dir/disease_outlines.json`. The final validated case is appended to `output_path`.
+If the standardized outline is missing, Stage I writes it to `resource_dir/disease_outlines.json`. The final validated case is appended to the output bank (`data/characters/patientZero.json` by default).
 
 ## Use Cases
 

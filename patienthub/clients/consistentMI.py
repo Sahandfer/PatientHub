@@ -36,8 +36,7 @@ class ConsistentMIClientConfig(APIModelConfig):
     agent_name: str = "consistentMI"
     prompt_path: str = "data/prompts/client/consistentMI.yaml"
     data_path: str = "data/characters/consistentMI.json"
-    topics_path: str = "data/resources/ConsistentMI/topics.json"
-    topic_graph_path: str = "data/resources/ConsistentMI/topic_graph.json"
+    topics_path: str = "data/resources/consistentMI_topics.json"
     reranker_model_type: str = "LOCAL"
     reranker_model_name: str = "hosted_vllm/BAAI/bge-reranker-v2-m3"
     data_idx: int = 0
@@ -186,7 +185,10 @@ class TopicMatcher:
     """Handles topic matching and graph traversal."""
 
     def __init__(self, configs: Dict[str, Any]):
-        self.topic_graph = load_json(configs.topic_graph_path)
+        # Combined topics file: {topic: {"content": ..., "neighbors": {n: weight}}}.
+        topics = load_json(configs.topics_path)
+        self.topic_graph = {t: node.get("neighbors", {}) for t, node in topics.items()}
+        self.topic_content = {t: node.get("content", "") for t, node in topics.items()}
         self.reranker = get_reranker(configs)
         self.all_topics = self.extract_all_topics()
         self.topic_passages: List[str] = []
@@ -200,22 +202,17 @@ class TopicMatcher:
                 topics += [] if neighbor in topics else [neighbor]
         return topics
 
-    def init_passages(
-        self, prompts: Any, behavior: str, goal: str, topics_data: List[Dict]
-    ) -> None:
-        """Initialize topic passages for matching."""
-        topic_to_content = {
-            item.get("topic"): item.get("content", "")
-            for item in topics_data
-            if "topic" in item
-        }
-
+    def init_passages(self, prompts: Any, behavior: str, goal: str) -> None:
+        """Initialize topic passages for matching (description + topic content)."""
         self.topic_passages = []
         for topic in self.all_topics:
-            description = prompts["topic_description_prompt"].render(
-                behavior=behavior, goal=goal, topic=topic
+            template = prompts["topic_description_prompt"].get(topic)
+            description = (
+                template.render(behavior=behavior, goal=goal).strip()
+                if template
+                else ""
             )
-            passage = f"{description.strip()} {topic_to_content.get(topic, '')}"
+            passage = f"{description} {self.topic_content.get(topic, '')}"
             self.topic_passages.append(passage)
 
     def find_related_topics(self, query: str, top_k: int = 5) -> List[str]:
@@ -288,9 +285,7 @@ class ConsistentMIClient(BaseClient):
 
         self.state = self.load_state()
         self.topic_matcher = TopicMatcher(configs)
-
-        # Load profile and initialize
-        self.topic_matcher.init_passages(self.prompts, self.behavior, self.goal, [])
+        self.topic_matcher.init_passages(self.prompts, self.behavior, self.goal)
 
     def load_profile(self) -> None:
         """Load client profile from data file."""
@@ -546,31 +541,33 @@ class ConsistentMIClient(BaseClient):
             return self.acceptable_plans.pop(0)
         return None
 
+    def get_prompt(self, key: str, value: Any, **kwargs: Any) -> str:
+        template = self.prompts[key].get(value)
+        return template.render(**kwargs).strip() if template else ""
+
     def build_instruction(
         self, stage: str, action: str, information: Optional[str]
     ) -> str:
         """Build instruction for reply generation."""
         engage_instruction = ""
         if len(self.state.engaged_topics) >= 3:
-            engage_instruction = (
-                self.prompts["engage_instruction_prompt"]
-                .render(
-                    engagement_level=int(self.state.engagement),
-                    engagemented_topics=self.state.engaged_topics,
-                    motivation=self.motivation_text,
-                )
-                .strip()
+            engage_instruction = self.get_prompt(
+                "engage_instruction_prompt",
+                int(self.state.engagement),
+                engagemented_topics=self.state.engaged_topics,
+                motivation=self.motivation_text,
             )
         state_instruction = (
             ""
             if stage == "Motivation"
-            else self.prompts["state_instruction_prompt"]
-            .render(stage=self.state.stage, behavior=self.behavior, goal=self.goal)
-            .strip()
+            else self.get_prompt(
+                "state_instruction_prompt",
+                self.state.stage,
+                behavior=self.behavior,
+                goal=self.goal,
+            )
         )
-        action_instruction = (
-            self.prompts["action_instruction_prompt"].render(action=action).strip()
-        )
+        action_instruction = self.get_prompt("action_instruction_prompt", action)
         instruction = self.prompts["reply_instruction_prompt"].render(
             stage=stage,
             action=action,
@@ -610,4 +607,4 @@ class ConsistentMIClient(BaseClient):
         super().reset()
         self.state = self.load_state()
         self.topic_matcher = TopicMatcher(self.configs)
-        self.topic_matcher.init_passages(self.prompts, self.behavior, self.goal, [])
+        self.topic_matcher.init_passages(self.prompts, self.behavior, self.goal)

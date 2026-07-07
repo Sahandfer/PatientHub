@@ -139,9 +139,63 @@ class ExaminationResults(BaseModel):
     clinical_summary: str
 
 
+class TypicalPresentation(BaseModel):
+    mild: str = Field(..., description="Typical mild presentation.")
+    moderate: str = Field(..., description="Typical moderate presentation.")
+    severe: str = Field(..., description="Typical severe presentation.")
+
+
+class DiseaseOutline(BaseModel):
+    """Standardized disease outline used as Patient-Zero's latent scaffold."""
+
+    disease_summary: str = Field(..., description="Brief clinical disease summary.")
+    key_characteristics: list[str] = Field(
+        ..., description="Core disease characteristics relevant to generation."
+    )
+    typical_presentation: TypicalPresentation = Field(
+        ..., description="Severity-specific presentation anchors."
+    )
+    important_notes: list[str] = Field(
+        ..., description="Generation-relevant clinical notes."
+    )
+    contraindications: list[str] = Field(
+        ..., description="Clinically impossible or inconsistent combinations to avoid."
+    )
+    differential_considerations: list[str] = Field(
+        ..., description="Nearby diagnoses or alternative explanations."
+    )
+    special_populations: list[str] = Field(
+        ..., description="Population-specific considerations and constraints."
+    )
+    red_flags: list[str] = Field(..., description="Urgent or high-risk features.")
+    sources: list[dict[str, str]] = Field(
+        default_factory=list,
+        description="Source documents used to ground this standardized outline.",
+    )
+
+
+class PatientAttributes(PatientDemographics):
+    """Patient-Zero Stage II sampled patient attribute vector."""
+
+    disease_name: str
+    severity_level: Literal["mild", "moderate", "severe"]
+
+
+class PatientRecordAndSymptoms(BaseModel):
+    """Patient-Zero Stage III LLM output."""
+
+    patient_profile: PatientNarrative
+    symptom_trajectory: SymptomTrajectory
+
+
 class PatientZeroCharacter(BaseCharacter):
     """Role-play-ready Patient-Zero profile P={B,S,E}."""
 
     patient_profile: PatientZeroPatientProfile
     symptom_trajectory: SymptomTrajectory
     examination_results: ExaminationResults
+
+
+class PatientZeroSeed:
+    disease_key: str
+    random_seed: int | None = None

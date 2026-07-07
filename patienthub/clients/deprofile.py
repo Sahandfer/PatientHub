@@ -1,7 +1,11 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
 from dataclasses import dataclass
 from typing import Any
 
 from .base import BaseClient
+from patienthub.resources import BIG_FIVE
 from patienthub.configs import APIModelConfig
 from patienthub.schemas.deprofile import (
     SOCIAL_SYMPTOM_TO_CLINICAL,
@@ -34,7 +38,7 @@ class DeprofileClient(BaseClient):
     def get_big_five_traits(
         self, big_five: dict[str, Any], lang: str = "zh"
     ) -> list[dict[str, Any]]:
-        bfi_guidance = get_constant_dict("BFI", lang)
+        bfi_guidance = BIG_FIVE.get_guidance(lang)
         traits = []
         for trait in bfi_guidance.keys():
             raw_val = big_five.get(trait)

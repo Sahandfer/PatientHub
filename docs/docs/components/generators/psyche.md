@@ -22,45 +22,56 @@ Generates comprehensive MFC (Multi-Faceted Case) psychiatric profiles for use wi
 
 ## How It Works
 
-`generate_character()` runs three sequential LLM calls:
+`generate_character(seed)` runs three sequential LLM calls:
 
-1. **MFC-Profile** — generates structured clinical data from a seed `input_dir` JSON (diagnosis, age, sex)
+1. **MFC-Profile** — generates structured clinical data from the seed record (diagnosis, age, sex)
 2. **MFC-History** — generates a first-person life narrative grounded in the profile
 3. **MFC-Behavior** — generates a Mental Status Examination based on profile and history
 
-The combined MFC object is saved to `output_dir`.
+The combined MFC object is returned; the `generate` CLI saves it.
 
 ## Usage
 
-```python
-from patienthub.generators import get_generator
+Provide seeds as a JSON list at `data/seeds/psyche.json` and run the CLI:
 
-generator = get_generator(agent_name="psyche", lang="en")
-generator.generate_character()
+```bash
+patienthub generate generator=psyche input_path=data/seeds/psyche.json
 ```
+
+Each character is written to `data/characters/psyche.json` (override with `output_path`).
 
 ## Configuration
 
-| Parameter     | Type   | Default                                | Description                                 |
-| ------------- | ------ | -------------------------------------- | ------------------------------------------- |
-| `prompt_path` | string | `data/prompts/generator/psyche.yaml`   | Path to prompt file                         |
-| `input_dir`   | string | `data/resources/psyche_character.json` | Path to seed JSON (diagnosis, age, sex)     |
-| `output_dir`  | string | `data/characters/Psyche MFC.json`      | Path where the generated character is saved |
-| `model_type`  | string | `"OPENAI"`                             | Model provider key                          |
-| `model_name`  | string | `"gpt-4o"`                             | Model identifier                            |
-| `temperature` | float  | `0.7`                                  | Sampling temperature                        |
-| `max_tokens`  | int    | `8192`                                 | Max response tokens                         |
-| `max_retries` | int    | `3`                                    | API retry attempts                          |
+| Parameter     | Type   | Default                              | Description          |
+| ------------- | ------ | ------------------------------------ | -------------------- |
+| `agent_name`  | string | `psyche`                             | Generator identifier |
+| `prompt_path` | string | `data/prompts/generator/psyche.yaml` | Path to prompt file  |
+| `model_type`  | string | `"OPENAI"`                           | Model provider key   |
+| `model_name`  | string | `"gpt-4o"`                           | Model identifier     |
+| `temperature` | float  | `0.7`                                | Sampling temperature |
+| `max_tokens`  | int    | `8192`                               | Max response tokens  |
+| `max_retries` | int    | `3`                                  | API retry attempts   |
 
-## Input Data Format
+## Seed Record Format
+
+Seeds live in `data/seeds/psyche.json` as a JSON list. Each record is validated
+against `PsycheSeed` before generation:
 
 ```json
-{
-  "diagnosis": "Major Depressive Disorder",
-  "age": "40",
-  "sex": "Female"
-}
+[
+  {
+    "diagnosis": "Major Depressive Disorder",
+    "age": 40,
+    "sex": "Female"
+  }
+]
 ```
+
+| Field       | Type   | Description        |
+| ----------- | ------ | ------------------ |
+| `diagnosis` | string | Target diagnosis   |
+| `age`       | int    | Patient age        |
+| `sex`       | string | Patient sex        |
 
 ## Output Format
 

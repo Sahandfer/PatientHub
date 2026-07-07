@@ -52,7 +52,7 @@ print(response.content)
 | ------------- | ------ | -------------------------------------- | ------------------------------- |
 | `agent_name`  | string | `"cami"`                               | Therapist identifier            |
 | `prompt_path` | string | `data/prompts/therapist/cami.yaml`     | Path to prompt file             |
-| `topic_graph` | string | `data/resources/CAMI/topic_graph.json` | Topic graph JSON path           |
+| `topic_graph` | string | `data/resources/cami_topic_graph.json` | Topic graph JSON path           |
 | `goal`        | string | `"reducing drug use"`                  | Target goal used in prompts     |
 | `behavior`    | string | `"drug use"`                           | Target behavior used in prompts |
 | `model_type`  | string | `"OPENAI"`                             | Model provider key              |

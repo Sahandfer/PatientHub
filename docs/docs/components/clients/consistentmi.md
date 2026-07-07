@@ -73,8 +73,7 @@ print(response)
 | `prompt_path`         | Path to prompt file                                     | `data/prompts/client/consistentMI.yaml`        |
 | `data_path`           | Path to character file                                  | `data/characters/consistentMI.json`            |
 | `data_idx`            | Character index                                         | `0`                                            |
-| `topics_path`         | Topics from Wiki                                        | `data/resources/ConsistentMI/topics.json`      |
-| `topic_graph_path`    | Correlation between topics                              | `data/resources/ConsistentMI/topic_graph.json` |
+| `topics_path`         | Topics: per-topic Wiki `content` + graph `neighbors`    | `data/resources/ConsistentMI/topics.json`      |
 | `reranker_model_type` | Provider key for topic reranking                        | `LOCAL`                                        |
 | `reranker_model_name` | LiteLLM model route for the reranker                    | `hosted_vllm/BAAI/bge-reranker-v2-m3`          |
 

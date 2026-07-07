@@ -1,46 +1,43 @@
 en: 
-  stage_description_prompt: |
-    {% if stage == "Precontemplation" %}
-    The client doesn't think their behavior is problematic.
-    {% elif stage == "Contemplation" %}
-    The client feels that their behavior is problematic, but still hesitate whether to change.
-    {% elif stage == "Preparation" %}
-    The client begins discuss about steps toward behavior change.
-    {% endif %}
-  action_instruction_prompt: |
-    {% if action == "Deny" %}
-    You should directly refuse to admit your behavior is problematic or needs change.
-    {% elif action == "Downplay" %}
-    You should downplay the importance or impact of your behavior.
-    {% elif action == "Blame" %}
-    You should blame external factors or others to justify your behavior.
-    {% elif action == "Inform" %}
-    You should share details about your background, experiences, or emotions revealing the current state.
-    {% elif action == "Engage" %}
-    You should interact with counselor consistently based on your state.
-    {% elif action == "Hesitate" %}
-    You should show uncertainty, indicating ambivalence about change.
-    {% elif action == "Doubt" %}
-    You should expresse skepticism about the practicality or success of proposed changes but not reveal further information.
-    {% elif action == "Acknowledge" %}
-    You should acknowledge the need for change.
-    {% elif action == "Accept" %}
-    You should agree to adopt the suggested action plan.
-    {% elif action == "Reject" %}
-    You should decline the proposed plan, deeming it unsuitable.
-    {% elif action == "Plan" %}
-    You should propose or detail steps for a change plan.
-    {% elif action == "Terminate" %}
-    You should highlight current state and engagement, express a desire to end the current session, and suggest further discussion be deferred to a later time.
-    {% endif %}
-  state_instruction_prompt: |
-    {% if stage == "Precontemplation" %}
-    You doesn't think your {{ behavior }} is problematic and wants to sustain.
-    {% elif stage == "Contemplation" %}
-    You feels that your {{ behavior }} is problematic, but still hesitate about {{ goal }}.
-    {% elif stage == "Preparation" %}
-    You gets ready to take action to change and begins discuss about steps toward {{ goal }}.
-    {% endif %}
+  stage_description_prompt:
+    "Precontemplation": |-
+      The client doesn't think their behavior is problematic.
+    "Contemplation": |-
+      The client feels that their behavior is problematic, but still hesitate whether to change.
+    "Preparation": |-
+      The client begins discuss about steps toward behavior change.
+  action_instruction_prompt:
+    "Deny": |-
+      You should directly refuse to admit your behavior is problematic or needs change.
+    "Downplay": |-
+      You should downplay the importance or impact of your behavior.
+    "Blame": |-
+      You should blame external factors or others to justify your behavior.
+    "Inform": |-
+      You should share details about your background, experiences, or emotions revealing the current state.
+    "Engage": |-
+      You should interact with counselor consistently based on your state.
+    "Hesitate": |-
+      You should show uncertainty, indicating ambivalence about change.
+    "Doubt": |-
+      You should expresse skepticism about the practicality or success of proposed changes but not reveal further information.
+    "Acknowledge": |-
+      You should acknowledge the need for change.
+    "Accept": |-
+      You should agree to adopt the suggested action plan.
+    "Reject": |-
+      You should decline the proposed plan, deeming it unsuitable.
+    "Plan": |-
+      You should propose or detail steps for a change plan.
+    "Terminate": |-
+      You should highlight current state and engagement, express a desire to end the current session, and suggest further discussion be deferred to a later time.
+  state_instruction_prompt:
+    "Precontemplation": |-
+      You doesn't think your {{ behavior }} is problematic and wants to sustain.
+    "Contemplation": |-
+      You feels that your {{ behavior }} is problematic, but still hesitate about {{ goal }}.
+    "Preparation": |-
+      You gets ready to take action to change and begins discuss about steps toward {{ goal }}.
   client_system_prompt: |
     In this role-play scenario, you'll take on the role of a Client discussing about your {{ behavior }} where the Counselor's goal is {{ goal }}.
 
@@ -189,16 +186,15 @@ en:
   select_information_hesitate_prompt: |
     Can the following Client's persona reply the question to show uncertainty, indicating ambivalence about change? Yes or No
     {{ persona }}
-  engage_instruction_prompt: |
-    {% if engagement_level == 1 %}
-    You should provide vague and broad answers that avoid focusing on the current topic. Shift the conversation subtly toward unrelated areas, without engaging deeply with the topic.
-    {% elif engagement_level == 2 %}
-    Acknowledge the importance of {{ engagemented_topics[2] }}, but hint that your focus is on a more specific topic, i.e. {{ engagemented_topics[1] }} within it.
-    {% elif engagement_level == 3 %}
-    Engage more directly with {{ engagemented_topics[1] }}, and offer responses that subtly indicate there’s a deeper, more specific issue worth exploring within that topic, i.e. {{ engagemented_topics[0] }}.
-    {% elif engagement_level == 4 %}
-    Offer specific responses that affirm the counselor is on the right track, showing that you're motivated by {{ engagemented_topics[0] }}. {{ motivation }}
-    {% endif %}
+  engage_instruction_prompt:
+    1: |-
+      You should provide vague and broad answers that avoid focusing on the current topic. Shift the conversation subtly toward unrelated areas, without engaging deeply with the topic.
+    2: |-
+      Acknowledge the importance of {{ engagemented_topics[2] }}, but hint that your focus is on a more specific topic, i.e. {{ engagemented_topics[1] }} within it.
+    3: |-
+      Engage more directly with {{ engagemented_topics[1] }}, and offer responses that subtly indicate there’s a deeper, more specific issue worth exploring within that topic, i.e. {{ engagemented_topics[0] }}.
+    4: |-
+      Offer specific responses that affirm the counselor is on the right track, showing that you're motivated by {{ engagemented_topics[0] }}. {{ motivation }}
   reply_instruction_prompt: |
     {# 
       Inputs:
@@ -234,207 +230,203 @@ en:
     [{{ state_instruction }} {{ action_instruction }} Don't show overknowledge, and keep your responses concise (no more than 50 words). Don't highlight your state explicitly.]
       {% endif %}
     {% endif %}
-  topic_description_prompt: |
-    {% if topic == "Infection" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can weaken your immune system, making you more susceptible to infections. They may also talk about how {{ goal }} can help strengthen your immune system and reduce your risk of frequent or severe infections.
-    {% elif topic == "Hypertension" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can contribute to increased blood pressure and raise your risk of hypertension. They may also discuss how {{ goal }} can help maintain a healthier blood pressure level and lower your risk of complications from hypertension.
-    {% elif topic == "Flu" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can increase your chances of contracting the flu or experiencing more severe symptoms. They may also highlight how {{ goal }} can improve your immune defense, reducing your likelihood of catching the flu or lessening its impact.
-    {% elif topic == "Inflammation" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can lead to chronic inflammation in your body, increasing your risk for related health conditions. They may also discuss how {{ goal }} can help reduce inflammation and promote better long-term health.
-    {% elif topic == "Liver Disease" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can cause liver damage, increasing your risk of liver disease. They may also discuss how {{ goal }} can protect your liver, prevent damage, and lower your chances of developing serious liver conditions.
-    {% elif topic == "Lung Cancer" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can increase your risk of developing lung cancer. They may also highlight how {{ goal }} can reduce your risk of lung cancer and improve your overall respiratory health.
-    {% elif topic == "COPD" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can worsen symptoms of COPD, making it harder for you to breathe. They may also explain how {{ goal }} can improve your lung function and help manage COPD symptoms.
-    {% elif topic == "Asthma" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can trigger or worsen asthma attacks. They may also discuss how {{ goal }} can help control asthma symptoms and improve your ability to manage the condition.
-    {% elif topic == "Stroke" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can increase your risk of stroke by negatively impacting your cardiovascular health. They may also highlight how {{ goal }} can help reduce this risk and support a healthier cardiovascular system.
-    {% elif topic == "Diabetes" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can contribute to the development or worsening of diabetes. They may also discuss how {{ goal }} can help manage your blood sugar levels and reduce the risk of diabetes-related complications.
-    {% elif topic == "Physical Activity" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can reduce your physical activity levels, increasing your risk of various health problems. They may also explain how {{ goal }} can boost your physical activity, improving your fitness and overall health.
-    {% elif topic == "Sport" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can decrease your performance or participation in sports. They may also discuss how {{ goal }} can enhance your physical conditioning and boost your ability to engage in sporting activities.
-    {% elif topic == "Physical Fitness" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can negatively affect your physical fitness, reducing your overall health. They may also explain how {{ goal }} can improve your fitness level and contribute to better health and well-being.
-    {% elif topic == "Strength" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can lead to a loss of strength, making everyday tasks more difficult. They may also discuss how {{ goal }} can help you build or regain muscle strength.
-    {% elif topic == "Flexibility" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can reduce your flexibility, causing stiffness or discomfort. They may also highlight how {{ goal }} can improve your flexibility, making movement easier and reducing the risk of injury.
-    {% elif topic == "Endurance" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can lower your endurance, making it harder to sustain physical activities for long periods. They may also explore how {{ goal }} can improve your stamina and overall physical endurance.
-    {% elif topic == "Dentistry" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can lead to poor dental hygiene, increasing your risk of cavities or gum disease. They may also explain how {{ goal }} can improve your oral health and reduce the likelihood of dental problems.
-    {% elif topic == "Caregiver Burden" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can place additional stress on caregivers, leading to burnout or reduced quality of care. They may also discuss how {{ goal }} can alleviate the burden on caregivers and improve the care provided.
-    {% elif topic == "Independent Living" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can limit your ability to live independently, making you more reliant on others. They may also discuss how {{ goal }} can help you regain independence and improve your quality of life.
-    {% elif topic == "Human Appearance" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can negatively impact your appearance, such as causing skin issues or weight gain. They may also explain how {{ goal }} can improve your physical appearance and boost your self-confidence.
-    {% elif topic == "Depression" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can worsen symptoms of depression, affecting your mood and daily life. They may also discuss how {{ goal }} can improve your emotional well-being and reduce the impact of depression.
-    {% elif topic == "Chronodisruption" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can disrupt your body’s natural rhythms, leading to sleep problems or fatigue. They may also highlight how {{ goal }} can restore healthy sleep patterns and improve your overall well-being.
-    {% elif topic == "Anxiety Disorders" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can increase your anxiety, leading to stress and panic attacks. They may also discuss how {{ goal }} can help manage anxiety and promote emotional stability.
-    {% elif topic == "Cognitive Decline" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can accelerate cognitive decline, affecting your memory and thinking abilities. They may also highlight how {{ goal }} can help protect brain function and slow cognitive deterioration.
-    {% elif topic == "Safe Sex" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can increase your risk of sexually transmitted infections or unintended pregnancies. They may also discuss how {{ goal }} can promote safer sexual practices and reduce these risks.
-    {% elif topic == "Maternal Health" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can negatively affect your health during pregnancy, increasing the risk of complications. They may also discuss how {{ goal }} can support a healthier pregnancy and reduce the likelihood of problems during childbirth.
-    {% elif topic == "Preterm Birth" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can increase the risk of preterm birth, leading to complications for both mother and baby. They may also highlight how {{ goal }} can help ensure a full-term, healthy pregnancy.
-    {% elif topic == "Miscarriage" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can increase the risk of miscarriage, causing emotional and physical distress. They may also discuss how {{ goal }} can help support a healthy pregnancy and reduce miscarriage risk.
-    {% elif topic == "Birth Defects" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can raise the risk of birth defects during pregnancy. They may also explain how {{ goal }} can promote a healthier pregnancy and reduce the risk of complications.
-    {% elif topic == "Productivity" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can negatively affect your productivity at work, making it harder to perform well. They may also discuss how {{ goal }} can improve your focus and efficiency.
-    {% elif topic == "Absenteeism" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can increase absenteeism, causing you to miss work or other responsibilities. They may also highlight how {{ goal }} can help you be more consistent and present in your daily life.
-    {% elif topic == "Workplace Relationships" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can strain relationships with colleagues, leading to conflicts at work. They may also explain how {{ goal }} can help improve communication and foster positive workplace relationships.
-    {% elif topic == "Career Break" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can lead to career interruptions or breaks, affecting your professional progress. They may also discuss how {{ goal }} can help you maintain continuity in your career.
-    {% elif topic == "Career Assessment" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can affect career assessments, leading to negative evaluations or feedback. They may also highlight how {{ goal }} can improve your performance and result in more favorable assessments.
-    {% elif topic == "Absence Rate" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can increase your absence rate at work, impacting your job security. They may also discuss how {{ goal }} can help you reduce absences and improve your work attendance.
-    {% elif topic == "Salary" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can hinder salary progression, limiting your earning potential. They may also discuss how {{ goal }} can help you increase your salary and financial stability.
-    {% elif topic == "Workplace Wellness" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can undermine workplace wellness initiatives, affecting your health at work. They may also explain how {{ goal }} can help you benefit from wellness programs and improve your job satisfaction.
-    {% elif topic == "Workplace Incivility" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can contribute to incivility in the workplace, leading to a negative environment. They may also highlight how {{ goal }} can help promote respect and cooperation in your work setting.
-    {% elif topic == "Cost of Living" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can make it harder to manage the cost of living, leading to financial strain. They may also explain how {{ goal }} can help improve your financial situation and reduce stress related to expenses.
-    {% elif topic == "Personal Budget" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can make it difficult to stick to a personal budget, leading to financial instability. They may also discuss how {{ goal }} can help you manage your finances more effectively.
-    {% elif topic == "Debt" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can lead to increased debt, affecting your financial security. They may also discuss how {{ goal }} can help you reduce debt and improve your financial well-being.
-    {% elif topic == "Income Deficit" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can contribute to income deficits, making it harder to cover basic expenses. They may also explain how {{ goal }} can help improve your financial management and income stability.
-    {% elif topic == "Family Estrangement" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can lead to emotional or physical distance between family members. They may also highlight how {{ goal }} can help repair family relationships and promote reconciliation.
-    {% elif topic == "Family Disruption" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can disrupt family dynamics, leading to conflict or instability. They may also discuss how {{ goal }} can strengthen family bonds and promote harmony.
-    {% elif topic == "Divorce" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can contribute to marital conflict, potentially leading to divorce. They may also discuss how {{ goal }} can improve communication and reduce the risk of divorce.
-    {% elif topic == "Role Model" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can affect your ability to serve as a positive role model, particularly for your children. They may also highlight how {{ goal }} can help you set a better example for those who look up to you.
-    {% elif topic == "Child Development" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can impact your child’s emotional, social, or cognitive development. They may also explain how {{ goal }} can support healthier growth and development in your child.
-    {% elif topic == "Paternal Bond" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can weaken the bond between you and your child, affecting your relationship. They may also discuss how {{ goal }} can help strengthen this bond and promote a closer connection.
-    {% elif topic == "Child Care" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can interfere with your ability to provide consistent child care. They may also highlight how {{ goal }} can help you offer more stable and nurturing care for your child.
-    {% elif topic == "Habituation" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can negatively affect a child’s ability to develop healthy habits or adapt to new environments. They may also explain how {{ goal }} can support positive habituation and learning.
-    {% elif topic == "Arrest" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can increase your risk of arrest, leading to legal trouble. They may also highlight how {{ goal }} can help you avoid legal issues and stay on the right side of the law.
-    {% elif topic == "Imprisonment" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can lead to imprisonment, causing long-term legal and social consequences. They may also discuss how {{ goal }} can help you avoid incarceration and promote responsible behavior.
-    {% elif topic == "Child Custody" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can affect your ability to maintain child custody, leading to legal challenges. They may also discuss how {{ goal }} can help you improve your parenting abilities and secure your custody rights.
-    {% elif topic == "Traffic Ticket" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can increase your chances of receiving traffic tickets or other legal penalties. They may also discuss how {{ goal }} can help you adopt safer driving practices and avoid infractions.
-    {% elif topic == "Complaint" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can result in legal complaints or disputes. They may also highlight how {{ goal }} can help you reduce conflicts and maintain positive relationships with others.
-    {% elif topic == "Attendance" %}
-    When discussing [topic], The counselor may explore how {{ behavior }} can affect your attendance, causing you to miss school or other responsibilities. They may also discuss how {{ goal }} can help you improve your attendance and stay on track.
-    {% elif topic == "Suspension" %}
-    When discussing [topic], The counselor may explain how {{ behavior }} can lead to suspension from school, affecting your academic progress. They may also highlight how {{ goal }} can help you avoid disciplinary actions and stay engaged in school.
-    {% elif topic == "Scholarship" %}
-    When discussing [topic], The counselor may address how {{ behavior }} can reduce your eligibility for scholarships, limiting academic opportunities. They may also discuss how {{ goal }} can help improve your academic performance and increase your chances of receiving scholarships.
-    {% elif topic == "Exam" %}
-    When discussing [topic], The counselor may discuss how {{ behavior }} can negatively impact your exam preparation and performance, leading to lower grades. They may also explain how {{ goal }} can help improve your focus and exam results.
-    {% elif topic == "Health" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} affects your overall health, including physical, mental, and emotional well-being. They may focus on specific health conditions, fitness levels, mental health, or healthcare practices. The counselor can also discuss how {{ goal }} can improve your health and reduce risks.
-    {% elif topic == "Diseases" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} leads to specific health conditions, such as infections, hypertension, flu, inflammation, liver disease, lung cancer, chronic obstructive pulmonary disease (COPD), asthma, stroke, and diabetes. The counselor can also discuss how {{ goal }} can help prevent or manage these diseases.
-    {% elif topic == "Fitness" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} reduces your physical activity, strength, flexibility, or endurance. The counselor can also discuss how {{ goal }} can improve your fitness and overall physical health.
-    {% elif topic == "Health Care" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} affects your ability to maintain personal healthcare, such as dental hygiene, caregiver burden, independent living, or human appearance. The counselor can also discuss how {{ goal }} can improve your self-care and healthcare routines.
-    {% elif topic == "Mental Disorders" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} contributes to mental health issues, such as depression, chronodisruption, anxiety disorders, or cognitive decline. The counselor can also discuss how {{ goal }} can improve your emotional well-being and cognitive health.
-    {% elif topic == "Sexual Health" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} affects your sexual and reproductive health, including safe sex practices, maternal health, preterm birth, miscarriage, or birth defects. The counselor can also discuss how {{ goal }} can help reduce risks and support a healthier sexual lifestyle.
-    {% elif topic == "Economy" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} impacts your financial stability, job performance, or overall economic well-being. They may discuss issues like work productivity, financial management, or income deficits. The counselor can also discuss how {{ goal }} can improve your financial situation and career success.
-    {% elif topic == "Employment" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} affects your job performance, including productivity, absenteeism, workplace relationships, career breaks, career assessments, absence rates, salary, workplace wellness, or workplace incivility. The counselor can also discuss how {{ goal }} can improve your professional performance and career progression.
-    {% elif topic == "Personal Finance" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} impacts your personal finances, including budgeting, debt management, cost of living, or income deficits. The counselor can also discuss how {{ goal }} can improve your financial stability and reduce financial stress.
-    {% elif topic == "Interpersonal Relationships" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} affects your relationships with family, children, or others. They may focus on how family dynamics, parenting roles, or conflicts are influenced by your actions. The counselor can also discuss how {{ goal }} can help strengthen relationships and foster positive connections.
-    {% elif topic == "Family" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} leads to family estrangement, family disruption, or divorce. The counselor can also discuss how {{ goal }} can help resolve family conflicts and improve relationships.
-    {% elif topic == "Parenting" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} affects your parenting style and your child’s development, including role modeling, paternal bonding, child care, or habituation. The counselor can also discuss how {{ goal }} can improve your parenting and support your child’s growth.
-    {% elif topic == "Law" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} may lead to legal issues, such as arrests, traffic violations, or family law disputes. They may focus on the consequences of these actions and the risks involved. The counselor can also discuss how {{ goal }} can help you avoid legal trouble and promote a law-abiding lifestyle.
-    {% elif topic == "Criminal Law" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} can lead to legal consequences, such as arrest, imprisonment, or complaints. The counselor can also discuss how {{ goal }} can help avoid these situations and promote responsible behavior.
-    {% elif topic == "Family Law" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} affects family law matters, such as child custody disputes. The counselor can also discuss how {{ goal }} can improve your parenting and strengthen your legal position.
-    {% elif topic == "Traffic Law" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} increases your chances of receiving traffic tickets or fines. The counselor can also discuss how {{ goal }} can help you drive responsibly and avoid future violations.
-    {% elif topic == "Education" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} affects your academic performance and opportunities, such as attendance, exam results, or scholarship eligibility. They may focus on how these behaviors hinder your educational success. The counselor can also discuss how {{ goal }} can help you improve your academic performance and stay engaged in school.
-    {% elif topic == "Student Affairs" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} impacts your attendance, causes suspensions, or affects your eligibility for scholarships. The counselor can also discuss how {{ goal }} can help improve your participation and academic success.
-    {% elif topic == "Academic Achievement" %}
-    When discussing [topic], The counselor may talk about how {{ behavior }} affects your academic performance or productivity in study. The counselor can also discuss how {{ goal }} can help you achieve better grades and academic success.
-    {% endif %}
+  topic_description_prompt:
+    "Infection": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can weaken your immune system, making you more susceptible to infections. They may also talk about how {{ goal }} can help strengthen your immune system and reduce your risk of frequent or severe infections.
+    "Hypertension": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can contribute to increased blood pressure and raise your risk of hypertension. They may also discuss how {{ goal }} can help maintain a healthier blood pressure level and lower your risk of complications from hypertension.
+    "Flu": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can increase your chances of contracting the flu or experiencing more severe symptoms. They may also highlight how {{ goal }} can improve your immune defense, reducing your likelihood of catching the flu or lessening its impact.
+    "Inflammation": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can lead to chronic inflammation in your body, increasing your risk for related health conditions. They may also discuss how {{ goal }} can help reduce inflammation and promote better long-term health.
+    "Liver Disease": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can cause liver damage, increasing your risk of liver disease. They may also discuss how {{ goal }} can protect your liver, prevent damage, and lower your chances of developing serious liver conditions.
+    "Lung Cancer": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can increase your risk of developing lung cancer. They may also highlight how {{ goal }} can reduce your risk of lung cancer and improve your overall respiratory health.
+    "COPD": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can worsen symptoms of COPD, making it harder for you to breathe. They may also explain how {{ goal }} can improve your lung function and help manage COPD symptoms.
+    "Asthma": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can trigger or worsen asthma attacks. They may also discuss how {{ goal }} can help control asthma symptoms and improve your ability to manage the condition.
+    "Stroke": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can increase your risk of stroke by negatively impacting your cardiovascular health. They may also highlight how {{ goal }} can help reduce this risk and support a healthier cardiovascular system.
+    "Diabetes": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can contribute to the development or worsening of diabetes. They may also discuss how {{ goal }} can help manage your blood sugar levels and reduce the risk of diabetes-related complications.
+    "Physical Activity": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can reduce your physical activity levels, increasing your risk of various health problems. They may also explain how {{ goal }} can boost your physical activity, improving your fitness and overall health.
+    "Sport": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can decrease your performance or participation in sports. They may also discuss how {{ goal }} can enhance your physical conditioning and boost your ability to engage in sporting activities.
+    "Physical Fitness": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can negatively affect your physical fitness, reducing your overall health. They may also explain how {{ goal }} can improve your fitness level and contribute to better health and well-being.
+    "Strength": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can lead to a loss of strength, making everyday tasks more difficult. They may also discuss how {{ goal }} can help you build or regain muscle strength.
+    "Flexibility": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can reduce your flexibility, causing stiffness or discomfort. They may also highlight how {{ goal }} can improve your flexibility, making movement easier and reducing the risk of injury.
+    "Endurance": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can lower your endurance, making it harder to sustain physical activities for long periods. They may also explore how {{ goal }} can improve your stamina and overall physical endurance.
+    "Dentistry": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can lead to poor dental hygiene, increasing your risk of cavities or gum disease. They may also explain how {{ goal }} can improve your oral health and reduce the likelihood of dental problems.
+    "Caregiver Burden": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can place additional stress on caregivers, leading to burnout or reduced quality of care. They may also discuss how {{ goal }} can alleviate the burden on caregivers and improve the care provided.
+    "Independent Living": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can limit your ability to live independently, making you more reliant on others. They may also discuss how {{ goal }} can help you regain independence and improve your quality of life.
+    "Human Appearance": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can negatively impact your appearance, such as causing skin issues or weight gain. They may also explain how {{ goal }} can improve your physical appearance and boost your self-confidence.
+    "Depression": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can worsen symptoms of depression, affecting your mood and daily life. They may also discuss how {{ goal }} can improve your emotional well-being and reduce the impact of depression.
+    "Chronodisruption": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can disrupt your body’s natural rhythms, leading to sleep problems or fatigue. They may also highlight how {{ goal }} can restore healthy sleep patterns and improve your overall well-being.
+    "Anxiety Disorders": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can increase your anxiety, leading to stress and panic attacks. They may also discuss how {{ goal }} can help manage anxiety and promote emotional stability.
+    "Cognitive Decline": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can accelerate cognitive decline, affecting your memory and thinking abilities. They may also highlight how {{ goal }} can help protect brain function and slow cognitive deterioration.
+    "Safe Sex": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can increase your risk of sexually transmitted infections or unintended pregnancies. They may also discuss how {{ goal }} can promote safer sexual practices and reduce these risks.
+    "Maternal Health": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can negatively affect your health during pregnancy, increasing the risk of complications. They may also discuss how {{ goal }} can support a healthier pregnancy and reduce the likelihood of problems during childbirth.
+    "Preterm Birth": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can increase the risk of preterm birth, leading to complications for both mother and baby. They may also highlight how {{ goal }} can help ensure a full-term, healthy pregnancy.
+    "Miscarriage": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can increase the risk of miscarriage, causing emotional and physical distress. They may also discuss how {{ goal }} can help support a healthy pregnancy and reduce miscarriage risk.
+    "Birth Defects": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can raise the risk of birth defects during pregnancy. They may also explain how {{ goal }} can promote a healthier pregnancy and reduce the risk of complications.
+    "Productivity": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can negatively affect your productivity at work, making it harder to perform well. They may also discuss how {{ goal }} can improve your focus and efficiency.
+    "Absenteeism": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can increase absenteeism, causing you to miss work or other responsibilities. They may also highlight how {{ goal }} can help you be more consistent and present in your daily life.
+    "Workplace Relationships": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can strain relationships with colleagues, leading to conflicts at work. They may also explain how {{ goal }} can help improve communication and foster positive workplace relationships.
+    "Career Break": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can lead to career interruptions or breaks, affecting your professional progress. They may also discuss how {{ goal }} can help you maintain continuity in your career.
+    "Career Assessment": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can affect career assessments, leading to negative evaluations or feedback. They may also highlight how {{ goal }} can improve your performance and result in more favorable assessments.
+    "Absence Rate": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can increase your absence rate at work, impacting your job security. They may also discuss how {{ goal }} can help you reduce absences and improve your work attendance.
+    "Salary": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can hinder salary progression, limiting your earning potential. They may also discuss how {{ goal }} can help you increase your salary and financial stability.
+    "Workplace Wellness": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can undermine workplace wellness initiatives, affecting your health at work. They may also explain how {{ goal }} can help you benefit from wellness programs and improve your job satisfaction.
+    "Workplace Incivility": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can contribute to incivility in the workplace, leading to a negative environment. They may also highlight how {{ goal }} can help promote respect and cooperation in your work setting.
+    "Cost of Living": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can make it harder to manage the cost of living, leading to financial strain. They may also explain how {{ goal }} can help improve your financial situation and reduce stress related to expenses.
+    "Personal Budget": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can make it difficult to stick to a personal budget, leading to financial instability. They may also discuss how {{ goal }} can help you manage your finances more effectively.
+    "Debt": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can lead to increased debt, affecting your financial security. They may also discuss how {{ goal }} can help you reduce debt and improve your financial well-being.
+    "Income Deficit": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can contribute to income deficits, making it harder to cover basic expenses. They may also explain how {{ goal }} can help improve your financial management and income stability.
+    "Family Estrangement": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can lead to emotional or physical distance between family members. They may also highlight how {{ goal }} can help repair family relationships and promote reconciliation.
+    "Family Disruption": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can disrupt family dynamics, leading to conflict or instability. They may also discuss how {{ goal }} can strengthen family bonds and promote harmony.
+    "Divorce": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can contribute to marital conflict, potentially leading to divorce. They may also discuss how {{ goal }} can improve communication and reduce the risk of divorce.
+    "Role Model": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can affect your ability to serve as a positive role model, particularly for your children. They may also highlight how {{ goal }} can help you set a better example for those who look up to you.
+    "Child Development": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can impact your child’s emotional, social, or cognitive development. They may also explain how {{ goal }} can support healthier growth and development in your child.
+    "Paternal Bond": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can weaken the bond between you and your child, affecting your relationship. They may also discuss how {{ goal }} can help strengthen this bond and promote a closer connection.
+    "Child Care": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can interfere with your ability to provide consistent child care. They may also highlight how {{ goal }} can help you offer more stable and nurturing care for your child.
+    "Habituation": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can negatively affect a child’s ability to develop healthy habits or adapt to new environments. They may also explain how {{ goal }} can support positive habituation and learning.
+    "Arrest": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can increase your risk of arrest, leading to legal trouble. They may also highlight how {{ goal }} can help you avoid legal issues and stay on the right side of the law.
+    "Imprisonment": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can lead to imprisonment, causing long-term legal and social consequences. They may also discuss how {{ goal }} can help you avoid incarceration and promote responsible behavior.
+    "Child Custody": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can affect your ability to maintain child custody, leading to legal challenges. They may also discuss how {{ goal }} can help you improve your parenting abilities and secure your custody rights.
+    "Traffic Ticket": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can increase your chances of receiving traffic tickets or other legal penalties. They may also discuss how {{ goal }} can help you adopt safer driving practices and avoid infractions.
+    "Complaint": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can result in legal complaints or disputes. They may also highlight how {{ goal }} can help you reduce conflicts and maintain positive relationships with others.
+    "Attendance": |-
+      When discussing [topic], The counselor may explore how {{ behavior }} can affect your attendance, causing you to miss school or other responsibilities. They may also discuss how {{ goal }} can help you improve your attendance and stay on track.
+    "Suspension": |-
+      When discussing [topic], The counselor may explain how {{ behavior }} can lead to suspension from school, affecting your academic progress. They may also highlight how {{ goal }} can help you avoid disciplinary actions and stay engaged in school.
+    "Scholarship": |-
+      When discussing [topic], The counselor may address how {{ behavior }} can reduce your eligibility for scholarships, limiting academic opportunities. They may also discuss how {{ goal }} can help improve your academic performance and increase your chances of receiving scholarships.
+    "Exam": |-
+      When discussing [topic], The counselor may discuss how {{ behavior }} can negatively impact your exam preparation and performance, leading to lower grades. They may also explain how {{ goal }} can help improve your focus and exam results.
+    "Health": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} affects your overall health, including physical, mental, and emotional well-being. They may focus on specific health conditions, fitness levels, mental health, or healthcare practices. The counselor can also discuss how {{ goal }} can improve your health and reduce risks.
+    "Diseases": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} leads to specific health conditions, such as infections, hypertension, flu, inflammation, liver disease, lung cancer, chronic obstructive pulmonary disease (COPD), asthma, stroke, and diabetes. The counselor can also discuss how {{ goal }} can help prevent or manage these diseases.
+    "Fitness": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} reduces your physical activity, strength, flexibility, or endurance. The counselor can also discuss how {{ goal }} can improve your fitness and overall physical health.
+    "Health Care": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} affects your ability to maintain personal healthcare, such as dental hygiene, caregiver burden, independent living, or human appearance. The counselor can also discuss how {{ goal }} can improve your self-care and healthcare routines.
+    "Mental Disorders": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} contributes to mental health issues, such as depression, chronodisruption, anxiety disorders, or cognitive decline. The counselor can also discuss how {{ goal }} can improve your emotional well-being and cognitive health.
+    "Sexual Health": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} affects your sexual and reproductive health, including safe sex practices, maternal health, preterm birth, miscarriage, or birth defects. The counselor can also discuss how {{ goal }} can help reduce risks and support a healthier sexual lifestyle.
+    "Economy": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} impacts your financial stability, job performance, or overall economic well-being. They may discuss issues like work productivity, financial management, or income deficits. The counselor can also discuss how {{ goal }} can improve your financial situation and career success.
+    "Employment": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} affects your job performance, including productivity, absenteeism, workplace relationships, career breaks, career assessments, absence rates, salary, workplace wellness, or workplace incivility. The counselor can also discuss how {{ goal }} can improve your professional performance and career progression.
+    "Personal Finance": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} impacts your personal finances, including budgeting, debt management, cost of living, or income deficits. The counselor can also discuss how {{ goal }} can improve your financial stability and reduce financial stress.
+    "Interpersonal Relationships": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} affects your relationships with family, children, or others. They may focus on how family dynamics, parenting roles, or conflicts are influenced by your actions. The counselor can also discuss how {{ goal }} can help strengthen relationships and foster positive connections.
+    "Family": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} leads to family estrangement, family disruption, or divorce. The counselor can also discuss how {{ goal }} can help resolve family conflicts and improve relationships.
+    "Parenting": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} affects your parenting style and your child’s development, including role modeling, paternal bonding, child care, or habituation. The counselor can also discuss how {{ goal }} can improve your parenting and support your child’s growth.
+    "Law": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} may lead to legal issues, such as arrests, traffic violations, or family law disputes. They may focus on the consequences of these actions and the risks involved. The counselor can also discuss how {{ goal }} can help you avoid legal trouble and promote a law-abiding lifestyle.
+    "Criminal Law": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} can lead to legal consequences, such as arrest, imprisonment, or complaints. The counselor can also discuss how {{ goal }} can help avoid these situations and promote responsible behavior.
+    "Family Law": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} affects family law matters, such as child custody disputes. The counselor can also discuss how {{ goal }} can improve your parenting and strengthen your legal position.
+    "Traffic Law": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} increases your chances of receiving traffic tickets or fines. The counselor can also discuss how {{ goal }} can help you drive responsibly and avoid future violations.
+    "Education": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} affects your academic performance and opportunities, such as attendance, exam results, or scholarship eligibility. They may focus on how these behaviors hinder your educational success. The counselor can also discuss how {{ goal }} can help you improve your academic performance and stay engaged in school.
+    "Student Affairs": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} impacts your attendance, causes suspensions, or affects your eligibility for scholarships. The counselor can also discuss how {{ goal }} can help improve your participation and academic success.
+    "Academic Achievement": |-
+      When discussing [topic], The counselor may talk about how {{ behavior }} affects your academic performance or productivity in study. The counselor can also discuss how {{ goal }} can help you achieve better grades and academic success.
 zh:
-  stage_description_prompt: |
-    {% if stage == "Precontemplation" %}
-    来访者认为自己的行为没有问题。
-    {% elif stage == "Contemplation" %}
-    来访者觉得自己的行为有问题，但仍在犹豫是否要改变。
-    {% elif stage == "Preparation" %}
-    来访者开始讨论改变行为的具体步骤。
-    {% endif %}
-  action_instruction_prompt: |
-    {% if action == "Deny" %}
-    你应当直接否认自己的行为有问题或需要改变。
-    {% elif action == "Downplay" %}
-    你应当淡化自己行为的重要性或影响。
-    {% elif action == "Blame" %}
-    你应当归咎于外部因素或他人来为自己的行为辩解。
-    {% elif action == "Inform" %}
-    你应当分享有关你背景、经历或情感的细节，揭示当前状态。
-    {% elif action == "Engage" %}
-    你应当根据自身状态持续与咨询师互动。
-    {% elif action == "Hesitate" %}
-    你应当表现出犹豫，表达对改变的矛盾心理。
-    {% elif action == "Doubt" %}
-    你应当对建议的改变方案表示怀疑，但不要透露更多信息。
-    {% elif action == "Acknowledge" %}
-    你应当承认需要改变。
-    {% elif action == "Accept" %}
-    你应当同意采纳建议的行动计划。
-    {% elif action == "Reject" %}
-    你应当拒绝建议的方案，认为其不适合自己。
-    {% elif action == "Plan" %}
-    你应当提出或详细说明改变计划的步骤。
-    {% elif action == "Terminate" %}
-    你应当强调当前状态和参与度，表达希望结束本次会谈，并建议将进一步讨论推迟到以后。
-    {% endif %}
-  state_instruction_prompt: |
-    {% if stage == "Precontemplation" %}
-    你认为自己的{{ behavior }}没有问题，并希望维持现状。
-    {% elif stage == "Contemplation" %}
-    你觉得自己的{{ behavior }}有问题，但对{{ goal }}仍然犹豫。
-    {% elif stage == "Preparation" %}
-    你准备采取行动进行改变，并开始讨论实现{{ goal }}的具体步骤。
-    {% endif %}
+  stage_description_prompt:
+    "Precontemplation": |-
+      来访者认为自己的行为没有问题。
+    "Contemplation": |-
+      来访者觉得自己的行为有问题，但仍在犹豫是否要改变。
+    "Preparation": |-
+      来访者开始讨论改变行为的具体步骤。
+  action_instruction_prompt:
+    "Deny": |-
+      你应当直接否认自己的行为有问题或需要改变。
+    "Downplay": |-
+      你应当淡化自己行为的重要性或影响。
+    "Blame": |-
+      你应当归咎于外部因素或他人来为自己的行为辩解。
+    "Inform": |-
+      你应当分享有关你背景、经历或情感的细节，揭示当前状态。
+    "Engage": |-
+      你应当根据自身状态持续与咨询师互动。
+    "Hesitate": |-
+      你应当表现出犹豫，表达对改变的矛盾心理。
+    "Doubt": |-
+      你应当对建议的改变方案表示怀疑，但不要透露更多信息。
+    "Acknowledge": |-
+      你应当承认需要改变。
+    "Accept": |-
+      你应当同意采纳建议的行动计划。
+    "Reject": |-
+      你应当拒绝建议的方案，认为其不适合自己。
+    "Plan": |-
+      你应当提出或详细说明改变计划的步骤。
+    "Terminate": |-
+      你应当强调当前状态和参与度，表达希望结束本次会谈，并建议将进一步讨论推迟到以后。
+  state_instruction_prompt:
+    "Precontemplation": |-
+      你认为自己的{{ behavior }}没有问题，并希望维持现状。
+    "Contemplation": |-
+      你觉得自己的{{ behavior }}有问题，但对{{ goal }}仍然犹豫。
+    "Preparation": |-
+      你准备采取行动进行改变，并开始讨论实现{{ goal }}的具体步骤。
   client_system_prompt: |
     在本次角色扮演中，你将扮演一位来访者，讨论关于你的{{ behavior }}，而咨询师的目标是{{ goal }}。
 
@@ -581,16 +573,15 @@ zh:
   select_information_hesitate_prompt: |
     以下来访者人设能否以犹豫、表达矛盾心理的方式回答该问题？是或否
     {{ persona }}
-  engage_instruction_prompt: |
-    {% if engagement_level == 1 %}
-    你应当给出模糊宽泛的回答，避免聚焦当前话题，巧妙地将对话转向无关领域，不要深入参与。
-    {% elif engagement_level == 2 %}
-    承认{{ engagemented_topics[2] }}的重要性，但暗示你关注的是其中更具体的话题，即{{ engagemented_topics[1] }}。
-    {% elif engagement_level == 3 %}
-    更直接地与{{ engagemented_topics[1] }}互动，并在回复中暗示还有更深层、更具体的问题值得探讨，即{{ engagemented_topics[0] }}。
-    {% elif engagement_level == 4 %}
-    针对{{ engagemented_topics[0] }}给出具体回应，肯定咨询师方向正确，表明你的动机是{{ engagemented_topics[0] }}。{{ motivation }}
-    {% endif %}
+  engage_instruction_prompt:
+    1: |-
+      你应当给出模糊宽泛的回答，避免聚焦当前话题，巧妙地将对话转向无关领域，不要深入参与。
+    2: |-
+      承认{{ engagemented_topics[2] }}的重要性，但暗示你关注的是其中更具体的话题，即{{ engagemented_topics[1] }}。
+    3: |-
+      更直接地与{{ engagemented_topics[1] }}互动，并在回复中暗示还有更深层、更具体的问题值得探讨，即{{ engagemented_topics[0] }}。
+    4: |-
+      针对{{ engagemented_topics[0] }}给出具体回应，肯定咨询师方向正确，表明你的动机是{{ engagemented_topics[0] }}。{{ motivation }}
   reply_instruction_prompt: |
     {# 
       输入：
@@ -626,161 +617,160 @@ zh:
     [{{ state_instruction }} {{ action_instruction }} 不要表现出过度知识，回复简明（不超过50字），不要显式强调你的状态。]
       {% endif %}
     {% endif %}
-  topic_description_prompt: |
-    {% if topic == "Infection" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何削弱你的免疫系统，使你更易感染。也可能会谈到{{ goal }}如何增强免疫力，降低感染风险。
-    {% elif topic == "Hypertension" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何导致血压升高，增加高血压风险。也可能会谈到{{ goal }}如何帮助你维持健康血压，降低并发症风险。
-    {% elif topic == "Flu" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何增加患流感或加重症状的风险。也可能会强调{{ goal }}如何提升免疫力，减少患流感或减轻其影响。
-    {% elif topic == "Inflammation" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致慢性炎症，增加相关疾病风险。也可能会谈到{{ goal }}如何帮助减少炎症，促进长期健康。
-    {% elif topic == "Liver Disease" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何损害肝脏，增加肝病风险。也可能会谈到{{ goal }}如何保护肝脏，预防损伤，降低严重肝病风险。
-    {% elif topic == "Lung Cancer" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何增加患肺癌的风险。也可能会强调{{ goal }}如何降低肺癌风险，改善呼吸健康。
-    {% elif topic == "COPD" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何加重慢阻肺症状，使呼吸更困难。也可能会解释{{ goal }}如何改善肺功能，帮助管理慢阻肺。
-    {% elif topic == "Asthma" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何诱发或加重哮喘发作。也可能会谈到{{ goal }}如何帮助控制哮喘症状，提高管理能力。
-    {% elif topic == "Stroke" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何通过影响心血管健康增加中风风险。也可能会强调{{ goal }}如何降低风险，支持心血管健康。
-    {% elif topic == "Diabetes" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何导致或加重糖尿病。也可能会谈到{{ goal }}如何帮助管理血糖，减少并发症风险。
-    {% elif topic == "Physical Activity" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何降低你的体力活动水平，增加健康问题风险。也可能会解释{{ goal }}如何提升体力活动，改善健康。
-    {% elif topic == "Sport" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何降低运动表现或参与度。也可能会谈到{{ goal }}如何提升体能，增强运动能力。
-    {% elif topic == "Physical Fitness" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响体能，降低健康水平。也可能会解释{{ goal }}如何提升体能，促进健康。
-    {% elif topic == "Strength" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何导致力量下降，使日常活动更困难。也可能会谈到{{ goal }}如何帮助增强或恢复力量。
-    {% elif topic == "Flexibility" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何降低柔韧性，导致僵硬或不适。也可能会强调{{ goal }}如何提升柔韧性，减少受伤风险。
-    {% elif topic == "Endurance" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何降低耐力，使持续活动变得困难。也可能会探讨{{ goal }}如何提升耐力和体能。
-    {% elif topic == "Dentistry" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致口腔卫生变差，增加龋齿或牙龈疾病风险。也可能会解释{{ goal }}如何改善口腔健康，减少牙病。
-    {% elif topic == "Caregiver Burden" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何增加照护者压力，导致倦怠或照护质量下降。也可能会谈到{{ goal }}如何减轻照护负担，提升照护质量。
-    {% elif topic == "Independent Living" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何限制独立生活能力，使你更依赖他人。也可能会谈到{{ goal }}如何帮助你恢复独立，提高生活质量。
-    {% elif topic == "Human Appearance" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响外貌，如导致皮肤问题或体重增加。也可能会解释{{ goal }}如何改善外貌，提升自信。
-    {% elif topic == "Depression" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何加重抑郁症状，影响情绪和生活。也可能会谈到{{ goal }}如何改善情绪健康，减轻抑郁影响。
-    {% elif topic == "Chronodisruption" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何扰乱生物节律，导致睡眠问题或疲劳。也可能会强调{{ goal }}如何恢复健康作息，提升幸福感。
-    {% elif topic == "Anxiety Disorders" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何加重焦虑，导致压力和恐慌发作。也可能会谈到{{ goal }}如何帮助管理焦虑，促进情绪稳定。
-    {% elif topic == "Cognitive Decline" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何加速认知衰退，影响记忆和思维。也可能会强调{{ goal }}如何保护大脑功能，延缓衰退。
-    {% elif topic == "Safe Sex" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何增加性传播疾病或意外怀孕风险。也可能会谈到{{ goal }}如何促进安全性行为，降低风险。
-    {% elif topic == "Maternal Health" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响孕期健康，增加并发症风险。也可能会谈到{{ goal }}如何支持健康妊娠，减少问题发生。
-    {% elif topic == "Preterm Birth" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何增加早产风险，影响母婴健康。也可能会强调{{ goal }}如何帮助顺利足月生产。
-    {% elif topic == "Miscarriage" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何增加流产风险，带来身心压力。也可能会谈到{{ goal }}如何支持健康妊娠，降低流产风险。
-    {% elif topic == "Birth Defects" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何增加胎儿畸形风险。也可能会解释{{ goal }}如何促进健康妊娠，降低并发症。
-    {% elif topic == "Productivity" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何影响工作效率，使你难以高效完成任务。也可能会谈到{{ goal }}如何提升专注力和效率。
-    {% elif topic == "Absenteeism" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何增加缺勤，导致错过工作或责任。也可能会强调{{ goal }}如何帮助你保持出勤和日常规律。
-    {% elif topic == "Workplace Relationships" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响同事关系，导致工作冲突。也可能会解释{{ goal }}如何改善沟通，促进良好关系。
-    {% elif topic == "Career Break" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致职业中断，影响发展。也可能会谈到{{ goal }}如何帮助你保持职业连续性。
-    {% elif topic == "Career Assessment" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何影响职业评估，导致负面反馈。也可能会强调{{ goal }}如何提升表现，获得更好评价。
-    {% elif topic == "Absence Rate" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何增加缺勤率，影响工作稳定。也可能会谈到{{ goal }}如何帮助你减少缺勤，提高出勤率。
-    {% elif topic == "Salary" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何阻碍薪资增长，影响收入。也可能会谈到{{ goal }}如何帮助你提升薪资和财务稳定。
-    {% elif topic == "Workplace Wellness" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响职场健康计划，影响健康。也可能会解释{{ goal }}如何帮助你受益于健康项目，提高满意度。
-    {% elif topic == "Workplace Incivility" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何导致职场不和谐，营造负面氛围。也可能会强调{{ goal }}如何促进尊重与合作。
-    {% elif topic == "Cost of Living" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何加重生活成本，带来经济压力。也可能会解释{{ goal }}如何改善财务状况，减轻压力。
-    {% elif topic == "Personal Budget" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响个人预算，导致财务不稳定。也可能会谈到{{ goal }}如何帮助你更好地管理财务。
-    {% elif topic == "Debt" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何导致债务增加，影响经济安全。也可能会谈到{{ goal }}如何帮助你减少债务，改善财务状况。
-    {% elif topic == "Income Deficit" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何导致收入不足，难以负担开支。也可能会解释{{ goal }}如何帮助你改善财务管理和收入稳定。
-    {% elif topic == "Family Estrangement" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致家庭疏远。也可能会强调{{ goal }}如何修复关系，促进和解。
-    {% elif topic == "Family Disruption" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何破坏家庭关系，导致冲突或不稳定。也可能会谈到{{ goal }}如何加强家庭纽带，促进和谐。
-    {% elif topic == "Divorce" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致婚姻冲突，增加离婚风险。也可能会谈到{{ goal }}如何改善沟通，降低离婚风险。
-    {% elif topic == "Role Model" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何影响你作为榜样的能力，尤其是对子女。也可能会强调{{ goal }}如何帮助你树立良好榜样。
-    {% elif topic == "Child Development" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响子女的情感、社交或认知发展。也可能会解释{{ goal }}如何支持子女健康成长。
-    {% elif topic == "Paternal Bond" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何削弱你与子女的关系。也可能会谈到{{ goal }}如何帮助你增进亲子关系。
-    {% elif topic == "Child Care" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何影响你提供稳定照护的能力。也可能会强调{{ goal }}如何帮助你为子女提供更好照护。
-    {% elif topic == "Habituation" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响子女养成健康习惯或适应新环境。也可能会解释{{ goal }}如何支持积极习惯养成。
-    {% elif topic == "Arrest" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何增加被逮捕的风险，带来法律麻烦。也可能会强调{{ goal }}如何帮助你远离法律问题。
-    {% elif topic == "Imprisonment" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何导致入狱，带来长期法律和社会后果。也可能会谈到{{ goal }}如何帮助你避免牢狱之灾。
-    {% elif topic == "Child Custody" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何影响子女抚养权，带来法律挑战。也可能会谈到{{ goal }}如何帮助你提升抚养能力，保障权益。
-    {% elif topic == "Traffic Ticket" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何增加交通违章风险。也可能会谈到{{ goal }}如何帮助你养成安全驾驶习惯。
-    {% elif topic == "Complaint" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何导致法律纠纷或投诉。也可能会强调{{ goal }}如何帮助你减少冲突，维护良好关系。
-    {% elif topic == "Attendance" %}
-    当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何影响出勤，导致缺课或责任缺失。也可能会谈到{{ goal }}如何帮助你提升出勤率。
-    {% elif topic == "Suspension" %}
-    当讨论[topic]时，咨询师可能会解释{{ behavior }}如何导致停学，影响学业。也可能会强调{{ goal }}如何帮助你避免处分，保持学业进步。
-    {% elif topic == "Scholarship" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响奖学金资格，减少机会。也可能会谈到{{ goal }}如何帮助你提升成绩，争取奖学金。
-    {% elif topic == "Exam" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响考试准备和成绩，导致分数下降。也可能会解释{{ goal }}如何帮助你提升专注力和考试表现。
-    {% elif topic == "Health" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响你的整体健康，包括身体、心理和情感。也可能会关注具体疾病、健康水平、心理健康或医疗习惯。咨询师还可以讨论{{ goal }}如何改善健康、降低风险。
-    {% elif topic == "Diseases" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致具体疾病，如感染、高血压、流感、炎症、肝病、肺癌、慢阻肺、哮喘、中风和糖尿病。咨询师还可以讨论{{ goal }}如何预防或管理这些疾病。
-    {% elif topic == "Fitness" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何降低体力活动、力量、柔韧性或耐力。咨询师还可以讨论{{ goal }}如何提升体能和健康。
-    {% elif topic == "Health Care" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响个人健康管理，如口腔卫生、照护者负担、独立生活或外貌。咨询师还可以讨论{{ goal }}如何改善自我照护和健康习惯。
-    {% elif topic == "Mental Disorders" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致心理健康问题，如抑郁、节律紊乱、焦虑障碍或认知衰退。咨询师还可以讨论{{ goal }}如何改善情绪和认知健康。
-    {% elif topic == "Sexual Health" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响性与生殖健康，包括安全性行为、孕期健康、早产、流产或胎儿畸形。咨询师还可以讨论{{ goal }}如何降低风险，支持健康性生活。
-    {% elif topic == "Economy" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响经济稳定、工作表现或整体经济状况。可能涉及工作效率、财务管理或收入不足。咨询师还可以讨论{{ goal }}如何改善财务和职业发展。
-    {% elif topic == "Employment" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响工作表现，包括效率、缺勤、同事关系、职业中断、评估、缺勤率、薪资、健康计划或职场不和谐。咨询师还可以讨论{{ goal }}如何提升职业表现和发展。
-    {% elif topic == "Personal Finance" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响个人财务，包括预算、债务、生活成本或收入不足。咨询师还可以讨论{{ goal }}如何提升财务稳定，减轻压力。
-    {% elif topic == "Interpersonal Relationships" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响家庭、子女或他人的关系。可能关注家庭动态、育儿角色或冲突。咨询师还可以讨论{{ goal }}如何加强关系，促进积极互动。
-    {% elif topic == "Family" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致家庭疏远、破裂或离婚。咨询师还可以讨论{{ goal }}如何解决冲突，改善关系。
-    {% elif topic == "Parenting" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响育儿方式和子女发展，包括榜样作用、亲子关系、照护或习惯养成。咨询师还可以讨论{{ goal }}如何提升育儿能力，支持子女成长。
-    {% elif topic == "Law" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}可能导致法律问题，如被捕、交通违规或家庭纠纷。可能关注这些行为的后果和风险。咨询师还可以讨论{{ goal }}如何帮助你远离法律麻烦，促进守法生活。
-    {% elif topic == "Criminal Law" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致法律后果，如被捕、入狱或投诉。咨询师还可以讨论{{ goal }}如何避免这些情况，促进负责任行为。
-    {% elif topic == "Family Law" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响家庭法事务，如子女抚养权争议。咨询师还可以讨论{{ goal }}如何提升育儿能力，加强法律地位。
-    {% elif topic == "Traffic Law" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何增加交通违章或罚款风险。咨询师还可以讨论{{ goal }}如何帮助你安全驾驶，避免违规。
-    {% elif topic == "Education" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响学业表现和机会，如出勤、考试成绩或奖学金资格。可能关注这些行为对学业的阻碍。咨询师还可以讨论{{ goal }}如何提升成绩，保持学业进步。
-    {% elif topic == "Student Affairs" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响出勤、导致停学或影响奖学金资格。咨询师还可以讨论{{ goal }}如何提升参与度和学业成功。
-    {% elif topic == "Academic Achievement" %}
-    当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响学业表现或学习效率。咨询师还可以讨论{{ goal }}如何帮助你取得更好成绩。
-    {% endif %}
+  topic_description_prompt:
+    "Infection": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何削弱你的免疫系统，使你更易感染。也可能会谈到{{ goal }}如何增强免疫力，降低感染风险。
+    "Hypertension": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何导致血压升高，增加高血压风险。也可能会谈到{{ goal }}如何帮助你维持健康血压，降低并发症风险。
+    "Flu": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何增加患流感或加重症状的风险。也可能会强调{{ goal }}如何提升免疫力，减少患流感或减轻其影响。
+    "Inflammation": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致慢性炎症，增加相关疾病风险。也可能会谈到{{ goal }}如何帮助减少炎症，促进长期健康。
+    "Liver Disease": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何损害肝脏，增加肝病风险。也可能会谈到{{ goal }}如何保护肝脏，预防损伤，降低严重肝病风险。
+    "Lung Cancer": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何增加患肺癌的风险。也可能会强调{{ goal }}如何降低肺癌风险，改善呼吸健康。
+    "COPD": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何加重慢阻肺症状，使呼吸更困难。也可能会解释{{ goal }}如何改善肺功能，帮助管理慢阻肺。
+    "Asthma": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何诱发或加重哮喘发作。也可能会谈到{{ goal }}如何帮助控制哮喘症状，提高管理能力。
+    "Stroke": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何通过影响心血管健康增加中风风险。也可能会强调{{ goal }}如何降低风险，支持心血管健康。
+    "Diabetes": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何导致或加重糖尿病。也可能会谈到{{ goal }}如何帮助管理血糖，减少并发症风险。
+    "Physical Activity": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何降低你的体力活动水平，增加健康问题风险。也可能会解释{{ goal }}如何提升体力活动，改善健康。
+    "Sport": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何降低运动表现或参与度。也可能会谈到{{ goal }}如何提升体能，增强运动能力。
+    "Physical Fitness": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响体能，降低健康水平。也可能会解释{{ goal }}如何提升体能，促进健康。
+    "Strength": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何导致力量下降，使日常活动更困难。也可能会谈到{{ goal }}如何帮助增强或恢复力量。
+    "Flexibility": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何降低柔韧性，导致僵硬或不适。也可能会强调{{ goal }}如何提升柔韧性，减少受伤风险。
+    "Endurance": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何降低耐力，使持续活动变得困难。也可能会探讨{{ goal }}如何提升耐力和体能。
+    "Dentistry": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致口腔卫生变差，增加龋齿或牙龈疾病风险。也可能会解释{{ goal }}如何改善口腔健康，减少牙病。
+    "Caregiver Burden": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何增加照护者压力，导致倦怠或照护质量下降。也可能会谈到{{ goal }}如何减轻照护负担，提升照护质量。
+    "Independent Living": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何限制独立生活能力，使你更依赖他人。也可能会谈到{{ goal }}如何帮助你恢复独立，提高生活质量。
+    "Human Appearance": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响外貌，如导致皮肤问题或体重增加。也可能会解释{{ goal }}如何改善外貌，提升自信。
+    "Depression": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何加重抑郁症状，影响情绪和生活。也可能会谈到{{ goal }}如何改善情绪健康，减轻抑郁影响。
+    "Chronodisruption": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何扰乱生物节律，导致睡眠问题或疲劳。也可能会强调{{ goal }}如何恢复健康作息，提升幸福感。
+    "Anxiety Disorders": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何加重焦虑，导致压力和恐慌发作。也可能会谈到{{ goal }}如何帮助管理焦虑，促进情绪稳定。
+    "Cognitive Decline": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何加速认知衰退，影响记忆和思维。也可能会强调{{ goal }}如何保护大脑功能，延缓衰退。
+    "Safe Sex": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何增加性传播疾病或意外怀孕风险。也可能会谈到{{ goal }}如何促进安全性行为，降低风险。
+    "Maternal Health": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响孕期健康，增加并发症风险。也可能会谈到{{ goal }}如何支持健康妊娠，减少问题发生。
+    "Preterm Birth": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何增加早产风险，影响母婴健康。也可能会强调{{ goal }}如何帮助顺利足月生产。
+    "Miscarriage": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何增加流产风险，带来身心压力。也可能会谈到{{ goal }}如何支持健康妊娠，降低流产风险。
+    "Birth Defects": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何增加胎儿畸形风险。也可能会解释{{ goal }}如何促进健康妊娠，降低并发症。
+    "Productivity": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何影响工作效率，使你难以高效完成任务。也可能会谈到{{ goal }}如何提升专注力和效率。
+    "Absenteeism": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何增加缺勤，导致错过工作或责任。也可能会强调{{ goal }}如何帮助你保持出勤和日常规律。
+    "Workplace Relationships": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响同事关系，导致工作冲突。也可能会解释{{ goal }}如何改善沟通，促进良好关系。
+    "Career Break": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致职业中断，影响发展。也可能会谈到{{ goal }}如何帮助你保持职业连续性。
+    "Career Assessment": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何影响职业评估，导致负面反馈。也可能会强调{{ goal }}如何提升表现，获得更好评价。
+    "Absence Rate": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何增加缺勤率，影响工作稳定。也可能会谈到{{ goal }}如何帮助你减少缺勤，提高出勤率。
+    "Salary": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何阻碍薪资增长，影响收入。也可能会谈到{{ goal }}如何帮助你提升薪资和财务稳定。
+    "Workplace Wellness": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响职场健康计划，影响健康。也可能会解释{{ goal }}如何帮助你受益于健康项目，提高满意度。
+    "Workplace Incivility": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何导致职场不和谐，营造负面氛围。也可能会强调{{ goal }}如何促进尊重与合作。
+    "Cost of Living": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何加重生活成本，带来经济压力。也可能会解释{{ goal }}如何改善财务状况，减轻压力。
+    "Personal Budget": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响个人预算，导致财务不稳定。也可能会谈到{{ goal }}如何帮助你更好地管理财务。
+    "Debt": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何导致债务增加，影响经济安全。也可能会谈到{{ goal }}如何帮助你减少债务，改善财务状况。
+    "Income Deficit": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何导致收入不足，难以负担开支。也可能会解释{{ goal }}如何帮助你改善财务管理和收入稳定。
+    "Family Estrangement": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致家庭疏远。也可能会强调{{ goal }}如何修复关系，促进和解。
+    "Family Disruption": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何破坏家庭关系，导致冲突或不稳定。也可能会谈到{{ goal }}如何加强家庭纽带，促进和谐。
+    "Divorce": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致婚姻冲突，增加离婚风险。也可能会谈到{{ goal }}如何改善沟通，降低离婚风险。
+    "Role Model": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何影响你作为榜样的能力，尤其是对子女。也可能会强调{{ goal }}如何帮助你树立良好榜样。
+    "Child Development": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响子女的情感、社交或认知发展。也可能会解释{{ goal }}如何支持子女健康成长。
+    "Paternal Bond": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何削弱你与子女的关系。也可能会谈到{{ goal }}如何帮助你增进亲子关系。
+    "Child Care": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何影响你提供稳定照护的能力。也可能会强调{{ goal }}如何帮助你为子女提供更好照护。
+    "Habituation": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响子女养成健康习惯或适应新环境。也可能会解释{{ goal }}如何支持积极习惯养成。
+    "Arrest": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何增加被逮捕的风险，带来法律麻烦。也可能会强调{{ goal }}如何帮助你远离法律问题。
+    "Imprisonment": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何导致入狱，带来长期法律和社会后果。也可能会谈到{{ goal }}如何帮助你避免牢狱之灾。
+    "Child Custody": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何影响子女抚养权，带来法律挑战。也可能会谈到{{ goal }}如何帮助你提升抚养能力，保障权益。
+    "Traffic Ticket": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何增加交通违章风险。也可能会谈到{{ goal }}如何帮助你养成安全驾驶习惯。
+    "Complaint": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何导致法律纠纷或投诉。也可能会强调{{ goal }}如何帮助你减少冲突，维护良好关系。
+    "Attendance": |-
+      当讨论[topic]时，咨询师可能会探讨{{ behavior }}如何影响出勤，导致缺课或责任缺失。也可能会谈到{{ goal }}如何帮助你提升出勤率。
+    "Suspension": |-
+      当讨论[topic]时，咨询师可能会解释{{ behavior }}如何导致停学，影响学业。也可能会强调{{ goal }}如何帮助你避免处分，保持学业进步。
+    "Scholarship": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响奖学金资格，减少机会。也可能会谈到{{ goal }}如何帮助你提升成绩，争取奖学金。
+    "Exam": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响考试准备和成绩，导致分数下降。也可能会解释{{ goal }}如何帮助你提升专注力和考试表现。
+    "Health": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响你的整体健康，包括身体、心理和情感。也可能会关注具体疾病、健康水平、心理健康或医疗习惯。咨询师还可以讨论{{ goal }}如何改善健康、降低风险。
+    "Diseases": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致具体疾病，如感染、高血压、流感、炎症、肝病、肺癌、慢阻肺、哮喘、中风和糖尿病。咨询师还可以讨论{{ goal }}如何预防或管理这些疾病。
+    "Fitness": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何降低体力活动、力量、柔韧性或耐力。咨询师还可以讨论{{ goal }}如何提升体能和健康。
+    "Health Care": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响个人健康管理，如口腔卫生、照护者负担、独立生活或外貌。咨询师还可以讨论{{ goal }}如何改善自我照护和健康习惯。
+    "Mental Disorders": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致心理健康问题，如抑郁、节律紊乱、焦虑障碍或认知衰退。咨询师还可以讨论{{ goal }}如何改善情绪和认知健康。
+    "Sexual Health": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响性与生殖健康，包括安全性行为、孕期健康、早产、流产或胎儿畸形。咨询师还可以讨论{{ goal }}如何降低风险，支持健康性生活。
+    "Economy": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响经济稳定、工作表现或整体经济状况。可能涉及工作效率、财务管理或收入不足。咨询师还可以讨论{{ goal }}如何改善财务和职业发展。
+    "Employment": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响工作表现，包括效率、缺勤、同事关系、职业中断、评估、缺勤率、薪资、健康计划或职场不和谐。咨询师还可以讨论{{ goal }}如何提升职业表现和发展。
+    "Personal Finance": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响个人财务，包括预算、债务、生活成本或收入不足。咨询师还可以讨论{{ goal }}如何提升财务稳定，减轻压力。
+    "Interpersonal Relationships": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响家庭、子女或他人的关系。可能关注家庭动态、育儿角色或冲突。咨询师还可以讨论{{ goal }}如何加强关系，促进积极互动。
+    "Family": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致家庭疏远、破裂或离婚。咨询师还可以讨论{{ goal }}如何解决冲突，改善关系。
+    "Parenting": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响育儿方式和子女发展，包括榜样作用、亲子关系、照护或习惯养成。咨询师还可以讨论{{ goal }}如何提升育儿能力，支持子女成长。
+    "Law": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}可能导致法律问题，如被捕、交通违规或家庭纠纷。可能关注这些行为的后果和风险。咨询师还可以讨论{{ goal }}如何帮助你远离法律麻烦，促进守法生活。
+    "Criminal Law": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何导致法律后果，如被捕、入狱或投诉。咨询师还可以讨论{{ goal }}如何避免这些情况，促进负责任行为。
+    "Family Law": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响家庭法事务，如子女抚养权争议。咨询师还可以讨论{{ goal }}如何提升育儿能力，加强法律地位。
+    "Traffic Law": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何增加交通违章或罚款风险。咨询师还可以讨论{{ goal }}如何帮助你安全驾驶，避免违规。
+    "Education": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响学业表现和机会，如出勤、考试成绩或奖学金资格。可能关注这些行为对学业的阻碍。咨询师还可以讨论{{ goal }}如何提升成绩，保持学业进步。
+    "Student Affairs": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响出勤、导致停学或影响奖学金资格。咨询师还可以讨论{{ goal }}如何提升参与度和学业成功。
+    "Academic Achievement": |-
+      当讨论[topic]时，咨询师可能会谈到{{ behavior }}如何影响学业表现或学习效率。咨询师还可以讨论{{ goal }}如何帮助你取得更好成绩。

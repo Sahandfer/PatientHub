@@ -28,8 +28,8 @@ constructs timeline memory, and saves a role-playable character file.
 - **Timeline memory construction**: Converts raw symptom and life-event timelines
   into graph nodes, temporal edges, episodes, and compact `card_text` memory
   cards.
-- **Append/update output**: Writes the assembled character to `output_path`,
-  replacing any previous record with the same `profile_id`.
+- **Returns a character**: Returns the assembled `DeprofileCharacter`; the
+  `generate` CLI saves it to the output bank.
 
 ## What This Generator Does Not Do
 
@@ -80,7 +80,7 @@ timeline items before calling `generate_character()`.
 5. `build_timeline_memory()` calls `process_timeline()` for symptom and
    life-event timelines. It builds normalized time, graph nodes, edges,
    episodes, and memory cards.
-6. `upsert_output()` saves a `DeprofileCharacter` record to `output_path`.
+6. Returns the assembled `DeprofileCharacter` record; the `generate` CLI saves it.
 
 The client role-play prompt uses the final character file. Clinical positive and
 negative symptoms are rendered into natural-language descriptions from the
@@ -93,46 +93,57 @@ block). For life events, the Deprofile client prefers
 
 ## Usage
 
-```python
-from omegaconf import OmegaConf
-from patienthub.generators import get_generator
+Deprofile is config-parameterized — it assembles the profile selected by
+`profile_id`. Choose the profile with `generator.profile_id` and run the CLI:
 
-config = OmegaConf.create({
-    "agent_name": "deprofile",
-    "profile_id": "0069",
-    "candidate_rank": 0,
-    "resource_dir": "data/resources/Deprofile",
-    "social_profiles_path": "data/resources/Deprofile/social_user_profiles.json",
-    "prompt_path": "data/prompts/generator/deprofile.yaml",
-    "output_path": "data/characters/deprofile.json",
-    "symptom_similarity_threshold": 0.5,
-    "personality_similarity_threshold": 0.8,
-    "coc_horizon_days": 90,
-    "coc_max_items": 80,
-    "coc_episode_window_days": 7,
-    "coc_max_symptoms_per_card": 3,
-    "coc_max_events_per_card": 2,
-})
+```bash
+# Assemble one profile
+patienthub generate generator=deprofile generator.profile_id=0069 lang=zh
 
-generator = get_generator(agent_name="deprofile", configs=config, lang="zh")
-character = generator.generate_character()
+# Pick a different indexed/rematched candidate
+patienthub generate generator=deprofile \
+    generator.profile_id=0069 generator.candidate_rank=1 lang=zh
 ```
 
-`lang` is set by `get_generator(..., lang="zh" | "en")`. It selects the
-language-specific extraction / memory-card prompt templates and the localized
-constants (Big Five guidance, relative-time phrasing, and — on the client —
-symptom descriptions). See _Localization constants_ below.
+The assembled character is written to `data/characters/deprofile.json` (override
+with `output_path`). To assemble several profiles in one run, provide a seed list
+at `data/seeds/deprofile.json`, where each record selects a profile:
+
+```bash
+patienthub generate generator=deprofile input_path=data/seeds/deprofile.json lang=zh
+```
+
+`lang` selects the language-specific extraction / memory-card prompt templates and
+the localized constants (Big Five guidance, relative-time phrasing, and — on the
+client — symptom descriptions). See _Localization constants_ below.
+
+## Seed Record Format
+
+Deprofile can run from `profile_id` alone, but to assemble many profiles in one run,
+`data/seeds/deprofile.json` is a JSON list validated against `DeprofileSeed`:
+
+```json
+[
+  { "profile_id": "0069", "candidate_rank": 0 },
+  { "profile_id": "0070" }
+]
+```
+
+| Field            | Type   | Description                                  |
+| ---------------- | ------ | -------------------------------------------- |
+| `profile_id`     | string | Clinical profile key to assemble             |
+| `candidate_rank` | int    | Which indexed/rematched candidate (default 0) |
 
 ## Configuration
 
 | Parameter                          | Type   | Default                                              | Description                                                        |
 | ---------------------------------- | ------ | ---------------------------------------------------- | ------------------------------------------------------------------ |
+| `agent_name`                       | string | `deprofile`                                          | Generator identifier                                               |
 | `profile_id`                       | string | `0069`                                               | Clinical profile key to load from `deprofiles_complete_index.json` |
 | `candidate_rank`                   | int    | `0`                                                  | Which indexed or rematched candidate to use                        |
 | `resource_dir`                     | string | `data/resources/Deprofile`                           | Directory containing the fixed Deprofile resource files            |
 | `social_profiles_path`             | string | `data/resources/Deprofile/social_user_profiles.json` | Social profile catalog used only when rematching is needed         |
 | `prompt_path`                      | string | `data/prompts/generator/deprofile.yaml`              | Prompt templates for timeline extraction and memory cards          |
-| `output_path`                      | string | `data/characters/deprofile.json`                     | JSON array file where generated characters are saved               |
 | `symptom_similarity_threshold`     | float  | `0.5`                                                | Minimum symptom overlap for rematched candidates                   |
 | `personality_similarity_threshold` | float  | `0.8`                                                | Minimum Big Five cosine similarity for rematched candidates        |
 | `coc_horizon_days`                 | int    | `90`                                                 | Relative-day horizon used when building timeline memory            |
@@ -567,4 +578,5 @@ those timelines.
 8. If using index mode, put `social_user_id` in `candidate_id`.
 9. If using rematch mode, leave `candidate_id` empty and add
    `social_user_profiles.json[social_user_id]`.
-10. Run `generate_character()` and inspect the saved character JSON.
+10. Run `patienthub generate generator=deprofile generator.profile_id=<id> lang=zh`
+    and inspect the saved character JSON.

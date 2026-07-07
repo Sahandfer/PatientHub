@@ -32,7 +32,7 @@ class CamiTherapistConfig(APIModelConfig):
 
     agent_name: str = "cami"
     prompt_path: str = "data/prompts/therapist/cami.yaml"
-    topic_graph: str = "data/resources/CAMI/topic_graph.json"
+    topic_graph: str = "data/resources/cami_topic_graph.json"
     goal: str = "reducing drug use"  # client aimed at achieving
     behavior: str = "drug use"  # client's behavior (usually negative)
 

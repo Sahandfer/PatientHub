@@ -29,6 +29,16 @@ LOCAL_API_KEY=EMPTY
 
 `model_type` is used to select the environment-variable namespace. For example, `model_type=LOCAL` makes PatientHub read `LOCAL_BASE_URL` and `LOCAL_API_KEY`.
 
+## Data Layout
+
+PatientHub keeps generator data in three directories under `data/`:
+
+| Directory          | Contents                                                                                                                            |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `data/seeds/`      | Per-character generation inputs. A `generate` run reads `data/seeds/<generator>.json` (a JSON list) via `input_path`; one seed record produces one character. |
+| `data/resources/`  | Shared reference knowledge a method consults during generation (event databases, symptom item definitions, disease priors, etc.). Configured per generator (e.g. `resource_dir`) or shared as importable constants in `patienthub.resources`, not per character. |
+| `data/characters/` | Generated outputs. The `generate` CLI writes results here (defaults to `data/characters/<generator>.json`).                        |
+
 ## Model Configuration
 
 ### Using OpenAI (Default)

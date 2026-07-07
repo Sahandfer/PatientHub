@@ -13,10 +13,6 @@ class IdentifyingData(BaseModel):
     occupation: str = Field(..., alias="Occupation")
 
 
-class ChiefComplaint(BaseModel):
-    description: str = Field(..., alias="Description")
-
-
 class PresentIllnessSymptom(BaseModel):
     name: str = Field(..., alias="Name")
     length: str | int = Field(..., alias="Length")
@@ -91,7 +87,7 @@ class Impulsivity(BaseModel):
 
 class MFCProfile(BaseModel):
     identifying_data: IdentifyingData = Field(..., alias="Identifying data")
-    chief_complaint: ChiefComplaint = Field(..., alias="Chief complaint")
+    chief_complaint: str = Field(..., alias="Chief complaint")
     present_illness: PresentIllness = Field(..., alias="Present illness")
     past_psychiatric_history: PastPsychiatricHistory = Field(
         ..., alias="Past psychiatric history"
@@ -129,3 +125,8 @@ class PsycheCharacter(BaseCharacter):
     mfc_history: str = Field(..., alias="MFC-History")
     mfc_behavior: MFCBehavior = Field(..., alias="MFC-Behavior")
 
+
+class PsycheSeed:
+    age: int
+    sex: str
+    diagnosis: str
