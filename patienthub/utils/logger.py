@@ -27,6 +27,9 @@ def setup_logging(
     root = logging.getLogger()
     root.setLevel(log_level)
 
+    for handler in root.handlers[:]:
+        root.removeHandler(handler)
+
     rich_handler = RichHandler(
         level=log_level,
         console=Console(stderr=True),

@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_json, flatten_conv
+from patienthub.utils import flatten_conv
 
 
 @dataclass
@@ -37,7 +37,6 @@ class AdaptiveVPClientConfig(APIModelConfig):
     agent_name: str = "adaptiveVP"
     prompt_path: str = "data/prompts/client/adaptiveVP.yaml"
     data_path: str = "data/characters/adaptiveVP.json"
-    directions_path: str = "data/resources/AdaptiveVP_stage_direction.json"
     data_idx: int = 0
 
 
@@ -118,7 +117,8 @@ class Response(BaseModel):
 class AdaptiveVPClient(BaseClient):
     def __init__(self, configs: DictConfig):
         super().__init__(configs)
-        self.directions = load_json(configs.directions_path)
+        # Static text (no template vars); materialize to strings once.
+        self.directions = [d.render() for d in self.prompts["stage_directions"]]
 
     def build_sys_prompt(self):
         self.profile = "\n".join(
@@ -167,7 +167,8 @@ class AdaptiveVPClient(BaseClient):
             [{"role": "system", "content": prompt}],
             response_format=Analysis,
         )
-        score = self.calc_eval_score(res)
+
+        score = max(0, min(self.calc_eval_score(res), len(self.directions) - 1))
         direction = self.directions[score]
 
         # Step 2: Generate a response based on the determined direction

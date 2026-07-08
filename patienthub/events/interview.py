@@ -51,13 +51,13 @@ class Interview:
         graph.add_edge(START, "initiate_interview")
         graph.add_edge("initiate_interview", "ask_question")
         graph.add_edge("ask_question", "receive_answer")
-        graph.add_edge(
-            "receive_answer", "ask_question", condition=self.has_more_questions
-        )
-        graph.add_edge(
+        graph.add_conditional_edges(
             "receive_answer",
-            "end_interview",
-            condition=lambda state: not self.has_more_questions(state),
+            lambda state: (
+                "ask_question"
+                if self.has_more_questions(state)
+                else "end_interview"
+            ),
         )
         graph.add_edge("end_interview", END)
 
@@ -73,7 +73,7 @@ class Interview:
         }
 
     def ask_question(self, state: InterviewState):
-        question = self.interviewer.generate_question()
+        question = self.interviewer.get_next_question()
         self.current_question_idx += 1
         return {
             "questions": state["questions"] + [question],
@@ -83,7 +83,7 @@ class Interview:
         }
 
     def receive_answer(self, state: InterviewState):
-        answer = self.interviewee.generate_answer(state["current_question"] or "")
+        answer = self.interviewee.generate_response(state["current_question"] or "")
         return {
             "questions": state["questions"],
             "answers": state["answers"] + [answer],

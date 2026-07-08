@@ -15,14 +15,15 @@ Key Features:
 """
 
 import random
-from typing import Any, Dict, Optional, Literal, List
 from omegaconf import DictConfig
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
+from typing import Any, Optional, Literal
 
 from .base import BaseGenerator
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_json, load_csv, save_json
+from patienthub.utils import load_json
+from patienthub.resources import GHQ, SASS, BDI
 from patienthub.schemas.annaAgent import AnnaAgentCharacter, ComplaintNode
 
 
@@ -32,32 +33,19 @@ class AnnaAgentGeneratorConfig(APIModelConfig):
 
     agent_name: str = "annaAgent"
     prompt_path: str = "data/prompts/generator/annaAgent.yaml"
-    input_dir: str = "data/resources/AnnaAgent"
-    output_dir: str = "data/characters/annaAgent.json"
-
-
-class ScaleAnswer(BaseModel):
-    answers: List[Literal["A", "B", "C", "D"]] = Field(
-        description="Array of scale answers, each item is A/B/C/D"
-    )
+    events_path: str = "data/resources/annaAgent_events.json"
 
 
 class ComplaintChainResponse(BaseModel):
-    chain: List[ComplaintNode] = Field(
+    chain: list[ComplaintNode] = Field(
         description="Cognitive change chain of the chief complaint, containing 3-7 stages",
         min_length=3,
         max_length=7,
     )
 
 
-class SituationResponse(BaseModel):
-    situation: str = Field(
-        description="Second-person description of the patient's current situation"
-    )
-
-
 class StyleResponse(BaseModel):
-    style: List[str] = Field(
+    style: list[str] = Field(
         description="Patient's speaking style characteristics, 1-5 items",
         min_length=1,
         max_length=5,
@@ -73,24 +61,26 @@ class ChangeItem(BaseModel):
 
 
 class ScaleChangesResponse(BaseModel):
-    changes: List[ChangeItem] = Field(
+    changes: list[ChangeItem] = Field(
         description="Analysis of changes for each item in the scale"
     )
     summary: str = Field(description="Summary of overall change trends")
-
-
-class StatusResponse(BaseModel):
-    status: str = Field(
-        description="Summary of the patient's current overall psychological state"
-    )
 
 
 class AnnaAgentGenerator(BaseGenerator):
     def __init__(self, configs: DictConfig):
         super().__init__(configs)
 
-        input_dir = self.configs.input_dir
-        self.data = load_json(f"{input_dir}/case.json")
+        self.events = load_json(self.configs.events_path)[self.configs.lang]
+        self.scales = {
+            "ghq": GHQ.questions,
+            "sass": SASS.questions,
+            "bdi": BDI.questions,
+        }
+
+    def set_data(self, data: list[dict[str, Any]]):
+        """Set the data for the generator."""
+        self.data = data
         self.profile = self.data.get("profile", {})
         self.profile_str = self.prompts["profile"].render(profile=self.profile)
         self.report = self.data.get("report", "")
@@ -98,17 +88,14 @@ class AnnaAgentGenerator(BaseGenerator):
         self.prev_conv_str = "\n".join(
             [f"{conv['role']}: {conv['content']}" for conv in self.prev_conv]
         )
-        self.adult_events = load_csv(f"{input_dir}/adult_events.csv")
-        self.teen_events = load_json(f"{input_dir}/teen_events.json")[self.configs.lang]
-        self.scales = load_json(f"{input_dir}/scales.json")
 
     def fill_scale(
         self,
         time: Literal["prev", "current"],
         scale_name: str,
         expected_length: int,
-        additional_data: Optional[Dict[str, Any]] = None,
-    ) -> List[str]:
+        additional_data: Optional[dict[str, Any]] = None,
+    ) -> list[str]:
         if time == "prev":
             prompt = self.prompts["fill_scale"].render(
                 scale_name=scale_name,
@@ -127,11 +114,11 @@ class AnnaAgentGenerator(BaseGenerator):
             raise ValueError("time must be 'prev' or 'current'")
         res = self.chat_model.generate(
             messages=[{"role": "system", "content": prompt}],
-            response_format=ScaleAnswer,
+            response_format=list[Literal["A", "B", "C", "D"]],
         )
 
         # Ensure the length of answers is correct
-        answers = res.answers
+        answers = res
         if len(answers) < expected_length:
             answers.extend(["B"] * (expected_length - len(answers)))
         elif len(answers) > expected_length:
@@ -140,26 +127,23 @@ class AnnaAgentGenerator(BaseGenerator):
         return answers
 
     def trigger_event(self) -> str:
-        """Select triggering event based on age"""
+        """Select an age-matched triggering event (original AnnaAgent logic).
+
+        Teens (<18) draw from the teen list; seniors (>=65) from events aged 60+;
+        everyone else from events within +/-5 years of their age (falling back to
+        all adult events if none match).
+        """
         age = int(self.profile.get("age", 30))
-
         if age < 18:
-            return random.choice(self.teen_events)
-        elif age >= 65:
-            elderly_events = self.adult_events[self.adult_events["Age"] >= 60]
-            if len(elderly_events) > 0:
-                return elderly_events.sample(1)["Event"].values[0]
+            return random.choice(self.events["teen"])
+        adult = self.events["adult"]
+        if age >= 65:
+            pool = [e for e in adult if e["age"] >= 60]
+        else:
+            pool = [e for e in adult if age - 5 <= e["age"] <= age + 5]
+        return random.choice(pool or adult)["event"]
 
-        age_events = self.adult_events[
-            (self.adult_events["Age"] >= age - 5)
-            & (self.adult_events["Age"] <= age + 5)
-        ]
-        if len(age_events) > 0:
-            return age_events.sample(1)["Event"].values[0]
-
-        return self.events_df.sample(1)["Event"].values[0]
-
-    def generate_complaint_chain(self, event: str) -> List[Dict[str, str]]:
+    def generate_complaint_chain(self, event: str) -> list[dict[str, str]]:
         prompt = self.prompts["complaint_chain_generation"].render(
             profile=self.profile_str,
             event=event,
@@ -176,14 +160,12 @@ class AnnaAgentGenerator(BaseGenerator):
             profile=self.profile_str,
             event=event,
         )
-        res = self.chat_model.generate(
+        return self.chat_model.generate(
             messages=[{"role": "system", "content": prompt}],
-            response_format=SituationResponse,
+            response_format=str,
         )
 
-        return res.situation
-
-    def generate_style(self) -> List[str]:
+    def generate_style(self) -> list[str]:
         prompt = self.prompts["generate_style"].render(
             profile=self.profile_str,
             conv_history=self.prev_conv_str,
@@ -209,10 +191,10 @@ class AnnaAgentGenerator(BaseGenerator):
     def analyze_scale_changes(
         self,
         scale_name: str,
-        scale_content: List[str],
-        previous: List[str],
-        current: List[str],
-    ) -> Dict[str, Any]:
+        scale_content: list[str],
+        previous: list[str],
+        current: list[str],
+    ) -> dict[str, Any]:
         """Analyze changes in a single scale"""
         prompt = self.prompts["analyze_scale_changes"].render(
             scale_name=scale_name,
@@ -247,15 +229,17 @@ class AnnaAgentGenerator(BaseGenerator):
             sass_changes=changes["sass"]["summary"],
         )
 
-        res = self.chat_model.generate(
+        return self.chat_model.generate(
             messages=[{"role": "system", "content": prompt}],
-            response_format=StatusResponse,
+            response_format=str,
         )
 
-        return res.status
-
-    def generate_character(self):
+    def generate_character(self, data: dict[str, Any]) -> AnnaAgentCharacter:
         """Generate the AnnaAgent character based on the provided data."""
+
+        # 0. Load up the data required for generation (profile, report, previous conversations)
+        self.set_data(data)
+
         # 1. Fill in the previous treatment scales
         p_bdi = self.fill_scale("prev", "Beck Depression Scale", 21)
         p_ghq = self.fill_scale("prev", "General Health Questionnaire", 28)
@@ -304,7 +288,7 @@ class AnnaAgentGenerator(BaseGenerator):
         # 6. Analyze changes in the scale and summarize status
         status = self.summarize_status(prev_scales, current_scales)
 
-        character = AnnaAgentCharacter(
+        return AnnaAgentCharacter(
             profile=self.profile,
             situation=situation,
             statement=statement,
@@ -314,5 +298,3 @@ class AnnaAgentGenerator(BaseGenerator):
             report=self.report,
             previous_conversations=self.prev_conv,
         )
-
-        save_json(data=character.model_dump(), output_dir=self.configs.output_dir)

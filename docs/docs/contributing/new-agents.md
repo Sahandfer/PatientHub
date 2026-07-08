@@ -8,7 +8,7 @@ This guide explains how to add new client or therapist agents to PatientHub.
 
 ## Quickstart: Auto-generate Boilerplate
 
-The `examples.create` script scaffolds the agent file, prompt template, and `__init__.py` registration in one command:
+The `patienthub create` CLI (`patienthub/cli/create.py`) scaffolds the agent file, prompt template, and `__init__.py` registration in one command:
 
 ```bash
 # Create a new client agent
@@ -17,6 +17,8 @@ patienthub create agent_type=client agent_name=myClient
 # Create a new therapist agent
 patienthub create agent_type=therapist agent_name=myTherapist
 ```
+
+`agent_type` is required and must be either `client` or `therapist`; the command errors out if it is omitted. `agent_name` defaults to `myAgent` if not provided.
 
 This generates:
 
@@ -120,7 +122,7 @@ class MyTherapist(BaseTherapist):
 
 ## Step 2: Register the Agent
 
-If you used `examples.create`, this is done automatically. Otherwise, edit `patienthub/clients/__init__.py` (or `therapists/__init__.py`):
+If you used `patienthub create`, this is done automatically. Otherwise, edit `patienthub/clients/__init__.py` (or `therapists/__init__.py`):
 
 ```python
 from .myClient import MyClient, MyClientConfig

@@ -38,7 +38,7 @@ def flatten_conv(
     messages = [
         msg
         for msg in messages
-        if msg.get("content", "").strip() and msg.get("role") != "system"
+        if (msg.get("content") or "").strip() and msg.get("role") != "system"
     ]
     if max_turns is not None:
         messages = messages[-max_turns * 2 :]

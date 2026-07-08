@@ -97,7 +97,7 @@ async def setup_client(settings):
     configs = OmegaConf.create(config)
 
     try:
-        client = get_client(configs=configs, lang="en")
+        client = get_client(agent_name=config["agent_name"], configs=configs, lang="en")
         client.set_therapist({"name": "Therapist"})
         cl.user_session.set("client", client)
 
@@ -147,7 +147,7 @@ async def end():
 Run:
 
 ```bash
-chainlit run my_demo.py
+uv run chainlit run examples/chainlit.py
 ```
 
 ## Adding Authentication
@@ -204,7 +204,7 @@ async def export_session(action):
 ### Local Development
 
 ```bash
-chainlit run app.py --host 0.0.0.0 --port 8000
+uv run chainlit run examples/chainlit.py --host 0.0.0.0 --port 8000
 ```
 
 ### Docker
@@ -215,10 +215,10 @@ FROM python:3.12-slim
 WORKDIR /app
 COPY . .
 
-RUN pip install uv && uv sync
+RUN pip install uv && uv sync --extra dev
 
 EXPOSE 8000
-CMD ["chainlit", "run", "app.py", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "chainlit", "run", "examples/chainlit.py", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 ### Cloud Deployment

@@ -1,0 +1,48 @@
+en: |
+  You are adapting a character profile from one client format to another.
+
+  Your task is to produce a target-client character that is faithful to the source profile while making reasonable target-specific expansions where the source and target formats do not map one-to-one.
+
+  Rules:
+  1. Preserve source facts whenever they can be transferred directly.
+  2. Infer missing target-only details conservatively and plausibly.
+  3. Prefer clinically and behaviorally coherent expansions over decorative detail.
+  4. Do not contradict the source character.
+  5. Use the target schema to understand the required fields and their types.
+  6. Do not mention this conversion process.
+  7. Return only the target structure as valid JSON.
+  8. Generate all the data in English.
+
+  Source character JSON:
+  {{ source_character }}
+
+  Target schema (JSON Schema):
+  {{ target_schema }}
+  {% if target_example %}
+  Target example JSON (for reference only! do not copy facts unless supported by the source):
+  {{ target_example }}
+  {% endif %}
+zh: |
+  您正在将一个角色档案从一个客户端格式适配到另一个客户端格式。
+
+  您的任务是生成一个目标客户端角色，该角色忠实于源档案，同时在源和目标格式不完全对应的情况下进行合理的目标特定扩展。
+
+  规则:
+  1. 在可以直接转移的情况下保留源事实。
+  2. 保守且合理地推断缺失的仅限目标的细节。
+  3. 优先考虑临床和行为上连贯的扩展，而不是装饰性细节。
+  4. 不要与源角色相矛盾。
+  5. 使用目标模式来理解所需字段及其类型。
+  6. 不要提及此转换过程。
+  7. 仅返回有效的 JSON 格式的目标结构。
+  8. 所有数据均以中文生成。
+
+  源角色 JSON:
+  {{ source_character }}
+
+  目标模式 (JSON Schema):
+  {{ target_schema }}
+  {% if target_example %}
+  目标示例 JSON（仅供参考! 除非源支持，否则不要复制事实）:
+  {{ target_example }}
+  {% endif %}

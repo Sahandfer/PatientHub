@@ -1,3 +1,6 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
 import math
 from typing import Any, Literal
 
@@ -21,7 +24,7 @@ AgeBand = Literal["0-17", "18-25", "26-35", "36-50", "50+", "Unknown"]
 
 CONSTANTS_PATH = "data/resources/Deprofile/constants.json"
 CONSTANTS = load_json(resolve_path(CONSTANTS_PATH))
-SECTIONS = ["symptom_descriptions", "BFI", "days"]
+SECTIONS = ["symptom_descriptions", "days"]
 SOCIAL_SYMPTOM_TO_CLINICAL: dict[str, str] = {
     "Catatonic_behavior": "任务-躯体症状-运动性迟滞",
     "Decreased_energy_tiredness_fatigue": "任务-精神状态-疲倦",
@@ -48,8 +51,6 @@ def get_constant_dict(section: str, lang: str = "zh") -> dict[str, Any]:
     if section not in SECTIONS:
         raise ValueError(f"invalid section {section}; expected one of {SECTIONS}")
     data = CONSTANTS.get(section, {})
-    # Fall back to zh when a language section is absent/empty (the clinical
-    # mappings and symptom descriptions are Chinese-only, with no en entries).
     return data.get(lang) or data.get("zh", {})
 
 
@@ -267,3 +268,8 @@ class DeprofileCharacter(BaseCharacter):
     timeline_memory: TimelineMemory | None = None
     match_metadata: MatchMetadata
     provenance: Provenance
+
+
+class DeprofileSeed(BaseModel):
+    profile_id: str
+    candidate_rank: int = 0

@@ -54,7 +54,7 @@ print(response)
 | Option        | Description                 | Default                                    |
 | ------------- | --------------------------- | ------------------------------------------ |
 | `prompt_path` | Path to prompt file         | `data/prompts/client/roleplayDoh.yaml`     |
-| `principles`  | The Principles from experts | `data/resources/roleplayDohPrinciple.json` |
+| `principles`  | The Principles from experts | `data/resources/roleplayDoh_principles.json` |
 | `data_path`   | Path to character file      | `data/characters/roleplayDoh.json`         |
 | `data_idx`    | Character index             | `0`                                        |
 
@@ -72,4 +72,4 @@ print(response)
 
 ## Resources
 
-`data/resources/roleplayDohPrinciple.json`: The Principles generated from expert feedback reflect the common issues that arise when AI roleplays as a patient.
+`data/resources/roleplayDoh_principles.json`: The Principles generated from expert feedback reflect the common issues that arise when AI roleplays as a patient.

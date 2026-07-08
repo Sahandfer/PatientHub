@@ -1,4 +1,5 @@
 import logging
+from uuid import uuid4
 from typing import Dict, Any
 from datetime import datetime
 from dataclasses import dataclass
@@ -141,7 +142,7 @@ class TherapySession:
 
     def build_app(self):
         """Build the Burr application."""
-        run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+        run_id = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid4().hex[:8]}"
         app = (
             ApplicationBuilder()
             .with_actions(

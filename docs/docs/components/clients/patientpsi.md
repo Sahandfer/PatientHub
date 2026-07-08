@@ -52,7 +52,7 @@ print(response)
 | `prompt_path`  | Path to prompt file    | `data/prompts/client/patientPsi.yaml` |
 | `data_path`    | Path to character file | `data/characters/patientPsi.json`     |
 | `data_idx`     | Character index        | `0`                                   |
-| `patient_type` | Behavior pattern       | `"upset"`                             |
+| `patient_type` | Behavior pattern       | `"plain"`                             |
 
 ## Character Data Format
 

@@ -131,11 +131,14 @@ You should see a list of available client agents:
 
 ## Optional: Web Demo Dependencies
 
-To run the Chainlit web demo:
+Chainlit is an optional `dev` dependency and is not installed by default. Install it and run the demo:
 
 ```bash
-# Chainlit is already included in dependencies
-chainlit run app.py
+# Install the optional dev dependencies (includes Chainlit)
+uv sync --extra dev
+
+# Run the demo entry point
+uv run chainlit run examples/chainlit.py
 ```
 
 ## Troubleshooting

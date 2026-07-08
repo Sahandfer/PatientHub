@@ -89,9 +89,9 @@ en:
       {{ mfc_profile_json }}
       ```
 
-    3. The MFC-History for this patient (JSON with narrative):
+    3. The MFC-History for this patient (first-person narrative):
 
-      ```json
+      ```
       {{ mfc_history_json }}
       ```
 
@@ -201,9 +201,9 @@ zh:
       {{ mfc_profile_json }}
       ```
 
-    3. 该患者的MFC-History（带有叙事的JSON）：
+    3. 该患者的MFC-History（第一人称叙事）：
 
-      ```json
+      ```
       {{ mfc_history_json }}
       ```
 

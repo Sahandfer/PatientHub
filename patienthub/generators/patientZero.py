@@ -5,23 +5,18 @@
 
 import json
 import random
-from pathlib import Path
-from typing import Literal
-from dataclasses import dataclass
 
+from pathlib import Path
 from omegaconf import DictConfig
+from dataclasses import dataclass
+from typing import Literal, Any
 from pydantic import BaseModel, Field, model_validator
 
 from .base import BaseGenerator
+import patienthub.schemas.patientZero as pz
 from patienthub.configs import APIModelConfig
+from patienthub.resources import PHQ9, GAD7, ISI
 from patienthub.utils import load_json, save_json
-from patienthub.schemas.patientZero import (
-    PatientDemographics,
-    PatientNarrative,
-    PatientZeroCharacter,
-    SymptomTrajectory,
-    ExaminationResults,
-)
 
 
 @dataclass
@@ -30,60 +25,7 @@ class PatientZeroGeneratorConfig(APIModelConfig):
 
     agent_name: str = "patientZero"
     prompt_path: str = "data/prompts/generator/patientZero.yaml"
-    source_dir: str = "data/resources/PatientZero"
-    output_path: str = "data/characters/patientZero.json"
-    disease_key: str = "depression"
-    random_seed: int | None = None
-
-
-class TypicalPresentation(BaseModel):
-
-    mild: str = Field(..., description="Typical mild presentation.")
-    moderate: str = Field(..., description="Typical moderate presentation.")
-    severe: str = Field(..., description="Typical severe presentation.")
-
-
-class DiseaseOutline(BaseModel):
-    """Standardized disease outline used as Patient-Zero's latent scaffold."""
-
-    disease_summary: str = Field(..., description="Brief clinical disease summary.")
-    key_characteristics: list[str] = Field(
-        ..., description="Core disease characteristics relevant to generation."
-    )
-    typical_presentation: TypicalPresentation = Field(
-        ..., description="Severity-specific presentation anchors."
-    )
-    important_notes: list[str] = Field(
-        ..., description="Generation-relevant clinical notes."
-    )
-    contraindications: list[str] = Field(
-        ..., description="Clinically impossible or inconsistent combinations to avoid."
-    )
-    differential_considerations: list[str] = Field(
-        ..., description="Nearby diagnoses or alternative explanations."
-    )
-    special_populations: list[str] = Field(
-        ..., description="Population-specific considerations and constraints."
-    )
-    red_flags: list[str] = Field(..., description="Urgent or high-risk features.")
-    sources: list[dict[str, str]] = Field(
-        default_factory=list,
-        description="Source documents used to ground this standardized outline.",
-    )
-
-
-class PatientAttributes(PatientDemographics):
-    """Patient-Zero Stage II sampled patient attribute vector."""
-
-    disease_name: str
-    severity_level: Literal["mild", "moderate", "severe"]
-
-
-class PatientRecordAndSymptoms(BaseModel):
-    """Patient-Zero Stage III LLM output."""
-
-    patient_profile: PatientNarrative
-    symptom_trajectory: SymptomTrajectory
+    resource_dir: str = "data/resources/PatientZero"
 
 
 class ValidationResult(BaseModel):
@@ -106,8 +48,7 @@ class PatientZeroGenerator(BaseGenerator):
     def __init__(self, configs: DictConfig):
         super().__init__(configs)
 
-        source_dir = self.configs.source_dir
-        self.output_path = Path(self.configs.output_path)
+        source_dir = self.configs.resource_dir
         self.disease_key = self.configs.disease_key
 
         # Load static resources once at init
@@ -121,6 +62,10 @@ class PatientZeroGenerator(BaseGenerator):
             if Path(self.disease_outline_path).exists()
             else {}
         )
+        self.scales = {
+            scale.name: {"range": list(scale.score_range), "bands": scale.bands}
+            for scale in (PHQ9, GAD7, ISI)
+        }
 
     @staticmethod
     def weighted_choice(distribution: dict[str, float], rng: random.Random) -> str:
@@ -140,25 +85,14 @@ class PatientZeroGenerator(BaseGenerator):
             distributions[key] = value.copy()
         return distributions, self.attribute_priors["age_ranges"]
 
-    def next_case_index(self) -> int:
-        if not self.output_path.exists():
-            return 0
-        payload = load_json(str(self.output_path))
-        records = payload if isinstance(payload, list) else [payload]
-        return sum(
-            1
-            for record in records
-            if record.get("metadata", {}).get("disease_key") == self.disease_key
-        )
-
     def exam_reference(self) -> dict:
         disease_ref = self.exam_references["diseases"].get(self.disease_key, {})
         selected_scales = disease_ref.get("selected_scales", [])
         return {
             "scale_pool": {
-                scale: self.exam_references["scale_pool"][scale]
+                scale: self.scales[scale]
                 for scale in selected_scales
-                if scale in self.exam_references["scale_pool"]
+                if scale in self.scales
             },
             "disease_reference": disease_ref,
         }
@@ -176,7 +110,7 @@ class PatientZeroGenerator(BaseGenerator):
         )
         return f"{prompt}\n\n{revision_prompt}"
 
-    def generate_disease_outline(self) -> DiseaseOutline:
+    def generate_disease_outline(self) -> pz.DiseaseOutline:
         """Generate a standardized Stage I disease outline for a disease."""
 
         data = self.raw_outlines[self.disease_key]
@@ -187,7 +121,7 @@ class PatientZeroGenerator(BaseGenerator):
         )
         outline = self.chat_model.generate(
             [{"role": "system", "content": prompt}],
-            response_format=DiseaseOutline,
+            response_format=pz.DiseaseOutline,
         )
         self.disease_outlines[self.disease_key] = outline.model_dump()
         save_json(
@@ -201,12 +135,14 @@ class PatientZeroGenerator(BaseGenerator):
         self,
         severity_level: Literal["mild", "moderate", "severe"] | None = None,
         max_retries: int = 100,
-    ) -> PatientAttributes:
+    ) -> pz.PatientAttributes:
         """Sample a valid Patient-Zero Stage II attribute vector."""
 
-        disease_name = self.raw_outlines[self.disease_key].get("disease_name", self.disease_key)
+        disease_name = self.raw_outlines[self.disease_key].get(
+            "disease_name", self.disease_key
+        )
         distributions, age_ranges = self.attribute_distributions()
-        rng = random.Random(self.configs.random_seed)
+        rng = random.Random(self.random_seed)
 
         for _ in range(max_retries):
             age_strata = self.weighted_choice(distributions["age_strata"], rng)
@@ -226,7 +162,7 @@ class PatientZeroGenerator(BaseGenerator):
                 }
             )
             try:
-                return PatientAttributes(**data)
+                return pz.PatientAttributes(**data)
             except ValueError:
                 continue
 
@@ -236,7 +172,7 @@ class PatientZeroGenerator(BaseGenerator):
 
     def generate_patient_record_symptoms(
         self,
-        attributes: PatientAttributes | dict | None = None,
+        attributes: pz.PatientAttributes | dict | None = None,
         revision_guidance: list[str] | None = None,
     ) -> dict:
         """Generate Stage III patient profile and symptom trajectory."""
@@ -244,9 +180,11 @@ class PatientZeroGenerator(BaseGenerator):
         if attributes is None:
             attributes = self.sample_patient_attributes()
         elif isinstance(attributes, dict):
-            attributes = PatientAttributes(**attributes)
+            attributes = pz.PatientAttributes(**attributes)
 
-        outline = DiseaseOutline.model_validate(self.disease_outlines[self.disease_key])
+        outline = pz.DiseaseOutline.model_validate(
+            self.disease_outlines[self.disease_key]
+        )
         prompt = self.prompts["patient_record_symptom_generation"].render(
             disease_name=attributes.disease_name,
             severity_level=attributes.severity_level,
@@ -263,7 +201,7 @@ class PatientZeroGenerator(BaseGenerator):
         prompt = self.with_revision_guidance(prompt, revision_guidance)
         record = self.chat_model.generate(
             [{"role": "system", "content": prompt}],
-            response_format=PatientRecordAndSymptoms,
+            response_format=pz.PatientRecordAndSymptoms,
         )
 
         demographics = attributes.model_dump(exclude={"disease_name", "severity_level"})
@@ -278,7 +216,7 @@ class PatientZeroGenerator(BaseGenerator):
                 "disease_key": self.disease_key,
                 "severity_level": attributes.severity_level,
                 "disease_outline_id": f"{self.disease_key}.json",
-                "seed": self.configs.random_seed,
+                "seed": self.random_seed,
             },
             "sampled_attributes": attributes.model_dump(),
             "patient_profile": profile,
@@ -292,7 +230,9 @@ class PatientZeroGenerator(BaseGenerator):
     ) -> dict:
         """Generate Stage IV examination results in one LLM call."""
 
-        outline = DiseaseOutline.model_validate(self.disease_outlines[self.disease_key])
+        outline = pz.DiseaseOutline.model_validate(
+            self.disease_outlines[self.disease_key]
+        )
         prompt = self.prompts["examination_result_generation"].render(
             disease_name=patient_record["metadata"]["disease_name"],
             severity_level=patient_record["metadata"]["severity_level"],
@@ -307,7 +247,7 @@ class PatientZeroGenerator(BaseGenerator):
         prompt = self.with_revision_guidance(prompt, revision_guidance)
         results = self.chat_model.generate(
             [{"role": "system", "content": prompt}],
-            response_format=ExaminationResults,
+            response_format=pz.ExaminationResults,
         )
 
         return {
@@ -322,7 +262,9 @@ class PatientZeroGenerator(BaseGenerator):
     ) -> ValidationResult:
         """Validate Stage III profile and symptom content."""
 
-        outline = DiseaseOutline.model_validate(self.disease_outlines[self.disease_key])
+        outline = pz.DiseaseOutline.model_validate(
+            self.disease_outlines[self.disease_key]
+        )
         prompt = self.prompts["patient_record_validation"].render(
             disease_name=patient_record["metadata"]["disease_name"],
             severity_level=patient_record["metadata"]["severity_level"],
@@ -353,7 +295,9 @@ class PatientZeroGenerator(BaseGenerator):
     ) -> ValidationResult:
         """Validate Stage IV examination results."""
 
-        outline = DiseaseOutline.model_validate(self.disease_outlines[self.disease_key])
+        outline = pz.DiseaseOutline.model_validate(
+            self.disease_outlines[self.disease_key]
+        )
         prompt = self.prompts["examination_result_validation"].render(
             disease_name=patient_record["metadata"]["disease_name"],
             severity_level=patient_record["metadata"]["severity_level"],
@@ -409,13 +353,17 @@ class PatientZeroGenerator(BaseGenerator):
         attributes = self.sample_patient_attributes()
 
         patient_record, record_logs = self.generate_with_validation(
-            generate_fn=lambda **kw: self.generate_patient_record_symptoms(attributes=attributes, **kw),
+            generate_fn=lambda **kw: self.generate_patient_record_symptoms(
+                attributes=attributes, **kw
+            ),
             validate_fn=self.validate_patient_record,
             error_msg=f"Patient record validation failed after {max_retries} attempts.",
             max_retries=max_retries,
         )
         final_record, exam_logs = self.generate_with_validation(
-            generate_fn=lambda **kw: self.generate_examination_results(patient_record=patient_record, **kw),
+            generate_fn=lambda **kw: self.generate_examination_results(
+                patient_record=patient_record, **kw
+            ),
             validate_fn=self.validate_examination_results,
             error_msg=f"Examination result validation failed after {max_retries} attempts.",
             max_retries=max_retries,
@@ -425,31 +373,19 @@ class PatientZeroGenerator(BaseGenerator):
             "patient_record": record_logs,
             "examination_results": exam_logs,
         }
-        case_index = self.next_case_index()
         final_record["metadata"].update(
             {
                 "disease_key": self.disease_key,
-                "case_index": case_index,
-                "case_id": f"{self.disease_key}_{case_index}",
+                "case_id": self.disease_key,
             }
         )
-        final_record = PatientZeroCharacter.model_validate(final_record).model_dump()
-        if self.output_path.exists():
-            existing = load_json(str(self.output_path))
-            records = existing if isinstance(existing, list) else [existing]
-            records.append(final_record)
-        else:
-            records = [final_record]
-        save_json(
-            data=records,
-            output_dir=str(self.output_path),
-            overwrite=True,
-        )
-        return final_record
+        return pz.PatientZeroCharacter.model_validate(final_record).model_dump()
 
-    def generate_character(self):
+    def generate_character(self, data: dict[str, Any]) -> pz.PatientZeroCharacter:
+        self.disease_key = data.get("disease_key", "")
+        self.random_seed = data.get("random_seed", None)
         if not self.disease_key:
-            raise ValueError("PatientZeroGeneratorConfig.disease_key is required.")
+            raise ValueError("disease_key is required.")
         if self.disease_key not in self.disease_outlines:
             self.generate_disease_outline()
         return self.generate_static_record()

@@ -59,14 +59,13 @@ print(response.content)
 
 ## Configuration
 
-| Option          | Description                            | Default                                     |
-| --------------- | -------------------------------------- | ------------------------------------------- |
-| `prompt_path`   | Path to prompt file                    | `data/prompts/client/clientCast.yaml`       |
-| `data_path`     | Path to character file                 | `data/characters/clientCast.json`           |
-| `conv_path`     | Path to conversation data              | `data/resources/ClientCast/human_data.json` |
-| `symptoms_path` | Path to symptom assessment definitions | `data/resources/ClientCast/symptoms.json`   |
-| `data_idx`      | Character index                        | `0`                                         |
-| `conv_id`       | Conversation excerpt ID                | `0`                                         |
+| Option        | Description               | Default                               |
+| ------------- | ------------------------- | ------------------------------------- |
+| `prompt_path` | Path to prompt file       | `data/prompts/client/clientCast.yaml` |
+| `data_path`   | Path to character file    | `data/characters/clientCast.json`     |
+| `conv_path`   | Path to conversation data | `data/seeds/clientCast.json`          |
+| `data_idx`    | Character index           | `0`                                   |
+| `conv_id`     | Conversation excerpt ID   | `0`                                   |
 
 ## Character Data Format
 
@@ -134,5 +133,4 @@ print(response.content)
 
 ## Resources
 
-`data/resources/ClientCast/human_data.json`: Human therapy conversation excerpts for grounding client simulations
-`data/resources/ClientCast/symptoms.json`: Symptom item texts for PHQ-9, GAD-7, and OQ-45 used to identify symptoms in the ClientCast profile
+`data/seeds/clientCast.json`: Human therapy conversation excerpts (shared with the generator seed) for grounding client simulations

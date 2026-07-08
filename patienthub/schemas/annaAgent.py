@@ -1,7 +1,6 @@
-from typing import Literal
 from pydantic import BaseModel, Field
 
-from patienthub.schemas.base import BaseCharacter
+from patienthub.schemas.base import BaseCharacter, ConvTurn
 
 
 class Profile(BaseModel):
@@ -44,76 +43,7 @@ class AnnaAgentCharacter(BaseCharacter):
     previous_conversations: list[Message] = Field(default_factory=list)
 
 
-# GoEmotions taxonomy constants
-EMOTION_TYPES = Literal[
-    "admiration",
-    "amusement",
-    "anger",
-    "annoyance",
-    "approval",
-    "caring",
-    "confusion",
-    "curiosity",
-    "desire",
-    "disappointment",
-    "disapproval",
-    "disgust",
-    "embarrassment",
-    "excitement",
-    "fear",
-    "gratitude",
-    "grief",
-    "joy",
-    "love",
-    "nervousness",
-    "optimism",
-    "pride",
-    "realization",
-    "relief",
-    "remorse",
-    "sadness",
-    "surprise",
-    "neutral",
-]
-
-EMOTION_CATEGORIES = {
-    "Positive": [
-        "admiration",
-        "amusement",
-        "approval",
-        "caring",
-        "curiosity",
-        "desire",
-        "excitement",
-        "gratitude",
-        "joy",
-        "love",
-        "optimism",
-        "pride",
-        "realization",
-        "relief",
-        "surprise",
-    ],
-    "Neutral": ["neutral"],
-    "Ambiguous": ["confusion", "disappointment", "nervousness"],
-    "Negative": [
-        "anger",
-        "annoyance",
-        "disapproval",
-        "disgust",
-        "embarrassment",
-        "fear",
-        "sadness",
-        "remorse",
-        "grief",
-    ],
-}
-
-CATEGORY_DISTANCES = {
-    "Positive": {"Positive": 0, "Neutral": 1, "Ambiguous": 2, "Negative": 3},
-    "Neutral": {"Positive": 1, "Neutral": 0, "Ambiguous": 1, "Negative": 2},
-    "Ambiguous": {"Positive": 2, "Neutral": 1, "Ambiguous": 0, "Negative": 1},
-    "Negative": {"Positive": 3, "Neutral": 2, "Ambiguous": 1, "Negative": 0},
-}
-
-DISTANCE_WEIGHTS = {0: 10, 1: 5, 2: 2, 3: 1}
+class AnnaAgentSeed(BaseModel):
+    profile: dict
+    report: dict | str = ""
+    previous_conversations: list[ConvTurn] = Field(default_factory=list)

@@ -4,11 +4,14 @@ The Interviewer NPC conducts structured scripted interviews with clients by sequ
 
 ## Overview
 
-| Property  | Value                 |
-| --------- | --------------------- |
-| **Key**   | `interviewer`         |
-| **Type**  | Rule-based            |
-| **Focus** | Structured Interviews |
+| Property   | Value                 |
+| ---------- | --------------------- |
+| **Class**  | `InterviewerNPC`      |
+| **Import** | `from patienthub.npcs.interviewer import InterviewerNPC` |
+| **Type**   | Rule-based            |
+| **Focus**  | Structured Interviews |
+
+The Interviewer is instantiated by direct import — there is no registry key or `get_npc()` lookup.
 
 ## How It Works
 

@@ -1,0 +1,34 @@
+[
+    {
+        "disease_key": "depression",
+        "random_seed": 0
+    },
+    {
+        "disease_key": "anxiety_disorder",
+        "random_seed": 0
+    },
+    {
+        "disease_key": "ptsd",
+        "random_seed": 0
+    },
+    {
+        "disease_key": "ocd",
+        "random_seed": 0
+    },
+    {
+        "disease_key": "bipolar_disorder",
+        "random_seed": 0
+    },
+    {
+        "disease_key": "schizophrenia",
+        "random_seed": 0
+    },
+    {
+        "disease_key": "adhd",
+        "random_seed": 0
+    },
+    {
+        "disease_key": "insomnia",
+        "random_seed": 0
+    }
+]

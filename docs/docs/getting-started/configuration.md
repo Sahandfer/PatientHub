@@ -29,6 +29,16 @@ LOCAL_API_KEY=EMPTY
 
 `model_type` is used to select the environment-variable namespace. For example, `model_type=LOCAL` makes PatientHub read `LOCAL_BASE_URL` and `LOCAL_API_KEY`.
 
+## Data Layout
+
+PatientHub keeps generator data in three directories under `data/`:
+
+| Directory          | Contents                                                                                                                            |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `data/seeds/`      | Per-character generation inputs. A `generate` run reads `data/seeds/<generator>.json` (a JSON list) via `input_path`; one seed record produces one character. |
+| `data/resources/`  | Shared reference knowledge a method consults during generation (event databases, symptom item definitions, disease priors, etc.). Configured per generator (e.g. `resource_dir`) or shared as importable constants in `patienthub.resources`, not per character. |
+| `data/characters/` | Generated outputs. The `generate` CLI writes results here (defaults to `data/characters/<generator>.json`).                        |
+
 ## Model Configuration
 
 ### Using OpenAI (Default)
@@ -53,7 +63,7 @@ config = {
 | `model_type`  | str   | `"OPENAI"` | Model provider          |
 | `model_name`  | str   | `"gpt-4o"` | Model identifier        |
 | `temperature` | float | `0.7`      | Sampling temperature    |
-| `max_tokens`  | int   | `1024`     | Max response tokens     |
+| `max_tokens`  | int   | `8192`     | Max response tokens     |
 | `max_retries` | int   | `3`        | API retry attempts      |
 | `prompt_path` | str   | varies     | Path to method Prompt   |
 | `data_path`   | str   | varies     | Path to character JSON  |
@@ -88,9 +98,9 @@ client:
 
 ```yaml
 event:
-  event_type: therapySession
-  max_turns: 30
-  reminder_turn_num: 5
+  event_type: therapy_session
+  max_turns: 15
+  reminder_turn_num: 2
   output_dir: data/sessions/default/session_1.json
 ```
 
@@ -98,11 +108,9 @@ event:
 
 ```yaml
 evaluator:
-  agent_name: llm_judge
-  eval_type: scalar # classification | scalar | binary | extraction
-  target: client # client or therapist
-  instruction_dir: data/prompts/evaluator/client/scalar.yaml
-  granularity: session # session | turn | turn_by_turn
+  agent_name: conv_judge # conv_judge | profile_judge
+  prompt_path: data/prompts/evaluator/client_conv.yaml
+  granularity: session # session | turn | turn_by_turn (conv_judge only)
   use_reasoning: false
 ```
 

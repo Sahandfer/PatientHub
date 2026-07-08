@@ -69,7 +69,7 @@ from patienthub.utils import load_json
 session = load_json("data/sessions/default/badtherapist.json")
 
 configs = OmegaConf.create({
-    "agent_type": "conv_judge",
+    "agent_name": "conv_judge",
     "prompt_path": "data/prompts/evaluator/client_conv.yaml",
     "granularity": "session",
     "use_reasoning": False,
@@ -77,7 +77,7 @@ configs = OmegaConf.create({
     "model_name": "gpt-4o",
 })
 
-evaluator = get_evaluator(configs=configs, lang="en")
+evaluator = get_evaluator(agent_name="conv_judge", configs=configs, lang="en")
 results = evaluator.evaluate(session)
 print(results)
 ```
@@ -162,6 +162,7 @@ Behavior by granularity:
 
 - `session`: evaluates the entire flattened conversation
 - `turn`: evaluates only the last response, while still providing prior context
+- `turn_by_turn`: evaluates each target turn individually (the `target` role defaults to `client`), returning one result per turn
 
 ## Output Format
 

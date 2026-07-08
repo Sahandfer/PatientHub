@@ -44,12 +44,10 @@ def _mock_chat_model(_configs=None):
     return model
 
 
-# clientCast loads two extra JSON files in __init__; mock them to avoid I/O
+# clientCast loads the conversation seed in __init__; mock it to avoid I/O
 def _mock_clientcast_load_json(path):
-    if "human_data" in path:
+    if "seeds" in path or "clientCast" in path:
         return [{"messages": [{"role": "user", "content": "Hello"}]}]
-    if "symptoms" in path:
-        return {}
     return []
 
 
@@ -89,7 +87,6 @@ def client(request):
 def test_instantiation(client):
     """Client __init__ completes without error."""
     assert client is not None
-
 
 
 def test_data_loaded(client):

@@ -1,7 +1,14 @@
 from typing import Literal
 from pydantic import BaseModel, Field
 
-from patienthub.schemas.base import BaseCharacter
+from patienthub.resources import PHQ9, GAD7, OQ45
+from patienthub.schemas.base import BaseCharacter, ConvTurn
+
+SYMPTOMS_LIST = {
+    "PHQ-9": PHQ9.symptoms,
+    "GAD-7": GAD7.symptoms,
+    "OQ-45": OQ45.symptoms,
+}
 
 
 class BasicProfile(BaseModel):
@@ -86,3 +93,8 @@ class ClientCastCharacter(BaseCharacter):
     basic_profile: BasicProfile = Field(...)
     big_five: BigFive = Field(...)
     symptoms: dict = Field(...)  # PHQ-9/GAD-7/OQ-45 structure varies per item
+
+
+class ClientCastSeed(BaseModel):
+    conv_id: str | None = None
+    messages: list[ConvTurn]

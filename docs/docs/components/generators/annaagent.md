@@ -1,4 +1,4 @@
-# AnnaAgent Generator
+# AnnaAgent
 
 Creates character files for the AnnaAgent client, supporting multi-session counseling simulations with dynamic memory and clinical scale tracking.
 
@@ -20,56 +20,68 @@ Creates character files for the AnnaAgent client, supporting multi-session couns
 
 ## How It Works
 
-`generate_character()` runs the following pipeline:
+`generate_character(seed)` runs the following pipeline:
 
-1. Fill previous-session BDI, GHQ, and SASS scales from the input case report
-2. Select a triggering life event (age-matched from `adult_events.csv` / `teen_events.json`)
+1. Fill previous-session BDI, GHQ, and SASS scales from the seed case report
+2. Select a triggering life event (age-matched within ±5 years; teens and seniors handled separately) from `events.json`
 3. Generate a complaint cognitive change chain (3–7 stages)
 4. Generate current situation, speaking style, and representative statements
 5. Fill current-session BDI, GHQ, and SASS scales
 6. Analyze scale changes and summarize the patient's current status
-7. Save the resulting character JSON to `output_dir`
+
+The resulting character is returned; the `generate` CLI saves it. Event databases
+and scales are shared resources loaded from `resource_dir`.
 
 ## Usage
 
-```python
-from patienthub.generators import get_generator
+Provide seeds as a JSON list at `data/seeds/annaAgent.json` and run the CLI:
 
-generator = get_generator(agent_name="annaAgent", lang="en")
-generator.generate_character()
+```bash
+patienthub generate generator=annaAgent input_path=data/seeds/annaAgent.json
 ```
+
+Each character is written to `data/characters/annaAgent.json` (override with `output_path`).
 
 ## Configuration
 
-| Parameter     | Type   | Default                                 | Description                                   |
-| ------------- | ------ | --------------------------------------- | --------------------------------------------- |
-| `prompt_path` | string | `data/prompts/generator/annaAgent.yaml` | Path to prompt file                           |
-| `input_dir`   | string | `data/resources/AnnaAgent`              | Directory with `case.json`, event files, etc. |
-| `output_dir`  | string | `data/characters/annaAgent.json`        | Path where the generated character is saved   |
-| `model_type`  | string | `"OPENAI"`                              | Model provider key                            |
-| `model_name`  | string | `"gpt-4o"`                              | Model identifier                              |
-| `temperature` | float  | `0.7`                                   | Sampling temperature                          |
-| `max_tokens`  | int    | `8192`                                  | Max response tokens                           |
-| `max_retries` | int    | `3`                                     | API retry attempts                            |
+| Parameter      | Type   | Default                                 | Description                                            |
+| -------------- | ------ | --------------------------------------- | ------------------------------------------------------ |
+| `agent_name`   | string | `annaAgent`                             | Generator identifier                                   |
+| `prompt_path`  | string | `data/prompts/generator/annaAgent.yaml` | Path to prompt file                                    |
+| `events_path`  | string | `data/resources/annaAgent_events.json`  | Triggering-event database (by language + age group); clinical scales come from `patienthub.resources` |
+| `model_type`   | string | `"OPENAI"`                              | Model provider key                                     |
+| `model_name`   | string | `"gpt-4o"`                              | Model identifier                                       |
+| `temperature`  | float  | `0.7`                                   | Sampling temperature                                   |
+| `max_tokens`   | int    | `8192`                                  | Max response tokens                                    |
+| `max_retries`  | int    | `3`                                     | API retry attempts                                     |
 
-## Input Data Format
+## Seed Record Format
 
-The generator reads from `input_dir/case.json`:
+Seeds live in `data/seeds/annaAgent.json` as a JSON list. Each record is validated
+against `AnnaAgentSeed` before generation:
 
 ```json
-{
-  "profile": {
-    "name": "...",
-    "age": 30,
-    "gender": "Female"
-  },
-  "report": "...",
-  "previous_conversations": [
-    {"role": "Therapist", "content": "..."},
-    {"role": "Client", "content": "..."}
-  ]
-}
+[
+  {
+    "profile": {
+      "name": "...",
+      "age": 30,
+      "gender": "Female"
+    },
+    "report": "...",
+    "previous_conversations": [
+      { "role": "Therapist", "content": "..." },
+      { "role": "Client", "content": "..." }
+    ]
+  }
+]
 ```
+
+| Field                    | Type       | Description                                          |
+| ------------------------ | ---------- | ---------------------------------------------------- |
+| `profile`                | dict       | Case profile fields                                  |
+| `report`                 | dict/str   | Prior-session case report (defaults to empty string) |
+| `previous_conversations` | list       | Prior-session turns, each `{ "role", "content" }`    |
 
 ## Output Format
 

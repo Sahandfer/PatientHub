@@ -16,7 +16,6 @@ load_dotenv()
 
 
 def get_config_value(configs, name, default=None):
-    # Support both DictConfig (attribute access) and dict (key access)
     if isinstance(configs, dict):
         return configs.get(name, default)
     return getattr(configs, name, default)
@@ -37,9 +36,11 @@ class ChatModel:
     def track_usage(self, response):
         """Track token usage and cost from API response using LiteLLM."""
         if hasattr(response, "usage") and response.usage:
-            self.prompt_tokens += response.usage.prompt_tokens or 0
-            self.completion_tokens += response.usage.completion_tokens or 0
-            self.total_tokens += response.usage.total_tokens or 0
+            self.prompt_tokens += getattr(response.usage, "prompt_tokens", 0) or 0
+            self.completion_tokens += (
+                getattr(response.usage, "completion_tokens", 0) or 0
+            )
+            self.total_tokens += getattr(response.usage, "total_tokens", 0) or 0
         try:
             self.total_cost += completion_cost(completion_response=response)
         except Exception:
@@ -100,10 +101,15 @@ def get_chat_model(configs):
     model_type = get("model_type")
     model_name = get("model_name")
 
+    kwargs = {
+        key: get(key) for key in ("temperature", "max_tokens") if get(key) is not None
+    }
+
     return ChatModel(
         model_name=model_name,
         api_base=os.environ.get(f"{model_type}_BASE_URL", None),
         api_key=os.environ.get(f"{model_type}_API_KEY", None),
+        **kwargs,
     )
 
 

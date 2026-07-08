@@ -20,8 +20,8 @@ patienthub simulate client=user therapist=eliza
 # Specify client and therapist
 patienthub simulate client=patientPsi therapist=basic
 
-# Attach an evaluator (note: TherapySession does not execute it; see Evaluation guide)
-patienthub simulate client=patientPsi therapist=basic +evaluator=llm_judge
+# Attach an evaluator (TherapySession runs it at the end of the session; see Evaluation guide)
+patienthub simulate client=patientPsi therapist=basic evaluator=conv_judge
 
 # Adjust session parameters
 patienthub simulate event.max_turns=25 event.reminder_turn_num=5
@@ -30,6 +30,14 @@ patienthub simulate verbose=true
 ```
 
 By default only warnings and errors are shown. Setting `verbose=true` enables `DEBUG`-level logging on the console and saves all logs to `logs/simulate_<timestamp>.log`.
+
+### Batch and Resuming
+
+Set `client.data_idx=-1` to run one session per character in the client's data file, and `num_sessions=N` to repeat each character `N` times. Each session writes its own output file, so `resume=true` skips sessions whose output already exists — re-run the same command to finish a batch that was interrupted:
+
+```bash
+patienthub simulate client=deprofile client.data_idx=-1 num_sessions=3 num_workers=4 resume=true
+```
 
 ## Python API
 
@@ -74,8 +82,8 @@ event_config = OmegaConf.create({
 })
 
 # Load components
-client = get_client(configs=client_config, lang='en')
-therapist = get_therapist(configs=therapist_config, lang='en')
+client = get_client(agent_name='patientPsi', configs=client_config, lang='en')
+therapist = get_therapist(agent_name='basic', configs=therapist_config, lang='en')
 event = TherapySession(configs=event_config)
 
 # Set up session
@@ -109,7 +117,7 @@ config = OmegaConf.create({
     'data_idx': 0,
 })
 
-client = get_client(configs=config, lang='en')
+client = get_client(agent_name='patientPsi', configs=config, lang='en')
 client.set_therapist({'name': 'Therapist'})
 
 # Simulate conversation
@@ -158,7 +166,7 @@ config = OmegaConf.create({
     'data_idx': 0,
 })
 
-client = get_client(configs=config, lang='en')
+client = get_client(agent_name='eeyore', configs=config, lang='en')
 client.set_therapist({'name': 'You'})
 
 print("Type 'quit' to exit\n")

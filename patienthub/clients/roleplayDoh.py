@@ -36,7 +36,7 @@ class RoleplayDohClientConfig(APIModelConfig):
     agent_name: str = "roleplayDoh"
     prompt_path: str = "data/prompts/client/roleplayDoh.yaml"
     data_path: str = "data/characters/roleplayDoh.json"
-    principles: str = "data/resources/roleplayDohPrinciple.json"
+    principles: str = "data/resources/roleplayDoh_principles.json"
     data_idx: int = 0
 
 

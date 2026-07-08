@@ -65,15 +65,6 @@ print(response)
 
 ```json
 {
-  "id": 539,
   "patient_info": "Female, 62 years old, recurrence of symmetrical facial features three years post soft palate adhesion surgery. Normal jaw opening and mouth opening type, postoperative changes to the soft palate, no obvious masses, local scarring, local induration, ill-defined margins, no tenderness, no ulceration or bleeding, no erythema, intact permanent dentition, and no other apparent abnormalities. Several nodules less than 1 cm in diameter palpable in the submandibular area, no enlarged lymph nodes in the neck. Blood work dated 2015-09-16 05:29: White blood cell count 7.4 x 10^9/L (N); red blood cell count 3.44 x10^12/L (L); hemoglobin 103 g/L (L); hematocrit 0.304 (L); platelet count 236 x10^9/L (N); segmented neutrophils 63.5% (N). Serum chemistry dated 2015-09-16 07:17: serum potassium 3.11 mmol/L (L); serum sodium 144 mmol/L (N); serum chloride 107 mmol/L (H). Examination: Histological cryosection Result: “IIB” lymph node with tumor tissue present (+).Examination: Histological cryosection Specimens examined: LN \"Submandibular 1\" (one), \"Submandibular 2\" (one), both negative (-)"
 }
 ```
-
-## Resources
-
-Two Doctor LLMs Test Sets
-
-`data/resources/SAPS/HospitalCases.json`(In Chinese): Includes 50 real hospital cases.
-
-`data/resources/SAPS/MedicalExam.json`(In English): Includes 150 cases selected from MedQA, MedMCQA, MMLU, SelfExam, and QMAX.

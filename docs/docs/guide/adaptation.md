@@ -12,19 +12,19 @@ PatientHub can convert a character profile from one client format to another usi
 patienthub adapt source_path=data/characters/patientPsi.json target_client=roleplayDoh
 ```
 
-This loads the first character in `patientPsi.json`, infers the target structure from the `roleplayDoh` schema, and saves the result to `data/characters/roleplayDoh.json`.
+This loads the first character in `patientPsi.json`, infers the target structure from the `roleplayDoh` schema, and saves the result to `data/characters/roleplayDoh_from_patientPsi.json` (named `<target_client>_from_<source_stem>.json`).
 
 ### Options
 
-| Parameter       | Default              | Description                                                                 |
-| --------------- | -------------------- | ---------------------------------------------------------------------       |
-| `source_path`   | _(required)_         | Path to the source character JSON file                                      |
-| `target_client` | _(required)_         | Name of the target client (must be registered in the schema registry)       |
-| `source_index`  | `0`                  | Index of the character to adapt; set to `-1` to batch-adapt every character |
-| `use_fewshot`   | `false`              | Use the target client's existing character file as a few-shot example       |
-| `output_dir`    | `data/characters/`   | Directory where the adapted file (`<target_client>.json`) is written        |
-| `lang`          | `en`                 | Output language (`en`, `zh`, …)                                             |
-| `num_workers`   | `1`                  | Number of parallel threads to use in batch mode                             |
+| Parameter       | Default            | Description                                                                             |
+| --------------- | ------------------ | --------------------------------------------------------------------------------------- |
+| `source_path`   | _(required)_       | Path to the source character JSON file                                                  |
+| `target_client` | _(required)_       | Name of the target client (must be registered in the schema registry)                   |
+| `source_idx`    | `0`                | Index of the character to adapt; set to `-1` to batch-adapt every character             |
+| `use_example`   | `false`            | Use the target client's existing character file as a an example                         |
+| `output_dir`    | `data/characters/` | Directory where the adapted file (`<target_client>_from_<source_stem>.json`) is written |
+| `lang`          | `en`               | Output language (`en`, `zh`, …)                                                         |
+| `num_workers`   | `1`                | Number of parallel threads to use in batch mode                                         |
 
 ### Examples
 
@@ -33,20 +33,28 @@ This loads the first character in `patientPsi.json`, infers the target structure
 patienthub adapt \
   source_path=data/characters/patientPsi.json \
   target_client=roleplayDoh \
-  source_index=2
+  source_idx=2
 
 # Batch-adapt every character in the file with 4 workers
 patienthub adapt \
   source_path=data/characters/patientPsi.json \
   target_client=roleplayDoh \
-  source_index=-1 \
+  source_idx=-1 \
   num_workers=4
+
+# Continue a batch run that was interrupted (resume from existing output)
+patienthub adapt \
+  source_path=data/characters/patientPsi.json \
+  target_client=roleplayDoh \
+  source_idx=-1 \
+  num_workers=4 \
+  resume=true
 
 # Use the target client's existing character file as a few-shot example
 patienthub adapt \
   source_path=data/characters/patientPsi.json \
   target_client=roleplayDoh \
-  use_fewshot=true
+  use_example=true
 
 # Write output to a custom directory
 patienthub adapt \
@@ -54,7 +62,7 @@ patienthub adapt \
   target_client=roleplayDoh \
   output_dir=data/characters/adapted/
 
-# Generate content in Chinese
+# Generate output in a different language (e.g., Chinese)
 patienthub adapt \
   source_path=data/characters/patientPsi.json \
   target_client=roleplayDoh \
@@ -63,11 +71,11 @@ patienthub adapt \
 
 ## How It Works
 
-1. **Load source** — reads the character at `source_index` from `source_path` (or every character when `source_index=-1`).
-2. **Resolve target schema** — looks up the target client in the schema registry (`patienthub/schemas/__init__.py`) and extracts its JSON Schema definition.
-3. **Optional few-shot example** — when `use_fewshot=true`, the target client's existing character file (`data/characters/<target_client>.json`) is included in the prompt as a concrete reference for structure and field meanings (the LLM is instructed not to copy its facts).
-4. **LLM adaptation** — sends a structured prompt to the configured model. The model is asked to preserve source facts, conservatively fill in target-only fields, and return valid JSON.
-5. **Validate & save** — the model output is validated against the target schema; invalid results are rejected (in batch mode they are counted as failures). Valid characters are written to `<output_dir>/<target_client>.json`.
+1. **Load source**: reads the character at `source_idx` from `source_path` (or every character when `source_idx=-1`).
+2. **Resolve target schema**: looks up the target client in the schema registry (`patienthub/schemas/__init__.py`) and extracts its JSON Schema definition.
+3. **Optional few-shot example**: when `use_example=true`, an example from the target client's existing character file (`data/characters/<target_client>.json`) is included in the prompt as a concrete reference for structure and field meanings (the LLM is instructed not to copy its facts).
+4. **LLM adaptation**: sends a structured prompt to the configured model. The model is asked to preserve source facts, conservatively fill in target-only fields, and return valid JSON.
+5. **Validate & save**: the model output is validated against the target schema; invalid results are rejected (in batch mode they are counted as failures). Valid characters are written to `<output_dir>/<target_client>_from_<source_stem>.json`.
 
 ## Python API
 
@@ -122,19 +130,19 @@ save_json(adapted, "data/characters/adapted/result.json", overwrite=False)
 
 Any client registered in the schema registry can be used as `target_client`:
 
-| `target_client`  | Schema class              |
-| ---------------- | ------------------------- |
-| `patientPsi`     | `PatientPsiCharacter`     |
-| `roleplayDoh`    | `RoleplayDohCharacter`    |
-| `psyche`         | `PsycheCharacter`         |
-| `simPatient`     | `SimPatientCharacter`     |
-| `talkDep`        | `TalkDepCharacter`        |
-| `adaptiveVP`     | `AdaptiveVPCharacter`     |
-| `annaAgent`      | `AnnaAgentCharacter`      |
-| `clientCast`     | `ClientCastCharacter`     |
-| `eeyore`         | `EeyoreCharacter`         |
-| `saps`           | `SAPSCharacter`           |
-| `consistentMI`   | `ConsistentMICharacter`   |
+| `target_client` | Schema class            |
+| --------------- | ----------------------- |
+| `patientPsi`    | `PatientPsiCharacter`   |
+| `roleplayDoh`   | `RoleplayDohCharacter`  |
+| `psyche`        | `PsycheCharacter`       |
+| `simPatient`    | `SimPatientCharacter`   |
+| `talkDep`       | `TalkDepCharacter`      |
+| `adaptiveVP`    | `AdaptiveVPCharacter`   |
+| `annaAgent`     | `AnnaAgentCharacter`    |
+| `clientCast`    | `ClientCastCharacter`   |
+| `eeyore`        | `EeyoreCharacter`       |
+| `saps`          | `SAPSCharacter`         |
+| `consistentMI`  | `ConsistentMICharacter` |
 
 ## Output Format
 
@@ -148,5 +156,5 @@ The adapted character is saved as JSON matching the target client's schema. Repe
 
 ## Next Steps
 
-- [Running Simulations](/docs/guide/simulations) — use the adapted character in a session
-- [Evaluation](/docs/guide/evaluation) — assess simulation quality
+- [Running Simulations](/docs/guide/simulations): use the adapted character in a session
+- [Evaluation](/docs/guide/evaluation): assess simulation quality

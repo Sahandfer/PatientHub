@@ -15,15 +15,15 @@ Key Features:
 - Diversity-focused batch generation capabilities
 """
 
-from typing import Any, Dict, Literal, Optional
 from omegaconf import DictConfig
 from dataclasses import dataclass
+from typing import Any, Literal, Optional
 from pydantic import BaseModel, ConfigDict, Field
 
 from .base import BaseGenerator
+from patienthub.utils import flatten_conv
+import patienthub.schemas.clientCast as cs
 from patienthub.configs import APIModelConfig
-from patienthub.utils import load_json, save_json
-from patienthub.schemas.clientCast import BasicProfile, BigFive, ClientCastCharacter
 
 
 @dataclass
@@ -32,10 +32,6 @@ class ClientCastGeneratorConfig(APIModelConfig):
 
     agent_name: str = "clientCast"
     prompt_path: str = "data/prompts/generator/clientCast.yaml"
-    input_dir: str = "data/resources/ClientCast/human_data.json"
-    symptoms_dir: str = "data/resources/ClientCast/symptoms.json"
-    output_dir: str = "data/characters/clientCast.json"
-    data_idx: int = 0
 
 
 class SymptomEstimate(BaseModel):
@@ -107,17 +103,17 @@ class OQ45Estimate(SymptomEstimate):
 class Symptoms(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    PHQ_9: Dict[str, SymptomEstimate] = Field(
+    PHQ_9: dict[str, SymptomEstimate] = Field(
         ...,
         alias="PHQ-9",
         description="PHQ-9 item estimates keyed by item number as string.",
     )
-    GAD_7: Dict[str, SymptomEstimate] = Field(
+    GAD_7: dict[str, SymptomEstimate] = Field(
         ...,
         alias="GAD-7",
         description="GAD-7 item estimates keyed by item number as string.",
     )
-    OQ_45: Dict[str, OQ45Estimate] = Field(
+    OQ_45: dict[str, OQ45Estimate] = Field(
         ...,
         alias="OQ-45",
         description="OQ-45 item estimates keyed by item number as string.",
@@ -127,34 +123,29 @@ class Symptoms(BaseModel):
 class ClientCastGenerator(BaseGenerator):
     def __init__(self, configs: DictConfig):
         super().__init__(configs)
-        self.conv_history = self.load_data()
-        self.symptoms = load_json(self.configs.symptoms_dir)
-
-    def load_data(self):
-        data = load_json(self.configs.input_dir)[self.configs.data_idx]
-        return "\n".join(
-            [f"{msg['role']}: {msg['content']}\n" for msg in data.get("messages", [])]
-        ).strip()
+        self.symptoms = cs.SYMPTOMS_LIST
+        self.conv_history = ""
 
     def generate_basic_profile(self):
         prompt = self.prompts["basic_profile_prompt"].render(
             conversation=self.conv_history
         )
         res = self.chat_model.generate(
-            [{"role": "system", "content": prompt}], response_format=BasicProfile
+            [{"role": "system", "content": prompt}], response_format=cs.BasicProfile
         )
         return res
 
     def generate_big_five(self):
         prompt = self.prompts["big_five_prompt"].render(conversation=self.conv_history)
         res = self.chat_model.generate(
-            [{"role": "system", "content": prompt}], response_format=BigFive
+            [{"role": "system", "content": prompt}], response_format=cs.BigFive
         )
         return res
 
     def generate_symptoms(self):
         full_res = {}
         for disorder, symptoms in self.symptoms.items():
+            full_res.setdefault(disorder, {})
             for i, symptom in enumerate(symptoms):
                 prompt = self.prompts["symptoms_prompt"].render(
                     conversation=self.conv_history, symptom=symptom
@@ -179,21 +170,15 @@ class ClientCastGenerator(BaseGenerator):
             OQ_45=full_res["OQ-45"],
         )
 
-    def generate_character(self) -> Dict[str, Any]:
+    def generate_character(self, data: dict[str, Any]) -> cs.ClientCastCharacter:
+        self.conv_history = flatten_conv(data.get("messages", []))
+
         basic_profile = self.generate_basic_profile()
         big_five = self.generate_big_five()
         symptoms = self.generate_symptoms()
 
-        character = ClientCastCharacter(
+        return cs.ClientCastCharacter(
             basic_profile=basic_profile,
             big_five=big_five,
             symptoms=symptoms,
-        )
-
-        save_json(
-            data={
-                **character.model_dump(),
-                "symptoms": character.symptoms.model_dump(by_alias=True),
-            },
-            output_dir=self.configs.output_dir,
         )

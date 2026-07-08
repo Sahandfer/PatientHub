@@ -96,7 +96,6 @@ class SimPatientClient(BaseClient):
         )
 
         self.between_session_event = res.content.strip()
-        self.data["between_session_event"] = self.between_session_event
 
     def build_sys_prompt(self):
         """Initialize session state, optionally continuing from a previous session."""
@@ -145,13 +144,15 @@ class SimPatientClient(BaseClient):
             response_format=InternalStateResponse,
         )
 
+        # Keep evolved state on the instance only; writing it back into
+        # self.data would corrupt the authored seed and leak into the next
+        # session when the client is reused via reset().
         self.cognitive_model = {
             "patient_control": res.patient_control,
             "patient_efficacy": res.patient_efficacy,
             "patient_awareness": res.patient_awareness,
             "patient_reward": res.patient_reward,
         }
-        self.data["cognitive_model"] = self.cognitive_model
 
     def generate_response(self, msg: str):
         self.messages.append({"role": "user", "content": msg})

@@ -24,12 +24,7 @@ from dataclasses import dataclass
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import flatten_conv
-from patienthub.schemas.annaAgent import (
-    EMOTION_TYPES,
-    EMOTION_CATEGORIES,
-    CATEGORY_DISTANCES,
-    DISTANCE_WEIGHTS,
-)
+from patienthub.resources import GOEMOTIONS
 
 
 @dataclass
@@ -45,8 +40,16 @@ class AnnaAgentClientConfig(APIModelConfig):
 
 
 class AnnaAgentClient(BaseClient):
+
     def __init__(self, configs: DictConfig):
         super().__init__(configs)
+        self.distances = {
+            "Positive": {"Positive": 0, "Neutral": 1, "Ambiguous": 2, "Negative": 3},
+            "Neutral": {"Positive": 1, "Neutral": 0, "Ambiguous": 1, "Negative": 2},
+            "Ambiguous": {"Positive": 2, "Neutral": 1, "Ambiguous": 0, "Negative": 1},
+            "Negative": {"Positive": 3, "Neutral": 2, "Ambiguous": 1, "Negative": 0},
+        }
+        self.distance_weights = {0: 10, 1: 5, 2: 2, 3: 1}
 
     def init_session_state(self):
         self.profile = self.data.get("profile", {})
@@ -74,42 +77,26 @@ class AnnaAgentClient(BaseClient):
         )
         res = self.chat_model.generate(
             [{"role": "system", "content": prompt}],
-            response_format=EMOTION_TYPES,
+            response_format=GOEMOTIONS.literal,
         )
 
-        return res
+        return res if isinstance(res, str) else getattr(res, "content", "Neutral")
 
-    def get_emotion_weights(self, emotion_category: str):
-        probabilities = {}
-        total_weight = 0
-
-        for category, emotions in EMOTION_CATEGORIES.items():
-            distance = CATEGORY_DISTANCES[emotion_category][category]
-            weight = DISTANCE_WEIGHTS.get(distance, 0)
-            for emotion in emotions:
-                if emotion != emotion_category:
-                    probabilities[emotion] = weight
-                    total_weight += weight
-
-        return probabilities, total_weight
-
-    def perturb_emotion(self, emotion: str):
-
-        emotion_category = "Neutral"
-        for category, emotions in EMOTION_CATEGORIES.items():
-            if emotion in emotions:
-                emotion_category = category
-                break
-
-        probabilities, total_weight = self.get_emotion_weights(emotion_category)
-
-        if total_weight == 0:
-            return emotion_category
-
-        emotions = list(probabilities.keys())
-        weights = [probabilities[e] / total_weight for e in emotions]
-
-        return random.choices(emotions, weights=weights, k=1)[0]
+    def perturb_emotion(self, emotion: str) -> str:
+        source = GOEMOTIONS.get_category(emotion)
+        weights: dict[str, int] = {}
+        total = 0
+        for category, members in GOEMOTIONS.categories.items():
+            weight = self.distance_weights.get(self.distances[source][category], 0)
+            for member in members:
+                if member != source:
+                    weights[member] = weight
+                    total += weight
+        if total == 0:
+            return source
+        population = list(weights)
+        probs = [weights[m] / total for m in population]
+        return random.choices(population, weights=probs, k=1)[0]
 
     def emotion_modulation(self, emotion: str):
         if random.randint(0, 100) > 90:

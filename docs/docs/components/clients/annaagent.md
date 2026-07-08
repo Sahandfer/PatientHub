@@ -106,6 +106,6 @@ The original implementation described in this paper are based on Qwen2.5-7B-Inst
 
 ## Resources
 
-`data/resources/AnnaAgent/adult_events.csv`: Psychological distress events regarding adults
-`data/resources/AnnaAgent/teen_events.json`: Psychological distress events regarding teenagers
-`data/resources/AnnaAgent/scales.json`: Scales of GHQ, SASS and BDI
+`data/resources/annaAgent_events.json`: Psychological distress triggering events, keyed by language (`en`/`zh`). Each has `adult` (age-tagged `{age, event}` records, used for ±5-year age matching) and `teen` (a list of event strings).
+
+GHQ, SASS, and BDI scales are shared constants in `patienthub.resources` (`ANNAAGENT_SCALES`).

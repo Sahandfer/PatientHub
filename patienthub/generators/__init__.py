@@ -1,3 +1,6 @@
+# coding=utf-8
+# Licensed under the MIT License;
+
 from .base import BaseGenerator
 from .psyche import PsycheGenerator, PsycheGeneratorConfig
 from .clientCast import ClientCastGenerator, ClientCastGeneratorConfig
@@ -47,7 +50,7 @@ def get_generator_config(agent_name: str):
 
 def register_generator_configs(cs):
     for name, config_cls in GENERATOR_CONFIG_REGISTRY.items():
-        cs.store(group="generator_configs", name=name, node=config_cls)
+        cs.store(group="generator", name=name, node=config_cls)
 
 
 __all__ = [

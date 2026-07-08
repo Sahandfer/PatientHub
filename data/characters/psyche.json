@@ -7,9 +7,7 @@
                 "Marital status": "Married",
                 "Occupation": "Office worker"
             },
-            "Chief complaint": {
-                "Description": "I feel overwhelmingly sad and have no energy to do anything."
-            },
+            "Chief complaint": "I feel overwhelmingly sad and have no energy to do anything.",
             "Present illness": {
                 "Symptom": {
                     "Name": "Persistent sadness",
@@ -80,9 +78,7 @@
                 "Marital status": "Single",
                 "Occupation": "Project manager"
             },
-            "Chief complaint": {
-                "Description": "I just feel this constant heaviness and sadness, like I can't find joy in anything anymore."
-            },
+            "Chief complaint": "I just feel this constant heaviness and sadness, like I can't find joy in anything anymore.",
             "Present illness": {
                 "Symptom": {
                     "Name": "Persistent depressive mood",
