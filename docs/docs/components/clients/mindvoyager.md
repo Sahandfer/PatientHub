@@ -18,18 +18,18 @@ This makes MindVoyager different from a static role-play client: the therapist c
 ## Key Features
 
 - **Masked Cognitive Diagram**: Internal elements start hidden and are rendered as `unknown` in the system prompt.
-- **Progressive External Disclosure**: More external situations become visible when rapport is strong enough.
-- **Progressive Internal Disclosure**: Internal cognitive elements are revealed one category at a time when therapist questions facilitate deeper exploration.
-- **Difficulty Presets**: `easy`, `hard`, and `custom` control openness, metacognition, and initial visibility.
+- **Progressive External Disclosure**: One more external situation becomes visible when rapport is strong enough.
+- **All-at-Once Internal Disclosure**: The entire internal cognitive diagram is revealed in a single step when therapist questions facilitate deep enough exploration.
+- **Difficulty Presets**: `easy`, `normal`, `hard`, and `custom` control openness, metacognition, and initial visibility.
 - **Mediator-Gated Updates**: Two mediator prompts judge rapport/openness and question facilitation during the session.
 
 ## How It Works
 
 MindVoyager keeps a masked client profile in the system prompt. During the dialogue, the cognitive mediator decides whether the therapist has earned more disclosure.
 
-1. **Rapport check**: every `rapport_check_interval` turns, the mediator rates rapport / openness. If the rating reaches `rapport_threshold`, the next external situation becomes visible.
-2. **Question facilitation check**: every metacognition-dependent interval, the mediator rates whether the therapist's question promotes deeper self-exploration. If the rating reaches `question_threshold`, the next internal cognitive diagram category becomes visible.
-3. **Prompt update**: after any reveal, the system prompt is rebuilt so the next client response reflects newly visible information while everything else remains masked.
+1. **Rapport check**: every `rapport_interval` turns, the mediator rates rapport / openness. If the rating reaches `rapport_threshold`, one more external situation becomes visible.
+2. **Question facilitation check**: every metacognition-dependent interval, the mediator rates whether the therapist's question promotes deeper self-exploration. If the rating reaches `question_threshold`, the entire internal cognitive diagram becomes visible.
+3. **Prompt update**: after any reveal, the system prompt is rebuilt so the next client response reflects newly visible information while everything else remains masked. If nothing was revealed on a turn, the prompt is left unchanged.
 
 ## Masking and Disclosure
 
@@ -46,10 +46,10 @@ PREVIOUS EXPERIENCE 3
 ...
 ```
 
-Only the first `initial_visible_external_count` experiences are visible at initialization. Hidden experiences are rendered as:
+Only the first `visible_external_count` experiences are visible at initialization. Hidden experiences are rendered as:
 
 ```text
-EXPERIENCE
+PREVIOUS EXPERIENCE 2
 Situation: unknown
 Reactions: unknown
 ```
@@ -58,31 +58,29 @@ When the rapport mediator judges that the client has become sufficiently open, `
 
 ### Internal Cognitive Diagram
 
-Internal cognitive elements are hidden at initialization. Hidden values are rendered as `unknown` in the system prompt.
+Internal cognitive elements are hidden at initialization and rendered as `unknown` in the system prompt. The diagram has four categories:
 
-The implementation reveals internal elements in this order:
+| Internal key           |
+| ---------------------- |
+| `relevant_history`     |
+| `core_beliefs`         |
+| `intermediate_beliefs` |
+| `coping_strategies`    |
 
-| Reveal order | Internal key |
-| ------------ | ------------ |
-| 1 | `relevant_history` |
-| 2 | `core_beliefs` |
-| 3 | `intermediate_beliefs` |
-| 4 | `coping_strategies` |
-
-When the question facilitation mediator judges that the therapist asked a sufficiently deep question, `reveal_internal()` reveals the next hidden internal category.
+When the question facilitation mediator judges that the therapist asked a sufficiently deep question, `reveal_internal()` unmasks the **entire** internal cognitive diagram at once (all four categories). This follows the paper, where a passing quality check unmasks the full internal diagram rather than one element at a time.
 
 ## Mediator Checks
 
-MindVoyager uses two mediator checks. They correspond to the paper's two update routes: rapport-based external disclosure and metacognition/question-based internal disclosure.
+MindVoyager uses two mediator checks. They correspond to the paper's two update routes: rapport-based external disclosure and metacognition/question-based internal disclosure. Both critics run through the same model the client uses and return a structured `1-5` rating.
 
-| Dimension | Frequency control | What is judged | Success threshold | If successful |
-| --------- | ----------------- | -------------- | ----------------- | ------------- |
-| external | `rapport_check_interval` | Whether rapport / openness is sufficient | `rapport_threshold` | Reveal the next external situation |
-| internal | `low_metacognition_question_check_interval` or `high_metacognition_question_check_interval` | Whether the therapist's question deeply facilitates inner exploration | `question_threshold` | Reveal the next internal cognitive diagram category |
+| Dimension | Frequency control                                                                           | What is judged                                                        | Success threshold    | If successful                                |
+| --------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | -------------------- | -------------------------------------------- |
+| external  | `rapport_interval`                                                                          | Whether rapport / openness is sufficient                              | `rapport_threshold`  | Reveal one more external situation           |
+| internal  | `low_metacognition_question_check_interval` or `high_metacognition_question_check_interval` | Whether the therapist's question deeply facilitates inner exploration | `question_threshold` | Reveal the entire internal cognitive diagram |
 
 ### External Route: Rapport and Openness
 
-Every `rapport_check_interval` therapist turns, the client runs `openness_critic_prompt`. The mediator returns an `OpennessAssessment` rating from 1 to 5.
+Every `rapport_interval` therapist turns, the client runs `openness_critic_prompt`. The mediator returns an `OpennessAssessment` rating from 1 to 5.
 
 If:
 
@@ -109,7 +107,7 @@ If:
 rating >= question_threshold
 ```
 
-then the client reveals the next internal cognitive diagram category.
+then the client reveals the entire internal cognitive diagram.
 
 This route models whether the therapist's question helps the client move from surface content toward deeper self-reflection.
 
@@ -117,65 +115,66 @@ This route models whether the therapist's question helps the client move from su
 
 The public config intentionally stays small:
 
-| Option | Default | Description |
-| ------ | ------- | ----------- |
-| `agent_name` | `mindVoyager` | Client identifier |
-| `prompt_path` | `data/prompts/client/mindVoyager.yaml` | Prompt file |
-| `data_path` | `data/characters/mindVoyager.json` | Character file |
-| `data_idx` | `0` | Character index |
-| `difficulty` | `custom` | Preset name: `easy`, `hard`, or `custom` |
+| Option         | Default                                | Description                                        |
+| -------------- | -------------------------------------- | -------------------------------------------------- |
+| `agent_name`   | `mindVoyager`                          | Client identifier                                  |
+| `prompt_path`  | `data/prompts/client/mindVoyager.yaml` | Prompt file                                        |
+| `data_path`    | `data/characters/mindVoyager.json`     | Character file                                     |
+| `data_idx`     | `0`                                    | Character index                                    |
+| `preset_level` | `easy`                                 | Preset name: `easy`, `normal`, `hard`, or `custom` |
 
-Behavioral settings live in `MindVoyagerClient.DIFFICULTY_PRESETS`:
+Behavioral settings live in `patienthub.schemas.mindVoyager.DIFFICULTY_PRESETS`:
 
-| Preset field | Meaning | Typical effect |
-| ------------ | ------- | -------------- |
-| `openness` | How willing the client is to disclose thoughts, feelings, and experiences | `high` clients can be more detailed earlier; `low` clients rely more on rapport development |
-| `metacognition` | How easily the client can reflect on internal patterns when prompted | `high` clients can be checked for internal exploration more often |
-| `initial_visible_external_count` | Number of external experiences visible at session start | Higher values make the case easier because the therapist starts with more context |
-| `low_metacognition_question_check_interval` | Internal mediator check interval when `metacognition` is `low` | Larger values make internal disclosure slower |
-| `high_metacognition_question_check_interval` | Internal mediator check interval when `metacognition` is `high` | Smaller values make internal disclosure faster |
+| Preset field                                 | Meaning                                                                   | Typical effect                                                                              |
+| -------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `openness`                                   | How willing the client is to disclose thoughts, feelings, and experiences | `high` clients can be more detailed earlier; `low` clients rely more on rapport development |
+| `metacognition`                              | How easily the client can reflect on internal patterns when prompted      | `high` clients can be checked for internal exploration more often                           |
+| `visible_external_count`                     | Number of external experiences visible at session start                   | Higher values make the case easier because the therapist starts with more context           |
+| `low_metacognition_question_check_interval`  | Internal mediator check interval when `metacognition` is `low`            | Larger values make internal disclosure slower                                               |
+| `high_metacognition_question_check_interval` | Internal mediator check interval when `metacognition` is `high`           | Smaller values make internal disclosure faster                                              |
 
 Current defaults:
 
-| Difficulty | `openness` | `metacognition` | `initial_visible_external_count` | Low-meta interval | High-meta interval |
-| ---------- | ---------- | --------------- | -------------------------------- | ----------------- | ------------------ |
-| `easy` | `high` | `high` | `3` | `2` | `1` |
-| `hard` | `low` | `low` | `1` | `2` | `1` |
-| `custom` | `low` | `high` | `2` | `2` | `1` |
+| Difficulty | `openness` | `metacognition` | `visible_external_count` | Low-meta interval | High-meta interval |
+| ---------- | ---------- | --------------- | ------------------------ | ----------------- | ------------------ |
+| `easy`     | `high`     | `high`          | `3`                      | `2`               | `1`                |
+| `normal`   | `high`     | `low`           | `2`                      | `2`               | `1`                |
+| `hard`     | `low`      | `low`           | `1`                      | `2`               | `1`                |
+| `custom`   | `low`      | `high`          | `2`                      | `2`               | `1`                |
 
 To customize the client profile, override the `custom` preset:
 
 ```python
-from patienthub.clients.mindVoyager import MindVoyagerClient
+from patienthub.schemas.mindVoyager import DIFFICULTY_PRESETS
 
-MindVoyagerClient.DIFFICULTY_PRESETS["custom"] = {
+DIFFICULTY_PRESETS["custom"] = {
     "openness": "high",
     "metacognition": "low",
-    "initial_visible_external_count": 1,
+    "visible_external_count": 1,
     "low_metacognition_question_check_interval": 3,
     "high_metacognition_question_check_interval": 1,
 }
 ```
 
-## Class-Level Parameters
+## Mediator Protocol Constants
 
-These parameters are class attributes because they describe the mediator protocol rather than the basic config surface.
+The mediator protocol values follow the paper and live in `patienthub.schemas.mindVoyager.CONSTANTS`, shared across all instances:
 
-| Parameter | Default | Meaning | When to adjust |
-| --------- | ------- | ------- | -------------- |
-| `rapport_check_interval` | `4` | Number of therapist turns between rapport/openness checks | Lower it to test faster external disclosure; raise it to make external disclosure slower |
-| `rapport_threshold` | `4` | Minimum openness rating required to reveal another external experience | Lower it for more permissive external disclosure; raise it for stricter rapport requirements |
-| `question_threshold` | `4` | Minimum question facilitation rating required to reveal internal content | Lower it for more permissive internal disclosure; raise it for stricter exploration requirements |
+| Constant             | Default | Meaning                                                                            |
+| -------------------- | ------- | ---------------------------------------------------------------------------------- |
+| `rapport_interval`   | `4`     | Number of therapist turns between rapport/openness checks                          |
+| `rapport_threshold`  | `4`     | Minimum openness rating (1-5) required to reveal another external experience       |
+| `question_threshold` | `4`     | Minimum question-facilitation rating (1-5) required to reveal the internal diagram |
 
-Example:
+The question-facilitation _interval_ is not a constant — it comes from the active difficulty preset (`low_`/`high_metacognition_question_check_interval`), since it depends on the client's metacognition level.
+
+To change the protocol, edit the module-level dictionary:
 
 ```python
-from patienthub.clients import get_client
+from patienthub.schemas.mindVoyager import CONSTANTS
 
-client = get_client(agent_name="mindVoyager", lang="en")
-client.rapport_check_interval = 2
-client.rapport_threshold = 3
-client.question_threshold = 4
+CONSTANTS["rapport_interval"] = 2
+CONSTANTS["rapport_threshold"] = 3
 ```
 
 ## Paper Alignment
@@ -183,23 +182,22 @@ client.question_threshold = 4
 The paper describes two mediator-controlled update loops:
 
 - Every `k` turns, check rapport. If successful, increase accessible external information.
-- Every `l` turns, check question facilitation based on metacognition. If successful, uncover more of the internal cognitive diagram.
+- Every `l` turns, check question facilitation based on metacognition. If successful, uncover the internal cognitive diagram.
 
 In this implementation:
 
-- `k` is represented by `rapport_check_interval`.
-- `l` is represented by `low_metacognition_question_check_interval` or `high_metacognition_question_check_interval`.
-- The success thresholds are represented by `rapport_threshold` and `question_threshold`.
+- `k` is `CONSTANTS["rapport_interval"]`.
+- `l` is `low_metacognition_question_check_interval` or `high_metacognition_question_check_interval` from the active preset.
+- The success thresholds are `CONSTANTS["rapport_threshold"]` and `CONSTANTS["question_threshold"]`.
+- A passing rapport check reveals one more external situation; a passing question-facilitation check reveals the full internal diagram at once.
 - The paper prompt demonstrates three previous-experience slots, while this implementation renders external experiences dynamically from the character data.
-
-The paper-sourced settings are also summarized in `data/resources/MindVoyager/paper_settings.json`.
 
 ## Usage
 
 ### CLI
 
 ```bash
-patienthub simulate client=mindVoyager client.difficulty=easy
+patienthub simulate client=mindVoyager client.preset_level=easy
 ```
 
 ### Python
@@ -215,16 +213,15 @@ print(response.content)
 
 ## Character Data Format
 
-MindVoyager profiles are close to PatientPsi-style CBT profiles because both are organized around cognitive diagrams. In the MindVoyager paper, the cognitive elements are derived from Cognitive Conceptualization Diagrams, and the annotations come from the Patient-psi-CM dataset written by experts. In practice, a PatientPsi-style profile can be adapted into MindVoyager format by separating the case into:
+MindVoyager profiles are derived from PatientPsi-style CBT profiles because both are organized around cognitive diagrams. In the MindVoyager paper, the cognitive elements come from Cognitive Conceptualization Diagrams annotated in the Patient-Ψ-CM dataset. A PatientPsi patient (whose situations are stored as separate rows sharing the same beliefs) is adapted into MindVoyager format by grouping those rows into one client and splitting the case into two layers:
 
-- `internal_cognitive_diagram`: relevant history, core beliefs, intermediate beliefs, and coping strategies.
-- `external_experiences`: situations and reactions that can be progressively disclosed.
+- `internal_cognitive_diagram`: relevant history, core beliefs, intermediate beliefs, and coping strategies (merged across the patient's rows).
+- `external_experiences`: situations and reactions that can be progressively disclosed (one per source row).
 
 ```json
 {
-  "id": "mindvoyager_001",
+  "source": "patientPsi-1",
   "name": "Alex",
-  "style": ["reserved", "hesitant"],
   "internal_cognitive_diagram": {
     "relevant_history": "Family conflict and previous substance abuse.",
     "core_beliefs": ["I am trapped."],
@@ -242,10 +239,10 @@ MindVoyager profiles are close to PatientPsi-style CBT profiles because both are
 
 ## Tuning Guide
 
-Use `difficulty="easy"` when you want the therapist to start with more external context and a client who can reflect quickly.
+Use `preset_level="easy"` when you want the therapist to start with more external context and a client who can reflect quickly.
 
-Use `difficulty="hard"` when you want the therapist to work with low initial disclosure and slower internal access.
+Use `preset_level="hard"` when you want the therapist to work with low initial disclosure and slower internal access.
 
-Use `difficulty="custom"` when you want to manually define the client profile through `DIFFICULTY_PRESETS["custom"]`.
+Use `preset_level="normal"` for a middle ground (open but less self-aware), or `preset_level="custom"` to define the client behavior yourself through `DIFFICULTY_PRESETS["custom"]`.
 
-For most experiments, tune the preset fields first. Adjust `rapport_check_interval`, `rapport_threshold`, or `question_threshold` only when you intentionally want to change the mediator protocol itself.
+For most experiments, tune the preset fields first. Adjust the `CONSTANTS` values only when you intentionally want to change the mediator protocol itself.

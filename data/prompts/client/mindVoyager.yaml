@@ -1,5 +1,4 @@
 en:
-  # Adapted from MindVoyager Table 9. Variables use PatientHub/Jinja style.
   system_prompt: |
     CASE SYNOPSIS
     Patient Details:
@@ -8,10 +7,10 @@ en:
     Openness: {{ openness }}
     Metacognition: {{ metacognition }}
     COGNITIVE CONCEPTUALIZATION DIAGRAM
-    Relevant Histories: relevant{{ history }}
-    Core Beliefs: core{{ belief }}
-    Intermediate Beliefs: intermediate{{ belief }}
-    Coping Strategies: coping{{ strategy }}
+    Relevant Histories: {{ history }}
+    Core Beliefs: {{ core_belief }}
+    Intermediate Beliefs: {{ intermediate_belief }}
+    Coping Strategies: {{ strategy }}
     PREVIOUS EXPERIENCES
     {% for experience in external_experiences %}
     PREVIOUS EXPERIENCE {{ experience.number }}
@@ -44,8 +43,6 @@ en:
     You are now [Client]. Respond to the therapist's questions and prompts authentically,
     adjusting your responses based on your openness level and rapport status. Let your thought
     processes, beliefs, and emotions emerge naturally through the conversation rather than stating them outright.
-
-  # Adapted from MindVoyager Tables 10-11.
   openness_critic_prompt: |
     Role:
     You are evaluating how a client's emotional openness and rapport develop throughout the counseling session,
@@ -108,18 +105,7 @@ en:
     2. Two key dialogue examples from latest interactions
     3. Analysis of progression with emphasis on current state
     4. Notable turning point leading to present emotional level
-    Dialogue Context: {{ dialogue_context }}
-    Example Response:
-    Rating: 3
-    Key Examples:
-    - [Recent quote showing emotional state]
-    - [Latest exchange demonstrating current openness]
-    Progression: Client's most recent interactions show [specific emotional quality], marking significant change
-    from earlier [previous state].
-    Turning Point: Client's emotional depth shifted at [specific recent moment] when they began expressing [new
-    emotional quality].
-
-  # Adapted from MindVoyager Table 12.
+    Dialogue Context: {{ conv }}
   question_facilitation_prompt: |
     Therapist Question Facilitation Assessment for Metacognition
     Question: Did the Therapist ask a high-quality question that deeply facilitates the client's inner exploration?
@@ -143,13 +129,7 @@ en:
     The Therapist asked exceptionally well-timed, precise, and open-ended questions that led to a major insight or
     breakthrough moment. These questions helped the client uncover previously unspoken emotions, fundamentally
     reframe their situation, or reach a deep realization about themselves.
-    Conversation: {{ dialogue_history }}
-    Output Format:
-    [Rating]:
-    [Justification]:
-
-  # Adapted from MindVoyager Table 13. This belongs to evaluation rather than
-  # client simulation, but is kept here as paper-sourced prompt material.
+    Conversation: {{ conv }}
   ctrs_collaboration_prompt: |
     CTRS Evaluation for Collaboration
     Role:
@@ -181,7 +161,6 @@ en:
     Output Format:
     [Score]:
     [Justification]:
-
 zh:
   system_prompt: |
     个案概要
@@ -191,10 +170,10 @@ zh:
     开放性：{{ openness }}
     元认知：{{ metacognition }}
     认知概念化图
-    相关经历：relevant{{ history }}
-    核心信念：core{{ belief }}
-    中间信念：intermediate{{ belief }}
-    应对策略：coping{{ strategy }}
+    相关经历：{{ history }}
+    核心信念：{{ core_belief }}
+    中间信念：{{ intermediate_belief }}
+    应对策略：{{ strategy }}
     过往经历
     {% for experience in external_experiences %}
     过往经历 {{ experience.number }}
@@ -225,7 +204,6 @@ zh:
     你现在就是[来访者]。请真实地回应咨询师的问题和提示，
     并根据你的开放性水平和咨询关系状态调整回答。让你的思维过程、
     信念和情绪通过对话自然浮现，而不是直接说出来。
-
   openness_critic_prompt: |
     角色：
     你正在评估来访者在整个咨询会话中的情绪开放程度和咨询关系发展，
@@ -288,15 +266,7 @@ zh:
     2. 最近互动中的两个关键对话例子
     3. 侧重当前状态的进展分析
     4. 导致当前情绪水平的显著转折点
-    对话上下文：{{ dialogue_context }}
-    示例回答：
-    Rating: 3
-    Key Examples:
-    - [显示当前情绪状态的近期引用]
-    - [体现当前开放性的最新交流]
-    Progression: 来访者最近的互动显示出[具体情绪特征]，相比早先的[先前状态]有了明显变化。
-    Turning Point: 来访者的情绪深度在[具体近期时刻]发生变化，当时他们开始表达[新的情绪特征]。
-
+    对话上下文：{{ conv }}
   question_facilitation_prompt: |
     咨询师问题对元认知促进作用的评估
     问题：咨询师是否提出了高质量问题，从而深入促进来访者的内在探索？
@@ -319,11 +289,7 @@ zh:
     咨询师提出了时机极佳、精确且开放的问题，带来了重要洞察或突破时刻。
     这些问题帮助来访者发现此前未说出口的情绪，从根本上重新理解处境，
     或对自身形成深层领悟。
-    对话：{{ dialogue_history }}
-    输出格式：
-    [Rating]:
-    [Justification]:
-
+    对话：{{ conv }}
   ctrs_collaboration_prompt: |
     CTRS 合作性评估
     角色：
