@@ -1,0 +1,43 @@
+[
+  {
+    "main_ccd": {
+      "name": "Alex",
+      "relevant_history": "Grew up with a highly critical parent. Several past attempts at change (diets, courses, therapy) were abandoned partway, each reinforcing a sense of failure.",
+      "core_beliefs": [
+        "I am trapped.",
+        "I am a failure."
+      ],
+      "intermediate_beliefs": [
+        "If I set a goal and fail, it proves I am incompetent.",
+        "I should avoid situations where I might fail."
+      ],
+      "coping_strategies": [
+        "Avoidance of goal-setting and commitment.",
+        "Dismissing plans before they can be tested."
+      ]
+    },
+    "mesc_sentences": [
+      "I've tried making plans before and they never stick.",
+      "Honestly, I don't really see the point in setting goals.",
+      "Whenever I fail at something, it just confirms what I already think about myself."
+    ],
+    "dialogue_excerpt": [
+      {
+        "role": "Therapist",
+        "content": "It sounds like planning has felt discouraging in the past. Could we look at one small, manageable goal together?"
+      },
+      {
+        "role": "Client",
+        "content": "Goals? I don't think they work. I always fail. It just makes me feel worse. Can we skip this?"
+      },
+      {
+        "role": "Therapist",
+        "content": "I hear that setting goals brings up a lot of pressure for you."
+      },
+      {
+        "role": "Client",
+        "content": "Yeah. What's the point if I'm just going to give up anyway."
+      }
+    ]
+  }
+]

@@ -127,7 +127,7 @@ def test_reset(client):
 
 
 # Clients that use multi-step structured LLM calls — hard to mock simply
-SKIP_GENERATE_RESPONSE = {"saps", "consistentMI", "adaptiveVP", "mindVoyager"}
+SKIP_GENERATE_RESPONSE = {"saps", "consistentMI", "adaptiveVP", "mindVoyager", "cars"}
 
 
 def test_generate_response(client, request):

@@ -24,6 +24,7 @@ Client agents simulate patients/clients in therapy interactions.
 | [**RoleplayDoh**](./roleplaydoh.md)   | `roleplayDoh`  | Principle-based simulation (EMNLP 2024)        |
 | [**PatientZero**](./patientzero.md)   | `patientZero`  | Synthetic clinical records from disease priors |
 | [**Deprofile**](./deprofile.md)       | `deprofile`    | Decomposed clinical profile + social timeline  |
+| [**CARS**](./cars.md)                 | `cars`         | CBT resistance simulation via CCDs             |
 | [**User**](./user.md)                 | `user`         | Human input client                             |
 
 ## Listing Available Clients

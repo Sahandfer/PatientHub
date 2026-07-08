@@ -2,6 +2,7 @@ import logging
 from .base import BaseCharacter
 from .adaptiveVP import AdaptiveVPCharacter
 from .annaAgent import AnnaAgentCharacter, AnnaAgentSeed
+from .cars import CarsCharacter, CarsSeed
 from .clientCast import ClientCastCharacter, ClientCastSeed
 from .consistentMI import ConsistentMICharacter
 from .eeyore import EeyoreCharacter
@@ -12,7 +13,7 @@ from .roleplayDoh import RoleplayDohCharacter
 from .saps import SAPSCharacter
 from .simPatient import SimPatientCharacter
 from .talkDep import TalkDepCharacter
-from .deprofile import DeprofileCharacter
+from .deprofile import DeprofileCharacter, DeprofileSeed
 from .mindVoyager import MindVoyagerCharacter
 
 logger = logging.getLogger(__name__)
@@ -31,7 +32,21 @@ CLIENT_SCHEMA_REGISTRY = {
     "saps": SAPSCharacter,
     "adaptiveVP": AdaptiveVPCharacter,
     "deprofile": DeprofileCharacter,
+    "cars": CarsCharacter,
     "mindVoyager": MindVoyagerCharacter,
+    # "patientAct": GeneratedProfile,
+}
+
+THERAPIST_SCHEMA_REGISTRY = {}
+
+
+SEED_SCHEMA_REGISTRY = {
+    "clientCast": ClientCastSeed,
+    "psyche": PsycheSeed,
+    "annaAgent": AnnaAgentSeed,
+    "patientZero": PatientZeroSeed,
+    "deprofile": DeprofileSeed,
+    "cars": CarsSeed,
 }
 
 
@@ -61,6 +76,20 @@ def get_profile_schema(
 
 __all__ = [
     "BaseCharacter",
+    "AdaptiveVPCharacter",
+    "AnnaAgentCharacter",
+    "CarsCharacter",
+    "ClientCastCharacter",
+    "ConsistentMICharacter",
+    "EeyoreCharacter",
+    "PatientPsiCharacter",
+    "PatientZeroCharacter",
+    "PsycheCharacter",
+    "RoleplayDohCharacter",
+    "SAPSCharacter",
+    "SimPatientCharacter",
+    "TalkDepCharacter",
+    "DeprofileCharacter",
     "CLIENT_SCHEMA_REGISTRY",
     "THERAPIST_SCHEMA_REGISTRY",
     "SEED_SCHEMA_REGISTRY",

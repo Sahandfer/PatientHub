@@ -10,6 +10,7 @@ driving the loop, and saving results).
 | Generator                           | Key           | Description                                                              |
 | ----------------------------------- | ------------- | ------------------------------------------------------------------------ |
 | [**AnnaAgent**](./annaagent.md)     | `annaAgent`   | Multi-session profiles with scales and memory states                     |
+| [**CARS**](./cars.md)               | `cars`        | CBT resistance profiles from a CCD + seed statements                     |
 | [**ClientCast**](./clientcast.md)   | `clientCast`  | Profiles from conversation excerpts via Big Five + clinical scales       |
 | [**Deprofile**](./deprofile.md)     | `deprofile`   | Clinical/social profile assembly with matched timelines and memory cards |
 | [**PatientZero**](./patientzero.md) | `patientZero` | Disease-grounded synthetic patient records with sampled priors           |
@@ -91,16 +92,16 @@ patienthub generate generator=clientCast input_path=data/seeds/clientCast.json \
 
 ### CLI I/O Options
 
-| Option        | Type | Default                            | Description                                                                                             |
-| ------------- | ---- | ---------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `generator`   | str  | required                           | Generator to run (e.g. `clientCast`, `psyche`)                                                          |
-| `input_path`  | str  | `""`                               | Optional JSON list of seed records. When set, one character is produced per record, index-aligned       |
-| `output_path` | str  | `data/characters/<agent_name>.json` | Where the generated characters are saved                                                                |
-| `num_samples` | int  | `1`                                | Number of characters to generate when `input_path` is empty (appended to the output bank)               |
-| `num_workers` | int  | `1`                                | Parallel workers (each builds its own generator instance)                                               |
-| `resume`      | bool | `false`                            | With `input_path`: keep characters already in the output and only refill null (failed/pending) slots    |
-| `lang`        | str  | `"en"`                             | Language code                                                                                           |
-| `verbose`     | bool | `false`                            | Enable debug logging                                                                                    |
+| Option        | Type | Default                             | Description                                                                                          |
+| ------------- | ---- | ----------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `generator`   | str  | required                            | Generator to run (e.g. `clientCast`, `psyche`)                                                       |
+| `input_path`  | str  | `""`                                | Optional JSON list of seed records. When set, one character is produced per record, index-aligned    |
+| `output_path` | str  | `data/characters/<agent_name>.json` | Where the generated characters are saved                                                             |
+| `num_samples` | int  | `1`                                 | Number of characters to generate when `input_path` is empty (appended to the output bank)            |
+| `num_workers` | int  | `1`                                 | Parallel workers (each builds its own generator instance)                                            |
+| `resume`      | bool | `false`                             | With `input_path`: keep characters already in the output and only refill null (failed/pending) slots |
+| `lang`        | str  | `"en"`                              | Language code                                                                                        |
+| `verbose`     | bool | `false`                             | Enable debug logging                                                                                 |
 
 **With `input_path`**: one character per seed record, index-aligned and resume-aware
 — failed or pending slots are saved as `null` and refilled on a later `resume` run.

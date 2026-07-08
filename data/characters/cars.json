@@ -1,0 +1,71 @@
+[
+  {
+    "name": "Alex",
+    "persona": {
+      "name": "Alex",
+      "age": "23 years old",
+      "gender": "Male",
+      "occupation": "Unemployed",
+      "family_background": "Raised largely by a critical, demanding parent whose approval was rare and tied to achievement. Alex moved out in his late teens and now has limited, tense contact with family.",
+      "interpersonal_relationships": "Has few close relationships and tends to withdraw when he anticipates judgment, keeping interactions surface-level to avoid disappointing others.",
+      "physical_condition": "No significant medical problems, though he reports low energy and disrupted sleep during stressful periods.",
+      "lifestyle": "Currently unemployed and living alone with little daily structure; avoids tasks that feel like tests and spends long stretches inactive.",
+      "chief_complaint": "Alex is sensitive to structured goal-setting because formal goals can feel like evaluation and proof of incompetence."
+    },
+    "background": "The current counseling topic is treatment goal setting. Alex is asked to discuss treatment goals with the counselor, which can activate his fear that committing to goals will expose failure and make him feel worse.",
+    "main_ccd": {
+      "name": "Alex",
+      "relevant_history": "Grew up with a highly critical parent. Several past attempts at change (diets, courses, therapy) were abandoned partway, each reinforcing a sense of failure.",
+      "core_beliefs": [
+        "I am trapped.",
+        "I am a failure."
+      ],
+      "intermediate_beliefs": [
+        "If I set a goal and fail, it proves I am incompetent.",
+        "I should avoid situations where I might fail."
+      ],
+      "coping_strategies": [
+        "Avoidance of goal-setting and commitment.",
+        "Dismissing plans before they can be tested."
+      ]
+    },
+    "session_ccd": {
+      "theme": "goal setting",
+      "structured_cbt_strategy": "Goal list or agenda setting",
+      "automatic_thought": {
+        "situation": "Discuss treatment goals with a counselor.",
+        "cognition": "Those goals don't work for me, I should avoid setting goals.",
+        "reaction": "Unease, decreased emotional value, and avoidance."
+      },
+      "intermediate_belief": {
+        "attitude": "Formal goals are evaluative and threatening.",
+        "rule": "I should avoid setting goals that could expose failure.",
+        "assumption": "If I set goals seriously but fail to achieve them, it will prove that I am truly incompetent and not worth expecting."
+      },
+      "resistance_triggers": [
+        "Authoritative or commanding goal-setting",
+        "Overly formal treatment goals",
+        "Language that makes the client feel evaluated"
+      ]
+    },
+    "preferences": {
+      "positive": [
+        "Collaborative and non-commanding discussion of what feels real to the client."
+      ],
+      "negative": [
+        "Being too authoritative or commanding makes him feel controlled, increasing his defensiveness and confrontation."
+      ]
+    },
+    "client_characteristics": {
+      "possible_responses_under_different_emotions": [
+        "When uneasy, Alex gives short, avoidant answers and tries to move away from formal goal setting.",
+        "When feeling pressured, Alex frames goals as proof of failure and asks to skip them.",
+        "When the counselor reduces pressure, Alex may cautiously discuss the stuck feeling behind the avoidance."
+      ],
+      "other_client_characteristics": [
+        "Alex is guarded around structured tasks that resemble evaluation.",
+        "Alex responds better when the counselor treats resistance as useful therapeutic material instead of noncompliance."
+      ]
+    }
+  }
+]

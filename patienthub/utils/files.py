@@ -3,9 +3,13 @@ import json
 import yaml
 import pandas as pd
 from pathlib import Path
-from jinja2 import Template
+from jinja2 import Environment
 
 PACKAGE_ROOT = Path(__file__).parent.parent.parent
+PROMPT_ENV = Environment(autoescape=False)
+PROMPT_ENV.filters["json"] = lambda value: json.dumps(
+    value, ensure_ascii=False, indent=2
+)
 
 
 def load_csv(path: str):
@@ -64,7 +68,7 @@ def load_yaml(path: str):
 
 def process_prompts(data):
     if isinstance(data, str):
-        return Template(data)
+        return PROMPT_ENV.from_string(data)
     elif isinstance(data, dict):
         return {k: process_prompts(v) for k, v in data.items()}
     elif isinstance(data, list):

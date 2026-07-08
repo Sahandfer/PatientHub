@@ -13,6 +13,7 @@ from .saps import SAPSClient, SAPSClientConfig
 from .adaptiveVP import AdaptiveVPClient, AdaptiveVPClientConfig
 from .patientZero import PatientZeroClient, PatientZeroClientConfig
 from .deprofile import DeprofileClient, DeprofileClientConfig
+from .cars import CarsClient, CarsClientConfig
 from .mindVoyager import MindVoyagerClient, MindVoyagerClientConfig
 
 
@@ -37,6 +38,7 @@ CLIENT_REGISTRY = {
     "adaptiveVP": AdaptiveVPClient,
     "patientZero": PatientZeroClient,
     "deprofile": DeprofileClient,
+    "cars": CarsClient,
     "mindVoyager": MindVoyagerClient,
 }
 
@@ -56,6 +58,7 @@ CLIENT_CONFIG_REGISTRY = {
     "adaptiveVP": AdaptiveVPClientConfig,
     "patientZero": PatientZeroClientConfig,
     "deprofile": DeprofileClientConfig,
+    "cars": CarsClientConfig,
     "mindVoyager": MindVoyagerClientConfig,
 }
 
