@@ -69,11 +69,14 @@ def generate_client_response(state: State, therapist, client) -> State:
     res = res.content if not isinstance(res, str) else res
     console.print(f"[bold red]Client[/bold red]: {res}")
 
+    # Some clients (e.g. CARS) end the session themselves
+    client_ended = bool(getattr(client, "session_ended", False))
+
     return state.update(
         msg=f"Client: {res}",
         messages=state["messages"] + [{"role": "client", "content": res}],
         num_turns=state["num_turns"] + 1,
-        session_ended=False,
+        session_ended=client_ended,
     )
 
 

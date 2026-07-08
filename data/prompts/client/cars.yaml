@@ -53,31 +53,17 @@ en:
     Output Content
     You need to analyze step by step according to the response reasoning process, and then generate the final response. The information in the response should come from the dialogue context and your reasonable inference.
 
-    Output Format
-    Thinking:
-    [Analysis Content]
-    Emotion:
-    [emotion change value, a signed number only, without any additional content]
-    Intention:
-    [feeling and goal]
-    Nonverbal behavior:
-    [nonverbal behavior]
-    Response:
-    [content]
-
     Input
     Client Persona
-    {{ persona }}
+    {{ persona | json }}
     Background Information
     {{ background }}
     Client Characteristics and Preferences
-    {{ preference }}
+    {{ preference | json }}
     Main Cognitive Conceptualization Diagram
-    {{ main_ccd }}
+    {{ main_ccd | json }}
     Session-Specific Cognitive Conceptualization Diagram
-    {{ secondary_ccd }}
-    Examples of Client Utterances under Different Emotions
-    {{ example }}
+    {{ secondary_ccd | json }}
     Dialogue History
     {{ dialogue_history }}
     Previous feelings and goals regarding the counselor's response
@@ -137,31 +123,17 @@ zh:
     输出内容
     你需要按照回应推理过程逐步分析，然后生成最终回应。回应中的信息应来自对话上下文和你的合理推断。
 
-    输出格式
-    Thinking:
-    [分析内容]
-    Emotion:
-    [情绪变化值，仅输出带符号数字，不包含任何额外内容]
-    Intention:
-    [感受和目标]
-    Nonverbal behavior:
-    [非语言行为]
-    Response:
-    [内容]
-
     输入
     来访者人物设定
-    {{ persona }}
+    {{ persona | json }}
     背景信息
     {{ background }}
     来访者特征与偏好
-    {{ preference }}
+    {{ preference | json }}
     主认知概念化图
-    {{ main_ccd }}
+    {{ main_ccd | json }}
     会话特定认知概念化图
-    {{ secondary_ccd }}
-    不同情绪下的来访者话语示例
-    {{ example }}
+    {{ secondary_ccd | json }}
     对话历史
     {{ dialogue_history }}
     针对咨询师回应的先前感受和目标

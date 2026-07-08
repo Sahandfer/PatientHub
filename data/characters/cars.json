@@ -1,34 +1,35 @@
 [
   {
     "name": "Alex",
-    "demographics": {
-      "age": "23 years old",
-      "occupation": "Unemployed"
-    },
     "persona": {
       "name": "Alex",
       "age": "23 years old",
-      "gender": "Not specified in the paper fragment.",
+      "gender": "Male",
       "occupation": "Unemployed",
-      "family_background": "Not specified in the paper fragment.",
-      "interpersonal_relationships": "Not specified in the paper fragment.",
-      "physical_condition": "Not specified in the paper fragment.",
-      "lifestyle": "Not specified in the paper fragment.",
+      "family_background": "Raised largely by a critical, demanding parent whose approval was rare and tied to achievement. Alex moved out in his late teens and now has limited, tense contact with family.",
+      "interpersonal_relationships": "Has few close relationships and tends to withdraw when he anticipates judgment, keeping interactions surface-level to avoid disappointing others.",
+      "physical_condition": "No significant medical problems, though he reports low energy and disrupted sleep during stressful periods.",
+      "lifestyle": "Currently unemployed and living alone with little daily structure; avoids tasks that feel like tests and spends long stretches inactive.",
       "chief_complaint": "Alex is sensitive to structured goal-setting because formal goals can feel like evaluation and proof of incompetence."
     },
     "background": "The current counseling topic is treatment goal setting. Alex is asked to discuss treatment goals with the counselor, which can activate his fear that committing to goals will expose failure and make him feel worse.",
-    "main_cognitive_conceptualization_diagram": {
+    "main_ccd": {
       "name": "Alex",
-      "relevant_history": "Not specified in the paper fragment.",
+      "relevant_history": "Grew up with a highly critical parent. Several past attempts at change (diets, courses, therapy) were abandoned partway, each reinforcing a sense of failure.",
       "core_beliefs": [
-        "I am trapped."
+        "I am trapped.",
+        "I am a failure."
       ],
-      "intermediate_beliefs": [],
+      "intermediate_beliefs": [
+        "If I set a goal and fail, it proves I am incompetent.",
+        "I should avoid situations where I might fail."
+      ],
       "coping_strategies": [
-        "Patients tend to avoid ..."
+        "Avoidance of goal-setting and commitment.",
+        "Dismissing plans before they can be tested."
       ]
     },
-    "session_specific_cognitive_conceptualization_diagram": {
+    "session_ccd": {
       "theme": "goal setting",
       "structured_cbt_strategy": "Goal list or agenda setting",
       "automatic_thought": {
@@ -65,28 +66,6 @@
         "Alex is guarded around structured tasks that resemble evaluation.",
         "Alex responds better when the counselor treats resistance as useful therapeutic material instead of noncompliance."
       ]
-    },
-    "emotion_utterance_examples": [
-      {
-        "emotion": "unease",
-        "utterance": "Goals? I don't think they work. I always fail. It just makes me feel worse. Can we skip this?",
-        "nonverbal_behavior": "Disgusted expression"
-      },
-      {
-        "emotion": "guarded",
-        "utterance": "Maybe we can talk about the stuck feeling first. That feels more real than a checklist.",
-        "nonverbal_behavior": "Looks away, then speaks more quietly"
-      }
-    ],
-    "example_interaction": {
-      "counselor": "Alex, let's set some treatment goals for our session today. How does that sound?",
-      "client": "Goals? I don't think they work. I always fail. It just makes me feel worse. Can we skip this?"
-    },
-    "example_state_update": {
-      "emotion": "Unease, decreased emotional value",
-      "intention": "Avoid",
-      "nonverbal_cue": "Disgusted expression"
-    },
-    "initial_emotion_state": 50
+    }
   }
 ]

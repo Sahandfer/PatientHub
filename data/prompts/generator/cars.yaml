@@ -1,10 +1,4 @@
 en:
-  # Paper source: Appendix A.2, "Prompt for Client Cognitive Reasoning and
-  # Response Generation". This is the runtime CARS simulator prompt.
-  # The original paper placeholders are kept in braces so later implementation
-  # can map them explicitly.
-
-  # Paper source: Appendix A.2, "Prompt for Generating Client Personas".
   persona_generation_prompt: |
     You are a professional screenwriter specializing in cognitive behavioral therapy. You are skilled at extracting client personas from client-related information and enriching them with sufficient details.
 
@@ -26,18 +20,6 @@ en:
     {{ main_ccd }}
     Example Sentences:
     {{ sentences }}
-
-    Output Format
-    Name: ...
-    Age: ...
-    Occupation: ...
-    Family Background: ...
-    Interpersonal Relationships: ...
-    Physical Condition: ...
-    Lifestyle: ...
-    Chief Complaint: ...
-
-  # Paper source: Appendix A.2, "Prompt for Generating Client Cognitive Patterns".
   cognitive_pattern_generation_prompt: |
     You are a professional screenwriter specializing in cognitive behavioral therapy. You are skilled at expanding and writing dialogue scripts based on a client persona and the client's cognitive conceptualization diagram.
 
@@ -108,9 +90,7 @@ en:
 
     Output
     Return the result using the provided structured output schema. Do not add any extra opening,closing, or explanation.
-
 zh:
-  # Chinese translations of the paper-provided English prompt templates.
   persona_generation_prompt: |
     你是一名专门从事认知行为疗法剧本创作的专业编剧。你擅长从来访者相关信息中提取人物设定，并用充分细节加以丰富。
 
@@ -133,17 +113,8 @@ zh:
     示例句子：
     {{ sentences }}
 
-    输出格式
-    姓名：...
-    年龄：...
-    性别：...
-    职业：...
-    家庭背景：...
-    人际关系：...
-    身体状况：...
-    生活方式：...
-    主诉：...
-
+    输出
+    请按照提供的结构化输出 schema 返回结果。不要添加任何额外的开头、结尾或解释。
   cognitive_pattern_generation_prompt: |
     你是一名专门从事认知行为疗法剧本创作的专业编剧。你擅长基于来访者人物设定和来访者认知概念化图扩展并撰写对话脚本。
 
@@ -211,6 +182,6 @@ zh:
     {{ main_ccd }}
     对话摘录
     {{ story }}
-    
+
     输出
     请按照提供的结构化输出 schema 返回结果。不要添加任何额外的开头、结尾或解释。
