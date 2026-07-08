@@ -38,6 +38,7 @@ const sidebars = {
             'components/clients/annaagent',
             'components/clients/adaptivevp',
             'components/clients/simpatient',
+            'components/clients/mindvoyager',
             'components/clients/talkdep',
             'components/clients/clientcast',
             'components/clients/psyche',

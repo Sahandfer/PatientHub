@@ -12,9 +12,8 @@ from .roleplayDoh import RoleplayDohCharacter
 from .saps import SAPSCharacter
 from .simPatient import SimPatientCharacter
 from .talkDep import TalkDepCharacter
-from .deprofile import DeprofileCharacter, DeprofileSeed
-
-# from .patientAct import PatientActClientCharacter, GeneratedProfile
+from .deprofile import DeprofileCharacter
+from .mindVoyager import MindVoyagerCharacter
 
 logger = logging.getLogger(__name__)
 
@@ -32,18 +31,7 @@ CLIENT_SCHEMA_REGISTRY = {
     "saps": SAPSCharacter,
     "adaptiveVP": AdaptiveVPCharacter,
     "deprofile": DeprofileCharacter,
-    # "patientAct": GeneratedProfile,
-}
-
-THERAPIST_SCHEMA_REGISTRY = {}
-
-
-SEED_SCHEMA_REGISTRY = {
-    "clientCast": ClientCastSeed,
-    "psyche": PsycheSeed,
-    "annaAgent": AnnaAgentSeed,
-    "patientZero": PatientZeroSeed,
-    "deprofile": DeprofileSeed,
+    "mindVoyager": MindVoyagerCharacter,
 }
 
 
