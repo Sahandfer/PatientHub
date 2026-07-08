@@ -14,8 +14,7 @@ from .saps import SAPSCharacter
 from .simPatient import SimPatientCharacter
 from .talkDep import TalkDepCharacter
 from .deprofile import DeprofileCharacter, DeprofileSeed
-
-# from .patientAct import PatientActClientCharacter, GeneratedProfile
+from .mindVoyager import MindVoyagerCharacter
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +33,7 @@ CLIENT_SCHEMA_REGISTRY = {
     "adaptiveVP": AdaptiveVPCharacter,
     "deprofile": DeprofileCharacter,
     "cars": CarsCharacter,
+    "mindVoyager": MindVoyagerCharacter,
     # "patientAct": GeneratedProfile,
 }
 
