@@ -9,7 +9,7 @@ slug: /
 
 ## What is PatientHub?
 
-PatientHub is a comprehensive framework that brings together **11 patient simulation methods** from leading AI and HCI venues (ACL, EMNLP, CHI, CIKM) into a single, easy-to-use toolkit.
+PatientHub is a comprehensive framework that brings together **15 patient simulation methods** from leading AI and HCI venues (ACL, EMNLP, CHI, CIKM) into a single, easy-to-use toolkit.
 
 ### Key Features
 
