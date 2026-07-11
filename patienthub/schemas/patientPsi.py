@@ -10,7 +10,7 @@ class PatientPsiCharacter(BaseCharacter):
     unlovable_belief: list[str] = Field(...)
     worthless_belief: list[str] = Field(...)
     intermediate_belief: str = Field(...)
-    intermediate_belief_depression: str = Field(...)
+    intermediate_belief_depression: str = Field(default="")
     coping_strategies: str = Field(...)
     situation: str = Field(...)
     auto_thought: list[str] | str = Field(...)

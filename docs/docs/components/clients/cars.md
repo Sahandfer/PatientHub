@@ -60,27 +60,28 @@ print(response)
 
 ```json
 {
-  "name": "Alex",
+  "name": "Abe",
   "persona": {
-    "name": "Alex",
-    "age": "23 years old",
+    "name": "Abe",
+    "age": "42 years old",
     "gender": "Male",
-    "occupation": "Unemployed",
-    "family_background": "Raised largely by a critical, demanding parent whose approval was rare and tied to achievement.",
-    "interpersonal_relationships": "Few close relationships; withdraws when he anticipates judgment.",
+    "occupation": "Recently unemployed (former manager).",
+    "family_background": "Father left when Abe was 11; his overburdened mother was critical when he could not meet her unrealistic expectations.",
+    "interpersonal_relationships": "Recently divorced; reluctant to lean on his adult son or ask anyone for help.",
     "physical_condition": "No significant medical problems; reports low energy and disrupted sleep under stress.",
-    "lifestyle": "Unemployed and living alone with little daily structure; avoids tasks that feel like tests.",
-    "chief_complaint": "Sensitive to structured goal-setting because formal goals can feel like evaluation and proof of incompetence."
+    "lifestyle": "Unemployed with little daily structure; avoids tasks that feel like tests of competence.",
+    "chief_complaint": "Feels incompetent and like a failure after losing his job and his marriage; avoids challenges and asking for help."
   },
   "background": "The current counseling topic is treatment goal setting ...",
   "main_ccd": {
-    "name": "Alex",
-    "relevant_history": "Grew up with a highly critical parent; past attempts at change were abandoned partway.",
-    "core_beliefs": ["I am trapped.", "I am a failure."],
+    "name": "Abe",
+    "relevant_history": "Abe's father left when he was 11; his critical mother had unrealistic expectations. He recently lost his job and went through a divorce.",
+    "core_beliefs": ["I am incompetent.", "I am a failure."],
     "intermediate_beliefs": [
-      "If I set a goal and fail, it proves I am incompetent."
+      "If I try hard things I'll fail, so it's safer to avoid challenges.",
+      "If I ask for help, people will see how incompetent I am."
     ],
-    "coping_strategies": ["Avoidance of goal-setting and commitment."]
+    "coping_strategies": ["Avoids asking for help.", "Avoids challenges and difficult tasks."]
   },
   "session_ccd": {
     "theme": "goal setting",

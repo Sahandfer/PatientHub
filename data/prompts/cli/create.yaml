@@ -29,6 +29,10 @@ agent: |
             res = self.chat_model.generate(self.messages)
             self.messages.append({"role": "assistant", "content": res.content})
             return res
+
+        def reset(self):
+            self.build_sys_prompt()
+            self.therapist = None
 schema: |
     from pydantic import Field
 
@@ -39,8 +43,8 @@ schema: |
         name: str = Field(...)
 prompt: |
     en: 
-    sys_prompt: |
-        <insert prompt text here>
+        sys_prompt: |
+            <insert prompt text here>
     zh: 
-    sys_prompt: |
-        <在这里输入提示文本>
+        sys_prompt: |
+            <在这里输入提示文本>

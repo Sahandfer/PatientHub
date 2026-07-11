@@ -61,27 +61,28 @@ Seeds live in `data/seeds/cars.json` as a JSON list. Each record is validated ag
 [
   {
     "main_ccd": {
-      "name": "Alex",
-      "relevant_history": "Grew up with a highly critical parent ...",
-      "core_beliefs": ["I am trapped.", "I am a failure."],
+      "name": "Abe",
+      "relevant_history": "Abe's father left when he was 11; his critical mother had unrealistic expectations. He recently lost his job and went through a divorce.",
+      "core_beliefs": ["I am incompetent.", "I am a failure."],
       "intermediate_beliefs": [
-        "If I set a goal and fail, it proves I am incompetent."
+        "If I try hard things I'll fail, so it's safer to avoid challenges.",
+        "If I ask for help, people will see how incompetent I am."
       ],
-      "coping_strategies": ["Avoidance of goal-setting and commitment."]
+      "coping_strategies": ["Avoids asking for help.", "Avoids challenges and difficult tasks."]
     },
     "mesc_sentences": [
-      "I've tried making plans before and they never stick.",
-      "Honestly, I don't really see the point in setting goals.",
-      "Whenever I fail at something, it just confirms what I already think about myself."
+      "What if I run out of money? I can't stop thinking about the bills.",
+      "I should be able to do this on my own without asking anyone for help.",
+      "I should have tried harder; I just keep failing at everything."
     ],
     "dialogue_excerpt": [
       {
         "role": "Therapist",
-        "content": "Could we look at one small goal together?"
+        "content": "Would it help to look at one small step together, maybe even asking someone for a hand?"
       },
       {
         "role": "Client",
-        "content": "Goals? I don't think they work. I always fail."
+        "content": "Ask for help? No. I should be able to handle this myself."
       }
     ]
   }
@@ -98,12 +99,12 @@ Seeds live in `data/seeds/cars.json` as a JSON list. Each record is validated ag
 
 ```json
 {
-  "name": "Alex",
+  "name": "Abe",
   "persona": {
-    "name": "Alex",
-    "age": "23 years old",
+    "name": "Abe",
+    "age": "42 years old",
     "gender": "Male",
-    "occupation": "Unemployed",
+    "occupation": "Recently unemployed (former manager).",
     "family_background": "...",
     "interpersonal_relationships": "...",
     "physical_condition": "...",
@@ -112,9 +113,9 @@ Seeds live in `data/seeds/cars.json` as a JSON list. Each record is validated ag
   },
   "background": "The current counseling topic is treatment goal setting ...",
   "main_ccd": {
-    "name": "Alex",
+    "name": "Abe",
     "relevant_history": "...",
-    "core_beliefs": ["..."],
+    "core_beliefs": ["I am incompetent.", "I am a failure."],
     "intermediate_beliefs": ["..."],
     "coping_strategies": ["..."]
   },

@@ -12,6 +12,10 @@ from .cars import CarsGenerator, CarsGeneratorConfig
 
 from omegaconf import DictConfig
 
+from patienthub.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 # Registry of generator implementations
 GENERATORS = {
     "psyche": PsycheGenerator,
@@ -34,7 +38,7 @@ GENERATOR_CONFIG_REGISTRY = {
 
 
 def get_generator(agent_name: str, configs: DictConfig = None, lang: str = "en"):
-    print(f"Loading {agent_name} generator...")
+    logger.info("Loading %s generator...", agent_name)
     if agent_name in GENERATORS:
         if configs is None:
             configs = get_generator_config(agent_name)

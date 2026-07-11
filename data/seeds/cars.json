@@ -1,42 +1,43 @@
 [
   {
     "main_ccd": {
-      "name": "Alex",
-      "relevant_history": "Grew up with a highly critical parent. Several past attempts at change (diets, courses, therapy) were abandoned partway, each reinforcing a sense of failure.",
+      "name": "Abe",
+      "relevant_history": "Abe's father left the family when he was 11 and he never saw him again. His overburdened mother was critical whenever he could not meet her unrealistic expectations. More recently, Abe struggled with and then lost his job and went through a divorce.",
       "core_beliefs": [
-        "I am trapped.",
+        "I am incompetent.",
         "I am a failure."
       ],
       "intermediate_beliefs": [
-        "If I set a goal and fail, it proves I am incompetent.",
-        "I should avoid situations where I might fail."
+        "It's important to be responsible, competent, and productive.",
+        "If I try hard things I'll fail, so it's safer to avoid challenges.",
+        "If I ask for help, people will see how incompetent I am."
       ],
       "coping_strategies": [
-        "Avoidance of goal-setting and commitment.",
-        "Dismissing plans before they can be tested."
+        "Avoids asking for help.",
+        "Avoids challenges and difficult tasks."
       ]
     },
     "mesc_sentences": [
-      "I've tried making plans before and they never stick.",
-      "Honestly, I don't really see the point in setting goals.",
-      "Whenever I fail at something, it just confirms what I already think about myself."
+      "What if I run out of money? I can't stop thinking about the bills.",
+      "I should be able to do this on my own without asking anyone for help.",
+      "I should have tried harder; I just keep failing at everything."
     ],
     "dialogue_excerpt": [
       {
         "role": "Therapist",
-        "content": "It sounds like planning has felt discouraging in the past. Could we look at one small, manageable goal together?"
+        "content": "It sounds like the bills have been weighing on you. Would it help to look at one small step together, maybe even asking someone for a hand?"
       },
       {
         "role": "Client",
-        "content": "Goals? I don't think they work. I always fail. It just makes me feel worse. Can we skip this?"
+        "content": "Ask for help? No. I should be able to handle this myself. If I can't even do that, what does that say about me?"
       },
       {
         "role": "Therapist",
-        "content": "I hear that setting goals brings up a lot of pressure for you."
+        "content": "I hear that needing help feels like proof of something about you."
       },
       {
         "role": "Client",
-        "content": "Yeah. What's the point if I'm just going to give up anyway."
+        "content": "It does. I've already failed at enough. I'd rather just not try than fail at it too."
       }
     ]
   }

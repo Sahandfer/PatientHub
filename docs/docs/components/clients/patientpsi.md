@@ -56,34 +56,37 @@ print(response)
 
 ## Character Data Format
 
+The shipped `data/characters/patientPsi.json` contains the single illustrative
+example ("Abe") released by the PATIENT-Ψ authors, across three situations
+(`id` `1-1`, `1-2`, `1-3`) that share the same beliefs. The full annotated
+Patient-Ψ-CM dataset is not redistributed here.
+
+:::note Accessing the full dataset
+
+To get access to the Patient-Ψ-CM dataset, please fill out [this form](https://forms.gle/pQ3g6YVFrEWjBU2H7). See the authors' repository at [ruiyiw/patient-psi](https://github.com/ruiyiw/patient-psi) for more details.
+
+:::
+
 ```json
 {
-  "name": "Alex",
+  "name": "Abe",
   "id": "1-1",
-  "type": [
-    "plain",
-    "verbose",
-    "go off on tangents",
-    "hostile",
-    "guarded",
-    "ingratiating"
-  ],
-  "history": "The patient has a history of substance abuse and has been through rehab to overcome it. He has had issues with his family, particularly with his mother, where he has felt rejected and emotionally neglected. He has struggled with obesity since childhood, which has affected his self-esteem and body image. He also has a history of being victimized and bullied due to his weight.",
-  "helpless_belief_current": ["I am trapped.", "I am out of control."],
-  "unlovable_belief_current": [
-    "I am unlovable.",
-    "I am undesirable, unwanted."
-  ],
-  "worthless_belief_current": [],
-  "intermediate_belief": "Helpless: I'm just not very good at handling stress and I have poor self-control, which is why I need to not put myself in stressful situations. \n Unlovable: If I show my true self, people will reject me the way my mother rejected me.",
-  "intermediate_belief_depression": "Helpless: There's nothing I can do to change my situation. I cannot control myself. \nUnlovable: I don't deserve to be happy, so why even try to stay clean?",
-  "coping_strategies": "The patient has adopted avoidance as a coping strategy by distancing himself from his family to reduce exposure to negativity and conflict. He has started scheduling pleasant activities and planning his day ahead of time in order to maintain a sense of control over his emotions and circumstances.",
-  "situation": "Alex's cousin invited him to attend his upcoming wedding.",
-  "auto_thought": "It will be stressful and negative; people will ask me questions I cannot answer or don't want to answer; my mum would be ashamed of me and critical of me as always; They don't want me there anyway, nobody likes me in this family.",
-  "emotion": [
-    "anxious, worried, fearful, scared, tense",
-    "sad, down, lonely, unhappy"
-  ],
-  "behavior": "Ignored the invitation and did not respond to the RSVP request. Ignored phone calls from family."
+  "type": ["plain", "verbose", "tangent", "upset", "reserved", "pleasing"],
+  "history": "Father leaves family when Abe is 11 years old. He never sees him again. Mom is overburdened, criticizes when he can't meet her unrealistic expectations. Precipitants to current disorder: Abe struggles and then loses his job and undergoes divorce.",
+  "helpless_belief": ["I am incompetent.", "I am a failure."],
+  "unlovable_belief": [],
+  "worthless_belief": [],
+  "intermediate_belief": "It's important to be responsible, competent, reliable and helpful. It's important to work hard and be productive.\n[during depression]\n(1) If I avoid challenges, I'll be okay, but if I try to do hard things I'll fail. (2) If I avoid asking for help, my incompetence won't show but if I do ask for help, people will see how incompetent I am.",
+  "coping_strategies": "Avoids asking for help and avoids challenges.",
+  "situation": "Thinking about bills.",
+  "auto_thought": "What if I run out of money?",
+  "emotion": ["anxious, worried, fearful, scared, tense"],
+  "behavior": "Continues to sit on couch; ruminates about his failures."
 }
 ```
+
+The three core-belief fields (`helpless_belief`, `unlovable_belief`,
+`worthless_belief`) are lists and may be empty. Newer profiles embed
+depression-phase beliefs inside `intermediate_belief` under a
+`[during depression]` marker; the optional `intermediate_belief_depression`
+field is supported for backward compatibility.

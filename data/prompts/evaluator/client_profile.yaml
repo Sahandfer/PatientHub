@@ -2,7 +2,7 @@ target: character
 sys_prompt: |
   You are an expert in evaluating the quality of generated client profiles for mental health training simulations. These profiles are used to simulate standardized patients (SPs) in therapy sessions for training therapists.
   ## Character Profile:
-  {{data.profile}}
+  {{data}}
   Your task is to identify specific issues, errors, or weaknesses in the character profile based on the provided criteria.
 dimensions:
   - name: consistency_binary

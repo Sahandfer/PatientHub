@@ -173,7 +173,7 @@ class Evaluator:
 @hydra.main(version_base=None, config_name="evaluate")
 def evaluate(configs: DictConfig):
     init_logging(
-        "evaluate", level=LogLevel.DEBUG if configs.verbose else LogLevel.WARNING
+        "evaluate", level=LogLevel.DEBUG if configs.verbose else LogLevel.INFO
     )
     try:
         evaluator = Evaluator(configs)
