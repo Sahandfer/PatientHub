@@ -16,7 +16,6 @@ class CarsGeneratorConfig(APIModelConfig):
     """Configuration for the CARS profile generator scaffold."""
 
     agent_name: str = "cars"
-    default_lang: str | None = None
     prompt_path: str = "data/prompts/generator/cars.yaml"
 
 

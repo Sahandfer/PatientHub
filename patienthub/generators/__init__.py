@@ -26,6 +26,15 @@ GENERATORS = {
     "cars": CarsGenerator,
 }
 
+GENERATOR_DEFAULT_LANGS = {
+    "annaAgent": "en",
+    "patientZero": "en",
+    "deprofile": "zh",
+    "psyche": None,
+    "clientCast": None,
+    "cars": None,
+}
+
 # Registry of generator configs (for Hydra registration)
 GENERATOR_CONFIG_REGISTRY = {
     "psyche": PsycheGeneratorConfig,
@@ -44,7 +53,7 @@ def get_generator(agent_name: str, configs: DictConfig = None, lang: str = "en")
             configs = get_generator_config(agent_name)
         configs.lang = lang
         language_warning(
-            agent_name, configs.lang, getattr(configs, "default_lang", "en")
+            agent_name, configs.lang, GENERATOR_DEFAULT_LANGS[agent_name]
         )
         return GENERATORS[agent_name](configs=configs)
     else:

@@ -76,18 +76,6 @@ class MyClient(BaseClient):
         self.therapist = None
 ```
 
-`APIModelConfig.default_lang` is `"en"` by default, so most agents do not need
-to declare it again. Override it only for an agent designed for Chinese, or for
-an agent with no preferred language:
-
-```python
-default_lang: str | None = "zh"  # Chinese is preferred
-default_lang: str | None = None  # No preferred language
-```
-
-When a different `lang` is requested, PatientHub logs a warning. Agents without
-a preferred language accept any requested language without a warning.
-
 ### Therapist Agent
 
 The pattern is identical — inherit from `BaseTherapist` instead:
@@ -149,6 +137,22 @@ CLIENT_CONFIG_REGISTRY = {
     "myClient": MyClientConfig,
 }
 ```
+
+### Register Language Compatibility
+
+The requested `lang` is a runtime option, while an agent's default language is
+fixed metadata. Every agent must declare that metadata alongside its registry
+entry in the package's `__init__.py`:
+
+```python
+CLIENT_DEFAULT_LANGS = {
+    # ... existing agents ...
+    "myClient": "en",
+}
+```
+
+Use `CLIENT_DEFAULT_LANGS`, `THERAPIST_DEFAULT_LANGS`, or
+`GENERATOR_DEFAULT_LANGS` according to the agent type.
 
 ---
 
@@ -327,8 +331,8 @@ Before submitting your new agent:
 
 - [ ] Agent class in `patienthub/clients/` (or `therapists/`)
 - [ ] Config dataclass with `agent_name`, `prompt_path`, and any extra fields
-- [ ] Keep `default_lang="en"`, or override it with `"zh"`/`None` when appropriate
 - [ ] Registered in `CLIENT_REGISTRY` and `CLIENT_CONFIG_REGISTRY` in `__init__.py`
+- [ ] Language compatibility registered in the relevant `*_DEFAULT_LANGS`
 - [ ] Prompt YAML created at `data/prompts/client/<agent_name>.yaml`
 - [ ] Character data file created (if applicable)
 - [ ] Pydantic schema created in `patienthub/schemas/` with all prompt fields required

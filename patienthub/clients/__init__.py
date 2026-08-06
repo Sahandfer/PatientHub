@@ -43,6 +43,25 @@ CLIENT_REGISTRY = {
     "mindVoyager": MindVoyagerClient,
 }
 
+CLIENT_DEFAULT_LANGS = {
+    "patientPsi": "en",
+    "roleplayDoh": "en",
+    "eeyore": "en",
+    "psyche": "en",
+    "simPatient": "en",
+    "consistentMI": "en",
+    "clientCast": "en",
+    "annaAgent": "en",
+    "talkDep": "en",
+    "adaptiveVP": "en",
+    "patientZero": "en",
+    "cars": "en",
+    "mindVoyager": "en",
+    "deprofile": "zh",
+    "user": None,
+    "saps": None,
+}
+
 # Registry of client configs (for Hydra registration)
 CLIENT_CONFIG_REGISTRY = {
     "patientPsi": PatientPsiClientConfig,
@@ -71,7 +90,7 @@ def get_client(agent_name: str, configs: DictConfig = None, lang: str = "en"):
         configs = get_client_config(agent_name)
     configs.lang = lang
     language_warning(
-        agent_name, configs.lang, getattr(configs, "default_lang", "en")
+        agent_name, configs.lang, CLIENT_DEFAULT_LANGS[agent_name]
     )
     try:
         client = CLIENT_REGISTRY[agent_name](configs=configs)

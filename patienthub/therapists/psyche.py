@@ -25,7 +25,6 @@ class PsycheTherapistConfig(APIModelConfig):
     """
 
     agent_name: str = "psyche"
-    default_lang: str | None = None
     prompt_path: str = "data/prompts/therapist/psyche.yaml"
 
 

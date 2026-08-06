@@ -12,7 +12,6 @@ class UserClientConfig:
 
     agent_name: str = "user"
     lang: str = "en"
-    default_lang: str | None = None
 
 
 class UserClient(BaseClient):

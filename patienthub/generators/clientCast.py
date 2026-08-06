@@ -31,7 +31,6 @@ class ClientCastGeneratorConfig(APIModelConfig):
     """Configuration for ClientCast generator."""
 
     agent_name: str = "clientCast"
-    default_lang: str | None = None
     prompt_path: str = "data/prompts/generator/clientCast.yaml"
 
 

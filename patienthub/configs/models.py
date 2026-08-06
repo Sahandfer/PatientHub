@@ -11,8 +11,6 @@ class APIModelConfig:
     max_tokens: int = 8192
     max_retries: int = 3
     lang: str = "en"
-    # Override with "zh" or None only when the agent requires it.
-    default_lang: str | None = "en"
 
 
 @dataclass
@@ -27,5 +25,3 @@ class LocalModelConfig:
     repetition_penalty: float = 1.2
     device: int = 0
     lang: str = "en"
-    # Override with "zh" or None only when the agent requires it.
-    default_lang: str | None = "en"
