@@ -19,6 +19,7 @@ from .mindVoyager import MindVoyagerClient, MindVoyagerClientConfig
 
 import logging
 from omegaconf import DictConfig
+from patienthub.utils.logger import language_warning
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +70,9 @@ def get_client(agent_name: str, configs: DictConfig = None, lang: str = "en"):
     if configs is None:
         configs = get_client_config(agent_name)
     configs.lang = lang
+    language_warning(
+        agent_name, configs.lang, getattr(configs, "default_lang", "en")
+    )
     try:
         client = CLIENT_REGISTRY[agent_name](configs=configs)
     except Exception as e:

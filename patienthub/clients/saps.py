@@ -30,6 +30,7 @@ class SAPSClientConfig(APIModelConfig):
     """Configuration for the SAPSClient agent."""
 
     agent_name: str = "saps"
+    default_lang: str | None = None 
     prompt_path: str = "data/prompts/client/saps.yaml"
     data_path: str = "data/characters/saps.json"
     data_idx: int = 0

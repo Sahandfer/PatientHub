@@ -12,7 +12,7 @@ from .cars import CarsGenerator, CarsGeneratorConfig
 
 from omegaconf import DictConfig
 
-from patienthub.utils.logger import get_logger
+from patienthub.utils.logger import get_logger, language_warning
 
 logger = get_logger(__name__)
 
@@ -43,6 +43,9 @@ def get_generator(agent_name: str, configs: DictConfig = None, lang: str = "en")
         if configs is None:
             configs = get_generator_config(agent_name)
         configs.lang = lang
+        language_warning(
+            agent_name, configs.lang, getattr(configs, "default_lang", "en")
+        )
         return GENERATORS[agent_name](configs=configs)
     else:
         raise ValueError(f"Unknown generator type: {agent_name}")

@@ -29,6 +29,7 @@ class PsycheGeneratorConfig(APIModelConfig):
     """Configuration for Psyche generator."""
 
     agent_name: str = "psyche"
+    default_lang: str | None = None
     prompt_path: str = "data/prompts/generator/psyche.yaml"
 
 

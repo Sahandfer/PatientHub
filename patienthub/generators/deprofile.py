@@ -20,6 +20,7 @@ class DeprofileGeneratorConfig(APIModelConfig):
     """Configuration for the Deprofile character generator."""
 
     agent_name: str = "deprofile"
+    default_lang: str | None = "zh"
     prompt_path: str = "data/prompts/generator/deprofile.yaml"
     resource_dir: str = "data/resources/Deprofile"
     social_profiles_path: str = "data/resources/Deprofile/social_user_profiles.json"

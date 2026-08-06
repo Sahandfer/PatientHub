@@ -31,6 +31,7 @@ class BasicTherapistConfig(APIModelConfig):
     """Configuration for Basic Therapist agent."""
 
     agent_name: str = "basic"
+    default_lang: str | None = None
     prompt_path: str = "data/prompts/therapist/CBT.yaml"
     use_cot: bool = False
 

@@ -13,6 +13,7 @@ class UserTherapistConfig:
 
     agent_name: str = "user"
     lang: str = "en"
+    default_lang: str | None = None
 
 
 class UserTherapist(BaseTherapist):

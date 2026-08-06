@@ -67,3 +67,16 @@ def init_logging(
 def get_logger(name: str) -> logging.Logger:
     """Get a named logger. Call init_logging() once at app entry point."""
     return logging.getLogger(name)
+
+
+def language_warning(
+    agent_name: str, lang: str, default_lang: str | None
+) -> None:
+    """Warn when a language-specific agent is used with another language."""
+    if default_lang is not None and lang != default_lang:
+        logging.getLogger(__name__).warning(
+            "Agent '%s' defaults to lang='%s', but lang='%s' was requested.",
+            agent_name,
+            default_lang,
+            lang,
+        )

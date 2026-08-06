@@ -19,6 +19,7 @@ class DeprofileClientConfig(APIModelConfig):
     """Configuration for the Deprofile patient simulation client."""
 
     agent_name: str = "deprofile"
+    default_lang: str | None = "zh"
     prompt_path: str = "data/prompts/client/deprofile.yaml"
     data_path: str = "data/characters/deprofile.json"
     data_idx: int = 0

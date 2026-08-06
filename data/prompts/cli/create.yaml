@@ -11,6 +11,7 @@ agent: |
         """Configuration for the {{class_name}} agent."""
 
         agent_name: str = "{{agent_name}}"
+        # Override default_lang with "zh" or None only when needed.
         prompt_path: str = "data/prompts/{{agent_type}}/{{agent_name}}.yaml"{% if agent_type == "client" %}
         data_path: str = "data/characters/{{agent_name}}.json"
         data_idx: int = 0{% endif %}

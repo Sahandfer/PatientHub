@@ -45,7 +45,7 @@ patienthub simulate client=deprofile client.data_idx=0
 ```python
 from patienthub.clients import get_client
 
-client = get_client(agent_name='deprofile', lang='en')
+client = get_client(agent_name='deprofile', lang='zh')
 response = client.generate_response("How have you been feeling this week?")
 print(response.content)
 ```
