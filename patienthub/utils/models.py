@@ -55,10 +55,11 @@ class ChatModel:
             self.track_usage(res)
             result = res.choices[0].message
             logger.debug(
-                "LLM response: model=%s finish_reason=%s tokens=%s",
+                "LLM response: model=%s finish_reason=%s tokens=%s output=%r",
                 self.model_name,
                 res.choices[0].finish_reason,
                 res.usage.total_tokens if res.usage else "n/a",
+                result.content,
             )
             return result
         else:
@@ -70,10 +71,16 @@ class ChatModel:
                 response_model=response_format,
                 **self.kwargs,
             )
+            if hasattr(res, "model_dump_json"):
+                output = res.model_dump_json()
+            else:
+                output = str(res)
+
             logger.debug(
-                "LLM response: model=%s total_tokens=%d",
+                "LLM response: model=%s total_tokens=%d output=%r",
                 self.model_name,
                 self.total_tokens,
+                output,
             )
             return res
 
