@@ -111,14 +111,15 @@ uv run python -m chainlit run examples/chainlit.py
 
 ### Generators
 
-| Generator   | Key           | Description                                                              |
-| ----------- | ------------- | ------------------------------------------------------------------------ |
-| PSYCHE      | `psyche`      | MFC psychiatric profiles for assessment training                         |
-| ClientCast  | `clientCast`  | Profiles from conversation excerpts via Big Five and clinical scales     |
-| AnnaAgent   | `annaAgent`   | Multi-session profiles with scales and memory states                     |
-| PatientZero | `patientZero` | Disease-grounded synthetic patient records with sampled priors           |
-| Deprofile   | `deprofile`   | Clinical/social profile assembly with matched timelines and memory cards |
-| CARS        | `cars`        | CBT resistance profiles from a CCD and seed statements                   |
+| Generator   | Key           | Description                                                                 |
+| ----------- | ------------- | --------------------------------------------------------------------------- |
+| PSYCHE      | `psyche`      | MFC psychiatric profiles for assessment training                            |
+| ClientCast  | `clientCast`  | Profiles from conversation excerpts via Big Five and clinical scales        |
+| AnnaAgent   | `annaAgent`   | Multi-session profiles with scales and memory states                        |
+| PatientZero | `patientZero` | Disease-grounded synthetic patient records with sampled priors              |
+| Deprofile   | `deprofile`   | Clinical/social profile assembly with matched timelines and memory cards    |
+| CARS        | `cars`        | CBT resistance profiles from a CCD and seed statements                      |
+| PatientAct  | `patientAct`  | Trust-gated client profiles with disclosure memory from clinical situations |
 
 ## Project Structure
 
