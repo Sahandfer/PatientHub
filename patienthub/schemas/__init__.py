@@ -15,6 +15,7 @@ from .simPatient import SimPatientCharacter
 from .talkDep import TalkDepCharacter
 from .deprofile import DeprofileCharacter, DeprofileSeed
 from .mindVoyager import MindVoyagerCharacter
+from .patientAct import PatientActCharacter, PatientActSeed
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ CLIENT_SCHEMA_REGISTRY = {
     "deprofile": DeprofileCharacter,
     "cars": CarsCharacter,
     "mindVoyager": MindVoyagerCharacter,
-    # "patientAct": GeneratedProfile,
+    "patientAct": PatientActCharacter,
 }
 
 THERAPIST_SCHEMA_REGISTRY = {}
@@ -47,6 +48,7 @@ SEED_SCHEMA_REGISTRY = {
     "patientZero": PatientZeroSeed,
     "deprofile": DeprofileSeed,
     "cars": CarsSeed,
+    "patientAct": PatientActSeed,
 }
 
 

@@ -7,6 +7,7 @@ from .clientCast import ClientCastGenerator, ClientCastGeneratorConfig
 from .annaAgent import AnnaAgentGenerator, AnnaAgentGeneratorConfig
 from .patientZero import PatientZeroGenerator, PatientZeroGeneratorConfig
 from .deprofile import DeprofileGenerator, DeprofileGeneratorConfig
+from .patientAct import PatientActGenerator, PatientActGeneratorConfig
 from .cars import CarsGenerator, CarsGeneratorConfig
 
 
@@ -23,6 +24,7 @@ GENERATORS = {
     "annaAgent": AnnaAgentGenerator,
     "patientZero": PatientZeroGenerator,
     "deprofile": DeprofileGenerator,
+    "patientAct": PatientActGenerator,
     "cars": CarsGenerator,
 }
 
@@ -42,6 +44,7 @@ GENERATOR_CONFIG_REGISTRY = {
     "annaAgent": AnnaAgentGeneratorConfig,
     "patientZero": PatientZeroGeneratorConfig,
     "deprofile": DeprofileGeneratorConfig,
+    "patientAct": PatientActGeneratorConfig,
     "cars": CarsGeneratorConfig,
 }
 

@@ -82,6 +82,12 @@ class DiseaseOutline(BaseModel):
 # ── Seed Schema ───────────────────────────────────────────────────────────
 
 
+class PatientActSeed(BaseModel):
+    disease_key: str
+    topic: str
+    situation: str
+
+
 class SampledDemographic(BaseModel):
     gender: Literal["male", "female"]
     age_group: Literal["Child", "Adult", "Elderly"]
@@ -267,6 +273,12 @@ class PsychologicalFormulation(BaseModel):
     )
 
 
+class PatientProfile(BaseModel):
+    demographics: Demographics
+    problem_formulation: ProblemFormulation
+    psychological_formulation: PsychologicalFormulation
+
+
 # ── Validation Schemas ────────────────────────────────────────────────────
 
 
@@ -344,14 +356,8 @@ class ProfileMemory(BaseModel):
     )
 
 
-class PatientActClientCharacter(BaseCharacter):
-    demographics: Demographics
-    problem_formulation: ProblemFormulation
-    psychological_formulation: PsychologicalFormulation
-
-
-class GeneratedProfile(BaseModel):
-    profile: PatientActClientCharacter
+class PatientActCharacter(BaseCharacter):
+    profile: PatientProfile
     memory: ProfileMemory
     seed: SampledDemographic
     situation: str = Field(
