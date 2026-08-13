@@ -9,7 +9,7 @@
     "dietary_pattern": "Mapped from CDC fruit/vegetable, sodium, and fast-food indicators. These are behavioral proxies, not diagnostic dietary-pattern measurements.",
     "medicine_preference": "Modern vs Traditional is proxied by NIH/NCCIH complementary-health-use estimates.",
     "core_belief_theme": "Uniform distribution across Beck's three core belief axes (unlovable, worthless, helpless). No established prevalence data exists for these categories in clinical populations.",
-    "attachment_style": "Four-way clinical sample distribution from Bakermans-Kranenburg & van IJzendoorn (2009) meta-analysis of 10,500+ Adult Attachment Interviews. AAI labels mapped: dismissing→avoidant, preoccupied→anxious, unresolved/cannot-classify→disorganized, autonomous→secure."
+    "attachment_style": "Four-way clinical sample distribution from Bakermans-Kranenburg & van IJzendoorn (2009) meta-analysis of 10,500+ Adult Attachment Interviews. AAI labels mapped: dismissing→avoidant, preoccupied→anxious, unresolved/cannot-classify→disorganized, autonomous→secure. The secure/autonomous label is excluded: SampledDemographic only admits the three insecure styles, so the remaining weights are renormalized at sampling time."
   },
   "sources": [
     {
@@ -153,7 +153,6 @@
       "I am helpless": 0.33
     },
     "attachment_style": {
-      "secure": 0.21,
       "avoidant": 0.23,
       "anxious": 0.13,
       "disorganized": 0.43

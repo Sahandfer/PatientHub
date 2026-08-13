@@ -46,6 +46,7 @@ const sidebars = {
             'components/clients/roleplaydoh',
             'components/clients/patientzero',
             'components/clients/deprofile',
+            'components/clients/cars',
             'components/clients/patientact',
             'components/clients/user',
           ],
@@ -87,6 +88,7 @@ const sidebars = {
           },
           items: [
             'components/generators/annaagent',
+            'components/generators/cars',
             'components/generators/clientcast',
             'components/generators/deprofile',
             'components/generators/patientact',

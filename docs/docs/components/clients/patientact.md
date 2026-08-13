@@ -1,43 +1,40 @@
+---
+sidebar_position: 13
+---
+
 # PatientAct
 
-> A client agent whose disclosure is gated by a dynamic trust level, and whose every response is planned through an explicit reaction → behavior → resistance pipeline.
+> Trust-Gated Disclosure and Behavior Planning for Psychotherapy Client Simulation
 
 ## Overview
 
-PatientAct simulates a psychotherapy client who does not hand the therapist their whole case file. Every piece of the profile is stored as a **memory item** carrying a *disclosure level* — the minimum trust at which the client would say it out loud. Trust is not fixed: it moves up and down after every exchange based on how the therapist handled the client.
+PatientAct simulates a psychotherapy client who does not hand the therapist their whole case file. Every piece of the profile is stored as a **memory item** carrying a disclosure level — the minimum trust at which the client would say it out loud. Trust is not fixed: it moves up and down after every exchange based on how the therapist handled the client.
 
-Two things therefore change turn by turn:
-
-1. **What the client can access.** Only memory items whose disclosure level is at or below the current trust level are retrieved into the response context.
-2. **How the client responds.** Before generating text, the client decides an emotional reaction, then a conversational behavior, and — if that behavior is resistance — a specific resistance pattern.
-
-This makes the therapist's approach, not just their questions, determine what the session surfaces.
+Two things therefore change turn by turn: **what** the client can access (only items at or below the current trust level are retrieved) and **how** the client responds (an emotional reaction, a conversational behavior, and — if that behavior is resistance — a specific resistance pattern, each decided before any text is generated). The therapist's approach, not just their questions, determines what the session surfaces.
 
 ## Key Features
 
-- **Trust-Gated Memory**: Each memory item has a disclosure level in `[1.0, 4.0]`; items above the current trust level do not enter the context.
-- **Discomfort on Blocked Content**: An item that is gated *and* flagged `generates_discomfort` still signals to the client that a sensitive topic was approached, producing visible avoidance rather than silence.
-- **Explicit Response Pipeline**: Reaction, behavior, and resistance pattern are separate structured decisions made before the response text.
-- **Dynamic Trust**: A trust critic scores each exchange and shifts trust by up to ±0.5, clamped to `[1.0, 4.0]`.
-- **Topic-Based Retrieval**: Memory items carry activation tags; the therapist's utterance is mapped onto those tags to decide what is relevant.
-- **Ablation Switches**: `use_memory`, `use_pipeline`, and `use_trust_gating` each disable one mechanism independently.
+- **Trust-gated memory**: Each memory item carries a disclosure level in `[1.0, 4.0]`; items above the current trust level do not enter the context.
+- **Discomfort on blocked content**: An item that is gated *and* flagged `generates_discomfort` still signals that a sensitive topic was approached, producing visible avoidance rather than silence.
+- **Explicit response pipeline**: Reaction, behavior, and resistance pattern are separate structured decisions made before the response text.
+- **Dynamic trust**: A trust critic scores each exchange and shifts trust by up to ±0.5, clamped to `[1.0, 4.0]`.
+- **Topic-based retrieval**: Memory items carry activation tags; the therapist's utterance is mapped onto those tags to decide what is relevant.
+- **Ablation switches**: `use_memory`, `use_pipeline`, and `use_trust_gating` each disable one mechanism independently.
 
 ## How It Works
 
 Each call to `generate_response()` runs six steps:
 
 1. **Topic extraction**: the therapist's utterance is matched against all activation tags in the client's memory.
-2. **Retrieval + trust gate**: items whose tags intersect the extracted topics are collected. An item is retrieved if `trust_level >= disclosure_level`; otherwise it is dropped, or added to `blocked` when it is flagged `generates_discomfort`.
+2. **Retrieval and trust gate**: items whose tags intersect the extracted topics are collected. An item is retrieved if `trust_level >= disclosure_level`; otherwise it is dropped, or added to `blocked` when flagged `generates_discomfort`.
 3. **Reaction**: the client picks one of seven emotional reactions plus an intensity.
 4. **Behavior**: the client picks one of eight conversational behaviors, informed by the reaction, recent behaviors, trust level, and whether anything was blocked.
 5. **Resistance pattern**: only when the chosen behavior is `resistance`, one of seven specific patterns is selected.
-6. **Response + trust update**: the retrieved context and the planned signals are appended to the last therapist turn, the response is generated, and the trust critic updates `trust_level`.
+6. **Response and trust update**: the retrieved context and planned signals are appended to the last therapist turn, the response is generated, and the trust critic updates `trust_level`.
 
-## Trust
+## Trust and Disclosure
 
-Trust starts at `2.5` — a neutral session opening — and is clamped to `[1.0, 4.0]`.
-
-After each exchange, the trust critic reads the conversation, the client's attachment style, and the client's expected response from a therapist (the `the therapist` interpersonal pattern, if the profile has one), and returns a direction:
+Trust starts at `2.5` — a neutral session opening — and is clamped to `[1.0, 4.0]`. After each exchange the trust critic reads the conversation, the client's attachment style, and the client's expected response from a therapist (the `the therapist` interpersonal pattern, when the profile has one), and returns a direction:
 
 | Direction                 | Delta   |
 | ------------------------- | ------- |
@@ -49,29 +46,17 @@ After each exchange, the trust critic reads the conversation, the client's attac
 
 Because disclosure levels are quantized to half-steps (`1.0, 1.5, … 4.0`), a single strongly positive exchange can unlock a new tier of material, and a single mishandled one can close it again.
 
-## Memory
+Each memory item is built once at generation time and carries:
 
-Memory is built once at generation time and stored alongside the profile. Each item is:
-
-| Field                  | Meaning                                                                                     |
-| ---------------------- | ------------------------------------------------------------------------------------------- |
-| `field_path`           | Dotted path back into the profile, e.g. `psychological_formulation.triggers.0`               |
-| `content`              | The disclosable text                                                                          |
+| Field                  | Meaning                                                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `field_path`           | Dotted path back into the profile, e.g. `psychological_formulation.triggers.0`                                            |
+| `content`              | The disclosable text                                                                                                      |
 | `disclosure_level`     | Minimum trust required: `1.0` active refusal, `2.0` hesitant, `2.5` session start, `3.0` building trust, `4.0` fully open |
-| `activation_tags`      | 3–5 conversational topics that make this item relevant                                       |
-| `generates_discomfort` | Whether gating this item produces visible discomfort (`true`) or the content simply does not surface (`false`) |
+| `activation_tags`      | 3–5 conversational topics that make this item relevant                                                                    |
+| `generates_discomfort` | Whether gating this item produces visible discomfort, rather than the content simply not surfacing                        |
 
-Retrieved items are prefixed by type so the response prompt can treat them differently:
-
-| `field_path` contains   | Tag                    |
-| ----------------------- | ---------------------- |
-| `triggers`              | `[trigger]`            |
-| `intermediate_beliefs`  | `[belief]`             |
-| `automatic_thoughts`    | `[thought]`            |
-| `perpetuating_factors`  | `[pattern]`            |
-| `interpersonal_patterns`| `[relational pattern]` |
-| `impact`                | `[symptom]`            |
-| `predisposing_factors`  | `[memory]`             |
+Retrieved items are prefixed by type — `[trigger]`, `[belief]`, `[thought]`, `[pattern]`, `[relational pattern]`, `[symptom]`, or `[memory]` — so the response prompt can treat them differently.
 
 ## Reactions, Behaviors, and Resistance
 
@@ -83,25 +68,11 @@ The three taxonomies live in `patienthub.schemas.patientAct`.
 
 **Resistance patterns** (`RESISTANCE_PATTERNS`), selected only when the behavior is `resistance`:
 
-| Axis              | Patterns                                                       |
-| ----------------- | -------------------------------------------------------------- |
-| Response quantity | `minimal_talk`                                                  |
-| Response content  | `irrelevant_talk`, `superficial`, `intellectualizing`           |
-| Response style    | `hostility`, `defensiveness`, `compliance_without_engagement`   |
-
-## Configuration
-
-| Option             | Default                              | Description                                                            |
-| ------------------ | ------------------------------------ | ---------------------------------------------------------------------- |
-| `agent_name`       | `patientAct`                         | Client identifier                                                      |
-| `prompt_path`      | `data/prompts/client/patientAct.yaml`| Prompt file                                                            |
-| `data_path`        | `data/characters/patientAct.json`    | Character file                                                         |
-| `data_idx`         | `0`                                  | Character index                                                        |
-| `use_memory`       | `true`                               | Retrieve memory items; when `false`, the full profile is in the system prompt and nothing is retrieved |
-| `use_pipeline`     | `true`                               | Plan reaction/behavior/resistance; when `false`, retrieved context is appended directly |
-| `use_trust_gating` | `true`                               | Apply disclosure levels; when `false`, every topic-matched item is retrieved |
-
-The three switches are ablations — each isolates one mechanism. With all three off, PatientAct degrades to a static profile role-play client.
+| Axis              | Patterns                                                      |
+| ----------------- | ------------------------------------------------------------- |
+| Response quantity | `minimal_talk`                                                |
+| Response content  | `irrelevant_talk`, `superficial`, `intellectualizing`         |
+| Response style    | `hostility`, `defensiveness`, `compliance_without_engagement` |
 
 ## Usage
 
@@ -121,11 +92,24 @@ patienthub simulate client=patientAct client.use_trust_gating=false
 from patienthub.clients import get_client
 
 client = get_client(agent_name="patientAct", lang="en")
-response = client.generate_response("What feels hardest to talk about today?")
 
+response = client.generate_response("What feels hardest to talk about today?")
 print(response.content)
 print(client.trust_level, client.reaction, client.behavior)
 ```
+
+## Configuration
+
+| Option             | Description                                                                            | Default                               |
+| ------------------ | -------------------------------------------------------------------------------------- | ------------------------------------- |
+| `prompt_path`      | Path to prompt file                                                                    | `data/prompts/client/patientAct.yaml` |
+| `data_path`        | Path to character file                                                                 | `data/characters/patientAct.json`     |
+| `data_idx`         | Character index                                                                        | `0`                                   |
+| `use_memory`       | Retrieve memory items; when `false`, the full profile sits in the system prompt instead | `true`                                |
+| `use_pipeline`     | Plan reaction/behavior/resistance; when `false`, retrieved context is appended directly | `true`                                |
+| `use_trust_gating` | Apply disclosure levels; when `false`, every topic-matched item is retrieved            | `true`                                |
+
+The three switches are ablations, each isolating one mechanism. Turn off `use_trust_gating` to measure the pipeline's contribution alone; turn off `use_pipeline` to keep gated disclosure while the model chooses tone freely. With all three off, PatientAct degrades to a static profile role-play client. To make a case easier without touching the switches, lower the disclosure levels in its memory so more of the profile is reachable from the opening trust of `2.5`.
 
 ## Character Data Format
 
@@ -196,17 +180,7 @@ Each entry pairs a profile with its memory and the sampled seed that produced it
     "core_belief_theme": "I am helpless",
     "attachment_style": "anxious"
   },
-  "situation": "The patient is preoccupied with the conviction that a serious physical illness is being missed...",
+  "situation": "The patient is preoccupied with the conviction that a serious physical illness is being missed ...",
   "disease_key": "anxiety_disorder"
 }
 ```
-
-## Tuning Guide
-
-Lower the disclosure levels in a character's memory to make the case easier — more of the profile is reachable from the opening trust of `2.5`.
-
-Set `use_trust_gating=false` when you want to measure the pipeline's contribution alone: every topic-matched item is retrieved regardless of trust, while reactions and behaviors are still planned.
-
-Set `use_pipeline=false` to keep trust-gated disclosure but let the model decide tone freely. This is the closer of the two ablations to a conventional role-play client.
-
-Set `use_memory=false` to fall back to a full-profile system prompt with no retrieval at all.
