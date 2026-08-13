@@ -18,6 +18,7 @@ Principles address common issues when AI roleplays as patients.
 
 """
 
+import logging
 import random
 from typing import List
 from omegaconf import DictConfig
@@ -27,6 +28,9 @@ from pydantic import BaseModel, Field
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_json
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -149,22 +153,27 @@ class RoleplayDohClient(BaseClient):
 
         # TODO: Find a better way to select principle
         principle = random.choice(self.principles)
+        logger.info("Selected principle: principle=%s", principle)
         questions = self.generate_questions(principle, msg, initial_response.content)
 
         # 3) Generate assessment
         assessment = self.generate_assessment(questions, msg, initial_response.content)
+        logger.debug(
+            "Assessment: answers=%s justification=%s reasoning=%s",
+            assessment.answers,
+            assessment.justification,
+            assessment.reasoning,
+        )
 
         # 4) Revise and finalize the response
         has_violation = any(
             ans.strip().lower().startswith("no") for ans in assessment.answers
         )
         revised_response = assessment.response.strip()
+        revised = has_violation and bool(revised_response)
 
-        response = (
-            revised_response
-            if has_violation and revised_response
-            else initial_response.content
-        )
+        response = revised_response if revised else initial_response.content
+        logger.info("Response decision: revised=%s", revised)
 
         self.messages.append({"role": "client", "content": response})
 

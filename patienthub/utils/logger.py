@@ -19,19 +19,22 @@ class LogLevel(StrEnum):
 
 
 def setup_logging(
-    level: LogLevel = LogLevel.INFO, log_file: Path | None = None
+    level: LogLevel = LogLevel.INFO,
+    log_file: Path | None = None,
+    file_level: LogLevel | None = None,
 ) -> None:
     """Configure rich console logging, and optionally file logging."""
-    log_level = getattr(logging, level.value)
+    console_log_level = getattr(logging, level.value)
+    file_log_level = getattr(logging, (file_level or level).value)
 
     root = logging.getLogger()
-    root.setLevel(log_level)
+    root.setLevel(min(console_log_level, file_log_level))
 
     for handler in root.handlers[:]:
         root.removeHandler(handler)
 
     rich_handler = RichHandler(
-        level=log_level,
+        level=console_log_level,
         console=Console(stderr=True),
         show_time=True,
         show_path=False,
@@ -45,7 +48,7 @@ def setup_logging(
     if log_file is not None:
         log_file.parent.mkdir(parents=True, exist_ok=True)
         fh = logging.FileHandler(log_file)
-        fh.setLevel(log_level)
+        fh.setLevel(file_log_level)
         fh.setFormatter(
             logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s")
         )
@@ -53,14 +56,17 @@ def setup_logging(
 
 
 def init_logging(
-    name: str, level: LogLevel = LogLevel.INFO, log_dir: Path = Path("logs")
+    name: str,
+    level: LogLevel = LogLevel.INFO,
+    log_dir: Path = Path("logs"),
+    file_level: LogLevel | None = None,
 ) -> Path:
     """Clear existing handlers, configure logging, and return the log file path."""
     from datetime import datetime
 
     log_file = log_dir / f"{name}_{datetime.now().strftime('%Y%m%d-%H%M%S')}.log"
     logging.root.handlers.clear()
-    setup_logging(level, log_file=log_file)
+    setup_logging(level, log_file=log_file, file_level=file_level)
     return log_file
 
 

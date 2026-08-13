@@ -195,7 +195,9 @@ def run_batch(configs: DictConfig) -> tuple[int, int]:
 @hydra.main(version_base=None, config_name="simulate")
 def simulate(configs: DictConfig) -> None:
     init_logging(
-        "simulate", level=LogLevel.DEBUG if configs.verbose else LogLevel.WARNING
+        "simulate",
+        level=LogLevel.DEBUG if configs.verbose else LogLevel.WARNING,
+        file_level=LogLevel.DEBUG if configs.verbose else LogLevel.INFO,
     )
     try:
         run_batch(configs)

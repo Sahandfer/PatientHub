@@ -100,14 +100,15 @@ class CarsClient(BaseClient):
         self.session_ended = self.emotion_state <= self.configs.termination_threshold
 
         logger.info(
-            "CARS turn=%d emotion_delta=%d emotion_state=%d intention=%s "
-            "nonverbal_behavior=%s response=%s",
-            self.turn_count,
+            "CARS decision: emotion_delta=%d emotion_state=%d intention=%s",
             res.emotion,
             self.emotion_state,
             res.intention,
+        )
+        logger.debug(
+            "CARS reasoning: thinking=%s nonverbal_behavior=%s",
+            res.thinking,
             res.nonverbal_behavior,
-            res.content,
         )
         if self.session_ended:
             logger.info(

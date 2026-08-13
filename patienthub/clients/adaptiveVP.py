@@ -18,6 +18,7 @@ trainee's communication quality. The workflow:
 Patient types: Dependent, Authoritarian, Aggressive, Uncooperative
 """
 
+import logging
 from typing import Literal
 from omegaconf import DictConfig
 from dataclasses import dataclass
@@ -26,6 +27,9 @@ from pydantic import BaseModel, Field
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import flatten_conv
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -167,9 +171,17 @@ class AdaptiveVPClient(BaseClient):
             [{"role": "system", "content": prompt}],
             response_format=Analysis,
         )
+        logger.debug("Adaptive assessment: analysis=%s", res.model_dump())
 
-        score = max(0, min(self.calc_eval_score(res), len(self.directions) - 1))
-        direction = self.directions[score]
+        raw_score = self.calc_eval_score(res)
+        direction_index = max(0, min(raw_score, len(self.directions) - 1))
+        direction = self.directions[direction_index]
+        logger.info(
+            "Response direction: score=%s direction_index=%s",
+            raw_score,
+            direction_index,
+        )
+        logger.debug("Response direction detail: direction=%s", direction)
 
         # Step 2: Generate a response based on the determined direction
 
@@ -181,6 +193,11 @@ class AdaptiveVPClient(BaseClient):
         res = self.chat_model.generate(
             [{"role": "system", "content": prompt}],
             response_format=Response,
+        )
+        logger.debug(
+            "Response cues: inner_monologue=%s non_verbal=%s",
+            res.inner_monologue,
+            res.non_verbal,
         )
         self.messages.append({"role": "assistant", "content": res.content})
 

@@ -138,6 +138,12 @@ class MindVoyagerClient(BaseClient):
                 [{"role": "user", "content": prompt}],
                 response_format=mv.OpennessAssessment,
             )
+            logger.debug(
+                "Openness assessment: rating=%s progression=%s turning_point=%s",
+                result.rating,
+                result.progression,
+                result.turning_point,
+            )
             if result.rating >= mv.CONSTANTS["rapport_threshold"]:
                 revealed |= self.reveal_next_external()
 
@@ -154,6 +160,11 @@ class MindVoyagerClient(BaseClient):
             result = self.chat_model.generate(
                 [{"role": "user", "content": prompt}],
                 response_format=mv.QuestionFacilitationAssessment,
+            )
+            logger.debug(
+                "Question facilitation assessment: rating=%s justification=%s",
+                result.rating,
+                result.justification,
             )
             if result.rating >= mv.CONSTANTS["question_threshold"]:
                 revealed |= self.reveal_internal()

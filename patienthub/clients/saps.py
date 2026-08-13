@@ -16,6 +16,7 @@ performance. The 3-stage workflow:
 Based on final state, selects appropriate response policy to avoid over-disclosure.
 """
 
+import logging
 from typing import Any, Literal
 from omegaconf import DictConfig
 from dataclasses import dataclass
@@ -23,6 +24,9 @@ from pydantic import BaseModel, Field
 
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -70,10 +74,12 @@ class SAPSClient(BaseClient):
             messages=[{"role": "system", "content": prompt}],
             response_format=Literal["A", "B", "C", "D", "E"],
         )
+        logger.info("Stage I: question_type=%s", res)
         return res
 
     def perform_stage_II(self, question: str, question_type: str) -> Any:
         if question_type not in ["A", "B"]:
+            logger.info("Stage II: skipped=True")
             return ""
 
         prompt = self.prompts["state_detection"]["stage_II"][question_type].render(
@@ -83,7 +89,9 @@ class SAPSClient(BaseClient):
             messages=[{"role": "system", "content": prompt}],
             response_format=Literal["Specific", "Broad"],
         )
-        return "A" if res == "Specific" else "B"
+        specificity = "A" if res == "Specific" else "B"
+        logger.info("Stage II: specificity=%s", specificity)
+        return specificity
 
     def perform_stage_III(
         self,
@@ -92,6 +100,7 @@ class SAPSClient(BaseClient):
         specificity: str,
     ) -> Any:
         if specificity != "A":
+            logger.info("Stage III: skipped=True")
             return "", ""
 
         prompt = self.prompts["state_detection"]["stage_III"][question_type].render(
@@ -101,6 +110,8 @@ class SAPSClient(BaseClient):
             messages=[{"role": "system", "content": prompt}],
             response_format=StageIIIResponse,
         )
+        logger.info("Stage III: has_relevant_info=%s", res.has_relevant_info)
+        logger.debug("Stage III memory: extracted_text=%s", res.extracted_text)
         memory = res.extracted_text if res.has_relevant_info else ""
         return memory, "A" if memory else "B"
 
@@ -115,6 +126,7 @@ class SAPSClient(BaseClient):
         )
 
         state = "-".join([q_type, specificity, has_memory]).strip("-")
+        logger.info("Resolved state: state=%s", state)
 
         return state, memory
 
