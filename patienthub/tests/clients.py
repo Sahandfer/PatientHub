@@ -133,6 +133,7 @@ SKIP_GENERATE_RESPONSE = {
     "adaptiveVP",
     "mindVoyager",
     "patientAct",
+    "cars"
 }
 
 

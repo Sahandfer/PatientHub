@@ -8,9 +8,14 @@ from .annaAgent import AnnaAgentGenerator, AnnaAgentGeneratorConfig
 from .patientZero import PatientZeroGenerator, PatientZeroGeneratorConfig
 from .deprofile import DeprofileGenerator, DeprofileGeneratorConfig
 from .patientAct import PatientActGenerator, PatientActGeneratorConfig
+from .cars import CarsGenerator, CarsGeneratorConfig
 
 
 from omegaconf import DictConfig
+
+from patienthub.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 # Registry of generator implementations
 GENERATORS = {
@@ -20,6 +25,7 @@ GENERATORS = {
     "patientZero": PatientZeroGenerator,
     "deprofile": DeprofileGenerator,
     "patientAct": PatientActGenerator,
+    "cars": CarsGenerator,
 }
 
 # Registry of generator configs (for Hydra registration)
@@ -30,11 +36,12 @@ GENERATOR_CONFIG_REGISTRY = {
     "patientZero": PatientZeroGeneratorConfig,
     "deprofile": DeprofileGeneratorConfig,
     "patientAct": PatientActGeneratorConfig,
+    "cars": CarsGeneratorConfig,
 }
 
 
 def get_generator(agent_name: str, configs: DictConfig = None, lang: str = "en"):
-    print(f"Loading {agent_name} generator...")
+    logger.info("Loading %s generator...", agent_name)
     if agent_name in GENERATORS:
         if configs is None:
             configs = get_generator_config(agent_name)

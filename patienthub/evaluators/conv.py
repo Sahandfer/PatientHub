@@ -3,7 +3,10 @@ from omegaconf import DictConfig
 from dataclasses import dataclass
 
 from patienthub.utils import flatten_conv
+from patienthub.utils.logger import get_logger
 from .base import LLMJudge, LLMJudgeConfig
+
+logger = get_logger(__name__)
 
 
 @dataclass
@@ -23,7 +26,7 @@ class ConvJudge(LLMJudge):
     ) -> Dict[str, Any]:
         conv_history = data.get("messages", [])
         if not conv_history:
-            print("No conversation history provided for evaluation.")
+            logger.warning("No conversation history provided for evaluation.")
             return {}
 
         data = {

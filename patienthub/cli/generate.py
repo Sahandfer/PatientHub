@@ -97,6 +97,8 @@ def run_list(
     pending = [i for i in range(total) if results[i] is None]
     kept = total - len(pending)
     succeeded = failed = 0
+    if resume and kept:
+        logger.info("Resuming: %d kept, %d to generate.", kept, len(pending))
 
     # Each worker builds its own generator: generators hold per-call state, so a
     # shared instance is not thread-safe.
@@ -170,7 +172,7 @@ def run_samples(
 @hydra.main(version_base=None, config_name="generate")
 def generate(configs: DictConfig):
     init_logging(
-        "generate", level=LogLevel.DEBUG if configs.verbose else LogLevel.WARNING
+        "generate", level=LogLevel.DEBUG if configs.verbose else LogLevel.INFO
     )
     agent_name = configs.generator.agent_name
     output_path = configs.output_path or f"data/characters/{agent_name}.json"
@@ -182,9 +184,10 @@ def generate(configs: DictConfig):
         )
 
     logger.info(
-        "Starting generation: generator=%s, lang=%s -> %s",
+        "Starting generation: generator=%s, lang=%s, workers=%d -> %s",
         agent_name,
         configs.lang,
+        num_workers,
         output_path,
     )
     try:
@@ -194,6 +197,9 @@ def generate(configs: DictConfig):
                 raise ValueError(
                     f"input_path must be a JSON list of records: {configs.input_path}"
                 )
+            logger.info(
+                "Loaded %d record(s) from %s.", len(items), configs.input_path
+            )
             succeeded, failed, kept = run_list(
                 build, items, output_path, bool(configs.resume), num_workers
             )

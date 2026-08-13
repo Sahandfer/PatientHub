@@ -8,24 +8,25 @@ Client agents simulate patients/clients in therapy interactions.
 
 ## Available Clients
 
-| Client                                | Key            | Description                                    |
-| ------------------------------------- | -------------- | ---------------------------------------------- |
-| [**SAPS**](./saps.md)                 | `saps`         | State-aware medical patient                    |
-| [**ConsistentMI**](./consistentmi.md) | `consistentMI` | MI client with stage transitions (ACL 2025)    |
-| [**Eeyore**](./eeyore.md)             | `eeyore`       | Depression simulation (ACL 2025)               |
-| [**AnnaAgent**](./annaagent.md)       | `annaAgent`    | Multi-session with memory (ACL 2025)           |
-| [**AdaptiveVP**](./adaptivevp.md)     | `adaptiveVP`   | Nurse training simulation (ACL 2025)           |
-| [**SimPatient**](./simpatient.md)     | `simPatient`   | Cognitive model updates (CHI 2025)             |
-| [**MindVoyager**](./mindvoyager.md)   | `mindVoyager`  | Cognitive diagram disclosure simulation        |
-| [**TalkDep**](./talkdep.md)           | `talkDep`      | Depression screening (CIKM 2025)               |
-| [**ClientCast**](./clientcast.md)     | `clientCast`   | Psychotherapy assessment                       |
-| [**Psyche**](./psyche.md)             | `psyche`       | Psychiatric assessment                         |
-| [**PatientPsi**](./patientpsi.md)     | `patientPsi`   | CBT-focused patient (EMNLP 2024)               |
-| [**RoleplayDoh**](./roleplaydoh.md)   | `roleplayDoh`  | Principle-based simulation (EMNLP 2024)        |
-| [**PatientZero**](./patientzero.md)   | `patientZero`  | Synthetic clinical records from disease priors |
-| [**Deprofile**](./deprofile.md)       | `deprofile`    | Decomposed clinical profile + social timeline  |
+| Client                                | Key            | Description                                     |
+| ------------------------------------- | -------------- | ----------------------------------------------- |
+| [**SAPS**](./saps.md)                 | `saps`         | State-aware medical patient                     |
+| [**ConsistentMI**](./consistentmi.md) | `consistentMI` | MI client with stage transitions (ACL 2025)     |
+| [**Eeyore**](./eeyore.md)             | `eeyore`       | Depression simulation (ACL 2025)                |
+| [**AnnaAgent**](./annaagent.md)       | `annaAgent`    | Multi-session with memory (ACL 2025)            |
+| [**AdaptiveVP**](./adaptivevp.md)     | `adaptiveVP`   | Nurse training simulation (ACL 2025)            |
+| [**SimPatient**](./simpatient.md)     | `simPatient`   | Cognitive model updates (CHI 2025)              |
+| [**MindVoyager**](./mindvoyager.md)   | `mindVoyager`  | Cognitive diagram disclosure simulation         |
+| [**TalkDep**](./talkdep.md)           | `talkDep`      | Depression screening (CIKM 2025)                |
+| [**ClientCast**](./clientcast.md)     | `clientCast`   | Psychotherapy assessment                        |
+| [**Psyche**](./psyche.md)             | `psyche`       | Psychiatric assessment                          |
+| [**PatientPsi**](./patientpsi.md)     | `patientPsi`   | CBT-focused patient (EMNLP 2024)                |
+| [**RoleplayDoh**](./roleplaydoh.md)   | `roleplayDoh`  | Principle-based simulation (EMNLP 2024)         |
+| [**PatientZero**](./patientzero.md)   | `patientZero`  | Synthetic clinical records from disease priors  |
+| [**Deprofile**](./deprofile.md)       | `deprofile`    | Decomposed clinical profile + social timeline   |
+| [**CARS**](./cars.md)                 | `cars`         | CBT resistance simulation via CCDs              |
 | [**PatientAct**](./patientact.md)     | `patientAct`   | Trust-gated disclosure with a behavior pipeline |
-| [**User**](./user.md)                 | `user`         | Human input client                             |
+| [**User**](./user.md)                 | `user`         | Human input client                              |
 
 ## Listing Available Clients
 

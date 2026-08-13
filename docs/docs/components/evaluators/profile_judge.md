@@ -140,9 +140,9 @@ If `use_reasoning=true`, each leaf result also includes a `reasoning` field.
 ```json
 {
   "profile": {
-    "name": "Alex",
-    "history": "Has anxiety around family events.",
-    "situation": "Invited to a cousin's wedding.",
+    "name": "Abe",
+    "history": "Recently lost his job and went through a divorce.",
+    "situation": "Thinking about bills.",
     "emotion": ["anxious", "sad"]
   }
 }

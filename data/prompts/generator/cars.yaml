@@ -1,0 +1,187 @@
+en:
+  persona_generation_prompt: |
+    You are a professional screenwriter specializing in cognitive behavioral therapy. You are skilled at extracting client personas from client-related information and enriching them with sufficient details.
+
+    Task Instruction
+    Given the provided cognitive conceptualization diagram and three sentences, construct and describe a client persona by considering the client's personality traits. The persona should include the following elements: name, age, occupation, family background, interpersonal relationships, physical condition, lifestyle, and chief complaint.
+    1. Based on the cognitive conceptualization diagram and the three sentences, complete the client's basic information, including name, age, and gender.
+    2. Based on the cognitive conceptualization diagram, analyze the client's family background and interpersonal relationships. Construct relevant supporting characters and describe their relationships with the client.
+    3. Infer the client's marital status and interpersonal relationship status. If they are related to the chief complaint, provide detailed descriptions.
+    4. Infer and summarize the client's lifestyle, and provide a detailed description.
+    5. Describe the client's problems in physical, emotional, cognitive, and social domains, and clearly state the client's chief complaint. The severity should not be exaggerated.
+
+    Please ensure that the generated persona reflects both positive and negative personality traits.
+    Use the name provided in the cognitive conceptualization diagram. When describing family background, interpersonal relationships, physical condition, and lifestyle, include the causes and consequences of relevant events, as well as the client's feelings and cognitions.
+    The generated persona should be grounded in the cognitive conceptualization diagram. For content not mentioned in the diagram, do not assume that it has a strong negative influence on the client.
+    Do not directly mention the cognitive conceptualization diagram. Do not generate any additional opening, closing, or explanation.
+
+    Input
+    Cognitive Conceptualization Diagram:
+    {{ main_ccd }}
+    Example Sentences:
+    {{ sentences }}
+  cognitive_pattern_generation_prompt: |
+    You are a professional screenwriter specializing in cognitive behavioral therapy. You are skilled at expanding and writing dialogue scripts based on a client persona and the client's cognitive conceptualization diagram.
+
+    Task
+    You will be given a client persona, the client's cognitive conceptualization diagram, and excerpted dialogue between the client and the counselor. Please write the counseling background based on the client persona and the cognitive conceptualization diagram, using "the client seeks counseling from the counselor" as the overall scenario. Based on the cognitive conceptualization diagram, infer the intermediate beliefs and automatic thoughts that the client may have in the counseling scenario. Based on the client persona and the excerpted dialogue between the client and the counselor, analyze how the client may respond in different states, what counselor style the client may prefer, and supplement other client characteristics.
+
+    The situational background you write should include the following elements:
+    1. Based on the client persona, formulate content related to the theme that the client may be willing to disclose to the counselor.
+    2. Based on the client persona and the theme, expand a concrete background event that closely follows the client's cognition. Focus on the factors mentioned in the client persona that contribute to the chief complaint, such as relevant people and events. Irrelevant events can be omitted when appropriate.
+    3. The concrete background event should include the following aspects:
+    - The event process should include the timeline of the event, the sub-events occurring at each time point, and the client's specific thoughts, feelings, and consequences in each sub-event.
+    - The main conflict in the event should include the conflict event, the conflicting characters, and the internal causes of the conflict.
+    - The difficulties encountered by the client should include the solutions the client has attempted but failed to implement successfully, as well as the problems the client is currently facing.
+    - The current state of the event and the client's current emotional state.
+
+    Write the beliefs that may be triggered in the counseling scenario based on the client persona, the client's cognitive conceptualization diagram, and the excerpted dialogue with the counselor.
+    1. Intermediate beliefs are a cognitive layer between automatic thoughts and core beliefs. They are determined by core beliefs and shape automatic thoughts. Following Beck's view, construct intermediate beliefs about specific objects or situations. The elements include:
+    - Attitude, which refers to a negative emotional stance toward an object and represents the condition that the individual is most concerned about in a psychological domain. It is usually expressed as "... is bad/terrible/dangerous."
+    - Assumption, which refers to the individual's expectation that a certain condition will lead to a certain consequence. Assumptions are usually expressed in an "if ..., then ..." form.
+    - Rule, which refers to a specific requirement for one's own behavior and is a logical result of attitudes and assumptions. It is usually expressed with sentence patterns containing "should" or "must."
+    2. Automatic thoughts describe the thoughts that arise in a specific situation and lead to emotional, behavioral, or physiological responses. Following Beck's view, construct automatic thoughts in specific scenarios. The elements include:
+    - Situation, which refers to the external factor that triggers the problem, or the precipitating event.
+    - Cognition, which refers to the client's thought or appraisal in that situation, emerging automatically and being fully accepted by the client.
+    - Reaction, which refers to the manifestation of the psychological problem. Here, only emotional reactions are considered.
+    3. The objects or situations of intermediate beliefs and automatic thoughts should be written according to common CBT themes. The common themes are as follows:
+    - session structuring: agenda setting, recent-status inquiry, homework review
+    - problem solving and homework: homework assignment, homework completion
+    - goal setting: formulation of treatment directions, goal lists
+    - cognitive change: helping the client modify thoughts and cognitions
+    - cognitive identification: helping the client identify and recognize their own thoughts
+    - therapeutic alliance: the client's attitudes toward the self, others, and the therapist
+
+    Please note that the generated beliefs should depend on the core beliefs in the cognitive conceptualization diagram and should cover diverse possibilities.
+
+    Example
+    Automatic thought:
+    Situation: The student thinks about the upcoming exam.
+    Cognition: The student worries that the exam result will be unsatisfactory.
+    Reaction: Anxiety.
+    Intermediate belief:
+    Attitude: Failure is terrible.
+    Rule: When a challenge is too difficult, I should give up.
+    Assumption: If I try to do something difficult, I will fail. If I do not try, everything will be fine.
+
+    Client characteristics and preferred counselor style
+    1. Possible client responses in different states. Based on the client persona and the excerpted dialogue, formulate how the client may respond during the conversation. This should include:
+    - The client's responses under different emotions. Emotion represents the client's emotional state during the conversation. Dialogue emotion consists of engagement and affect, indicating whether the client enjoys and is involved in the current conversation. It should include both dialogue style and nonverbal behavior.
+    2. Possible counselor style preferred by the client. Based on the client characteristics and persona, describe how the client may respond to different counseling styles. This should include:
+    - Which types of counselor responses align with the client's preferences and increase the client's emotional state?
+    - Which types of counselor responses deviate from the client's preferences and decrease the client's emotional state?
+    3. Other client characteristics. Based on the provided client persona, formulate how the client may respond when discussing different topics. For example, a client working in computer science may not understand the concept of psychotherapy and may therefore provide too much or too little information; a client may become enthusiastic when talking about hobbies; a client engaged in creative work may tend to jump from one topic to another; a client who has long experienced oppression may habitually engage in cognitive avoidance. The content should be diverse and should be considered from demographic perspectives such as occupation, lifestyle habits, gender, and background. These characteristics should reflect cognitive and behavioral habits specific to particular groups, but should not be directly related to the counseling topic or the client's chief complaint.
+
+    Please note that the generated client characteristics and preferences should include both positive and negative aspects, cover diverse possibilities, and avoid redundancy.
+
+    Notes
+    1. You need to write the concrete background event that the counselor hopes to discuss. Do not write the client's specific utterances or the concrete dialogue.
+    2. Each sub-event should contain sufficient details.
+    3. The beliefs that may be triggered in the counseling scenario should be written in affirmative sentence forms.
+    4. Do not provide follow-up storylines or concrete dialogue.
+    5. Do not directly mention the cognitive conceptualization diagram. Avoid generating any additional opening, closing, or explanation.
+
+    Client Persona
+    {{ persona }}
+    Cognitive Conceptualization Diagram
+    {{ main_ccd }}
+    Excerpted Dialogue
+    {{ story }}
+
+    Output
+    Return the result using the provided structured output schema. Do not add any extra opening,closing, or explanation.
+zh:
+  persona_generation_prompt: |
+    你是一名专门从事认知行为疗法剧本创作的专业编剧。你擅长从来访者相关信息中提取人物设定，并用充分细节加以丰富。
+
+    任务说明
+    给定所提供的认知概念化图和三句话，请结合来访者的人格特征，构建并描述一个来访者人物设定。人物设定应包括以下要素：姓名、年龄、职业、家庭背景、人际关系、身体状况、生活方式和主诉。
+    1. 基于认知概念化图和三句话，补全来访者的基本信息，包括姓名、年龄和性别。
+    2. 基于认知概念化图，分析来访者的家庭背景和人际关系。构建相关支持性人物，并描述他们与来访者的关系。
+    3. 推断来访者的婚姻状况和人际关系状况。如果这些内容与主诉有关，请提供详细描述。
+    4. 推断并总结来访者的生活方式，并提供详细描述。
+    5. 描述来访者在身体、情绪、认知和社会领域中的问题，并清楚陈述来访者的主诉。严重程度不应被夸大。
+
+    请确保生成的人物设定同时体现积极和消极的人格特征。
+    使用认知概念化图中提供的姓名。在描述家庭背景、人际关系、身体状况和生活方式时，应包含相关事件的原因和结果，以及来访者的感受和认知。
+    生成的人物设定应基于认知概念化图。对于图中未提及的内容，不要假设其对来访者有强烈的负面影响。
+    不要直接提及认知概念化图。不要生成任何额外的开头、结尾或解释。
+
+    输入
+    认知概念化图：
+    {{ main_ccd }}
+    示例句子：
+    {{ sentences }}
+
+    输出
+    请按照提供的结构化输出 schema 返回结果。不要添加任何额外的开头、结尾或解释。
+  cognitive_pattern_generation_prompt: |
+    你是一名专门从事认知行为疗法剧本创作的专业编剧。你擅长基于来访者人物设定和来访者认知概念化图扩展并撰写对话脚本。
+
+    任务
+    你将获得来访者人物设定、来访者认知概念化图，以及来访者和咨询师之间的对话摘录。请基于来访者人物设定和认知概念化图，以“来访者向咨询师寻求咨询”为总体情境，撰写咨询背景。基于认知概念化图，推断来访者在咨询情境中可能具有的中间信念和自动思维。基于来访者人物设定以及来访者和咨询师之间的对话摘录，分析来访者在不同状态下可能如何回应、来访者可能偏好的咨询师风格，并补充其他来访者特征。
+
+    你撰写的情境背景应包括以下要素：
+    1. 基于来访者人物设定，形成与来访者可能愿意向咨询师披露的主题相关的内容。
+    2. 基于来访者人物设定和主题，扩展一个与来访者认知紧密相关的具体背景事件。重点关注来访者人物设定中提到的、导致主诉的相关人物和事件。无关事件可在适当情况下省略。
+    3. 具体背景事件应包括以下方面：
+    - 事件过程应包括事件时间线、每个时间点发生的子事件，以及来访者在每个子事件中的具体想法、感受和后果。
+    - 主要冲突应包括冲突事件、冲突人物以及冲突的内部原因。
+    - 来访者遇到的困难应包括来访者曾尝试但未能成功实施的解决方案，以及当前正面临的问题。
+    - 事件的当前状态和来访者当前的情绪状态。
+
+    请基于来访者人物设定、来访者认知概念化图以及与咨询师的对话摘录，撰写在咨询情境中可能被触发的信念。
+    1. 中间信念是位于自动思维和核心信念之间的认知层。它们由核心信念决定，并塑造自动思维。遵循 Beck 的观点，围绕具体对象或情境构建中间信念。要素包括：
+    - 态度，指个体对某一对象的消极情绪立场，代表个体在某一心理领域中最关注的条件。通常表达为“……是糟糕的/可怕的/危险的”。
+    - 假设，指个体预期某一条件会导致某一结果。假设通常以“如果……，那么……”的形式表达。
+    - 规则，指个体对自身行为的具体要求，是态度和假设的逻辑结果。通常用包含“应该”或“必须”的句式表达。
+    2. 自动思维描述在特定情境中出现、并导致情绪、行为或生理反应的想法。遵循 Beck 的观点，在具体场景中构建自动思维。要素包括：
+    - 情境，指触发问题的外部因素或诱发事件。
+    - 认知，指来访者在该情境中的想法或评价，这种想法或评价会自动出现并被来访者完全接受。
+    - 反应，指心理问题的表现。在这里，仅考虑情绪反应。
+    3. 中间信念和自动思维的对象或情境应根据常见 CBT 主题撰写。常见主题如下：
+    - 会谈结构化：议程设置、近期状态询问、家庭作业回顾
+    - 问题解决与家庭作业：家庭作业布置、家庭作业完成
+    - 目标设置：治疗方向制定、目标列表
+    - 认知改变：帮助来访者修正想法和认知
+    - 认知识别：帮助来访者识别和认识自己的想法
+    - 治疗同盟：来访者对自我、他人和咨询师的态度
+
+    请注意，生成的信念应取决于认知概念化图中的核心信念，并应覆盖多样化的可能性。
+
+    示例
+    自动思维：
+    Situation: The student thinks about the upcoming exam.
+    Cognition: The student worries that the exam result will be unsatisfactory.
+    Reaction: Anxiety.
+    中间信念：
+    Attitude: Failure is terrible.
+    Rule: When a challenge is too difficult, I should give up.
+    Assumption: If I try to do something difficult, I will fail. If I do not try, everything will be fine.
+
+    来访者特征和偏好的咨询师风格
+    1. 不同状态下来访者可能的回应。基于来访者人物设定和对话摘录，制定来访者在对话中可能如何回应。这应包括：
+    - 来访者在不同情绪下的回应。情绪表示来访者在对话中的情绪状态。对话情绪由投入度和情感构成，表示来访者是否喜欢并参与当前对话。内容应同时包括对话风格和非语言行为。
+    2. 来访者可能偏好的咨询师风格。基于来访者特征和人物设定，描述来访者可能如何回应不同咨询风格。这应包括：
+    - 哪些类型的咨询师回应符合来访者偏好，并会提高来访者的情绪状态？
+    - 哪些类型的咨询师回应偏离来访者偏好，并会降低来访者的情绪状态？
+    3. 其他来访者特征。基于所提供的来访者人物设定，制定来访者在讨论不同话题时可能如何回应。例如，从事计算机科学工作的来访者可能不了解心理治疗概念，因此可能提供过多或过少信息；来访者在谈论兴趣爱好时可能变得热情；从事创造性工作的来访者可能倾向于从一个话题跳到另一个话题；长期经历压迫的来访者可能习惯性地进行认知回避。内容应具有多样性，并应从职业、生活习惯、性别和背景等人口统计学角度加以考虑。这些特征应反映特定群体的认知和行为习惯，但不应与咨询主题或来访者主诉直接相关。
+
+    请注意，生成的来访者特征和偏好应同时包括积极和消极方面，覆盖多样可能性，并避免冗余。
+
+    注意事项
+    1. 你需要撰写咨询师希望讨论的具体背景事件。不要撰写来访者的具体话语或具体对话。
+    2. 每个子事件都应包含足够细节。
+    3. 咨询情境中可能被触发的信念应以肯定句形式撰写。
+    4. 不要提供后续剧情或具体对话。
+    5. 不要直接提及认知概念化图。避免生成任何额外的开头、结尾或解释。
+
+    来访者人物设定
+    {{ persona }}
+    认知概念化图
+    {{ main_ccd }}
+    对话摘录
+    {{ story }}
+
+    输出
+    请按照提供的结构化输出 schema 返回结果。不要添加任何额外的开头、结尾或解释。

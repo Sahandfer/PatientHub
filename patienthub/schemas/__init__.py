@@ -2,6 +2,7 @@ import logging
 from .base import BaseCharacter
 from .adaptiveVP import AdaptiveVPCharacter
 from .annaAgent import AnnaAgentCharacter, AnnaAgentSeed
+from .cars import CarsCharacter, CarsSeed
 from .clientCast import ClientCastCharacter, ClientCastSeed
 from .consistentMI import ConsistentMICharacter
 from .eeyore import EeyoreCharacter
@@ -12,7 +13,7 @@ from .roleplayDoh import RoleplayDohCharacter
 from .saps import SAPSCharacter
 from .simPatient import SimPatientCharacter
 from .talkDep import TalkDepCharacter
-from .deprofile import DeprofileCharacter
+from .deprofile import DeprofileCharacter, DeprofileSeed
 from .mindVoyager import MindVoyagerCharacter
 from .patientAct import PatientActCharacter, PatientActSeed
 
@@ -32,17 +33,21 @@ CLIENT_SCHEMA_REGISTRY = {
     "saps": SAPSCharacter,
     "adaptiveVP": AdaptiveVPCharacter,
     "deprofile": DeprofileCharacter,
+    "cars": CarsCharacter,
     "mindVoyager": MindVoyagerCharacter,
     "patientAct": PatientActCharacter,
 }
 
-# No therapist agent ships a profile schema yet; kept so the therapist branch of
-# get_profile_schema resolves instead of raising.
 THERAPIST_SCHEMA_REGISTRY = {}
 
-# Only generators whose input records are a fixed schema; anything absent here
-# is passed to the generator unvalidated (see BaseGenerator.prepare_seed).
+
 SEED_SCHEMA_REGISTRY = {
+    "clientCast": ClientCastSeed,
+    "psyche": PsycheSeed,
+    "annaAgent": AnnaAgentSeed,
+    "patientZero": PatientZeroSeed,
+    "deprofile": DeprofileSeed,
+    "cars": CarsSeed,
     "patientAct": PatientActSeed,
 }
 
@@ -73,6 +78,20 @@ def get_profile_schema(
 
 __all__ = [
     "BaseCharacter",
+    "AdaptiveVPCharacter",
+    "AnnaAgentCharacter",
+    "CarsCharacter",
+    "ClientCastCharacter",
+    "ConsistentMICharacter",
+    "EeyoreCharacter",
+    "PatientPsiCharacter",
+    "PatientZeroCharacter",
+    "PsycheCharacter",
+    "RoleplayDohCharacter",
+    "SAPSCharacter",
+    "SimPatientCharacter",
+    "TalkDepCharacter",
+    "DeprofileCharacter",
     "CLIENT_SCHEMA_REGISTRY",
     "THERAPIST_SCHEMA_REGISTRY",
     "SEED_SCHEMA_REGISTRY",

@@ -221,17 +221,20 @@ MindVoyager profiles are derived from PatientPsi-style CBT profiles because both
 ```json
 {
   "source": "patientPsi-1",
-  "name": "Alex",
+  "name": "Abe",
   "internal_cognitive_diagram": {
-    "relevant_history": "Family conflict and previous substance abuse.",
-    "core_beliefs": ["I am trapped."],
-    "intermediate_beliefs": ["If I disappoint my family, I will lose them."],
-    "coping_strategies": "Avoidance and emotional withdrawal."
+    "relevant_history": "Father leaves family when Abe is 11 years old. Mom is overburdened and criticizes when he can't meet her unrealistic expectations. He then loses his job and undergoes divorce.",
+    "core_beliefs": ["I am incompetent.", "I am a failure."],
+    "intermediate_beliefs": [
+      "It's important to be responsible, competent, reliable and helpful.",
+      "During depression: If I try to do hard things I'll fail."
+    ],
+    "coping_strategies": "Avoids asking for help and avoids challenges."
   },
   "external_experiences": [
     {
-      "situation": "Alex's cousin invited him to attend his upcoming wedding.",
-      "reaction": "Alex felt tense and avoided replying."
+      "situation": "Thinking about bills.",
+      "reaction": "Automatic thoughts: What if I run out of money? Emotions: anxious, worried, fearful, scared, tense. Behavior: Continues to sit on couch; ruminates about his failures."
     }
   ]
 }
