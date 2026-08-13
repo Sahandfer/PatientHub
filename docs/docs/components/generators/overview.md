@@ -12,6 +12,7 @@ driving the loop, and saving results).
 | [**AnnaAgent**](./annaagent.md)     | `annaAgent`   | Multi-session profiles with scales and memory states                     |
 | [**ClientCast**](./clientcast.md)   | `clientCast`  | Profiles from conversation excerpts via Big Five + clinical scales       |
 | [**Deprofile**](./deprofile.md)     | `deprofile`   | Clinical/social profile assembly with matched timelines and memory cards |
+| [**PatientAct**](./patientact.md)   | `patientAct`  | Trust-gated client profiles with disclosure memory from clinical situations |
 | [**PatientZero**](./patientzero.md) | `patientZero` | Disease-grounded synthetic patient records with sampled priors           |
 | [**Psyche**](./psyche.md)           | `psyche`      | MFC psychiatric profiles for assessment training                         |
 

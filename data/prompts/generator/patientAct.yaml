@@ -1,0 +1,145 @@
+en:
+  problem_formulation_generation: |
+    You are a senior clinical psychologist generating the problem formulation section of a synthetic patient profile for psychotherapy research.
+
+    ## Inputs
+    - Target disorder: {{ disease_key }}
+    - Disease outline:
+      {{ disease_outline }}
+    - Demographic scaffold:
+      {{ demographic_scaffold }}
+    - Clinical situation: {{ situation }}
+
+    ## Guidelines
+    1. Use the disease outline as the clinical scaffold and the clinical situation as the starting seed.
+    2. Use the demographic scaffold to inform predisposing and precipitating factors. Social predisposing factors should reflect experiences plausible for this demographic.
+    3. Infer only what is necessary for a realistic formulation.
+    4. `presenting_problem.situation`: what brought the patient to treatment now. Write from an external/referral perspective. Do NOT include the patient's internal self-talk, beliefs, emotional interpretations, diagnostic conclusions, severity ratings, or exclusion criteria.
+       BAD: "She feels she is 'disappearing into the house' and tells herself she should manage alone."
+       GOOD: "A retired woman whose daily functioning and social contact have declined over the past three months, referred after becoming tearful during a routine primary care visit."
+    5. `presenting_problem.impact`: a list of specific, observable symptoms. One item per symptom, not narrative paragraphs.
+    6. `precipitating_factors`: recent triggers or changes explaining why help is being sought now.
+    7. `predisposing_factors.psychological`: specific, datable events or patterns — not clinical summaries. Write as memories the patient could recount.
+       BAD: "Patient experienced parental neglect in childhood."
+       GOOD: "Age 9: mother started working double shifts after the divorce. David would come home to an empty house and make dinner alone most weeknights."
+    8. `predisposing_factors.social`: specific cultural messaging or environmental conditions with enough detail to feel lived-in.
+    9. `perpetuating_factors.internal`: identifiable maintenance cycles (e.g., avoidance → relief → isolation → worse mood). Each should make clear how it feeds back into the presenting problem.
+    10. `protective_factors`: realistic strengths, supports, and available resources.
+    11. Enforce the causal chain: predisposing → vulnerability → precipitating event → presenting problem → perpetuating cycle.
+
+  demographics_completion: |
+    You are completing the `demographics` section of a synthetic patient profile by reconciling a sampled scaffold with a generated problem formulation.
+
+    ## Inputs
+    - Target disorder: {{ disease_key }}
+    - Disease outline:
+      {{ disease_outline }}
+    - Demographic scaffold:
+      {{ demographic_scaffold }}
+    - Current demographics candidate:
+      {{ current_demographics }}
+    - Problem formulation: {{ problem_formulation }}
+
+    ## Guidelines
+    1. Treat the scaffold as the starting prior. If a current candidate exists, revise it.
+    2. Check only for hard conflicts: age group vs. life stage, gender vs. case evidence, occupation vs. age group. These are the only things that should prevent passing.
+    3. Inferred fields are expected in synthetic profiles. A synthetic name, a conservatively inferred marital status, or an ethnicity-level cultural background are NOT issues — do not flag them.
+    4. Return a complete `demographics` with: `name`, `gender`, `age_group`, `occupation`, `marital_status`, `cultural_background`.
+    5. Set `passed=true` unless a hard conflict remains.
+
+  psychological_formulation_generation: |
+    You are a senior clinical psychologist generating the `psychological_formulation` section of a synthetic patient profile for psychotherapy research.
+
+    ## Inputs
+    - Target disorder: {{ disease_key }}
+    - Disease outline:
+      {{ disease_outline }}
+    - Demographics:
+      {{ demographics }}
+    - Problem formulation: {{ problem_formulation }}
+    - Core belief: {{ core_belief_theme }}
+    - Attachment style: {{ attachment_style }}
+
+    ## Guidelines
+    1. Use the problem formulation as the primary scaffold and the disease outline for clinical plausibility.
+    2. `intermediate_beliefs`: rules, attitudes, or coping assumptions that reflect the core belief described above. Should sound like the patient's own internal rules.
+    3. `automatic_thoughts`: what this patient would actually think in distress — in their own voice, at their education level.
+    4. `triggers`: situations, topics, or interpersonal dynamics likely to activate distress. Include at least one trigger specific to the therapy setting.
+    5. `coping_patterns`: must reflect the client's attachment style described above. Describe only observable behaviors: what the client DOES, not what they THINK.
+    6. `emotional_range`: which emotions are easy vs. difficult to access or tolerate. Describe only the client's emotional experience — not diagnostic status or exclusion criteria.
+    7. `interpersonal_patterns`: 2–4 relational patterns, each tied to a specific relationship domain. Each pattern should reflect the client's attachment style (i.e., how the client expects others to respond and how the client reacts are both shaped by their relational history). Write ALL components in third-person clinical voice. One pattern MUST use domain "the therapist." Each pattern has three components:
+    - **Wish**: What the client wants from the other person.
+    - **Response of Other**:What the client actually expects or has experienced from others in this type of relationship (typically negative or conflictual). This is the feared or anticipated reaction that drives the client's defensive behavior. Even clients with relatively positive relationship histories carry specific fears about how others will respond when they show vulnerability or need.
+      BAD: "She expects the therapist to be steady, attentive, and responsive."
+      GOOD: "She expects that if she reveals too much need or distress, the therapist will become less engaged, view her as difficult subtly withdraw warmth."
+    - **Response of Self**: How the client reacts emotionally and behaviorally.
+  profile_validation: |
+    You are reviewing a generated synthetic patient profile for consistency and clinical plausibility.
+
+    ## Inputs
+    - Target disorder: {{ disease_key }}
+    - Disease outline:
+      {{ disease_outline }}
+    - Clinical situation: {{ situation }}
+    - Generated profile:
+      {{ profile }}
+
+    ## Validation Criteria
+    1. Diagnostic plausibility: fits the disorder without violating contraindications.
+    2. Demographic coherence: age, gender, occupation, marital status, cultural background are mutually consistent.
+    3. Causal chain: traceable logic from predisposing → vulnerability → precipitating → presenting problem → perpetuating cycle.
+    4. Psychological coherence: beliefs, thoughts, triggers, coping patterns, and relational patterns follow from the problem formulation.
+    5. Relational patterns: each has a clear Wish → Response of Other → Response of Self chain. At least one targets "the therapist."
+    6. Predisposing factors: specific, datable events — not clinical summaries.
+    7. Perpetuating factors: identifiable maintenance cycles, not just listed behaviors.
+    8. Coping patterns: observable behaviors only, not internal thoughts.
+    9. Impact items: specific individual symptoms, not narrative paragraphs.
+    10. Evidence grounding: profile may expand on the situation but should not contradict it.
+
+    ## Output
+    Set `passed=true` if no meaningful issues exist. Otherwise list concrete issues with actionable guidance. Focus on genuine clinical or logical problems — not stylistic preferences.
+
+  profile_memory: |
+    You are preparing a patient profile for use in a therapy simulation with trust-gated disclosure.
+    For each item below, assign:
+
+    1. A `disclosure_level` (1.0–4.0):
+       - 1.0: Active refusal. Almost nothing disclosed.
+       - 2.0: Hesitant. Surface facts, physical symptoms.
+       - 2.5: Session start. General emotional state, obvious behavioral changes.
+       - 3.0: Building trust. Intermediate beliefs, automatic thoughts, general triggers.
+       - 3.5: Between building and achieved trust. Reserves about most vulnerable material.
+       - 4.0: Fully open. Deepest memories, therapy-specific vulnerability.
+
+    2. `activation_tags` (3–5): conversational topics that make this item relevant. Be specific to this patient.
+
+    3. `generates_discomfort` (true/false): whether approaching this topic when trust is insufficient produces visible discomfort or avoidance.
+       - TRUE for: childhood/formative memories, core relational wounds, therapy-specific triggers, shame or trauma content.
+       - FALSE for: physical symptoms, behavioral changes, general emotional state, maintenance cycles.
+
+    ## Profile
+    {{ profile }}
+
+    ## Items
+    {% for item in items %}
+    - field_path: "{{ item.path }}"
+      content: "{{ item.content }}"
+    {% endfor %}
+
+    ## What makes content easier to share
+    - It's observable or factual (sleep problems, missed work)
+    - Others have already noticed it
+    - It doesn't carry shame or self-judgment
+
+    ## What makes content harder to share
+    - It reveals how the client sees themselves
+    - It involves shame, failure, or vulnerability
+    - It connects to painful memories or relationships
+    - Sharing it risks changing how the therapist sees them
+
+    Generally, observable facts < emotional states < personal rules and thoughts < formative memories with shame.
+    Also, the client's attachment style affects their overall willingness to disclose. Secure clients share more readily; avoidant and disorganized clients require more trust before sharing the same content.
+  revision_guidance: |
+    ## Revision Guidance
+    Previous validation failed. Regenerate using the following guidance:
+      {{ revision_guidance }}

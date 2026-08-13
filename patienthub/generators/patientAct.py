@@ -21,7 +21,7 @@ from patienthub.schemas.patientAct import (
     PatientProfile,
     ValidationResult,
     ProfileMemory,
-    GeneratedProfile,
+    PatientActCharacter,
     DiseaseOutline,
     CORE_BELIEF_THEMES,
     ATTACHMENT_STYLES,
@@ -32,15 +32,21 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class PatientActGeneratorConfig(APIModelConfig):
+    """Configuration for the PatientAct character generator."""
+
+    agent_name: str = "patientAct"
     prompt_path: str = "data/prompts/generator/patientAct.yaml"
-    source_dir: str = "data/resources/"
-    data_path: str = "data/resources/situations.json"
+    resource_dir: str = "data/resources/PatientAct"
+    # One generator is built per input record, so a fixed seed makes every
+    # record in a batch sample the same scaffold. Set it only for single-record
+    # reproduction runs.
+    random_seed: int | None = None
 
 
 class PatientActGenerator(BaseGenerator):
     def __init__(self, configs: DictConfig):
         super().__init__(configs)
-        source_dir = Path(self.configs.source_dir)
+        source_dir = Path(self.configs.resource_dir)
         self.rng = random.Random(self.configs.random_seed)
 
         self.situation: str | None = None
@@ -436,13 +442,13 @@ class PatientActGenerator(BaseGenerator):
         )
         return profile, scaffold
 
-    def generate_character(self, data: dict | None = None) -> GeneratedProfile:
+    def generate_character(self, data: dict | None = None) -> PatientActCharacter:
         data = data or {}
         self.situation = data.get("situation")
         self.disease_key = data.get("disease_key")
         profile, scaffold = self.generate_with_validation()
         memory = self.build_memory(profile)
-        return GeneratedProfile(
+        return PatientActCharacter(
             profile=profile,
             memory=memory,
             seed=scaffold,

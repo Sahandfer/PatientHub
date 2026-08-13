@@ -14,6 +14,7 @@ from .simPatient import SimPatientCharacter
 from .talkDep import TalkDepCharacter
 from .deprofile import DeprofileCharacter
 from .mindVoyager import MindVoyagerCharacter
+from .patientAct import PatientActCharacter, PatientActSeed
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +33,17 @@ CLIENT_SCHEMA_REGISTRY = {
     "adaptiveVP": AdaptiveVPCharacter,
     "deprofile": DeprofileCharacter,
     "mindVoyager": MindVoyagerCharacter,
+    "patientAct": PatientActCharacter,
+}
+
+# No therapist agent ships a profile schema yet; kept so the therapist branch of
+# get_profile_schema resolves instead of raising.
+THERAPIST_SCHEMA_REGISTRY = {}
+
+# Only generators whose input records are a fixed schema; anything absent here
+# is passed to the generator unvalidated (see BaseGenerator.prepare_seed).
+SEED_SCHEMA_REGISTRY = {
+    "patientAct": PatientActSeed,
 }
 
 

@@ -14,6 +14,7 @@ from .adaptiveVP import AdaptiveVPClient, AdaptiveVPClientConfig
 from .patientZero import PatientZeroClient, PatientZeroClientConfig
 from .deprofile import DeprofileClient, DeprofileClientConfig
 from .mindVoyager import MindVoyagerClient, MindVoyagerClientConfig
+from .patientAct import PatientActClient, PatientActClientConfig
 
 
 import logging
@@ -38,6 +39,7 @@ CLIENT_REGISTRY = {
     "patientZero": PatientZeroClient,
     "deprofile": DeprofileClient,
     "mindVoyager": MindVoyagerClient,
+    "patientAct": PatientActClient,
 }
 
 # Registry of client configs (for Hydra registration)
@@ -57,6 +59,7 @@ CLIENT_CONFIG_REGISTRY = {
     "patientZero": PatientZeroClientConfig,
     "deprofile": DeprofileClientConfig,
     "mindVoyager": MindVoyagerClientConfig,
+    "patientAct": PatientActClientConfig,
 }
 
 

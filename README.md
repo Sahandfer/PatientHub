@@ -112,6 +112,7 @@ uv run python -m chainlit run examples/chainlit.py
 | ClientCast | `clientCast` | Character generation for ClientCast |
 | AnnaAgent  | `annaAgent`  | Character generation for AnnaAgent  |
 | PatientZero | `patientZero` | Disease-grounded synthetic patient records with sampled priors |
+| PatientAct | `patientAct` | Trust-gated client profiles with disclosure memory from clinical situations |
 
 ## Project Structure
 

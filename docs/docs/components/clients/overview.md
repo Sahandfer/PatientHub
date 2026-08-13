@@ -24,6 +24,7 @@ Client agents simulate patients/clients in therapy interactions.
 | [**RoleplayDoh**](./roleplaydoh.md)   | `roleplayDoh`  | Principle-based simulation (EMNLP 2024)        |
 | [**PatientZero**](./patientzero.md)   | `patientZero`  | Synthetic clinical records from disease priors |
 | [**Deprofile**](./deprofile.md)       | `deprofile`    | Decomposed clinical profile + social timeline  |
+| [**PatientAct**](./patientact.md)     | `patientAct`   | Trust-gated disclosure with a behavior pipeline |
 | [**User**](./user.md)                 | `user`         | Human input client                             |
 
 ## Listing Available Clients
