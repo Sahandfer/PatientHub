@@ -18,6 +18,7 @@ Model (Stages of Change).
 Stages: Precontemplation -> Contemplation -> Preparation -> Action -> Maintenance
 """
 
+import logging
 import random
 from typing import Any, Dict, List, Optional
 from omegaconf import DictConfig
@@ -27,6 +28,9 @@ from pydantic import BaseModel, Field
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import get_reranker, load_json
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -227,8 +231,9 @@ class TopicMatcher:
         top_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[
             :top_k
         ]
-        print(f"Related topics: {[self.all_topics[i] for i in top_indices]}")
-        return [self.all_topics[i] for i in top_indices]
+        related_topics = [self.all_topics[i] for i in top_indices]
+        logger.debug("Related topics: topics=%s", related_topics)
+        return related_topics
 
     def score_passages(self, query: str) -> Optional[List[float]]:
         """Score passages using reranker or lexical fallback."""
@@ -346,6 +351,13 @@ class ConsistentMIClient(BaseClient):
         if res.answer:
             self.state.update(new_stage="Motivation")
 
+        logger.info(
+            "Motivation verification: answer=%s stage=%s",
+            res.answer,
+            self.state.stage,
+        )
+        if res.rationale:
+            logger.debug("Motivation rationale: rationale=%s", res.rationale)
         return res.rationale or ""
 
     def evaluate_topic_engagement(self) -> Optional[str]:
@@ -357,13 +369,22 @@ class ConsistentMIClient(BaseClient):
         top_topics = self.topic_matcher.find_related_topics(last_utterance)
         predicted_topic = top_topics[0] if top_topics else self.state.engaged_topics[0]
 
-        if predicted_topic == self.state.engaged_topics[0]:
+        target_topic = self.state.engaged_topics[0]
+        if predicted_topic == target_topic:
             self.state.engagement = 4
             self.state.error_topic_count = 0
+            logger.info(
+                "Topic engagement: target=%s predicted=%s distance=%s "
+                "engagement=%s",
+                target_topic,
+                predicted_topic,
+                0,
+                self.state.engagement,
+            )
             return self.verify_motivation()
 
         distance = self.topic_matcher.compute_distance(
-            self.state.engaged_topics[0], predicted_topic
+            target_topic, predicted_topic
         )
 
         if distance <= 3:
@@ -376,6 +397,14 @@ class ConsistentMIClient(BaseClient):
             if sum(1 for m in self.messages if m["role"] == "user") > 10:
                 self.state.error_topic_count += 1
 
+        logger.info(
+            "Topic engagement: target=%s predicted=%s distance=%s "
+            "engagement=%s",
+            target_topic,
+            predicted_topic,
+            distance,
+            self.state.engagement,
+        )
         return f"The client's perceived topic is {predicted_topic}."
 
     def get_precontemplation_distribution(self, context: str) -> Dict[str, int]:
@@ -395,6 +424,7 @@ class ConsistentMIClient(BaseClient):
                 "Engage": res.Engage,
             }
         except Exception:
+            logger.warning("Action distribution fallback: stage=Precontemplation")
             context_dist = {
                 "Deny": 20,
                 "Downplay": 20,
@@ -431,6 +461,7 @@ class ConsistentMIClient(BaseClient):
                 "Acknowledge": res.Acknowledge,
             }
         except Exception:
+            logger.warning("Action distribution fallback: stage=Contemplation")
             return {
                 "Inform": 1,
                 "Engage": 1,
@@ -458,6 +489,7 @@ class ConsistentMIClient(BaseClient):
                 "Plan": res.Plan,
             }
         except Exception:
+            logger.warning("Action distribution fallback: stage=Preparation")
             return {"Inform": 1, "Engage": 1, "Reject": 1, "Accept": 1, "Plan": 1}
 
     def select_action(self, stage: str) -> str:
@@ -592,9 +624,11 @@ class ConsistentMIClient(BaseClient):
 
         stage = self.state.stage
         action = self.determine_action(stage)
-        print(f"[ConsistentMIClient] stage={stage}, action={action}")
+        logger.info("Action selected: stage=%s action=%s", stage, action)
 
         information = self.gather_information(stage, action)
+        if information:
+            logger.debug("Grounding information: information=%s", information)
         instruction = self.build_instruction(stage, action, information)
         self.messages.append({"role": "user", "content": instruction})
 

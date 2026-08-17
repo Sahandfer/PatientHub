@@ -16,6 +16,7 @@ AnnaAgent simulates clients with evolving emotions and multi-session memory.
 5. Generate emotionally consistent responses
 """
 
+import logging
 import random
 from typing import Dict
 from omegaconf import DictConfig
@@ -25,6 +26,9 @@ from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import flatten_conv
 from patienthub.resources import GOEMOTIONS
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -114,7 +118,13 @@ class AnnaAgentClient(BaseClient):
             response_format=bool,
         )
         if res:
+            previous_chain_idx = self.chain_idx
             self.chain_idx += 1
+            logger.info(
+                "Complaint stage changed: previous=%s current=%s",
+                previous_chain_idx,
+                self.chain_idx,
+            )
 
     def is_need_previous(self, msg: str):
         prompt = self.prompts["is_need_previous"].render(utterance=msg)
@@ -141,8 +151,11 @@ class AnnaAgentClient(BaseClient):
 
     def generate_response(self, msg: str):
         # 1) Infer emotions
-        emotion = self.infer_emotion()
-        emotion = self.emotion_modulation(emotion)
+        inferred_emotion = self.infer_emotion()
+        emotion = self.emotion_modulation(inferred_emotion)
+        logger.info(
+            "Emotion: inferred=%s effective=%s", inferred_emotion, emotion
+        )
 
         # 2) Generate chain of complaint change
         transformed_chain = {
@@ -160,7 +173,12 @@ class AnnaAgentClient(BaseClient):
 
         # 3) Check if previous messages exist
         need_previous = self.is_need_previous(msg)
-        sup_information = "" if not need_previous else self.query_knowledge(msg)
+        logger.info("Previous-session retrieval: needed=%s", need_previous)
+        if need_previous:
+            sup_information = self.query_knowledge(msg)
+            logger.debug("Supplemental information: content=%s", sup_information)
+        else:
+            sup_information = ""
         reminder = self.prompts["reminder"].render(
             emotion=emotion, complaint=complaint, sup_information=sup_information
         )

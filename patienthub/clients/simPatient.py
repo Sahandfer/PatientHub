@@ -17,6 +17,7 @@ Key Features:
 - Designed for Motivational Interviewing training
 """
 
+import logging
 import random
 from typing import Dict
 from omegaconf import DictConfig
@@ -26,6 +27,9 @@ from pydantic import BaseModel, Field
 from .base import BaseClient
 from patienthub.configs import APIModelConfig
 from patienthub.utils import load_json
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -96,6 +100,7 @@ class SimPatientClient(BaseClient):
         )
 
         self.between_session_event = res.content.strip()
+        logger.debug("Between-session event: event=%s", self.between_session_event)
 
     def build_sys_prompt(self):
         """Initialize session state, optionally continuing from a previous session."""
@@ -153,6 +158,15 @@ class SimPatientClient(BaseClient):
             "patient_awareness": res.patient_awareness,
             "patient_reward": res.patient_reward,
         }
+        logger.info(
+            "Cognitive state updated: patient_control=%s patient_efficacy=%s "
+            "patient_awareness=%s patient_reward=%s",
+            res.patient_control,
+            res.patient_efficacy,
+            res.patient_awareness,
+            res.patient_reward,
+        )
+        logger.debug("Cognitive state reasoning: reasoning=%s", res.reasoning)
 
     def generate_response(self, msg: str):
         self.messages.append({"role": "user", "content": msg})
