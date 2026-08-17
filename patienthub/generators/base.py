@@ -38,6 +38,6 @@ class BaseGenerator(ABC):
         return None
 
     @abstractmethod
-    def generate_character(self, data: dict[str, Any] | None = None) -> Any:
-        r"""Build one character and return it."""
+    def generate_character(self, data: dict[str, Any]) -> Any:
+        r"""Build one character from one seed record and return it."""
         raise NotImplementedError

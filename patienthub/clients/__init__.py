@@ -52,16 +52,17 @@ CLIENT_DEFAULT_LANGS = {
     "psyche": "en",
     "simPatient": "en",
     "consistentMI": "en",
+    "user": None,
     "clientCast": "en",
     "annaAgent": "en",
     "talkDep": "en",
+    "saps": None,
     "adaptiveVP": "en",
     "patientZero": "en",
+    "deprofile": "zh",
     "cars": "en",
     "mindVoyager": "en",
-    "deprofile": "zh",
-    "user": None,
-    "saps": None,
+    "patientAct": "en",
 }
 
 # Registry of client configs (for Hydra registration)
@@ -93,7 +94,7 @@ def get_client(agent_name: str, configs: DictConfig = None, lang: str = "en"):
         configs = get_client_config(agent_name)
     configs.lang = lang
     language_warning(
-        agent_name, configs.lang, CLIENT_DEFAULT_LANGS[agent_name]
+        agent_name, configs.lang, CLIENT_DEFAULT_LANGS.get(agent_name, None)
     )
     try:
         client = CLIENT_REGISTRY[agent_name](configs=configs)

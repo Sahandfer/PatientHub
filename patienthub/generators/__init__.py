@@ -24,17 +24,18 @@ GENERATORS = {
     "annaAgent": AnnaAgentGenerator,
     "patientZero": PatientZeroGenerator,
     "deprofile": DeprofileGenerator,
-    "patientAct": PatientActGenerator,
     "cars": CarsGenerator,
+    "patientAct": PatientActGenerator,
 }
 
 GENERATOR_DEFAULT_LANGS = {
     "annaAgent": "en",
     "patientZero": "en",
     "deprofile": "zh",
-    "psyche": None,
-    "clientCast": None,
-    "cars": None,
+    "psyche": "en",
+    "clientCast": "en",
+    "cars": "en",
+    "patientAct": "en",
 }
 
 # Registry of generator configs (for Hydra registration)
@@ -44,8 +45,8 @@ GENERATOR_CONFIG_REGISTRY = {
     "annaAgent": AnnaAgentGeneratorConfig,
     "patientZero": PatientZeroGeneratorConfig,
     "deprofile": DeprofileGeneratorConfig,
-    "patientAct": PatientActGeneratorConfig,
     "cars": CarsGeneratorConfig,
+    "patientAct": PatientActGeneratorConfig,
 }
 
 
@@ -56,7 +57,7 @@ def get_generator(agent_name: str, configs: DictConfig = None, lang: str = "en")
             configs = get_generator_config(agent_name)
         configs.lang = lang
         language_warning(
-            agent_name, configs.lang, GENERATOR_DEFAULT_LANGS[agent_name]
+            agent_name, configs.lang, GENERATOR_DEFAULT_LANGS.get(agent_name, None)
         )
         return GENERATORS[agent_name](configs=configs)
     else:

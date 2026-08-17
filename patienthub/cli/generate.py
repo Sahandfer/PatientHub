@@ -12,11 +12,12 @@ Usage:
     # Item-driven generator: one character per record in an input JSON list
     patienthub generate generator=clientCast input_path=data/seeds/clientCast.json
 
-    # Config-parameterized generator (no input list): one character from config
-    patienthub generate generator=patientZero generator.disease_key=depression
+    # Config-parameterized generator (no input list): the seed record is built
+    # from the generator's own config fields
+    patienthub generate generator=deprofile generator.profile_id=0069
 
     # Several samples of a config-parameterized generator, appended to the bank
-    patienthub generate generator=patientZero num_samples=10
+    patienthub generate generator=deprofile num_samples=10
 
     # Custom output location + parallel workers
     patienthub generate generator=clientCast input_path=... \
@@ -45,6 +46,7 @@ from patienthub.generators import (
     register_generator_configs,
     BaseGenerator,
 )
+from patienthub.schemas import get_seed_schema
 from patienthub.utils import load_json, save_json
 from patienthub.utils.logger import get_logger, init_logging, LogLevel
 
@@ -130,11 +132,12 @@ def run_list(
 
 def run_samples(
     build: Callable[[], BaseGenerator],
+    record: Any,
     num_samples: int,
     output_path: str,
     num_workers: int,
 ) -> tuple[int, int]:
-    """Generate ``num_samples`` characters from config and append them to the bank."""
+    """Generate ``num_samples`` characters from one record and append them to the bank."""
     # Read the existing bank up front so each checkpoint rewrites the full bank;
     # save_json is atomic, so a partial run leaves a valid appended file.
     existing: list[Any] = []
@@ -147,7 +150,9 @@ def run_samples(
     executor = ThreadPoolExecutor(max_workers=num_workers)
     futures = [
         executor.submit(
-            lambda: build().generate_character().model_dump(by_alias=True, mode="json")
+            lambda: build()
+            .generate_character(record)
+            .model_dump(by_alias=True, mode="json")
         )
         for _ in range(num_samples)
     ]
@@ -171,9 +176,7 @@ def run_samples(
 
 @hydra.main(version_base=None, config_name="generate")
 def generate(configs: DictConfig):
-    init_logging(
-        "generate", level=LogLevel.DEBUG if configs.verbose else LogLevel.INFO
-    )
+    init_logging("generate", level=LogLevel.DEBUG if configs.verbose else LogLevel.INFO)
     agent_name = configs.generator.agent_name
     output_path = configs.output_path or f"data/characters/{agent_name}.json"
     num_workers = max(1, int(configs.num_workers))
@@ -197,9 +200,7 @@ def generate(configs: DictConfig):
                 raise ValueError(
                     f"input_path must be a JSON list of records: {configs.input_path}"
                 )
-            logger.info(
-                "Loaded %d record(s) from %s.", len(items), configs.input_path
-            )
+            logger.info("Loaded %d record(s) from %s.", len(items), configs.input_path)
             succeeded, failed, kept = run_list(
                 build, items, output_path, bool(configs.resume), num_workers
             )
@@ -211,9 +212,23 @@ def generate(configs: DictConfig):
                 output_path,
             )
         else:
+            schema = get_seed_schema(agent_name)
+            supplied = {
+                name: configs.generator[name]
+                for name in (schema.model_fields if schema else ())
+                if configs.generator.get(name) not in (None, "")
+            }
+            try:
+                record = schema.model_validate(supplied).model_dump()
+            except Exception as e:
+                raise ValueError(
+                    f"generator={agent_name} cannot be built from config alone; "
+                    f"pass input_path=data/seeds/{agent_name}.json"
+                ) from e
             num_samples = max(1, int(configs.num_samples))
+            logger.info("Built one seed record from config: %s.", record)
             succeeded, failed = run_samples(
-                build, num_samples, output_path, num_workers
+                build, record, num_samples, output_path, num_workers
             )
             logger.info(
                 "Generation complete: %d succeeded, %d failed -> %s",

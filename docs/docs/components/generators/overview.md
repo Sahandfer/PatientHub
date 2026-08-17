@@ -80,11 +80,11 @@ via `BaseGenerator.prepare_seed`, then passed to `generate_character()`.
 # Item-driven: one character per record in an input JSON list
 patienthub generate generator=clientCast input_path=data/seeds/clientCast.json
 
-# Config-parameterized (no input list): one character built from config
-patienthub generate generator=patientZero generator.disease_key=depression
+# Config-parameterized (no input list): the seed record is built from config
+patienthub generate generator=deprofile generator.profile_id=0069
 
-# Several samples appended to the output bank
-patienthub generate generator=patientZero num_samples=10
+# Several samples from that same config record, appended to the output bank
+patienthub generate generator=deprofile num_samples=10
 
 # Custom output location + parallel workers, with resume
 patienthub generate generator=clientCast input_path=data/seeds/clientCast.json \
@@ -109,8 +109,20 @@ patienthub generate generator=clientCast input_path=data/seeds/clientCast.json \
 Each seed record is validated against the generator's seed schema before generation;
 a malformed record fails only that item.
 
-**Without `input_path`**: `num_samples` characters are built from config and appended
-to the output bank. `resume` does not apply in this mode.
+**Without `input_path`**: one seed record is assembled from the generator's own
+config — the fields of its seed schema, with blank values treated as unsupplied —
+and `num_samples` characters are generated from that single record and appended to
+the output bank. `resume` does not apply in this mode.
+
+A generator supports this mode only when its config carries every required seed
+field, which today means `deprofile` alone (`profile_id`, `candidate_rank`).
+Every other generator selects its subject per record — a disease, a conversation,
+a cognitive diagram, a clinical situation — so those values live in the seed file
+rather than the config, and the run reports:
+
+```text
+generator=patientZero cannot be built from config alone; pass input_path=data/seeds/patientZero.json
+```
 
 ## Seeds vs. Resources
 

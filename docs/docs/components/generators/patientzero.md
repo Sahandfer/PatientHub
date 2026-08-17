@@ -60,21 +60,9 @@ The default PatientZero resources currently include the following diseases. Thes
 
 ## Usage
 
-PatientZero is config-parameterized — it needs no seed list. Choose the disease
-with `generator.disease_key` and run the CLI:
-
-```bash
-# One case for a disease
-patienthub generate generator=patientZero generator.disease_key=depression
-
-# Several cases appended to the output bank
-patienthub generate generator=patientZero generator.disease_key=insomnia num_samples=10
-```
-
-Cases are appended to `data/characters/patientZero.json` (override with `output_path`).
-
-Alternatively, drive multiple diseases from a seed list at `data/seeds/patientZero.json`,
-where each record selects a disease (and optional seed):
+The disease is chosen per record, so PatientZero runs from a seed list. Each
+record in `data/seeds/patientZero.json` selects a disease (and an optional
+sampling seed); the shipped file covers all eight supported diseases:
 
 ```bash
 patienthub generate generator=patientZero input_path=data/seeds/patientZero.json
@@ -87,8 +75,6 @@ patienthub generate generator=patientZero input_path=data/seeds/patientZero.json
 | `agent_name`   | string   | `patientZero`                             | Generator identifier                                                                   |
 | `prompt_path`  | string   | `data/prompts/generator/patientZero.yaml` | Path to PatientZero prompts                                                            |
 | `resource_dir` | string   | `data/resources/PatientZero`              | Folder for source data, priors, examination references, and reusable disease outlines  |
-| `disease_key`  | string   | `depression`                              | Target disease key, for example `depression` or `insomnia`                             |
-| `random_seed`  | int/null | `None`                                    | Optional seed for reproducible attribute sampling                                      |
 | `model_type`   | string   | `"OPENAI"`                                | Model provider key                                                                     |
 | `model_name`   | string   | `"gpt-4o"`                                | Model identifier                                                                        |
 | `temperature`  | float    | `0.7`                                     | Sampling temperature                                                                   |
@@ -97,9 +83,9 @@ patienthub generate generator=patientZero input_path=data/seeds/patientZero.json
 
 ## Seed Record Format
 
-PatientZero can run without a seed list (from `disease_key`), but when driving many
-diseases from one run, `data/seeds/patientZero.json` is a JSON list validated against
-`PatientZeroSeed`:
+`data/seeds/patientZero.json` is a JSON list validated against `PatientZeroSeed`.
+One case is generated per record, so the disease is chosen per record rather than
+in the generator config:
 
 ```json
 [
@@ -335,11 +321,14 @@ Add one entry to `data/resources/PatientZero/exam_references.json` under `diseas
 
 ### 5. Generate the Disease Case
 
-Set `generator.disease_key` to the new key and run the CLI:
+Add a record for the new key to your seed list and run the CLI:
+
+```json
+[{ "disease_key": "social_anxiety_disorder", "random_seed": 0 }]
+```
 
 ```bash
-patienthub generate generator=patientZero \
-    generator.disease_key=social_anxiety_disorder generator.random_seed=0
+patienthub generate generator=patientZero input_path=data/seeds/patientZero.json
 ```
 
 If the standardized outline is missing, Stage I writes it to `resource_dir/disease_outlines.json`. The final validated case is appended to the output bank (`data/characters/patientZero.json` by default).

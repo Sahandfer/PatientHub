@@ -23,7 +23,7 @@ THERAPIST_REGISTRY = {
 THERAPIST_DEFAULT_LANGS = {
     "basic": None,
     "user": None,
-    "psyche": None,
+    "psyche": "en",
     "cami": "en",
     "eliza": "en",
 }
@@ -45,7 +45,7 @@ def get_therapist(agent_name: str, configs: DictConfig = None, lang: str = "en")
         configs = get_therapist_config(agent_name)
     configs.lang = lang
     language_warning(
-        agent_name, configs.lang, THERAPIST_DEFAULT_LANGS[agent_name]
+        agent_name, configs.lang, THERAPIST_DEFAULT_LANGS.get(agent_name, None)
     )
     try:
         therapist = THERAPIST_REGISTRY[agent_name](configs=configs)
