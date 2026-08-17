@@ -142,6 +142,7 @@ class AgentCreator:
         name = self.agent_name
         class_name = self.agent_class_name
         registry = f"{self.agent_type.upper()}_REGISTRY"
+        language_registry = f"{self.agent_type.upper()}_DEFAULT_LANGS"
         config_registry = f"{self.agent_type.upper()}_CONFIG_REGISTRY"
         self.register_in_init(
             self.paths["init"],
@@ -149,6 +150,7 @@ class AgentCreator:
             label=class_name,
             dict_entries=[
                 (registry, f'    "{name}": {class_name},'),
+                (language_registry, f'    "{name}": "en",'),
                 (config_registry, f'    "{name}": {class_name}Config,'),
             ],
         )

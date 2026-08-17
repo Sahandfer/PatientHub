@@ -442,8 +442,7 @@ class PatientActGenerator(BaseGenerator):
         )
         return profile, scaffold
 
-    def generate_character(self, data: dict | None = None) -> PatientActCharacter:
-        data = data or {}
+    def generate_character(self, data: dict) -> PatientActCharacter:
         self.situation = data.get("situation")
         self.disease_key = data.get("disease_key")
         profile, scaffold = self.generate_with_validation()

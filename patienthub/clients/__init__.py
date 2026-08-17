@@ -20,6 +20,7 @@ from .patientAct import PatientActClient, PatientActClientConfig
 
 import logging
 from omegaconf import DictConfig
+from patienthub.utils.logger import language_warning
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +43,26 @@ CLIENT_REGISTRY = {
     "cars": CarsClient,
     "mindVoyager": MindVoyagerClient,
     "patientAct": PatientActClient,
+}
+
+CLIENT_DEFAULT_LANGS = {
+    "patientPsi": "en",
+    "roleplayDoh": "en",
+    "eeyore": "en",
+    "psyche": "en",
+    "simPatient": "en",
+    "consistentMI": "en",
+    "user": None,
+    "clientCast": "en",
+    "annaAgent": "en",
+    "talkDep": "en",
+    "saps": None,
+    "adaptiveVP": "en",
+    "patientZero": "en",
+    "deprofile": "zh",
+    "cars": "en",
+    "mindVoyager": "en",
+    "patientAct": "en",
 }
 
 # Registry of client configs (for Hydra registration)
@@ -72,6 +93,9 @@ def get_client(agent_name: str, configs: DictConfig = None, lang: str = "en"):
     if configs is None:
         configs = get_client_config(agent_name)
     configs.lang = lang
+    language_warning(
+        agent_name, configs.lang, CLIENT_DEFAULT_LANGS.get(agent_name, None)
+    )
     try:
         client = CLIENT_REGISTRY[agent_name](configs=configs)
     except Exception as e:

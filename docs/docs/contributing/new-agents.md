@@ -138,6 +138,22 @@ CLIENT_CONFIG_REGISTRY = {
 }
 ```
 
+### Register Language Compatibility
+
+The requested `lang` is a runtime option, while an agent's default language is
+fixed metadata. Every agent must declare that metadata alongside its registry
+entry in the package's `__init__.py`:
+
+```python
+CLIENT_DEFAULT_LANGS = {
+    # ... existing agents ...
+    "myClient": "en",
+}
+```
+
+Use `CLIENT_DEFAULT_LANGS`, `THERAPIST_DEFAULT_LANGS`, or
+`GENERATOR_DEFAULT_LANGS` according to the agent type.
+
 ---
 
 ## Step 3: Create the Prompt Template
@@ -316,6 +332,7 @@ Before submitting your new agent:
 - [ ] Agent class in `patienthub/clients/` (or `therapists/`)
 - [ ] Config dataclass with `agent_name`, `prompt_path`, and any extra fields
 - [ ] Registered in `CLIENT_REGISTRY` and `CLIENT_CONFIG_REGISTRY` in `__init__.py`
+- [ ] Language compatibility registered in the relevant `*_DEFAULT_LANGS`
 - [ ] Prompt YAML created at `data/prompts/client/<agent_name>.yaml`
 - [ ] Character data file created (if applicable)
 - [ ] Pydantic schema created in `patienthub/schemas/` with all prompt fields required

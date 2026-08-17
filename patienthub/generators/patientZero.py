@@ -49,7 +49,6 @@ class PatientZeroGenerator(BaseGenerator):
         super().__init__(configs)
 
         source_dir = self.configs.resource_dir
-        self.disease_key = self.configs.disease_key
 
         # Load static resources once at init
         self.raw_outlines = load_json(f"{source_dir}/raw_outlines.json")

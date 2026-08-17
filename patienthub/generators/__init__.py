@@ -13,7 +13,7 @@ from .cars import CarsGenerator, CarsGeneratorConfig
 
 from omegaconf import DictConfig
 
-from patienthub.utils.logger import get_logger
+from patienthub.utils.logger import get_logger, language_warning
 
 logger = get_logger(__name__)
 
@@ -24,8 +24,18 @@ GENERATORS = {
     "annaAgent": AnnaAgentGenerator,
     "patientZero": PatientZeroGenerator,
     "deprofile": DeprofileGenerator,
-    "patientAct": PatientActGenerator,
     "cars": CarsGenerator,
+    "patientAct": PatientActGenerator,
+}
+
+GENERATOR_DEFAULT_LANGS = {
+    "annaAgent": "en",
+    "patientZero": "en",
+    "deprofile": "zh",
+    "psyche": "en",
+    "clientCast": "en",
+    "cars": "en",
+    "patientAct": "en",
 }
 
 # Registry of generator configs (for Hydra registration)
@@ -35,8 +45,8 @@ GENERATOR_CONFIG_REGISTRY = {
     "annaAgent": AnnaAgentGeneratorConfig,
     "patientZero": PatientZeroGeneratorConfig,
     "deprofile": DeprofileGeneratorConfig,
-    "patientAct": PatientActGeneratorConfig,
     "cars": CarsGeneratorConfig,
+    "patientAct": PatientActGeneratorConfig,
 }
 
 
@@ -46,6 +56,9 @@ def get_generator(agent_name: str, configs: DictConfig = None, lang: str = "en")
         if configs is None:
             configs = get_generator_config(agent_name)
         configs.lang = lang
+        language_warning(
+            agent_name, configs.lang, GENERATOR_DEFAULT_LANGS.get(agent_name, None)
+        )
         return GENERATORS[agent_name](configs=configs)
     else:
         raise ValueError(f"Unknown generator type: {agent_name}")

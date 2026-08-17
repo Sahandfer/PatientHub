@@ -7,6 +7,7 @@ from .cami import CamiTherapist, CamiTherapistConfig
 
 import logging
 from omegaconf import DictConfig
+from patienthub.utils.logger import language_warning
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +18,14 @@ THERAPIST_REGISTRY = {
     "user": UserTherapist,
     "psyche": PsycheTherapist,
     "cami": CamiTherapist,
+}
+
+THERAPIST_DEFAULT_LANGS = {
+    "basic": None,
+    "user": None,
+    "psyche": "en",
+    "cami": "en",
+    "eliza": "en",
 }
 
 # Registry of therapist configs (for Hydra registration)
@@ -35,6 +44,9 @@ def get_therapist(agent_name: str, configs: DictConfig = None, lang: str = "en")
     if configs is None:
         configs = get_therapist_config(agent_name)
     configs.lang = lang
+    language_warning(
+        agent_name, configs.lang, THERAPIST_DEFAULT_LANGS.get(agent_name, None)
+    )
     try:
         therapist = THERAPIST_REGISTRY[agent_name](configs=configs)
     except Exception as e:
